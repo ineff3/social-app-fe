@@ -10,14 +10,14 @@ import Profile from './Profile'
 import PostModal from './PostModal'
 
 export {
-    Home,
-    Search,
-    Notifications,
-    Messages,
-    Bookmarks,
-    Premium,
-    Auth,
-    SignupPage,
-    Profile,
-    PostModal,
+  Home,
+  Search,
+  Notifications,
+  Messages,
+  Bookmarks,
+  Premium,
+  Auth,
+  SignupPage,
+  Profile,
+  PostModal,
 }

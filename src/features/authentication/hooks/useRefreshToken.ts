@@ -3,27 +3,27 @@ import { apiRoutes } from '../../../routes'
 import axios from '../../../utils/api/axios'
 
 interface IRefreshResponse {
-    accessToken: string
+  accessToken: string
 }
 
 const useRefreshToken = () => {
-    const { setAuthData } = useAuthentication()
-    const refresh = async () => {
-        try {
-            const response = await axios
-                .get<IRefreshResponse>(apiRoutes.refreshToken, {
-                    withCredentials: true,
-                })
-                .then((res) => res.data)
-            setAuthData({
-                accessToken: response.accessToken,
-            })
-            return response.accessToken
-        } catch (err) {
-            console.error(err)
-        }
+  const { setAuthData } = useAuthentication()
+  const refresh = async () => {
+    try {
+      const response = await axios
+        .get<IRefreshResponse>(apiRoutes.refreshToken, {
+          withCredentials: true,
+        })
+        .then((res) => res.data)
+      setAuthData({
+        accessToken: response.accessToken,
+      })
+      return response.accessToken
+    } catch (err) {
+      console.error(err)
     }
-    return refresh
+  }
+  return refresh
 }
 
 export default useRefreshToken

@@ -5,9 +5,9 @@ import ModalSaveDialog from './components/post-creation/ModalSaveDialog'
 import DraftsContent from './components/post-drafts/DraftsContent'
 
 export {
-    PostTabsWrapper,
-    CreatePostForm,
-    BookmarkedPostsFlow,
-    DraftsContent,
-    ModalSaveDialog,
+  PostTabsWrapper,
+  CreatePostForm,
+  BookmarkedPostsFlow,
+  DraftsContent,
+  ModalSaveDialog,
 }

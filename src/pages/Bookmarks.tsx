@@ -1,7 +1,7 @@
 import { BookmarkedPostsFlow } from '../features/posts'
 
 const Bookmarks = () => {
-    return <BookmarkedPostsFlow />
+  return <BookmarkedPostsFlow />
 }
 
 export default Bookmarks

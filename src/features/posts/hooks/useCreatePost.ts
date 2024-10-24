@@ -6,21 +6,21 @@ import { IPost } from '../interfaces'
 import { IPostsResponse } from '../../../utils/api/interfaces'
 
 interface IPostCreateData {
-    text?: string
-    postImage?: string
+  text?: string
+  postImage?: string
 }
 
 const useCreatePost = () => {
-    const queryKeyStore = useQueryKeyStore()
-    return usePost<InfiniteData<IPostsResponse>, FormData, IPost>({
-        path: apiRoutes.posts,
-        qKey: queryKeyStore.posts.all.queryKey,
-        axiosOptions: {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
-        },
-    })
+  const queryKeyStore = useQueryKeyStore()
+  return usePost<InfiniteData<IPostsResponse>, FormData, IPost>({
+    path: apiRoutes.posts,
+    qKey: queryKeyStore.posts.all.queryKey,
+    axiosOptions: {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    },
+  })
 }
 
 export default useCreatePost

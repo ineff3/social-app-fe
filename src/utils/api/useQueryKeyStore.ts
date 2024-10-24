@@ -6,48 +6,47 @@ import { IUserDetailResponse, IUsernamesResponse } from './interfaces'
 import { IDraft } from '../../features/posts/interfaces'
 
 const useQueryKeyStore = () => {
-    const { get } = useApi()
-    const queries = createQueryKeyStore({
-        posts: {
-            all: {
-                queryKey: null,
-                contextQueries: {
-                    bookmarked: {
-                        queryKey: null,
-                    },
-                    liked: {
-                        queryKey: null,
-                    },
-                    user: (userId: string) => ({
-                        queryKey: [userId],
-                    }),
-                },
-            },
-            drafts: {
-                queryKey: null,
-                queryFn: () => get<IDraft[]>(apiRoutes.drafts),
-            },
+  const { get } = useApi()
+  const queries = createQueryKeyStore({
+    posts: {
+      all: {
+        queryKey: null,
+        contextQueries: {
+          bookmarked: {
+            queryKey: null,
+          },
+          liked: {
+            queryKey: null,
+          },
+          user: (userId: string) => ({
+            queryKey: [userId],
+          }),
         },
+      },
+      drafts: {
+        queryKey: null,
+        queryFn: () => get<IDraft[]>(apiRoutes.drafts),
+      },
+    },
 
-        users: {
-            currentUserPreview: {
-                queryKey: null,
-                queryFn: () => get<IUserPreview>(apiRoutes.currentUserPreview),
-            },
-            detail: (username: string) => ({
-                queryKey: [username],
-                queryFn: () =>
-                    get<IUserDetailResponse>(`${apiRoutes.users}/${username}`),
-            }),
-            usernames: {
-                queryKey: null,
-                queryFn: () =>
-                    get<IUsernamesResponse>(apiRoutes.getUsernamesArray),
-            },
-        },
-    })
+    users: {
+      currentUserPreview: {
+        queryKey: null,
+        queryFn: () => get<IUserPreview>(apiRoutes.currentUserPreview),
+      },
+      detail: (username: string) => ({
+        queryKey: [username],
+        queryFn: () =>
+          get<IUserDetailResponse>(`${apiRoutes.users}/${username}`),
+      }),
+      usernames: {
+        queryKey: null,
+        queryFn: () => get<IUsernamesResponse>(apiRoutes.getUsernamesArray),
+      },
+    },
+  })
 
-    return queries
+  return queries
 }
 
 export default useQueryKeyStore

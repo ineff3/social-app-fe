@@ -4,36 +4,36 @@ import { useQueryClient } from '@tanstack/react-query'
 import usePrefetchUserData from '../../hooks/usePrefetchUserData'
 
 const UserFetch = () => {
-    const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(true)
 
-    const prefetchUserData = usePrefetchUserData()
+  const prefetchUserData = usePrefetchUserData()
 
-    useEffect(() => {
-        const prefetchUser = async () => {
-            try {
-                await prefetchUserData()
-            } catch (err) {
-                console.error(err)
-            } finally {
-                setIsLoading(false)
-            }
-        }
-        prefetchUser()
+  useEffect(() => {
+    const prefetchUser = async () => {
+      try {
+        await prefetchUserData()
+      } catch (err) {
+        console.error(err)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    prefetchUser()
 
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
-    return (
-        <>
-            {isLoading ? (
-                <div className=" flex h-screen w-screen items-center justify-center">
-                    <p className="loading loading-spinner w-14"></p>
-                </div>
-            ) : (
-                <Outlet />
-            )}
-        </>
-    )
+  return (
+    <>
+      {isLoading ? (
+        <div className=" flex h-screen w-screen items-center justify-center">
+          <p className="loading loading-spinner w-14"></p>
+        </div>
+      ) : (
+        <Outlet />
+      )}
+    </>
+  )
 }
 
 export default UserFetch
