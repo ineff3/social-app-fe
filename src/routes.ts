@@ -1,13 +1,13 @@
 export const apiRoutes = {
   //user
-  users: 'users',
-  refreshToken: 'users/refresh',
-  login: 'users/login',
-  logout: 'users/logout',
-  signUp: 'users/signup',
-  currentUserPreview: 'users/preview',
+  users: 'user',
+  refreshToken: 'auth/refresh-token',
+  login: 'auth/login',
+  logout: 'auth/logout',
+  signUp: 'auth/register',
+  currentUserPreview: 'user/preview',
   getUsernamesArray: 'users/usernames',
-  checkUsername: 'users/check-username',
+  checkUsername: 'user/username-reserved',
   //posts
   posts: 'posts',
   likePost: (postId: string) => `posts/${postId}/like`,
