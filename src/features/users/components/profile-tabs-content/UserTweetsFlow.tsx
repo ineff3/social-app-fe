@@ -20,9 +20,9 @@ const UserTweetsFlow = ({ userId }: { userId: string }) => {
     <div className=" flex flex-col">
       {data &&
         data.pages.map((page) => (
-          <div key={page.nextPage}>
+          <div key={page.page}>
             {page.data.map((post) => (
-              <Post key={post._id} post={post} />
+              <Post key={post.id} post={post} />
             ))}
           </div>
         ))}

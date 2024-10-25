@@ -1,7 +1,5 @@
-import { IPost } from '../interfaces'
 import { convertPostDate } from '../utils/dateConvertions'
 import UserIconLink from '../../../components/ui/UserIconLink'
-import { SlOptions } from 'react-icons/sl'
 import LikeSection from './post-items/LikeSection'
 import RepostIconSvg from '../../../components/ui/icons/RepostIconSvg'
 import CommentIconSvg from '../../../components/ui/icons/CommentIconSvg'
@@ -10,9 +8,10 @@ import PostOptions from './post-items/PostOptions'
 import { useQueryClient } from '@tanstack/react-query'
 import useQueryKeyStore from '../../../utils/api/useQueryKeyStore'
 import { IUserPreview } from '../../authentication/interfaces'
+import { SchemaPostResponseDto } from '../../../types/schema'
 
 interface Props {
-  post: IPost
+  post: SchemaPostResponseDto
 }
 
 const Post = ({ post }: Props) => {
@@ -27,7 +26,7 @@ const Post = ({ post }: Props) => {
     <div className=" border-b border-accent p-5 md:p-10">
       <div className=" flex gap-3">
         <UserIconLink
-          userImageUrl={post.author?.userImageUrl}
+          userImageUrl={post.author?.avatarUrl}
           username={post.author?.username}
         />
 
@@ -42,17 +41,17 @@ const Post = ({ post }: Props) => {
                 <p>·</p>
                 <p>{convertPostDate(createdDate)}</p>
               </div>
-              <PostOptions isPostAuthor={isPostAuthor} postId={post?._id} />
+              <PostOptions isPostAuthor={isPostAuthor} postId={post?.id} />
             </div>
-            {post.text && <p className="  text-secondary">{post.text}</p>}
-            {post?.postImageUrls?.length > 0 && (
+            {post.text && <p className=" text-secondary">{post.text}</p>}
+            {post?.imageUrls && post?.imageUrls.length > 0 && (
               <div
-                className={` grid grid-cols-[repeat(auto-fit,minmax(230px,1fr))]  overflow-hidden rounded-lg ${post.postImageUrls.length > 2 ? 'max-h-[550px] grid-rows-2 ' : 'max-h-[500px] grid-rows-1'}  `}
+                className={` grid grid-cols-[repeat(auto-fit,minmax(230px,1fr))]  overflow-hidden rounded-lg ${post.imageUrls.length > 2 ? 'max-h-[550px] grid-rows-2 ' : 'max-h-[500px] grid-rows-1'}  `}
               >
-                {post.postImageUrls?.map((path, index) => (
+                {post.imageUrls?.map((path, index) => (
                   <div
                     key={index}
-                    className={` ${post.postImageUrls.length === 3 && index === 0 && 'col-span-2'}`}
+                    className={` ${post.imageUrls?.length === 3 && index === 0 && 'col-span-2'}`}
                   >
                     <img
                       src={path}
@@ -75,14 +74,14 @@ const Post = ({ post }: Props) => {
             </div>
             <div className=" flex items-center gap-1.5">
               <LikeSection
-                postId={post._id}
-                likesCount={post.likesCount}
+                postId={post.id}
+                likesCount={post.likes}
                 isLiked={post.isLiked}
               />
             </div>
             <div className=" flex items-center gap-1.5">
               <BookmarkSection
-                postId={post._id}
+                postId={post.id}
                 isBookmarked={post.isBookmarked}
               />
             </div>

@@ -2,7 +2,8 @@ import { useInfiniteQuery } from '@tanstack/react-query'
 import useQueryKeyStore from '../../../utils/api/useQueryKeyStore'
 import { useApi } from '../../../utils/api/actions'
 import { apiRoutes } from '../../../routes'
-import { IPostsResponse } from '../../../utils/api/interfaces'
+import { SchemaGetAllPostsResponseDto } from '../../../types/schema'
+import { getNextPageParam } from '../../../utils/getNextPageParam'
 
 const useGetPosts = ({ limit }: { limit: number }) => {
   const { get } = useApi()
@@ -10,11 +11,12 @@ const useGetPosts = ({ limit }: { limit: number }) => {
   return useInfiniteQuery({
     queryKey: queryKeyStore.posts.all.queryKey,
     queryFn: ({ pageParam }) =>
-      get<IPostsResponse>(apiRoutes.posts, { page: pageParam, limit }),
+      get<SchemaGetAllPostsResponseDto>(apiRoutes.posts, {
+        page: pageParam,
+        limit,
+      }),
     initialPageParam: 1,
-    getNextPageParam: (lastPage) => {
-      return lastPage.nextPage
-    },
+    getNextPageParam,
   })
 }
 

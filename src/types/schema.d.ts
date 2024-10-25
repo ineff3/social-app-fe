@@ -258,6 +258,7 @@ export interface components {
             firstName: string;
             secondName: string;
             username: string;
+            avatarUrl?: string;
         };
         UsernameReservedResponseDto: {
             isReserved: boolean;
@@ -288,6 +289,9 @@ export interface components {
             isLiked: boolean;
             isBookmarked: boolean;
             author: components["schemas"]["UserPreviewResponseDto"];
+            imageUrls?: string[];
+            /** Format: date-time */
+            createdAt: string;
         };
         GetAllPostsResponseDto: {
             data: components["schemas"]["PostResponseDto"][];
