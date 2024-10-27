@@ -8,10 +8,10 @@ import { useModal } from '../../../hooks/useModal'
 import Modal from '../../../components/ui/Modal'
 import EditProfileWindow from './edit-profile/EditProfileWindow'
 import { FaUserCircle } from 'react-icons/fa'
-import UserTweetsFlow from './profile-tabs-content/UserTweetsFlow'
 import ArrowIconSvg from '../../../components/ui/icons/ArrowIconSvg'
 import { withInfiniteScrollPostsFlow } from '../../posts'
-import useGetLikedPosts from '../../posts/hooks/useGetLikedPosts'
+import useGetUserPosts from '../../posts/hooks/useGetUserPosts'
+import useGetPosts from '../../posts/hooks/useGetPosts'
 
 const ProfilePage = () => {
   const { username } = useParams()
@@ -30,7 +30,7 @@ const ProfilePage = () => {
     return <ProfileNotFound />
   }
 
-  const userData = data.userData
+  const userData = data.user
 
   return (
     <div className=" flex h-full flex-col">
@@ -50,9 +50,9 @@ const ProfilePage = () => {
         </div>
       </header>
       <div className=" h-[250px] bg-base-200">
-        {userData?.backgroundImageUrl && (
+        {userData?.avatarUrl && (
           <img
-            src={userData?.backgroundImageUrl}
+            src={userData?.backgroundUrl}
             alt="Background Image"
             className=" h-full w-full object-cover"
           />
@@ -63,9 +63,9 @@ const ProfilePage = () => {
         <div className=" px-10">
           <div className=" flex h-[140px] items-center justify-between">
             <div className=" h-[110px] w-[110px] overflow-hidden rounded-full bg-base-100">
-              {userData?.userImageUrl ? (
+              {userData?.avatarUrl ? (
                 <img
-                  src={userData?.userImageUrl}
+                  src={userData?.backgroundUrl}
                   alt="Profile Image"
                   className="h-full w-full object-cover"
                 />
@@ -102,7 +102,7 @@ const ProfilePage = () => {
           </div>
         </div>
         <div className=" mt-4">
-          <ProfileTabs userId={userData._id} />
+          <ProfileTabs userId={userData.id} />
         </div>
       </div>
     </div>
@@ -126,7 +126,8 @@ const tabItems = [
   },
 ]
 
-const LikedPostsFlow = withInfiniteScrollPostsFlow(useGetLikedPosts)
+const LikedPostsFlow = withInfiniteScrollPostsFlow(useGetPosts)
+const ProfilePosts = withInfiniteScrollPostsFlow(useGetUserPosts)
 const ProfileTabs = ({ userId }: { userId: string }) => {
   return (
     <TabGroup>
@@ -148,12 +149,12 @@ const ProfileTabs = ({ userId }: { userId: string }) => {
       </TabList>
       <TabPanels>
         <TabPanel>
-          <UserTweetsFlow userId={userId} />
+          <ProfilePosts userId={userId} />
         </TabPanel>
         <TabPanel>Content 2</TabPanel>
         <TabPanel>Content 3</TabPanel>
         <TabPanel>
-          <LikedPostsFlow />
+          <LikedPostsFlow liked />
         </TabPanel>
       </TabPanels>
     </TabGroup>

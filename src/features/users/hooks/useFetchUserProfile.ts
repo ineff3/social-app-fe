@@ -2,9 +2,9 @@ import { useQuery } from '@tanstack/react-query'
 import useQueryKeyStore from '../../../utils/api/useQueryKeyStore'
 
 const useFetchUserProfile = (username: string) => {
-  const querykeyStore = useQueryKeyStore()
+  const queryKeyStore = useQueryKeyStore()
   return useQuery({
-    ...querykeyStore.users.detail(username),
+    ...queryKeyStore.users.detail(username),
     staleTime: Infinity,
   })
 }

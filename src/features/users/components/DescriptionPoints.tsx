@@ -3,9 +3,13 @@ import BornIconSvg from '../../../components/ui/icons/BornIconSvg'
 import CalendarIconSvg from '../../../components/ui/icons/CalendarIconSvg'
 import LinkIconSvg from '../../../components/ui/icons/LinkIconSvg'
 import LocationIconSvg from '../../../components/ui/icons/LocationIconSvg'
-import { IUser } from '../../authentication/interfaces'
+import { SchemaUserResponseDto } from '../../../types/schema'
 
-const DescriptionPoints = ({ userData }: { userData: IUser }) => {
+const DescriptionPoints = ({
+  userData,
+}: {
+  userData: SchemaUserResponseDto
+}) => {
   const allPointsExist =
     userData?.location &&
     userData?.link &&
@@ -27,6 +31,7 @@ const DescriptionPoints = ({ userData }: { userData: IUser }) => {
           <LinkIconSvg width={20} height={20} fill="currentColor" />
           <a
             target="_blank"
+            rel="noreferrer"
             href={userData.link}
             className=" link link-primary"
           >

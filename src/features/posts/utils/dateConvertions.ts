@@ -1,4 +1,4 @@
-const monthMap = {
+const monthMap: { [key: number]: string } = {
   0: 'Jan',
   1: 'Feb',
   2: 'Mar',
@@ -13,15 +13,15 @@ const monthMap = {
   11: 'Dec',
 }
 
-const daysOfWeek: { [key: number]: string } = {
-  0: 'Sun',
-  1: 'Mon',
-  2: 'Tue',
-  3: 'Wed',
-  4: 'Thu',
-  5: 'Fri',
-  6: 'Sat',
-}
+// const daysOfWeek: { [key: number]: string } = {
+//   0: 'Sun',
+//   1: 'Mon',
+//   2: 'Tue',
+//   3: 'Wed',
+//   4: 'Thu',
+//   5: 'Fri',
+//   6: 'Sat',
+// }
 
 export const convertPostDate = (date: Date) => {
   const currentDate = new Date()
@@ -31,7 +31,6 @@ export const convertPostDate = (date: Date) => {
     }
     return currentDate.getHours() - date.getHours() + 'h ago'
   } else {
-    return daysOfWeek[date.getDay()] + ' ' + date.getDate()
+    return monthMap[date.getMonth()] + ' ' + date.getDate()
   }
 }
-// monthMap[date.getMonth() as keyof typeof monthMap]

@@ -24,7 +24,7 @@ const UserPreview = ({ closeMenu }: { closeMenu: () => void }) => {
     <div className=" flex items-center gap-2 sm:flex-col lg:flex-row">
       <UserIconLink
         onClick={closeMenu}
-        userImageUrl={user?.data?.userImageUrl}
+        userImageUrl={user?.data?.avatarUrl}
         username={user?.data?.username}
       />
       <div className=" flex w-full items-center justify-between sm:justify-center lg:justify-between ">

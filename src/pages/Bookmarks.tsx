@@ -1,10 +1,10 @@
 import { withInfiniteScrollPostsFlow } from '../features/posts'
-import useGetBookmarkedPosts from '../features/posts/hooks/useGetBookmarkedPosts'
+import useGetPosts from '../features/posts/hooks/useGetPosts'
 
-const BookmarkedPostsFlow = withInfiniteScrollPostsFlow(useGetBookmarkedPosts)
+const BookmarkedPostsFlow = withInfiniteScrollPostsFlow(useGetPosts)
 
 const Bookmarks = () => {
-  return <BookmarkedPostsFlow />
+  return <BookmarkedPostsFlow bookmarked />
 }
 
 export default Bookmarks

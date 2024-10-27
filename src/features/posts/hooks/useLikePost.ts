@@ -8,7 +8,7 @@ const useLikePost = (postId: string) => {
   const queryKeyStore = useQueryKeyStore()
   return usePost<InfiniteData<SchemaGetAllPostsResponseDto>, void>({
     path: apiRoutes.likePost(postId),
-    qKey: queryKeyStore.posts.all.queryKey,
+    qKey: queryKeyStore.posts.all({}).queryKey,
     updater: (oldData) => {
       if (!oldData) return oldData
 

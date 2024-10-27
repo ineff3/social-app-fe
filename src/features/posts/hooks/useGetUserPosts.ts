@@ -1,26 +1,21 @@
 import { useInfiniteQuery } from '@tanstack/react-query'
 import useQueryKeyStore from '../../../utils/api/useQueryKeyStore'
-import { useApi } from '../../../utils/api/actions'
-import { apiRoutes } from '../../../routes'
-import { SchemaGetAllPostsResponseDto } from '../../../types/schema'
+import {
+  SchemaGetAllPostsResponseDto,
+  SchemaGetPostsQueryDto,
+} from '../../../types/schema'
 import { getNextPageParam } from '../../../utils/getNextPageParam'
 
-const useGetUserPosts = ({
-  limit,
-  userId,
-}: {
-  limit: number
-  userId: string
-}) => {
-  const { get } = useApi()
+const useGetUserPosts = (
+  query: SchemaGetPostsQueryDto & { userId: string },
+) => {
   const queryKeyStore = useQueryKeyStore()
-  return useInfiniteQuery({
-    queryKey: queryKeyStore.posts.all._ctx.user(userId).queryKey,
-    queryFn: ({ pageParam }) =>
-      get<SchemaGetAllPostsResponseDto>(`${apiRoutes.posts}/${userId}`, {
-        page: pageParam,
-        limit,
-      }),
+  const pureQuery = { ...query } as Partial<
+    SchemaGetPostsQueryDto & { userId: string }
+  >
+  delete pureQuery.userId
+  return useInfiniteQuery<SchemaGetAllPostsResponseDto>({
+    ...queryKeyStore.posts.all(pureQuery)._ctx.user(query.userId),
     initialPageParam: 1,
     getNextPageParam,
   })

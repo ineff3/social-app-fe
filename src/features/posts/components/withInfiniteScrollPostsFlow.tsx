@@ -1,23 +1,29 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { InfiniteData, UseInfiniteQueryResult } from '@tanstack/react-query'
 import { useInView } from 'react-intersection-observer'
-import { SchemaGetAllPostsResponseDto } from '../../../types/schema'
 import { useEffect } from 'react'
 import Post from './Post'
+import {
+  SchemaGetAllPostsResponseDto,
+  SchemaGetPostsQueryDto,
+} from '../../../types/schema'
 
-export const withInfiniteScrollPostsFlow = (
-  useGetPostsHook: ({
-    limit,
-  }: {
-    limit: number
-  }) => UseInfiniteQueryResult<
+// Interface for the options for each specific hook
+type FetchAllPostsOptions = SchemaGetPostsQueryDto
+type FetchUserPostsOptions = SchemaGetPostsQueryDto & { userId: string }
+
+// Higher Order Component definition
+export const withInfiniteScrollPostsFlow = <
+  TOptions extends FetchAllPostsOptions | FetchUserPostsOptions,
+  TResult extends UseInfiniteQueryResult<
     InfiniteData<SchemaGetAllPostsResponseDto, unknown>,
     Error
   >,
+>(
+  useGetPostsHook: (options: TOptions) => TResult,
 ) =>
-  function PostsFlow() {
+  function PostsFlow(props: TOptions) {
     const { ref, inView } = useInView()
-    const { data, fetchNextPage, hasNextPage } = useGetPostsHook({ limit: 5 })
+    const { data, fetchNextPage, hasNextPage } = useGetPostsHook(props)
 
     useEffect(() => {
       if (inView) {
@@ -26,7 +32,7 @@ export const withInfiniteScrollPostsFlow = (
     }, [inView, fetchNextPage])
 
     return (
-      <div className=" flex flex-col">
+      <div className="flex flex-col">
         {data &&
           data.pages.map((page) => (
             <div key={page.page}>

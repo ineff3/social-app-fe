@@ -9,7 +9,7 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "format": "prettier --write \"src/**/*.{ts,tsx}\"",
-    "generate-types": "npx openapi-typescript http://127.0.0.1:3000/api-json -o ./src/types/schema.d.ts --root-types"
+    "generate-types": "npx openapi-typescript http://127.0.0.1:3000/api-json -o ./src/types/schema.d.ts --root-types --default-non-nullable=false"
   },
   "dependencies": {
     "-": "^0.0.1",

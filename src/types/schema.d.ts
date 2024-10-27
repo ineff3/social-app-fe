@@ -273,10 +273,38 @@ export interface components {
             location: string | null;
             link: string | null;
             bornDate: string | null;
+            avatarUrl?: string;
+            backgroundUrl?: string;
+            /** Format: date-time */
+            createdAt: string;
         };
         GetUserByUsernameResponseDto: {
             isCurrentUser: boolean;
             user: components["schemas"]["UserResponseDto"];
+        };
+        GetPostsQueryDto: {
+            /** @default 1 */
+            page?: number;
+            /** @default 10 */
+            limit?: number;
+            /**
+             * @default desc
+             * @enum {string}
+             */
+            order?: "desc" | "asc";
+            liked?: boolean;
+            bookmarked?: boolean;
+        };
+        PaginatedQueryDto: {
+            /** @default 1 */
+            page?: number;
+            /** @default 10 */
+            limit?: number;
+            /**
+             * @default desc
+             * @enum {string}
+             */
+            order?: "desc" | "asc";
         };
         CreatePostDto: {
             text: string;
@@ -313,6 +341,8 @@ export type SchemaUserPreviewResponseDto = components['schemas']['UserPreviewRes
 export type SchemaUsernameReservedResponseDto = components['schemas']['UsernameReservedResponseDto'];
 export type SchemaUserResponseDto = components['schemas']['UserResponseDto'];
 export type SchemaGetUserByUsernameResponseDto = components['schemas']['GetUserByUsernameResponseDto'];
+export type SchemaGetPostsQueryDto = components['schemas']['GetPostsQueryDto'];
+export type SchemaPaginatedQueryDto = components['schemas']['PaginatedQueryDto'];
 export type SchemaCreatePostDto = components['schemas']['CreatePostDto'];
 export type SchemaPostResponseDto = components['schemas']['PostResponseDto'];
 export type SchemaGetAllPostsResponseDto = components['schemas']['GetAllPostsResponseDto'];
