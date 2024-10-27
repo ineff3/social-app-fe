@@ -9,8 +9,9 @@ import Modal from '../../../components/ui/Modal'
 import EditProfileWindow from './edit-profile/EditProfileWindow'
 import { FaUserCircle } from 'react-icons/fa'
 import UserTweetsFlow from './profile-tabs-content/UserTweetsFlow'
-import UserLikedPostsFlow from './profile-tabs-content/UserLikedPostsFlow'
 import ArrowIconSvg from '../../../components/ui/icons/ArrowIconSvg'
+import { withInfiniteScrollPostsFlow } from '../../posts'
+import useGetLikedPosts from '../../posts/hooks/useGetLikedPosts'
 
 const ProfilePage = () => {
   const { username } = useParams()
@@ -125,6 +126,7 @@ const tabItems = [
   },
 ]
 
+const LikedPostsFlow = withInfiniteScrollPostsFlow(useGetLikedPosts)
 const ProfileTabs = ({ userId }: { userId: string }) => {
   return (
     <TabGroup>
@@ -151,7 +153,7 @@ const ProfileTabs = ({ userId }: { userId: string }) => {
         <TabPanel>Content 2</TabPanel>
         <TabPanel>Content 3</TabPanel>
         <TabPanel>
-          <UserLikedPostsFlow />
+          <LikedPostsFlow />
         </TabPanel>
       </TabPanels>
     </TabGroup>

@@ -1,5 +1,6 @@
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react'
-import PostsFlow from './PostsFlow'
+import { withInfiniteScrollPostsFlow } from './withInfiniteScrollPostsFlow'
+import useGetPosts from '../hooks/useGetPosts'
 
 const tabItems = [
   {
@@ -9,6 +10,7 @@ const tabItems = [
     name: 'Following',
   },
 ]
+const MainPostsFlow = withInfiniteScrollPostsFlow(useGetPosts)
 
 const PostTabsWrapper = () => {
   return (
@@ -31,7 +33,7 @@ const PostTabsWrapper = () => {
       </TabList>
       <TabPanels>
         <TabPanel>
-          <PostsFlow />
+          <MainPostsFlow />
         </TabPanel>
         <TabPanel>Content 2</TabPanel>
       </TabPanels>

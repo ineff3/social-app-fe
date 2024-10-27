@@ -1,12 +1,12 @@
 import { InfiniteData } from '@tanstack/react-query'
 import { apiRoutes } from '../../../routes'
-import { useUpdate } from '../../../utils/api/queries'
+import { usePost } from '../../../utils/api/queries'
 import useQueryKeyStore from '../../../utils/api/useQueryKeyStore'
-import { IPostsResponse } from '../../../utils/api/interfaces'
+import { SchemaGetAllPostsResponseDto } from '../../../types/schema'
 
 const useBookmarkPost = (postId: string) => {
   const queryKeyStore = useQueryKeyStore()
-  return useUpdate<InfiniteData<IPostsResponse>, void>({
+  return usePost<InfiniteData<SchemaGetAllPostsResponseDto>, void>({
     path: apiRoutes.bookmarkPost(postId),
     qKey: queryKeyStore.posts.all.queryKey,
     updater: (oldData) => {
@@ -15,7 +15,7 @@ const useBookmarkPost = (postId: string) => {
       const updatedPages = oldData.pages.map((page) => ({
         ...page,
         data: page.data.map((post) =>
-          post._id == postId
+          post.id == postId
             ? { ...post, isBookmarked: !post.isBookmarked }
             : post,
         ),
