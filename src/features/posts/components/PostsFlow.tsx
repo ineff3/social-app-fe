@@ -2,11 +2,11 @@ import { InfiniteData, UseInfiniteQueryResult } from '@tanstack/react-query'
 import { useInView } from 'react-intersection-observer'
 import { useEffect } from 'react'
 import Post from './Post'
-import { SchemaGetAllPostsResponseDto } from '../../../types/schema'
+import { SchemaGetAllPostsResponseDto } from '@/src/types/schema'
 import {
   GetAllPostsParams,
   GetUserPostsParams,
-} from '../../../utils/api/interfaces'
+} from '@/src/utils/api/interfaces'
 
 export const PostsFlow = <
   TParams extends GetAllPostsParams | GetUserPostsParams,
