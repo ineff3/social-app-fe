@@ -1,15 +1,13 @@
 import { useInfiniteQuery } from '@tanstack/react-query'
 import useQueryKeyStore from '../../../utils/api/useQueryKeyStore'
-import {
-  SchemaGetAllPostsResponseDto,
-  SchemaGetPostsQueryDto,
-} from '../../../types/schema'
+import { SchemaGetAllPostsResponseDto } from '../../../types/schema'
 import { getNextPageParam } from '../../../utils/getNextPageParam'
+import { GetAllPostsParams } from '../../../utils/api/interfaces'
 
-const useGetPosts = (query: SchemaGetPostsQueryDto) => {
+const useGetPosts = (params: GetAllPostsParams) => {
   const queryKeyStore = useQueryKeyStore()
   return useInfiniteQuery<SchemaGetAllPostsResponseDto>({
-    ...queryKeyStore.posts.all(query),
+    ...queryKeyStore.posts.all(params),
     initialPageParam: 1,
     getNextPageParam,
   })

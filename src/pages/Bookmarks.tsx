@@ -1,10 +1,13 @@
-import { withInfiniteScrollPostsFlow } from '../features/posts'
+import { PostsFlow } from '../features/posts/components/PostsFlow'
 import useGetPosts from '../features/posts/hooks/useGetPosts'
 
-const BookmarkedPostsFlow = withInfiniteScrollPostsFlow(useGetPosts)
-
 const Bookmarks = () => {
-  return <BookmarkedPostsFlow bookmarked />
+  return (
+    <PostsFlow
+      useGetPostsHook={useGetPosts}
+      params={{ filters: { bookmarked: true } }}
+    />
+  )
 }
 
 export default Bookmarks

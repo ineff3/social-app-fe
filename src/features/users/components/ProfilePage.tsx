@@ -9,9 +9,9 @@ import Modal from '../../../components/ui/Modal'
 import EditProfileWindow from './edit-profile/EditProfileWindow'
 import { FaUserCircle } from 'react-icons/fa'
 import ArrowIconSvg from '../../../components/ui/icons/ArrowIconSvg'
-import { withInfiniteScrollPostsFlow } from '../../posts'
 import useGetUserPosts from '../../posts/hooks/useGetUserPosts'
 import useGetPosts from '../../posts/hooks/useGetPosts'
+import { PostsFlow } from '../../posts/components/PostsFlow'
 
 const ProfilePage = () => {
   const { username } = useParams()
@@ -126,8 +126,6 @@ const tabItems = [
   },
 ]
 
-const LikedPostsFlow = withInfiniteScrollPostsFlow(useGetPosts)
-const ProfilePosts = withInfiniteScrollPostsFlow(useGetUserPosts)
 const ProfileTabs = ({ userId }: { userId: string }) => {
   return (
     <TabGroup>
@@ -149,12 +147,15 @@ const ProfileTabs = ({ userId }: { userId: string }) => {
       </TabList>
       <TabPanels>
         <TabPanel>
-          <ProfilePosts userId={userId} />
+          <PostsFlow useGetPostsHook={useGetUserPosts} params={{ userId }} />
         </TabPanel>
         <TabPanel>Content 2</TabPanel>
         <TabPanel>Content 3</TabPanel>
         <TabPanel>
-          <LikedPostsFlow liked />
+          <PostsFlow
+            useGetPostsHook={useGetPosts}
+            params={{ filters: { liked: true } }}
+          />
         </TabPanel>
       </TabPanels>
     </TabGroup>

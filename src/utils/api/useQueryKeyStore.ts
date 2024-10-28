@@ -1,11 +1,10 @@
 import { createQueryKeyStore } from '@lukemorales/query-key-factory'
 import { useApi } from './actions'
 import { apiRoutes } from '../../routes'
-import { IUsernamesResponse } from './interfaces'
+import { GetAllPostsParams, IUsernamesResponse } from './interfaces'
 import { IDraft } from '../../features/posts/interfaces'
 import {
   SchemaGetAllPostsResponseDto,
-  SchemaGetPostsQueryDto,
   SchemaGetUserByUsernameResponseDto,
   SchemaUserPreviewResponseDto,
 } from '../../types/schema'
@@ -14,11 +13,12 @@ const useQueryKeyStore = () => {
   const { get } = useApi()
   const queries = createQueryKeyStore({
     posts: {
-      all: (query: SchemaGetPostsQueryDto) => ({
-        queryKey: [query],
+      all: ({ query, filters = {} }: GetAllPostsParams) => ({
+        queryKey: [filters],
         queryFn: ({ pageParam }: { pageParam: number }) =>
           get<SchemaGetAllPostsResponseDto>(apiRoutes.posts, {
             ...query,
+            ...filters,
             page: pageParam,
           }),
         contextQueries: {
