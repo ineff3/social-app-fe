@@ -1,5 +1,4 @@
 import { createContext, useContext } from 'react'
-import { IDraft } from '../interfaces'
 import {
   Control,
   FieldArrayWithId,
@@ -7,9 +6,10 @@ import {
   useForm,
 } from 'react-hook-form'
 import { useDeleteMultipleDrafts } from '../hooks/drafts/drafts'
+import { SchemaPostResponseDto } from '@/src/types/schema'
 
 interface checkboxItem {
-  draft: IDraft
+  draft: SchemaPostResponseDto
   checked: boolean
 }
 interface IFormValues {
@@ -17,7 +17,7 @@ interface IFormValues {
 }
 
 interface IDraftContextProps {
-  control: Control<IFormValues, any, IFormValues>
+  control: Control<IFormValues>
   fields: FieldArrayWithId<IFormValues, 'drafts', 'id'>[]
   deleteSelectedDrafts: () => void
   selectAll: () => void
@@ -38,7 +38,7 @@ export const DraftProvider = ({
   data,
 }: {
   children: React.ReactNode
-  data: IDraft[]
+  data: SchemaPostResponseDto[]
 }) => {
   const { control, getValues, setValue, watch } = useForm<IFormValues>({
     values: {
@@ -61,7 +61,7 @@ export const DraftProvider = ({
     const data = getValues()
     const draftIds = data.drafts
       .filter((el) => el.checked)
-      .map((el) => el.draft._id)
+      .map((el) => el.draft.id)
     deleteMultipleDraftsMutation.mutate({
       key: 'draftIds',
       value: draftIds,

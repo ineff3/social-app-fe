@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createContext, useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
@@ -9,14 +10,14 @@ import {
   UseFieldArrayRemove,
   useForm,
   UseFormRegister,
-  UseFormWatch,
 } from 'react-hook-form'
-import { CreatePostFormType, IDraft } from '../interfaces'
+import { CreatePostFormType } from '../interfaces'
 import { zodResolver } from '@hookform/resolvers/zod'
 import validationSchema from '../schemas/createPostSchema'
 import useCreatePost from '../hooks/useCreatePost'
 import { AxiosError } from 'axios'
 import { useCreateDraft } from '../hooks/drafts/drafts'
+import { SchemaPostResponseDto } from '@/src/types/schema'
 
 interface IPostContextProps {
   register: UseFormRegister<CreatePostFormType>
@@ -30,7 +31,7 @@ interface IPostContextProps {
   errors: FieldErrors<CreatePostFormType>
   postIsPending: boolean
   saveToDraft: () => void
-  setFormValues: (draft: IDraft) => void
+  setFormValues: (draft: SchemaPostResponseDto) => void
 }
 
 const PostContext = createContext<IPostContextProps | null>(null)
@@ -108,7 +109,7 @@ export const PostProvider = ({ children }: { children: React.ReactNode }) => {
     formData.append('text', formValues.text)
     saveDraftMutation.mutate(formData)
   }
-  const setFormValues = (draft: IDraft) => {
+  const setFormValues = (draft: SchemaPostResponseDto) => {
     setValue('text', draft.text, { shouldDirty: true })
     // set post images also :(
   }

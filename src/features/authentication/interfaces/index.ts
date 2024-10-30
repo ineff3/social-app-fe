@@ -26,7 +26,7 @@ export interface IUser {
   backgroundImageUrl: string
 }
 export interface IUserPreview {
-  _id: string
+  id: string
   firstName: string
   username: string
   userImageUrl: string

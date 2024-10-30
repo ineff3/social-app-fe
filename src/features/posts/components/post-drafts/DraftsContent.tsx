@@ -2,9 +2,9 @@ import { useNavigate } from 'react-router-dom'
 import ArrowIconSvg from '../../../../components/ui/icons/ArrowIconSvg'
 import { useState } from 'react'
 import Drafts from './Drafts'
-import { useGetDrafts } from '../../hooks/drafts/drafts'
 import ErrorAlert from '../../../../components/ui/ErrorAlert'
 import { DraftProvider, useDraftContext } from '../../contexts/DraftContext'
+import { useGetDrafts } from '../../hooks/drafts/drafts'
 
 const DraftsContentParent = () => {
   const { data, isLoading, isError } = useGetDrafts()
@@ -13,12 +13,12 @@ const DraftsContentParent = () => {
   }
   if (isError || !data) {
     return (
-      <ErrorAlert errorMessage="An error occured while receiving the drafts" />
+      <ErrorAlert errorMessage="An error occurred while receiving the drafts" />
     )
   }
 
   return (
-    <DraftProvider data={data}>
+    <DraftProvider data={data.pages[0].data}>
       <DraftsContent />
     </DraftProvider>
   )

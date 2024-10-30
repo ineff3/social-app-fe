@@ -33,4 +33,5 @@ export interface GetAllPostsParams {
 export interface GetUserPostsParams {
   query?: PaginatedQueryParams
   userId: string
+  isDraft?: boolean
 }

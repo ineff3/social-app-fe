@@ -10,15 +10,16 @@ import {
 
 export const PostsFlow = <
   TParams extends GetAllPostsParams | GetUserPostsParams,
-  TResult extends UseInfiniteQueryResult<
-    InfiniteData<SchemaGetAllPostsResponseDto, unknown>,
-    Error
-  >,
 >({
   useGetPostsHook,
   params,
 }: {
-  useGetPostsHook: (options: TParams) => TResult
+  useGetPostsHook: (
+    options: TParams,
+  ) => UseInfiniteQueryResult<
+    InfiniteData<SchemaGetAllPostsResponseDto, unknown>,
+    Error
+  >
   params: TParams
 }) => {
   const { ref, inView } = useInView()

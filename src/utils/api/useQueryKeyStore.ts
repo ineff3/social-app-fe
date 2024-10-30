@@ -2,7 +2,6 @@ import { createQueryKeyStore } from '@lukemorales/query-key-factory'
 import { useApi } from './actions'
 import { apiRoutes } from '../../routes'
 import { GetAllPostsParams, IUsernamesResponse } from './interfaces'
-import { IDraft } from '../../features/posts/interfaces'
 import {
   SchemaGetAllPostsResponseDto,
   SchemaGetUserByUsernameResponseDto,
@@ -22,23 +21,20 @@ const useQueryKeyStore = () => {
             page: pageParam,
           }),
         contextQueries: {
-          user: (userId: string) => ({
-            queryKey: [userId],
+          user: (userId: string, isDraft?: boolean) => ({
+            queryKey: isDraft ? [userId, { isDraft }] : [userId],
             queryFn: ({ pageParam }: { pageParam: number }) =>
               get<SchemaGetAllPostsResponseDto>(
                 `${apiRoutes.posts}/${userId}`,
                 {
-                  page: pageParam,
                   ...query,
+                  page: pageParam,
+                  isDraft,
                 },
               ),
           }),
         },
       }),
-      drafts: {
-        queryKey: null,
-        queryFn: () => get<IDraft[]>(apiRoutes.drafts),
-      },
     },
 
     users: {

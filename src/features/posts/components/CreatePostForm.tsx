@@ -8,7 +8,7 @@ import AttachEmoji from './post-creation/AttachEmoji'
 import useQueryKeyStore from '../../../utils/api/useQueryKeyStore'
 import CloseBtn from '../../../components/ui/CloseBtn'
 import ErrorAlert from '../../../components/ui/ErrorAlert'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { pageRoutes } from '../../../routes'
 import {
   ACCEPTED_IMAGE_TYPES,

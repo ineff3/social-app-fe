@@ -20,7 +20,7 @@ const Post = ({ post }: Props) => {
   const userPreviewData: IUserPreview | undefined = queryClient.getQueryData(
     queryKeyStore.users.currentUserPreview.queryKey,
   )
-  const isPostAuthor = userPreviewData?._id === post.author.id
+  const isPostAuthor = userPreviewData?.id === post.author.id
   const createdDate = new Date(post.createdAt)
   return (
     <div className=" border-b border-accent p-5 md:p-10">
