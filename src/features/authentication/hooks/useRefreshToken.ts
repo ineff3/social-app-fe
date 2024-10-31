@@ -1,6 +1,6 @@
 import { useAppDispatch } from '@/src/redux/hooks'
 import { apiRoutes } from '../../../routes'
-import axios from '../../../utils/api/axios'
+import axios from '../../../utils/api/axiosInstances'
 import { setAccessToken } from '@/src/redux/user/userSlice'
 import { SchemaAuthUserResponseDto } from '@/src/types/schema'
 

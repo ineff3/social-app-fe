@@ -1,4 +1,4 @@
-import axios from './axios'
+import axios from './axiosInstances'
 
 const fetchImageAsFile = async (url: string, fileName: string) => {
   try {

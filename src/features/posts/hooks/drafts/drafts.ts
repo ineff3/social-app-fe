@@ -1,9 +1,9 @@
-import useQueryKeyStore from '@/src/utils/api/useQueryKeyStore'
+import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
 import {
   useDelete,
   useDeleteMultiple,
   usePost,
-} from '../../../../utils/api/queries'
+} from '../../../../utils/api/mutations'
 import { apiRoutes } from '../../../../routes'
 import { IDraft } from '../../interfaces'
 import useGetUserPosts from '../useGetUserPosts'

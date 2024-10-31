@@ -1,6 +1,6 @@
 import { apiRoutes } from '../../../routes'
-import { useUpdate } from '../../../utils/api/queries'
-import useQueryKeyStore from '../../../utils/api/useQueryKeyStore'
+import { useUpdate } from '../../../utils/api/mutations'
+import useQueryKeyStore from '../../../utils/api/hooks/useQueryKeyStore'
 import { IUserPreview } from '../interfaces'
 
 interface IUpdateUsernameBody {

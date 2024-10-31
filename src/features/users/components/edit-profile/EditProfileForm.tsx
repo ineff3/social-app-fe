@@ -17,7 +17,7 @@ import ImageFileDropzone from '../../../../components/form/ImageFileDropzone'
 import fetchImageAsFile from '../../../../utils/api/fetchImageAsFile'
 import useEditProfile from '../../hooks/useEditProfile'
 import { useQueryClient } from '@tanstack/react-query'
-import useQueryKeyStore from '../../../../utils/api/useQueryKeyStore'
+import useQueryKeyStore from '../../../../utils/api/hooks/useQueryKeyStore'
 
 interface Props {
   user: IUser

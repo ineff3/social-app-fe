@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useRefreshToken } from '../features/authentication'
-import { instance } from '../utils/api/axios'
+import { instance } from '../utils/api/axiosInstances'
 import { useAppSelector } from '../redux/hooks'
 import { selectAccessToken } from '../redux/user/userSlice'
 

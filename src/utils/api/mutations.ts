@@ -1,5 +1,5 @@
 import { QueryKey, useMutation, useQueryClient } from '@tanstack/react-query'
-import { useApi } from './actions'
+import { useApiActions } from './hooks/useApiActions'
 import { AxiosRequestConfig } from 'axios'
 
 interface IMutationProps<T, S> {
@@ -62,7 +62,7 @@ export const usePost = <T, S, R = void>({
   updater,
   axiosOptions,
 }: IMutationProps<T, S>) => {
-  const { post } = useApi()
+  const { post } = useApiActions()
   return useOptimisticMutation(
     (data) => post<R>(path, data, axiosOptions),
     qKey,
@@ -76,7 +76,7 @@ export const useUpdate = <T, S, R = void>({
   updater,
   axiosOptions,
 }: IMutationProps<T, S>) => {
-  const { patch } = useApi()
+  const { patch } = useApiActions()
   return useOptimisticMutation(
     (data) => patch<R>(path, data, axiosOptions),
     qKey,
@@ -90,7 +90,7 @@ export const usePut = <T, S, R = void>({
   updater,
   axiosOptions = {},
 }: IMutationProps<T, S>) => {
-  const { put } = useApi()
+  const { put } = useApiActions()
   return useOptimisticMutation(
     (data) => put<R>(path, data, axiosOptions),
     qKey,
@@ -104,7 +104,7 @@ export const useDelete = <T, S, R = void>({
   updater,
   axiosOptions = {},
 }: IMutationProps<T, S>) => {
-  const { delete: del } = useApi()
+  const { delete: del } = useApiActions()
   return useOptimisticMutation(
     (id) => del<R>(`${path}/${id}`, axiosOptions),
     qKey,
@@ -123,7 +123,7 @@ export const useDeleteMultiple = <T, R = void>({
   updater,
   axiosOptions = {},
 }: IMutationProps<T, KeyValuePair>) => {
-  const { delete: del } = useApi()
+  const { delete: del } = useApiActions()
   return useOptimisticMutation(
     ({ key, value }) => {
       if (!Array.isArray(value)) {

@@ -1,6 +1,6 @@
 import StickyHeader from './StickyHeader'
 import { useQueryClient } from '@tanstack/react-query'
-import useQueryKeyStore from '../../../../utils/api/useQueryKeyStore'
+import useQueryKeyStore from '../../../../utils/api/hooks/useQueryKeyStore'
 import { IUserDetailResponse } from '../../../../utils/api/interfaces'
 import EditProfileForm from './EditProfileForm'
 import { useRef } from 'react'

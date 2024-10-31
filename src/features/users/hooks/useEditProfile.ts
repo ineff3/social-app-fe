@@ -1,5 +1,5 @@
 import { apiRoutes } from '../../../routes'
-import { usePut } from '../../../utils/api/queries'
+import { usePut } from '../../../utils/api/mutations'
 import { IUser } from '../../authentication/interfaces'
 
 const useEditProfile = () => {

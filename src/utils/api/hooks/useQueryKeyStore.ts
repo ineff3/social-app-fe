@@ -1,15 +1,15 @@
 import { createQueryKeyStore } from '@lukemorales/query-key-factory'
-import { useApi } from './actions'
-import { apiRoutes } from '../../routes'
-import { GetAllPostsParams, IUsernamesResponse } from './interfaces'
+import { useApiActions } from './useApiActions'
+import { GetAllPostsParams, IUsernamesResponse } from '../interfaces'
 import {
   SchemaGetAllPostsResponseDto,
   SchemaGetUserByUsernameResponseDto,
   SchemaUserPreviewResponseDto,
-} from '../../types/schema'
+} from '@/src/types/schema'
+import { apiRoutes } from '@/src/routes'
 
 const useQueryKeyStore = () => {
-  const { get } = useApi()
+  const { get } = useApiActions()
   const queries = createQueryKeyStore({
     posts: {
       all: ({ query, filters = {} }: GetAllPostsParams) => ({

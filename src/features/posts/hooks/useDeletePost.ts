@@ -1,7 +1,7 @@
 import { InfiniteData } from '@tanstack/react-query'
 import { apiRoutes } from '../../../routes'
-import { useDelete } from '../../../utils/api/queries'
-import useQueryKeyStore from '../../../utils/api/useQueryKeyStore'
+import { useDelete } from '../../../utils/api/mutations'
+import useQueryKeyStore from '../../../utils/api/hooks/useQueryKeyStore'
 import { SchemaGetAllPostsResponseDto } from '@/src/types/schema'
 
 const useDeletePost = () => {

@@ -1,6 +1,6 @@
 import { useQueryClient } from '@tanstack/react-query'
 import { apiRoutes } from '../../../routes'
-import axios from '../../../utils/api/axios'
+import axios from '../../../utils/api/axiosInstances'
 import { PERSIST_AUTH_KEY } from '../constants'
 import { useAppDispatch } from '@/src/redux/hooks'
 import { resetUserState } from '@/src/redux/user/userSlice'

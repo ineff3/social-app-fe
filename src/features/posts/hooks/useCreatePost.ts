@@ -1,7 +1,7 @@
 import { InfiniteData } from '@tanstack/react-query'
 import { apiRoutes } from '../../../routes'
-import { usePost } from '../../../utils/api/queries'
-import useQueryKeyStore from '../../../utils/api/useQueryKeyStore'
+import { usePost } from '../../../utils/api/mutations'
+import useQueryKeyStore from '../../../utils/api/hooks/useQueryKeyStore'
 import { IPost } from '../interfaces'
 import { SchemaGetAllPostsResponseDto } from '@/src/types/schema'
 

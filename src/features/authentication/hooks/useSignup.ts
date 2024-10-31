@@ -1,5 +1,5 @@
 import { apiRoutes } from '../../../routes'
-import { usePost } from '../../../utils/api/queries'
+import { usePost } from '../../../utils/api/mutations'
 import { ISignupData, IUser } from '../interfaces/'
 
 const useSignup = () => {
