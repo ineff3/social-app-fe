@@ -1,7 +1,7 @@
 import { useAppDispatch } from '@/src/redux/hooks'
 import { apiRoutes } from '../../../routes'
 import axios from '../../../utils/api/axios'
-import { setAccessToken } from '@/src/redux/userSlice'
+import { setAccessToken } from '@/src/redux/user/userSlice'
 import { SchemaAuthUserResponseDto } from '@/src/types/schema'
 
 const useRefreshToken = () => {

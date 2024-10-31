@@ -7,7 +7,7 @@ import BookmarkSection from './post-items/BookmarkSection'
 import PostOptions from './post-items/PostOptions'
 import { SchemaPostResponseDto } from '../../../types/schema'
 import { useAppSelector } from '@/src/redux/hooks'
-import { selectUserPreview } from '@/src/redux/userSlice'
+import { selectUserPreview } from '@/src/redux/user/userSlice'
 
 interface Props {
   post: SchemaPostResponseDto

@@ -3,7 +3,7 @@ import { apiRoutes } from '../../../routes'
 import axios from '../../../utils/api/axios'
 import { PERSIST_AUTH_KEY } from '../constants'
 import { useAppDispatch } from '@/src/redux/hooks'
-import { resetUserState } from '@/src/redux/userSlice'
+import { resetUserState } from '@/src/redux/user/userSlice'
 
 const useLogout = () => {
   const dispatch = useAppDispatch()

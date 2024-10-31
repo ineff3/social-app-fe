@@ -15,7 +15,7 @@ import { usePostContext } from '../contexts/PostContext'
 import ModalSaveDialog from './post-creation/ModalSaveDialog'
 import { useModal } from '../../../hooks/useModal'
 import { useAppSelector } from '@/src/redux/hooks'
-import { selectUserPreview } from '@/src/redux/userSlice'
+import { selectUserPreview } from '@/src/redux/user/userSlice'
 
 interface IProps {
   closeModal: () => void

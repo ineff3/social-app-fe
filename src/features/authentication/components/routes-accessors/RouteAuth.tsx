@@ -4,7 +4,7 @@ import useRefreshToken from '../../hooks/useRefreshToken'
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
 import { pageRoutes } from '../../../../routes'
 import { useAppSelector } from '@/src/redux/hooks'
-import { selectIsAuthenticated } from '@/src/redux/userSlice'
+import { selectIsAuthenticated } from '@/src/redux/user/userSlice'
 import { PERSIST_AUTH_KEY } from '../../constants'
 import { LoadingSpinner } from '@/src/components/ui/LoadingSpinner'
 

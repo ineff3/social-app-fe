@@ -9,7 +9,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { pageRoutes } from '../../routes'
 import UserIconLink from '../../components/ui/UserIconLink'
 import { useAppSelector } from '@/src/redux/hooks'
-import { selectUserPreview } from '@/src/redux/userSlice'
+import { selectUserPreview } from '@/src/redux/user/userSlice'
 
 const UserPreview = ({ closeMenu }: { closeMenu: () => void }) => {
   const user = useAppSelector(selectUserPreview)

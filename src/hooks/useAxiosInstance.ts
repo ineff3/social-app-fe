@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useRefreshToken } from '../features/authentication'
 import { instance } from '../utils/api/axios'
 import { useAppSelector } from '../redux/hooks'
-import { selectAccessToken } from '../redux/userSlice'
+import { selectAccessToken } from '../redux/user/userSlice'
 
 const useAxiosInstance = () => {
   const refresh = useRefreshToken()

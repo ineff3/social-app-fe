@@ -8,7 +8,7 @@ import { apiRoutes } from '../../../../routes'
 import { IDraft } from '../../interfaces'
 import useGetUserPosts from '../useGetUserPosts'
 import { useAppSelector } from '@/src/redux/hooks'
-import { selectUserPreview } from '@/src/redux/userSlice'
+import { selectUserPreview } from '@/src/redux/user/userSlice'
 
 export const useGetDrafts = () => {
   const user = useAppSelector(selectUserPreview)!

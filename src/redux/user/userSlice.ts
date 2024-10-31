@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { SchemaUserPreviewResponseDto } from '../types/schema'
-import { RootState } from './store'
+import { SchemaUserPreviewResponseDto } from '../../types/schema'
+import { RootState } from '../store'
 
 interface UserInitialState {
   preview?: SchemaUserPreviewResponseDto

@@ -3,18 +3,13 @@ import { apiRoutes } from '../../../routes'
 import { usePost } from '../../../utils/api/queries'
 import useQueryKeyStore from '../../../utils/api/useQueryKeyStore'
 import { IPost } from '../interfaces'
-import { IPostsResponse } from '../../../utils/api/interfaces'
-
-interface IPostCreateData {
-  text?: string
-  postImage?: string
-}
+import { SchemaGetAllPostsResponseDto } from '@/src/types/schema'
 
 const useCreatePost = () => {
   const queryKeyStore = useQueryKeyStore()
-  return usePost<InfiniteData<IPostsResponse>, FormData, IPost>({
+  return usePost<InfiniteData<SchemaGetAllPostsResponseDto>, FormData, IPost>({
     path: apiRoutes.posts,
-    qKey: queryKeyStore.posts.all.queryKey,
+    qKey: queryKeyStore.posts.all({}).queryKey,
     axiosOptions: {
       headers: {
         'Content-Type': 'multipart/form-data',

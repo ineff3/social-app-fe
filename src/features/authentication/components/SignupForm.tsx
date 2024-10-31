@@ -8,7 +8,7 @@ import { useLogin, useSignup } from '..'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { pageRoutes } from '../../../routes'
 import { useAppDispatch } from '@/src/redux/hooks'
-import { setAccessToken } from '@/src/redux/userSlice'
+import { setAccessToken } from '@/src/redux/user/userSlice'
 import { PERSIST_AUTH_KEY } from '../constants'
 
 const validationSchema = z

@@ -3,7 +3,7 @@ import GeneratedUsernames from './GeneratedUsernames'
 import UsernameInput from './UsernameInput'
 import useUpdateUsername from '../../../hooks/useUpdateUsername'
 import { useAppSelector } from '@/src/redux/hooks'
-import { selectUserPreview } from '@/src/redux/userSlice'
+import { selectUserPreview } from '@/src/redux/user/userSlice'
 
 interface Props {
   next: () => void
