@@ -1,23 +1,19 @@
-import { useAuthentication } from '..'
+import { useAppDispatch } from '@/src/redux/hooks'
 import { apiRoutes } from '../../../routes'
 import axios from '../../../utils/api/axios'
-
-interface IRefreshResponse {
-  accessToken: string
-}
+import { setAccessToken } from '@/src/redux/userSlice'
+import { SchemaAuthUserResponseDto } from '@/src/types/schema'
 
 const useRefreshToken = () => {
-  const { setAuthData } = useAuthentication()
+  const dispatch = useAppDispatch()
   const refresh = async () => {
     try {
       const response = await axios
-        .get<IRefreshResponse>(apiRoutes.refreshToken, {
+        .get<SchemaAuthUserResponseDto>(apiRoutes.refreshToken, {
           withCredentials: true,
         })
         .then((res) => res.data)
-      setAuthData({
-        accessToken: response.accessToken,
-      })
+      dispatch(setAccessToken(response.accessToken))
       return response.accessToken
     } catch (err) {
       console.error(err)

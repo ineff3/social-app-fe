@@ -1,16 +1,18 @@
 import { useEffect } from 'react'
-import { useAuthentication, useRefreshToken } from '../features/authentication'
+import { useRefreshToken } from '../features/authentication'
 import { instance } from '../utils/api/axios'
+import { useAppSelector } from '../redux/hooks'
+import { selectAccessToken } from '../redux/userSlice'
 
 const useAxiosInstance = () => {
   const refresh = useRefreshToken()
-  const { auth } = useAuthentication()
+  const accessToken = useAppSelector(selectAccessToken)
 
   useEffect(() => {
     const requestIntercept = instance.interceptors.request.use(
       (config) => {
         if (!config.headers['Authorization']) {
-          config.headers['Authorization'] = `Bearer ${auth?.accessToken}`
+          config.headers['Authorization'] = `Bearer ${accessToken}`
         }
         return config
       },
@@ -36,7 +38,7 @@ const useAxiosInstance = () => {
       instance.interceptors.request.eject(requestIntercept)
       instance.interceptors.response.eject(responseIntercept)
     }
-  }, [auth, refresh])
+  }, [accessToken, refresh])
 
   return instance
 }

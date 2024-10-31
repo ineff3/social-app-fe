@@ -2,19 +2,14 @@ import { useState } from 'react'
 import GeneratedUsernames from './GeneratedUsernames'
 import UsernameInput from './UsernameInput'
 import useUpdateUsername from '../../../hooks/useUpdateUsername'
-import { useQueryClient } from '@tanstack/react-query'
-import { IUserPreview } from '../../../interfaces'
-import useQueryKeyStore from '../../../../../utils/api/useQueryKeyStore'
+import { useAppSelector } from '@/src/redux/hooks'
+import { selectUserPreview } from '@/src/redux/userSlice'
 
 interface Props {
   next: () => void
 }
 const UsernameModule = ({ next }: Props) => {
-  const queryClient = useQueryClient()
-  const queryKeyStore = useQueryKeyStore()
-  const initialUsername = queryClient.getQueryData<IUserPreview>(
-    queryKeyStore.users.currentUserPreview.queryKey,
-  )?.username
+  const initialUsername = useAppSelector(selectUserPreview)?.username
   const [username, setUsername] = useState(initialUsername || 'username123')
   const [isReserved, setIsReserved] = useState(false)
   const [isValid, setIsValid] = useState(true)

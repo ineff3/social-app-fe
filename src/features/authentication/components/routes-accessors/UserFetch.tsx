@@ -1,38 +1,26 @@
-import { useEffect, useState } from 'react'
 import { Outlet } from 'react-router-dom'
-import usePrefetchUserData from '../../hooks/usePrefetchUserData'
+import { useAppDispatch } from '@/src/redux/hooks'
+import { useQuery } from '@tanstack/react-query'
+import useQueryKeyStore from '@/src/utils/api/useQueryKeyStore'
+import { setPreview } from '@/src/redux/userSlice'
+import { useEffect } from 'react'
+import { LoadingSpinner } from '@/src/components/ui/LoadingSpinner'
 
 const UserFetch = () => {
-  const [isLoading, setIsLoading] = useState(true)
-
-  const prefetchUserData = usePrefetchUserData()
+  const dispatch = useAppDispatch()
+  const queryKeyStore = useQueryKeyStore()
+  const { data, isLoading, isSuccess } = useQuery({
+    ...queryKeyStore.users.currentUserPreview,
+    staleTime: Infinity,
+  })
 
   useEffect(() => {
-    const prefetchUser = async () => {
-      try {
-        await prefetchUserData()
-      } catch (err) {
-        console.error(err)
-      } finally {
-        setIsLoading(false)
-      }
+    if (isSuccess) {
+      dispatch(setPreview(data))
     }
-    prefetchUser()
+  }, [isSuccess, dispatch, data])
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  return (
-    <>
-      {isLoading ? (
-        <div className=" flex h-screen w-screen items-center justify-center">
-          <p className="loading loading-spinner w-14"></p>
-        </div>
-      ) : (
-        <Outlet />
-      )}
-    </>
-  )
+  return <>{isLoading ? <LoadingSpinner /> : <Outlet />}</>
 }
 
 export default UserFetch

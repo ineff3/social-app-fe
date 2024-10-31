@@ -1,11 +1,8 @@
 import UserIconLink from '../../../components/ui/UserIconLink'
-import { useQueryClient } from '@tanstack/react-query'
-import { IUserPreview } from '../../authentication/interfaces'
 import { GifIcon, ScheduleIcon, StatsIcon } from '../../../components/ui/icons'
 import AttachPicture from './post-creation/AttachPicture'
 import AttachedPictures from './post-creation/AttachedPictures'
 import AttachEmoji from './post-creation/AttachEmoji'
-import useQueryKeyStore from '../../../utils/api/useQueryKeyStore'
 import CloseBtn from '../../../components/ui/CloseBtn'
 import ErrorAlert from '../../../components/ui/ErrorAlert'
 import { useLocation, useNavigate } from 'react-router-dom'
@@ -17,6 +14,8 @@ import {
 import { usePostContext } from '../contexts/PostContext'
 import ModalSaveDialog from './post-creation/ModalSaveDialog'
 import { useModal } from '../../../hooks/useModal'
+import { useAppSelector } from '@/src/redux/hooks'
+import { selectUserPreview } from '@/src/redux/userSlice'
 
 interface IProps {
   closeModal: () => void
@@ -38,11 +37,7 @@ const CreatePostForm = ({ closeModal }: IProps) => {
   } = usePostContext()!
 
   const location = useLocation()
-  const queryClient = useQueryClient()
-  const queryKeyStore = useQueryKeyStore()
-  const user: IUserPreview | undefined = queryClient.getQueryData(
-    queryKeyStore.users.currentUserPreview.queryKey,
-  )
+  const user = useAppSelector(selectUserPreview)
   const { visible, show } = useModal()
   const navigate = useNavigate()
   const navigateToDrafts = () => {
@@ -83,7 +78,7 @@ const CreatePostForm = ({ closeModal }: IProps) => {
 
         <div className="flex flex-1 gap-2 px-1.5">
           <UserIconLink
-            userImageUrl={user?.userImageUrl}
+            userImageUrl={user?.avatarUrl}
             username={user?.username}
           />
           <div className=" flex w-full flex-col gap-5">

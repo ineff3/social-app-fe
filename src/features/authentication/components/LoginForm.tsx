@@ -3,9 +3,12 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import Input from '../../../components/form/Input'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { useAuthentication, useLogin } from '..'
+import { useLogin } from '..'
 import { pageRoutes } from '../../../routes'
 import { AxiosError } from 'axios'
+import { useAppDispatch } from '@/src/redux/hooks'
+import { setAccessToken } from '@/src/redux/userSlice'
+import { PERSIST_AUTH_KEY } from '../constants'
 
 const validationSchema = z.object({
   email: z
@@ -27,6 +30,7 @@ interface Props {
 }
 
 const LoginForm = ({ setErrorMessage }: Props) => {
+  const dispatch = useAppDispatch()
   const {
     register,
     handleSubmit,
@@ -42,7 +46,6 @@ const LoginForm = ({ setErrorMessage }: Props) => {
   const navigate = useNavigate()
   const location = useLocation()
   const from = location.state?.from?.pathname || pageRoutes.home
-  const { setAuthData } = useAuthentication()
 
   const onSubmit: SubmitHandler<formType> = (data) => {
     loginMutation.mutate(data, {
@@ -57,12 +60,10 @@ const LoginForm = ({ setErrorMessage }: Props) => {
       },
       onSuccess(result) {
         if (data.persist) {
-          localStorage.setItem('persist', 'persist')
+          localStorage.setItem(PERSIST_AUTH_KEY, 'persist')
         }
+        dispatch(setAccessToken(result.accessToken))
         navigate(from, { replace: true })
-        setAuthData({
-          accessToken: result.accessToken,
-        })
       },
     })
   }

@@ -5,9 +5,12 @@ import { RootState } from './store'
 interface UserInitialState {
   preview?: SchemaUserPreviewResponseDto
   accessToken?: string
+  isAuthenticated: boolean
 }
 
-const userInitialState: UserInitialState = {}
+const userInitialState: UserInitialState = {
+  isAuthenticated: false,
+}
 
 export const userSlice = createSlice({
   name: 'user',
@@ -21,16 +24,19 @@ export const userSlice = createSlice({
     },
     setAccessToken: (state, action: PayloadAction<string>) => {
       state.accessToken = action.payload
+      state.isAuthenticated = true
     },
-    resetState: (state) => {
-      return state
+    resetUserState: () => {
+      return userInitialState
     },
   },
 })
 
-export const { setPreview, setAccessToken, resetState } = userSlice.actions
+export const { setPreview, setAccessToken, resetUserState } = userSlice.actions
 
 export const selectAccessToken = (state: RootState) => state.user.accessToken
 export const selectUserPreview = (state: RootState) => state.user.preview
+export const selectIsAuthenticated = (state: RootState) =>
+  state.user.isAuthenticated
 
 export default userSlice.reducer

@@ -2,14 +2,18 @@
 import { useEffect, useState } from 'react'
 import useRefreshToken from '../../hooks/useRefreshToken'
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
-import { useAuthentication } from '../..'
 import { pageRoutes } from '../../../../routes'
+import { useAppSelector } from '@/src/redux/hooks'
+import { selectIsAuthenticated } from '@/src/redux/userSlice'
+import { PERSIST_AUTH_KEY } from '../../constants'
+import { LoadingSpinner } from '@/src/components/ui/LoadingSpinner'
 
 const PersistLogin = ({ required = false }: { required?: boolean }) => {
   const [isLoading, setIsLoading] = useState(true)
+  const isAuthenticated = useAppSelector(selectIsAuthenticated)
   const refresh = useRefreshToken()
-  const { auth, persist } = useAuthentication()
   const location = useLocation()
+  const isPersistAuth = localStorage.getItem(PERSIST_AUTH_KEY)
 
   useEffect(() => {
     const verifyRefreshToken = async () => {
@@ -21,22 +25,17 @@ const PersistLogin = ({ required = false }: { required?: boolean }) => {
         setIsLoading(false)
       }
     }
-    !auth?.accessToken && persist ? verifyRefreshToken() : setIsLoading(false)
+    !isAuthenticated && isPersistAuth
+      ? verifyRefreshToken()
+      : setIsLoading(false)
   }, [])
-
-  // useEffect(() => {
-  //     console.log(`isLoading: ${isLoading}`)
-  //     console.log(`aT: ${JSON.stringify(auth)}`)
-  // }, [isLoading])
 
   if (required) {
     return (
       <>
         {isLoading ? (
-          <div className=" flex h-screen w-screen items-center justify-center">
-            <p className="loading loading-spinner w-14"></p>
-          </div>
-        ) : auth?.accessToken ? (
+          <LoadingSpinner />
+        ) : isAuthenticated ? (
           <Outlet />
         ) : (
           <Navigate to={pageRoutes.auth} replace state={{ from: location }} />
@@ -48,10 +47,8 @@ const PersistLogin = ({ required = false }: { required?: boolean }) => {
   return (
     <>
       {isLoading ? (
-        <div className=" flex h-screen w-screen items-center justify-center">
-          <p className="loading loading-spinner w-14"></p>
-        </div>
-      ) : auth?.accessToken ? (
+        <LoadingSpinner />
+      ) : isAuthenticated ? (
         <Navigate to={pageRoutes.home} />
       ) : (
         <Outlet />

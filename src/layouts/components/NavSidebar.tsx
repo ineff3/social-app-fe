@@ -16,7 +16,7 @@ const NavSidebar = ({
   return (
     <>
       <div
-        className={` fixed h-full w-[270px] transform border-r border-accent bg-base-100 sm:w-[75px] lg:w-[270px] ${menuOpen ? 'animate-slide-in-left' : 'animate-slide-out-left'}`}
+        className={` fixed h-full w-[270px] transform border-r border-accent bg-base-100 sm:w-[75px] lg:w-[270px] ${menuOpen ? 'animate-slide-in-left sm:animate-none' : 'animate-slide-out-left'}`}
       >
         <div className=" flex h-full flex-col pb-6 pt-3 ">
           <div className=" flex flex-1 flex-col">

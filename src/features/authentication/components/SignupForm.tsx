@@ -4,9 +4,12 @@ import { z } from 'zod'
 import Input from '../../../components/form/Input'
 import { requiredStringFieldSchema } from '../../../utils/schemeTransformations'
 import { AxiosError } from 'axios'
-import { useAuthentication, useLogin, useSignup } from '..'
+import { useLogin, useSignup } from '..'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { pageRoutes } from '../../../routes'
+import { useAppDispatch } from '@/src/redux/hooks'
+import { setAccessToken } from '@/src/redux/userSlice'
+import { PERSIST_AUTH_KEY } from '../constants'
 
 const validationSchema = z
   .object({
@@ -35,6 +38,7 @@ interface Props {
   setErrorMessage: (value: string) => void
 }
 const SignupForm = ({ setErrorMessage }: Props) => {
+  const dispatch = useAppDispatch()
   const {
     register,
     handleSubmit,
@@ -49,7 +53,6 @@ const SignupForm = ({ setErrorMessage }: Props) => {
 
   const signupMutation = useSignup()
   const loginMutation = useLogin()
-  const { setAuthData } = useAuthentication()
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -76,10 +79,8 @@ const SignupForm = ({ setErrorMessage }: Props) => {
               console.error(err)
             },
             onSuccess(result) {
-              localStorage.setItem('persist', 'persist')
-              setAuthData({
-                accessToken: result.accessToken,
-              })
+              localStorage.setItem(PERSIST_AUTH_KEY, 'persist')
+              dispatch(setAccessToken(result.accessToken))
               navigate(pageRoutes.signupFlow, {
                 state: { from: location },
                 replace: true,

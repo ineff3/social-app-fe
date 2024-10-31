@@ -1,23 +1,21 @@
 import { useQueryClient } from '@tanstack/react-query'
-import { useAuthentication } from '..'
 import { apiRoutes } from '../../../routes'
 import axios from '../../../utils/api/axios'
+import { PERSIST_AUTH_KEY } from '../constants'
+import { useAppDispatch } from '@/src/redux/hooks'
+import { resetUserState } from '@/src/redux/userSlice'
 
 const useLogout = () => {
-  const { setAuthData } = useAuthentication()
+  const dispatch = useAppDispatch()
   const queryClient = useQueryClient()
   const logout = async () => {
+    dispatch(resetUserState())
+    localStorage.removeItem(PERSIST_AUTH_KEY)
     try {
-      // queryClient.removeQueries({
-      //     queryKey: [apiRoutes.getAuthorizedUser],
-      //     exact: true,
-      // })
-      queryClient.invalidateQueries()
-      localStorage.removeItem('persist')
-      setAuthData({})
-      const response = await axios.get(apiRoutes.logout, {
+      await axios.get(apiRoutes.logout, {
         withCredentials: true,
       })
+      await queryClient.invalidateQueries()
     } catch (err) {
       console.log(err)
     }

@@ -5,21 +5,16 @@ import RepostIconSvg from '../../../components/ui/icons/RepostIconSvg'
 import CommentIconSvg from '../../../components/ui/icons/CommentIconSvg'
 import BookmarkSection from './post-items/BookmarkSection'
 import PostOptions from './post-items/PostOptions'
-import { useQueryClient } from '@tanstack/react-query'
-import useQueryKeyStore from '../../../utils/api/useQueryKeyStore'
-import { IUserPreview } from '../../authentication/interfaces'
 import { SchemaPostResponseDto } from '../../../types/schema'
+import { useAppSelector } from '@/src/redux/hooks'
+import { selectUserPreview } from '@/src/redux/userSlice'
 
 interface Props {
   post: SchemaPostResponseDto
 }
 
 const Post = ({ post }: Props) => {
-  const queryClient = useQueryClient()
-  const queryKeyStore = useQueryKeyStore()
-  const userPreviewData: IUserPreview | undefined = queryClient.getQueryData(
-    queryKeyStore.users.currentUserPreview.queryKey,
-  )
+  const userPreviewData = useAppSelector(selectUserPreview)
   const isPostAuthor = userPreviewData?.id === post.author.id
   const createdDate = new Date(post.createdAt)
   return (

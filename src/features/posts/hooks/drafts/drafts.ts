@@ -6,16 +6,12 @@ import {
 } from '../../../../utils/api/queries'
 import { apiRoutes } from '../../../../routes'
 import { IDraft } from '../../interfaces'
-import { IUserPreview } from '@/src/features/authentication/interfaces'
-import { useQueryClient } from '@tanstack/react-query'
 import useGetUserPosts from '../useGetUserPosts'
+import { useAppSelector } from '@/src/redux/hooks'
+import { selectUserPreview } from '@/src/redux/userSlice'
 
 export const useGetDrafts = () => {
-  const queryClient = useQueryClient()
-  const queryKeyStore = useQueryKeyStore()
-  const user = queryClient.getQueryData(
-    queryKeyStore.users.currentUserPreview.queryKey,
-  ) as IUserPreview
+  const user = useAppSelector(selectUserPreview)!
   return useGetUserPosts({
     query: { limit: 20 },
     userId: user.id,
@@ -24,11 +20,8 @@ export const useGetDrafts = () => {
 }
 
 export const useCreateDraft = () => {
-  const queryClient = useQueryClient()
   const queryKeyStore = useQueryKeyStore()
-  const user = queryClient.getQueryData(
-    queryKeyStore.users.currentUserPreview.queryKey,
-  ) as IUserPreview
+  const user = useAppSelector(selectUserPreview)!
   return usePost({
     path: apiRoutes.drafts,
     qKey: queryKeyStore.posts.all({})._ctx.user(user.id, true).queryKey,
@@ -41,11 +34,8 @@ export const useCreateDraft = () => {
 }
 
 export const useDeleteDraft = () => {
-  const queryClient = useQueryClient()
   const queryKeyStore = useQueryKeyStore()
-  const user = queryClient.getQueryData(
-    queryKeyStore.users.currentUserPreview.queryKey,
-  ) as IUserPreview
+  const user = useAppSelector(selectUserPreview)!
   return useDelete<IDraft[], string>({
     path: apiRoutes.drafts,
     qKey: queryKeyStore.posts.all({})._ctx.user(user.id, true).queryKey,
@@ -56,11 +46,8 @@ export const useDeleteDraft = () => {
 }
 
 export const useDeleteMultipleDrafts = () => {
-  const queryClient = useQueryClient()
   const queryKeyStore = useQueryKeyStore()
-  const user = queryClient.getQueryData(
-    queryKeyStore.users.currentUserPreview.queryKey,
-  ) as IUserPreview
+  const user = useAppSelector(selectUserPreview)!
   return useDeleteMultiple<IDraft[]>({
     path: apiRoutes.drafts,
     qKey: queryKeyStore.posts.all({})._ctx.user(user.id, true).queryKey,
