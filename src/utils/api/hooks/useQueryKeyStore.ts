@@ -5,6 +5,7 @@ import {
   SchemaAuthUserResponseDto,
   SchemaGetAllPostsResponseDto,
   SchemaGetUserByUsernameResponseDto,
+  SchemaUsernameReservedResponseDto,
   SchemaUserPreviewResponseDto,
 } from '@/src/types/schema'
 import { apiRoutes } from '@/src/routes'
@@ -49,6 +50,14 @@ const useQueryKeyStore = () => {
         queryFn: () =>
           get<SchemaGetUserByUsernameResponseDto>(
             `${apiRoutes.users}/${username}`,
+          ),
+      }),
+      isUsernameReserved: (username: string) => ({
+        queryKey: [username],
+        queryFn: () =>
+          get<SchemaUsernameReservedResponseDto>(
+            apiRoutes.checkUsernameIsReserved,
+            { username },
           ),
       }),
       usernames: {

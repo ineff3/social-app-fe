@@ -132,6 +132,38 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/user": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["UserController_updateUser"];
+        trace?: never;
+    };
+    "/user/username": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["UserController_updateUsername"];
+        trace?: never;
+    };
     "/posts": {
         parameters: {
             query?: never;
@@ -282,6 +314,21 @@ export interface components {
             isCurrentUser: boolean;
             user: components["schemas"]["UserResponseDto"];
         };
+        UpdateUserDto: {
+            /** @example Ryan */
+            firstName?: string;
+            /** @example Gosling */
+            secondName?: string;
+            bio?: string;
+            location?: string;
+            link?: string;
+            profileImage?: string;
+            backgroundImage?: string;
+            bornDate?: string;
+        };
+        UpdateUsernameDto: {
+            username: string;
+        };
         GetPostsQueryDto: {
             /** @default 1 */
             page?: number;
@@ -307,6 +354,8 @@ export interface components {
             order?: "desc" | "asc";
         };
         CreatePostDto: {
+            /** @default false */
+            isDraft?: boolean;
             text: string;
         };
         PostResponseDto: {
@@ -341,6 +390,8 @@ export type SchemaUserPreviewResponseDto = components['schemas']['UserPreviewRes
 export type SchemaUsernameReservedResponseDto = components['schemas']['UsernameReservedResponseDto'];
 export type SchemaUserResponseDto = components['schemas']['UserResponseDto'];
 export type SchemaGetUserByUsernameResponseDto = components['schemas']['GetUserByUsernameResponseDto'];
+export type SchemaUpdateUserDto = components['schemas']['UpdateUserDto'];
+export type SchemaUpdateUsernameDto = components['schemas']['UpdateUsernameDto'];
 export type SchemaGetPostsQueryDto = components['schemas']['GetPostsQueryDto'];
 export type SchemaPaginatedQueryDto = components['schemas']['PaginatedQueryDto'];
 export type SchemaCreatePostDto = components['schemas']['CreatePostDto'];
@@ -510,6 +561,48 @@ export interface operations {
             };
         };
     };
+    UserController_updateUser: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateUserDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    UserController_updateUsername: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateUsernameDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     PostController_findAll: {
         parameters: {
             query?: {
@@ -619,6 +712,7 @@ export interface operations {
                 page?: number;
                 limit?: number;
                 order?: "desc" | "asc";
+                isDraft?: boolean;
             };
             header?: never;
             path: {

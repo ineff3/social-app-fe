@@ -1,68 +1,56 @@
 import { useEffect, useState } from 'react'
-import useCheckUsername from '../../../hooks/useCheckUsername'
+import { useAppDispatch, useAppSelector } from '@/src/redux/hooks'
+import {
+  setSignupLoading,
+  setSignupUsername,
+} from '@/src/redux/signup/signupSlice'
+import { isUsernameValid } from './common/isUsernameValid'
+import { selectUserPreview } from '@/src/redux/user/userSlice'
 
 interface Props {
-  username: string
-  initialUsername: string
-  setUsername: (value: string) => void
-  isReserved: boolean
-  setIsReserved: (value: boolean) => void
-  isValid: boolean
-  setIsValid: (value: boolean) => void
+  isReserved?: boolean
   isLoading: boolean
-  setIsLoading: (value: boolean) => void
 }
 
-const UsernameInput = ({
-  username,
-  initialUsername,
-  setUsername,
-  isReserved,
-  setIsReserved,
-  isValid,
-  setIsValid,
-  isLoading,
-  setIsLoading,
-}: Props) => {
-  const [debounced, setDebounced] = useState('')
+const UsernameInput = ({ isReserved, isLoading }: Props) => {
+  const dispatch = useAppDispatch()
+  const initialUsername = useAppSelector(selectUserPreview)!.username
+  const [usernameInputValue, setUsernameInputValue] = useState(initialUsername)
+  const [debouncedUsername, setDebouncedUsername] = useState(initialUsername)
+  const [isDebounceLoading, setIsDebounceLoading] = useState(false)
 
-  const checkUsernameMutation = useCheckUsername()
+  useEffect(
+    function debounceUsername() {
+      setIsDebounceLoading(true)
+      const timeout = setTimeout(() => {
+        setDebouncedUsername(usernameInputValue)
+      }, 1500)
 
-  useEffect(() => {
-    if (username.length <= 4) {
-      setIsValid(false)
-    } else {
-      setIsValid(true)
-      if (username != initialUsername) {
-        setIsLoading(true)
-        const timeout = setTimeout(() => {
-          setDebounced(username)
-        }, 1500)
-
-        return () => {
-          clearTimeout(timeout)
-        }
+      return () => {
+        clearTimeout(timeout)
+        setIsDebounceLoading(false)
       }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [username])
+    },
+    [usernameInputValue],
+  )
 
-  useEffect(() => {
-    if (username && username != initialUsername) {
-      checkUsernameMutation.mutate(
-        { username: debounced },
-        {
-          onSuccess(response) {
-            setIsReserved(response.isReserved)
-          },
-          onSettled() {
-            setIsLoading(false)
-          },
-        },
-      )
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debounced])
+  useEffect(
+    function syncDebouncedUsername() {
+      if (initialUsername !== debouncedUsername) {
+        dispatch(setSignupUsername(debouncedUsername))
+      }
+    },
+    [debouncedUsername, dispatch, initialUsername],
+  )
+
+  useEffect(
+    function syncDebouncedLoading() {
+      dispatch(setSignupLoading(isDebounceLoading))
+    },
+    [isDebounceLoading, dispatch],
+  )
+
+  const isValid = isUsernameValid(debouncedUsername)
 
   return (
     <label className="form-control w-full">
@@ -73,11 +61,11 @@ const UsernameInput = ({
         <span className=" text-primary">@</span>
         <input
           type="text"
-          value={username}
-          onChange={(e) => setUsername(e.currentTarget.value)}
+          value={usernameInputValue}
+          onChange={(e) => setUsernameInputValue(e.target.value)}
           className=" flex flex-1"
         />
-        {isLoading ? (
+        {isLoading || isDebounceLoading ? (
           <span className="loading loading-spinner loading-md"></span>
         ) : isReserved ? (
           <svg

@@ -7,7 +7,7 @@ export const apiRoutes = {
   signUp: 'auth/register',
   currentUserPreview: 'user/preview',
   getUsernamesArray: 'users/usernames',
-  checkUsername: 'user/username-reserved',
+  checkUsernameIsReserved: 'user/username-reserved',
   //posts
   posts: 'posts',
   likePost: (postId: string) => `posts/${postId}/like`,
