@@ -3,7 +3,7 @@ import useCheckUsername from '../../../hooks/useCheckUsername'
 
 interface Props {
   username: string
-  initialUsername: string | undefined
+  initialUsername: string
   setUsername: (value: string) => void
   isReserved: boolean
   setIsReserved: (value: boolean) => void

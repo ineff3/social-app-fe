@@ -1,34 +1,32 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState } from 'react'
-import useRefreshToken from '../../hooks/useRefreshToken'
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
-import { pageRoutes } from '../../../../routes'
-import { useAppSelector } from '@/src/redux/hooks'
-import { selectIsAuthenticated } from '@/src/redux/user/userSlice'
+import { useAppDispatch, useAppSelector } from '@/src/redux/hooks'
+import {
+  selectIsAuthenticated,
+  setAccessToken,
+} from '@/src/redux/user/userSlice'
 import { PERSIST_AUTH_KEY } from '../../constants'
 import { LoadingSpinner } from '@/src/components/ui/LoadingSpinner'
+import { useQuery } from '@tanstack/react-query'
+import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
+import { useEffect } from 'react'
+import { pageRoutes } from '@/src/routes'
 
-const PersistLogin = ({ required = false }: { required?: boolean }) => {
-  const [isLoading, setIsLoading] = useState(true)
-  const isAuthenticated = useAppSelector(selectIsAuthenticated)
-  const refresh = useRefreshToken()
+export const RouteAuth = ({ required = false }: { required?: boolean }) => {
   const location = useLocation()
+  const dispatch = useAppDispatch()
+  const queryKeyStore = useQueryKeyStore()
+  const isAuthenticated = useAppSelector(selectIsAuthenticated)
   const isPersistAuth = localStorage.getItem(PERSIST_AUTH_KEY)
+  const { data, isLoading, isSuccess } = useQuery({
+    ...queryKeyStore.auth.refreshToken,
+    enabled: !isAuthenticated && !!isPersistAuth,
+  })
 
   useEffect(() => {
-    const verifyRefreshToken = async () => {
-      try {
-        await refresh()
-      } catch (err) {
-        console.error(err)
-      } finally {
-        setIsLoading(false)
-      }
+    if (isSuccess) {
+      dispatch(setAccessToken(data.accessToken))
     }
-    !isAuthenticated && isPersistAuth
-      ? verifyRefreshToken()
-      : setIsLoading(false)
-  }, [])
+  }, [isSuccess, dispatch, data])
 
   if (required) {
     return (
@@ -56,5 +54,3 @@ const PersistLogin = ({ required = false }: { required?: boolean }) => {
     </>
   )
 }
-
-export default PersistLogin

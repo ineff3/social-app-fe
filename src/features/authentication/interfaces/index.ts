@@ -32,7 +32,3 @@ export interface IUserPreview {
   userImageUrl: string
   userImage: string
 }
-
-export interface ILoginResponse {
-  accessToken: string
-}

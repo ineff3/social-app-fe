@@ -1,38 +1,14 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { z } from 'zod'
-import Input from '../../../components/form/Input'
-import { requiredStringFieldSchema } from '../../../utils/schemas/schemeTransformations'
 import { AxiosError } from 'axios'
-import { useLogin, useSignup } from '..'
+import { useSignup } from '..'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { pageRoutes } from '../../../routes'
 import { useAppDispatch } from '@/src/redux/hooks'
 import { setAccessToken } from '@/src/redux/user/userSlice'
 import { PERSIST_AUTH_KEY } from '../constants'
-
-const validationSchema = z
-  .object({
-    firstName: requiredStringFieldSchema('First name', 3),
-    secondName: requiredStringFieldSchema('Second name', 3),
-    email: z
-      .string()
-      .min(1, 'Email is a required filed')
-      .regex(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/, 'Email address is not valid')
-      .trim(),
-    password: requiredStringFieldSchema('Password', 6),
-    confirmPassword: requiredStringFieldSchema('Confirm password', 6),
-  })
-  .refine(
-    (data) => {
-      return data.password === data.confirmPassword
-    },
-    {
-      message: 'Passwords do not match',
-      path: ['confirmPassword'],
-    },
-  )
-type formType = z.infer<typeof validationSchema>
+import { SignupFormType, signupValidationSchema } from '../schemas'
+import { pageRoutes } from '@/src/routes'
+import Input from '@/src/components/form/Input'
 
 interface Props {
   setErrorMessage: (value: string) => void
@@ -43,8 +19,8 @@ const SignupForm = ({ setErrorMessage }: Props) => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<formType>({
-    resolver: zodResolver(validationSchema),
+  } = useForm<SignupFormType>({
+    resolver: zodResolver(signupValidationSchema),
     defaultValues: {
       email: '',
       password: '',
@@ -52,11 +28,10 @@ const SignupForm = ({ setErrorMessage }: Props) => {
   })
 
   const signupMutation = useSignup()
-  const loginMutation = useLogin()
   const navigate = useNavigate()
   const location = useLocation()
 
-  const onSubmit: SubmitHandler<formType> = (data) => {
+  const onSubmit: SubmitHandler<SignupFormType> = (data) => {
     signupMutation.mutate(data, {
       onError: (err) => {
         if (err instanceof AxiosError) {
@@ -71,26 +46,17 @@ const SignupForm = ({ setErrorMessage }: Props) => {
           setErrorMessage('Something went wrong. Please try again!')
         }
       },
-      onSuccess: () => {
-        loginMutation.mutate(
-          { email: data.email, password: data.password },
-          {
-            onError(err) {
-              console.error(err)
-            },
-            onSuccess(result) {
-              localStorage.setItem(PERSIST_AUTH_KEY, 'persist')
-              dispatch(setAccessToken(result.accessToken))
-              navigate(pageRoutes.signupFlow, {
-                state: { from: location },
-                replace: true,
-              })
-            },
-          },
-        )
+      onSuccess: (response) => {
+        localStorage.setItem(PERSIST_AUTH_KEY, 'persist')
+        dispatch(setAccessToken(response.accessToken))
+        navigate(pageRoutes.signupFlow, {
+          state: { from: location },
+          replace: true,
+        })
       },
     })
   }
+
   return (
     <form
       className=" flex w-full flex-col gap-2"
@@ -132,9 +98,9 @@ const SignupForm = ({ setErrorMessage }: Props) => {
       />
       <button
         type="submit"
-        className={`btn btn-primary mt-5 w-fit  self-center px-10 ${signupMutation.isPending && loginMutation.isPending ? 'btn-disabled' : ''}`}
+        className={`btn btn-primary mt-5 w-fit  self-center px-10 ${signupMutation.isPending && signupMutation.isPending ? 'btn-disabled' : ''}`}
       >
-        {signupMutation.isPending && loginMutation.isPending && (
+        {signupMutation.isPending && signupMutation.isPending && (
           <span className="loading loading-spinner"></span>
         )}
         Sign Up

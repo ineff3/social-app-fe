@@ -9,8 +9,8 @@ interface Props {
   next: () => void
 }
 const UsernameModule = ({ next }: Props) => {
-  const initialUsername = useAppSelector(selectUserPreview)?.username
-  const [username, setUsername] = useState(initialUsername || 'username123')
+  const initialUsername = useAppSelector(selectUserPreview)!.username
+  const [username, setUsername] = useState(initialUsername)
   const [isReserved, setIsReserved] = useState(false)
   const [isValid, setIsValid] = useState(true)
   const [isLoading, setIsLoading] = useState(false)

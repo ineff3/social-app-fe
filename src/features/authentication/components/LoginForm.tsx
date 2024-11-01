@@ -1,6 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { z } from 'zod'
 import Input from '../../../components/form/Input'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useLogin } from '..'
@@ -9,21 +8,7 @@ import { AxiosError } from 'axios'
 import { useAppDispatch } from '@/src/redux/hooks'
 import { setAccessToken } from '@/src/redux/user/userSlice'
 import { PERSIST_AUTH_KEY } from '../constants'
-
-const validationSchema = z.object({
-  email: z
-    .string()
-    .min(1, 'Email is a required filed')
-    .regex(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/, 'Email address is not valid')
-    .trim(),
-  password: z
-    .string()
-    .min(1, 'Password is a required field')
-    .min(6, 'Password must be at least 6 characters')
-    .trim(),
-  persist: z.boolean().optional(),
-})
-type formType = z.infer<typeof validationSchema>
+import { LoginFormType, loginValidationSchema } from '../schemas'
 
 interface Props {
   setErrorMessage: (value: string) => void
@@ -35,8 +20,8 @@ const LoginForm = ({ setErrorMessage }: Props) => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<formType>({
-    resolver: zodResolver(validationSchema),
+  } = useForm<LoginFormType>({
+    resolver: zodResolver(loginValidationSchema),
     defaultValues: {
       email: '',
       password: '',
@@ -47,7 +32,7 @@ const LoginForm = ({ setErrorMessage }: Props) => {
   const location = useLocation()
   const from = location.state?.from?.pathname || pageRoutes.home
 
-  const onSubmit: SubmitHandler<formType> = (data) => {
+  const onSubmit: SubmitHandler<LoginFormType> = (data) => {
     loginMutation.mutate(data, {
       onError: (err) => {
         if (err instanceof AxiosError) {
@@ -67,6 +52,7 @@ const LoginForm = ({ setErrorMessage }: Props) => {
       },
     })
   }
+
   return (
     <div className=" flex flex-col gap-8">
       <p>Login to Twitter.</p>

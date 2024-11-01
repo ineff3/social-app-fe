@@ -4,13 +4,15 @@ import { useState } from 'react'
 
 const Login = () => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
+
   return (
     <div className=" mx-auto flex w-full max-w-screen-lg flex-auto flex-col-reverse items-center justify-between font-montserrat md:flex-row md:items-stretch">
       <div className=" flex w-full max-w-xl flex-1 flex-shrink flex-col items-center pb-5 pt-10 text-secondary md:items-baseline md:border-r md:border-accent md:pl-7">
         <div className=" flex flex-col items-center md:items-stretch">
           <div className=" text-center md:text-start">
             <p className="  mb-5 max-w-md text-2xl font-bold sm:text-3xl ">
-              <span className=" text-primary">See what`s happening</span> <br />
+              <span className=" text-primary">See what&apos;s happening</span>{' '}
+              <br />
               around you right now
             </p>
             <p className=" text-md mb-5 ">
@@ -49,7 +51,7 @@ const Login = () => {
           </p>
         </div>
         <p className=" text-2xl font-bold text-secondary sm:text-3xl">
-          Find out what's trending.
+          Find out what&apos;s trending.
         </p>
         <div>
           <LoginForm setErrorMessage={setErrorMessage} />
