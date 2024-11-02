@@ -6,6 +6,7 @@ export const apiRoutes = {
   logout: 'auth/logout',
   signUp: 'auth/register',
   currentUserPreview: 'user/preview',
+  updateUsername: 'user/username',
   getUsernamesArray: 'users/usernames',
   checkUsernameIsReserved: 'user/username-reserved',
   //posts

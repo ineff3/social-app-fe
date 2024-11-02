@@ -9,7 +9,7 @@ import { useUpdate } from '@/src/utils/api/mutations'
 const useUpdateUsername = () => {
   const queryKeyStore = useQueryKeyStore()
   return useUpdate<SchemaUserPreviewResponseDto, SchemaUpdateUsernameDto>({
-    path: apiRoutes.users,
+    path: apiRoutes.updateUsername,
     qKey: queryKeyStore.users.currentUserPreview.queryKey,
     updater: (oldData, newData) => ({
       ...oldData,

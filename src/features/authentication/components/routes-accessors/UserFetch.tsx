@@ -16,6 +16,7 @@ const UserFetch = () => {
 
   useEffect(() => {
     if (isSuccess) {
+      console.log('yea', data)
       dispatch(setPreview(data))
     }
   }, [isSuccess, dispatch, data])

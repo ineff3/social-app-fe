@@ -8,32 +8,54 @@ import { PERSIST_AUTH_KEY } from '../../constants'
 import { LoadingSpinner } from '@/src/components/ui/LoadingSpinner'
 import { useQuery } from '@tanstack/react-query'
 import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { pageRoutes } from '@/src/routes'
 
 export const RouteAuth = ({ required = false }: { required?: boolean }) => {
+  const [isAuthLoading, setIsAuthLoading] = useState(true)
   const location = useLocation()
   const dispatch = useAppDispatch()
-  const queryKeyStore = useQueryKeyStore()
+
   const isAuthenticated = useAppSelector(selectIsAuthenticated)
-  const isPersistAuth = localStorage.getItem(PERSIST_AUTH_KEY)
-  const { data, isLoading, isSuccess } = useQuery({
+  const isPersistAuth = !!localStorage.getItem(PERSIST_AUTH_KEY)
+
+  const queryKeyStore = useQueryKeyStore()
+  const { data, isFetched, isPending, isFetching } = useQuery({
     ...queryKeyStore.auth.refreshToken,
-    enabled: !isAuthenticated && !!isPersistAuth,
+    enabled: !isAuthenticated && isPersistAuth,
   })
 
-  useEffect(() => {
-    if (isSuccess) {
-      dispatch(setAccessToken(data.accessToken))
-    }
-  }, [isSuccess, dispatch, data])
+  useEffect(
+    function syncAuthentication() {
+      if (data) {
+        dispatch(setAccessToken(data.accessToken))
+      }
+    },
+    [dispatch, data],
+  )
+
+  useEffect(
+    function syncLoading() {
+      const isRefetchDisabled = isPending && !isFetching
+      if (isAuthenticated) {
+        setIsAuthLoading(false)
+      } else {
+        if (isFetched || isRefetchDisabled) {
+          setIsAuthLoading(false)
+        }
+      }
+    },
+    [isAuthenticated, isFetched, isPending, isFetching],
+  )
+
+  if (isAuthLoading) {
+    return <LoadingSpinner />
+  }
 
   if (required) {
     return (
       <>
-        {isLoading ? (
-          <LoadingSpinner />
-        ) : isAuthenticated ? (
+        {isAuthenticated ? (
           <Outlet />
         ) : (
           <Navigate to={pageRoutes.auth} replace state={{ from: location }} />
@@ -42,15 +64,5 @@ export const RouteAuth = ({ required = false }: { required?: boolean }) => {
     )
   }
 
-  return (
-    <>
-      {isLoading ? (
-        <LoadingSpinner />
-      ) : isAuthenticated ? (
-        <Navigate to={pageRoutes.home} />
-      ) : (
-        <Outlet />
-      )}
-    </>
-  )
+  return <>{isAuthenticated ? <Navigate to={pageRoutes.home} /> : <Outlet />}</>
 }

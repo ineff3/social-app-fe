@@ -1,56 +1,51 @@
-import { useEffect, useState } from 'react'
-import { useAppDispatch, useAppSelector } from '@/src/redux/hooks'
+import { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import { ErrorIconSvg } from '@/src/components/ui/icons/ErrorIconSvg'
 import {
-  setSignupLoading,
-  setSignupUsername,
-} from '@/src/redux/signup/signupSlice'
-import { isUsernameValid } from './common/isUsernameValid'
-import { selectUserPreview } from '@/src/redux/user/userSlice'
+  isUsernameValid,
+  USERNAME_MAX_LENGTH,
+  USERNAME_MIN_LENGTH,
+} from './common/isUsernameValid'
 
 interface Props {
   isReserved?: boolean
   isLoading: boolean
+  debouncedUsername: string
+  setDebouncedUsername: Dispatch<SetStateAction<string>>
+  isDebounceLoading: boolean
+  setIsDebounceLoading: Dispatch<SetStateAction<boolean>>
+  isValid: boolean
+  setIsValid: Dispatch<SetStateAction<boolean>>
 }
 
-const UsernameInput = ({ isReserved, isLoading }: Props) => {
-  const dispatch = useAppDispatch()
-  const initialUsername = useAppSelector(selectUserPreview)!.username
-  const [usernameInputValue, setUsernameInputValue] = useState(initialUsername)
-  const [debouncedUsername, setDebouncedUsername] = useState(initialUsername)
-  const [isDebounceLoading, setIsDebounceLoading] = useState(false)
+const UsernameInput = ({
+  isReserved,
+  isLoading,
+  debouncedUsername,
+  setDebouncedUsername,
+  isDebounceLoading,
+  setIsDebounceLoading,
+  isValid,
+  setIsValid,
+}: Props) => {
+  const [inputValue, setInputValue] = useState(debouncedUsername)
 
   useEffect(
     function debounceUsername() {
-      setIsDebounceLoading(true)
-      const timeout = setTimeout(() => {
-        setDebouncedUsername(usernameInputValue)
-      }, 1500)
+      if (isValid) {
+        setIsDebounceLoading(true)
+        const timeout = setTimeout(() => {
+          setDebouncedUsername(inputValue)
+          setIsDebounceLoading(false)
+        }, 1000)
 
-      return () => {
-        clearTimeout(timeout)
-        setIsDebounceLoading(false)
+        return () => {
+          clearTimeout(timeout)
+          setIsDebounceLoading(false)
+        }
       }
     },
-    [usernameInputValue],
+    [isValid, inputValue, setDebouncedUsername, setIsDebounceLoading],
   )
-
-  useEffect(
-    function syncDebouncedUsername() {
-      if (initialUsername !== debouncedUsername) {
-        dispatch(setSignupUsername(debouncedUsername))
-      }
-    },
-    [debouncedUsername, dispatch, initialUsername],
-  )
-
-  useEffect(
-    function syncDebouncedLoading() {
-      dispatch(setSignupLoading(isDebounceLoading))
-    },
-    [isDebounceLoading, dispatch],
-  )
-
-  const isValid = isUsernameValid(debouncedUsername)
 
   return (
     <label className="form-control w-full">
@@ -61,34 +56,18 @@ const UsernameInput = ({ isReserved, isLoading }: Props) => {
         <span className=" text-primary">@</span>
         <input
           type="text"
-          value={usernameInputValue}
-          onChange={(e) => setUsernameInputValue(e.target.value)}
+          value={inputValue}
+          onChange={(e) => {
+            const val = e.target.value
+            setInputValue(val)
+            setIsValid(isUsernameValid(val))
+          }}
           className=" flex flex-1"
         />
         {isLoading || isDebounceLoading ? (
           <span className="loading loading-spinner loading-md"></span>
-        ) : isReserved ? (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="3 3 16 16"
-            width="27"
-            height="27"
-          >
-            <circle
-              cx="11"
-              cy="-1041.36"
-              r="8"
-              transform="matrix(1 0 0-1 0-1030.36)"
-              opacity=".98"
-              fill="#da4453"
-            />
-            <path
-              d="m-26.309 18.07c-1.18 0-2.135.968-2.135 2.129v12.82c0 1.176.948 2.129 2.135 2.129 1.183 0 2.135-.968 2.135-2.129v-12.82c0-1.176-.946-2.129-2.135-2.129zm0 21.348c-1.18 0-2.135.954-2.135 2.135 0 1.18.954 2.135 2.135 2.135 1.181 0 2.135-.954 2.135-2.135 0-1.18-.952-2.135-2.135-2.135z"
-              transform="matrix(.30056 0 0 .30056 18.902 1.728)"
-              fill="#fff"
-              stroke="#fff"
-            />
-          </svg>
+        ) : isReserved || !isValid ? (
+          <ErrorIconSvg width="27" height="27" />
         ) : (
           <img className=" w-[27px]" src="./correct.png" alt="correct" />
         )}
@@ -96,7 +75,8 @@ const UsernameInput = ({ isReserved, isLoading }: Props) => {
       {!isValid && (
         <div className="label">
           <span className="label-text-alt text-error">
-            Username should have at least 5 characters
+            Username should be between {USERNAME_MIN_LENGTH} and{' '}
+            {USERNAME_MAX_LENGTH} character length
           </span>
         </div>
       )}

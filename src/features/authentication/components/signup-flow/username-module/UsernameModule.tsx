@@ -1,12 +1,11 @@
-// import GeneratedUsernames from './GeneratedUsernames'
+import GeneratedUsernames from './GeneratedUsernames'
 import UsernameInput from './UsernameInput'
 import useUpdateUsername from '../../../hooks/useUpdateUsername'
 import { useAppSelector } from '@/src/redux/hooks'
 import { selectUserPreview } from '@/src/redux/user/userSlice'
-import { selectSignupUsername } from '@/src/redux/signup/signupSlice'
-import { isUsernameValid } from './common/isUsernameValid'
 import { useQuery } from '@tanstack/react-query'
 import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
+import { useState } from 'react'
 
 interface Props {
   next: () => void
@@ -14,27 +13,26 @@ interface Props {
 
 const UsernameModule = ({ next }: Props) => {
   const initialUsername = useAppSelector(selectUserPreview)!.username
-  const actualUsername = useAppSelector(selectSignupUsername)
+  const [debouncedUsername, setDebouncedUsername] = useState(initialUsername)
+  const [isDebounceLoading, setIsDebounceLoading] = useState(false)
+  const [isValid, setIsValid] = useState(true)
+
   const queryKeyStore = useQueryKeyStore()
   const { data, isLoading } = useQuery({
-    ...queryKeyStore.users.isUsernameReserved(
-      actualUsername || initialUsername,
-    ),
-    enabled: !!actualUsername,
+    ...queryKeyStore.users.isUsernameReserved(debouncedUsername),
+    enabled: debouncedUsername !== initialUsername,
   })
 
   const updateUsernameMutation = useUpdateUsername()
 
   const onSubmit = () => {
-    if (actualUsername && actualUsername !== initialUsername) {
+    if (debouncedUsername !== initialUsername) {
       updateUsernameMutation.mutate({
-        username: actualUsername.trim(),
+        username: debouncedUsername.trim(),
       })
     }
     next()
   }
-
-  const isValid = isUsernameValid(actualUsername)
 
   return (
     <>
@@ -48,14 +46,24 @@ const UsernameModule = ({ next }: Props) => {
           </p>
         </div>
 
-        <UsernameInput isLoading={isLoading} isReserved={data?.isReserved} />
-        {/* <GeneratedUsernames setUsername={setUsername} /> */}
+        <UsernameInput
+          key={debouncedUsername}
+          isLoading={isLoading}
+          isReserved={data?.isReserved}
+          debouncedUsername={debouncedUsername}
+          setDebouncedUsername={setDebouncedUsername}
+          isDebounceLoading={isDebounceLoading}
+          setIsDebounceLoading={setIsDebounceLoading}
+          isValid={isValid}
+          setIsValid={setIsValid}
+        />
+        <GeneratedUsernames setDebouncedUsername={setDebouncedUsername} />
       </div>
       <button
         onClick={onSubmit}
-        className={`btn ${(!isValid || isLoading) && ' btn-disabled !bg-base-200'} ${actualUsername === initialUsername ? ' btn-accent' : 'btn-primary'}`}
+        className={`btn ${(!isValid || isLoading || isDebounceLoading || data?.isReserved) && ' btn-disabled !bg-base-200'} ${debouncedUsername === initialUsername ? ' btn-accent' : 'btn-primary'}`}
       >
-        {actualUsername === initialUsername ? <>Skip for now</> : <>Next</>}
+        {debouncedUsername === initialUsername ? <>Skip for now</> : <>Next</>}
       </button>
     </>
   )
