@@ -2,7 +2,7 @@ import { Outlet, useNavigate, useOutlet } from 'react-router-dom'
 import Modal from '../components/ui/Modal'
 import { CreatePostForm, ModalSaveDialog } from '../features/posts'
 import { useModal } from '../hooks/useModal'
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import {
   PostProvider,
   usePostContext,

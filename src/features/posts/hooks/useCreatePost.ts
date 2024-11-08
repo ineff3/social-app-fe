@@ -1,13 +1,10 @@
-import { InfiniteData } from '@tanstack/react-query'
-import { apiRoutes } from '../../../routes'
-import { usePost } from '../../../utils/api/mutations'
-import useQueryKeyStore from '../../../utils/api/hooks/useQueryKeyStore'
-import { IPost } from '../interfaces'
-import { SchemaGetAllPostsResponseDto } from '@/src/types/schema'
+import { apiRoutes } from '@/src/routes'
+import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
+import { usePost } from '@/src/utils/api/mutations'
 
 const useCreatePost = () => {
   const queryKeyStore = useQueryKeyStore()
-  return usePost<InfiniteData<SchemaGetAllPostsResponseDto>, FormData, IPost>({
+  return usePost<null, FormData>({
     path: apiRoutes.posts,
     qKey: queryKeyStore.posts.all({}).queryKey,
     axiosOptions: {
