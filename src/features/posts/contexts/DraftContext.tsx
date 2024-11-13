@@ -5,7 +5,7 @@ import {
   useFieldArray,
   useForm,
 } from 'react-hook-form'
-import { useDeleteMultipleDrafts } from '../hooks/drafts/drafts'
+import { useDeleteMultipleDrafts, useGetDrafts } from '../hooks/drafts/drafts'
 import { SchemaPostResponseDto } from '@/src/types/schema'
 
 interface checkboxItem {
@@ -19,6 +19,8 @@ interface IFormValues {
 interface IDraftContextProps {
   control: Control<IFormValues>
   fields: FieldArrayWithId<IFormValues, 'drafts', 'id'>[]
+  isFieldsLoading: boolean
+  isFieldsError: boolean
   deleteSelectedDrafts: () => void
   selectAll: () => void
   deselectAll: () => void
@@ -33,16 +35,18 @@ export const useDraftContext = () => {
   return useContext(DraftContext)
 }
 
-export const DraftProvider = ({
-  children,
-  data,
-}: {
-  children: React.ReactNode
-  data: SchemaPostResponseDto[]
-}) => {
+export const DraftProvider = ({ children }: { children: React.ReactNode }) => {
+  const { data, isLoading, isError } = useGetDrafts()
+  const deleteMultipleDraftsMutation = useDeleteMultipleDrafts()
+
   const { control, getValues, setValue, watch } = useForm<IFormValues>({
+    defaultValues: {
+      drafts: [],
+    },
     values: {
-      drafts: data.map((draft) => ({ draft: draft, checked: false })),
+      drafts: data
+        ? data.pages[0].data.map((draft) => ({ draft: draft, checked: false }))
+        : [],
     },
   })
   const { fields } = useFieldArray({
@@ -55,24 +59,25 @@ export const DraftProvider = ({
     hasSelected = fieldsWatch.some((el) => el.checked)
   }
 
-  const deleteMultipleDraftsMutation = useDeleteMultipleDrafts()
-
   const deleteSelectedDrafts = () => {
     const data = getValues()
     const draftIds = data.drafts
       .filter((el) => el.checked)
       .map((el) => el.draft.id)
+
     deleteMultipleDraftsMutation.mutate({
-      key: 'draftIds',
+      key: 'ids',
       value: draftIds,
     })
   }
+
   const selectAll = () => {
     const data = getValues()
     data.drafts.forEach((value, index) => {
       setValue(`drafts.${index}`, { ...value, checked: true })
     })
   }
+
   const deselectAll = () => {
     const data = getValues()
     data.drafts.forEach((value, index) => {
@@ -84,6 +89,8 @@ export const DraftProvider = ({
     <DraftContext.Provider
       value={{
         fields,
+        isFieldsLoading: isLoading,
+        isFieldsError: isError,
         control,
         deleteSelectedDrafts,
         selectAll,

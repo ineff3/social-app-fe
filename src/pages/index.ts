@@ -7,7 +7,7 @@ import Premium from './Premium'
 import Auth from './Auth'
 import SignupPage from './Signup'
 import Profile from './Profile'
-import PostModal from './PostModal'
+import { CreatePost } from './CreatePost'
 
 export {
   Home,
@@ -19,5 +19,5 @@ export {
   Auth,
   SignupPage,
   Profile,
-  PostModal,
+  CreatePost,
 }

@@ -6,9 +6,12 @@ import {
   useDelete,
   useDeleteMultiple,
   usePost,
+  useUpdate,
 } from '@/src/utils/api/mutations'
 import { apiRoutes } from '@/src/routes'
 import { IDraft } from '../../interfaces'
+import { InfiniteData } from '@tanstack/react-query'
+import { SchemaGetAllPostsResponseDto } from '@/src/types/schema'
 
 export const useGetDrafts = () => {
   const user = useAppSelector(selectUserPreview)!
@@ -22,8 +25,22 @@ export const useGetDrafts = () => {
 export const useCreateDraft = () => {
   const queryKeyStore = useQueryKeyStore()
   const user = useAppSelector(selectUserPreview)!
-  return usePost({
-    path: apiRoutes.drafts,
+  return usePost<null, FormData>({
+    path: apiRoutes.posts,
+    qKey: queryKeyStore.posts.all({})._ctx.user(user?.id, true).queryKey,
+    axiosOptions: {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    },
+  })
+}
+
+export const useUpdateDraft = (id: string) => {
+  const queryKeyStore = useQueryKeyStore()
+  const user = useAppSelector(selectUserPreview)!
+  return useUpdate({
+    path: apiRoutes.updatePost(id),
     qKey: queryKeyStore.posts.all({})._ctx.user(user?.id, true).queryKey,
     axiosOptions: {
       headers: {
@@ -48,11 +65,20 @@ export const useDeleteDraft = () => {
 export const useDeleteMultipleDrafts = () => {
   const queryKeyStore = useQueryKeyStore()
   const user = useAppSelector(selectUserPreview)!
-  return useDeleteMultiple<IDraft[]>({
-    path: apiRoutes.drafts,
+
+  return useDeleteMultiple<InfiniteData<SchemaGetAllPostsResponseDto>>({
+    path: apiRoutes.posts,
     qKey: queryKeyStore.posts.all({})._ctx.user(user?.id, true).queryKey,
-    updater: (oldData, draftIds) => [
-      ...oldData.filter((draft) => !draftIds.value.includes(draft._id)),
-    ],
+    updater: (oldData, draftIds) => {
+      if (!oldData) return oldData // Return early if oldData is undefined
+
+      return {
+        ...oldData,
+        pages: oldData.pages.map((page) => ({
+          ...page,
+          data: page.data.filter((draft) => !draftIds.value.includes(draft.id)),
+        })),
+      }
+    },
   })
 }

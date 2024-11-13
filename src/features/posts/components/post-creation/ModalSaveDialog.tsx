@@ -1,15 +1,15 @@
-import { Path, useNavigate } from 'react-router-dom'
-import Modal from '../../../../components/ui/Modal'
+import Modal from '@/src/components/ui/Modal'
 
 interface Props {
   isOpen: boolean
-  close: () => void
-  save: () => void
+  onDiscard: () => void
+  onClose: () => void
+  onSave: () => void
 }
 
-const ModalSaveDialog = ({ isOpen, close, save }: Props) => {
+const ModalSaveDialog = ({ isOpen, onDiscard, onClose, onSave }: Props) => {
   return (
-    <Modal isOpen={isOpen} close={close} maxWidth="max-w-sm">
+    <Modal isOpen={isOpen} close={onClose} maxWidth="max-w-sm">
       <div className=" flex flex-col gap-5 ">
         <div>
           <p className="text-lg font-semibold text-secondary">Save post?</p>
@@ -18,10 +18,10 @@ const ModalSaveDialog = ({ isOpen, close, save }: Props) => {
           </p>
         </div>
         <div className=" flex flex-col gap-4">
-          <button onClick={save} className=" btn">
+          <button onClick={onSave} className=" btn">
             Save
           </button>
-          <button className=" btn btn-error" onClick={close}>
+          <button className=" btn btn-error" onClick={onDiscard}>
             Discard
           </button>
         </div>

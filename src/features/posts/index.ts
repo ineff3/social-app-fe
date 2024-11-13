@@ -1,6 +1,13 @@
-import CreatePostForm from './components/CreatePostForm'
 import PostTabsWrapper from './components/PostTabsWrapper'
-import ModalSaveDialog from './components/post-creation/ModalSaveDialog'
-import DraftsContent from './components/post-drafts/DraftsContent'
+import { CreatePostPage } from './components/create-post/CreatePostPage'
+import { PostProvider } from './contexts/PostContext'
+import { DraftsPage } from './components/drafts/DraftsPage'
+import { DraftProvider } from './contexts/DraftContext'
 
-export { PostTabsWrapper, CreatePostForm, DraftsContent, ModalSaveDialog }
+export {
+  PostTabsWrapper,
+  CreatePostPage,
+  PostProvider,
+  DraftsPage,
+  DraftProvider,
+}

@@ -52,11 +52,11 @@ const CreatePostForm = ({ closeModal }: IProps) => {
     <>
       <ModalSaveDialog
         isOpen={visible}
-        save={() => {
+        onSave={() => {
           saveToDraft()
           navigateToDrafts()
         }}
-        close={() => navigateToDrafts()}
+        onClose={() => navigateToDrafts()}
       />
       <form onSubmit={submitForm} className=" flex min-h-[350px] flex-col ">
         <div className=" mb-5 flex items-center justify-between">
@@ -99,7 +99,7 @@ const CreatePostForm = ({ closeModal }: IProps) => {
             </label>
             <AttachedPictures
               attachedFiles={postImages}
-              remove={removePostImage}
+              removeFile={removePostImage}
             />
           </div>
         </div>

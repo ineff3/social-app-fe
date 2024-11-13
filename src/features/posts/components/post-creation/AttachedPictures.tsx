@@ -5,7 +5,7 @@ import ArrowIcon from '../../../../components/ui/icons/ArrowIcon'
 
 interface Props {
   attachedFiles: FieldArrayWithId<CreatePostFormType>[]
-  remove: UseFieldArrayRemove
+  removeFile: UseFieldArrayRemove
 }
 
 const SHOW_PER_PAGE = 2
@@ -23,7 +23,7 @@ const calcRange = (
   return []
 }
 
-const AttachedPictures = ({ attachedFiles, remove }: Props) => {
+const AttachedPictures = ({ attachedFiles, removeFile: remove }: Props) => {
   const [page, setPage] = useState(0)
   const hasNextPage = page + SHOW_PER_PAGE < attachedFiles.length
   const hasPrevPage = page > 0

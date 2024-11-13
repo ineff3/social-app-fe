@@ -20,6 +20,7 @@ export interface IPost {
 }
 
 export interface CreatePostFormType {
+  id?: string
   text: string
   postImages: { file: File }[]
 }

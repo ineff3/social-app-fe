@@ -8,25 +8,32 @@ import {
 import {
   Auth,
   Bookmarks,
+  CreatePost,
   Home,
   Messages,
   Notifications,
-  PostModal,
   Premium,
   Profile,
   Search,
   SignupPage,
 } from './pages'
 import { pageRoutes } from './routes'
-import { DraftsContent } from './features/posts'
+import { DraftProvider, PostProvider } from './features/posts'
+import { PostCreationLayout } from './layouts/PostCreationLayout'
+import { Drafts } from './pages/Drafts'
 
 const App = () => {
   const location = useLocation()
   const state = location.state as { backgroundLocation?: Location }
 
+  const backgroundLocation =
+    location.pathname === pageRoutes.post && !state?.backgroundLocation
+      ? pageRoutes.home
+      : state?.backgroundLocation
+
   return (
     <>
-      <Routes location={state?.backgroundLocation || location}>
+      <Routes location={backgroundLocation || location}>
         <Route element={<RouteAuth />}>
           <Route path={pageRoutes.auth} element={<Auth />}>
             <Route path="signup" element={<SignupPage />} />
@@ -51,11 +58,26 @@ const App = () => {
         </Route>
       </Routes>
 
-      {/* Render the modal if the backgroundLocation is set */}
-      {state?.backgroundLocation && (
+      {backgroundLocation && (
         <Routes>
-          <Route path={pageRoutes.post} element={<PostModal />}>
-            <Route path={pageRoutes.drafts} element={<DraftsContent />} />
+          <Route element={<UserFetch />}>
+            <Route
+              element={
+                <PostProvider>
+                  <PostCreationLayout />
+                </PostProvider>
+              }
+            >
+              <Route path={pageRoutes.post} element={<CreatePost />} />
+              <Route
+                path={pageRoutes.drafts}
+                element={
+                  <DraftProvider>
+                    <Drafts />
+                  </DraftProvider>
+                }
+              />
+            </Route>
           </Route>
         </Routes>
       )}
