@@ -1,23 +1,21 @@
-import { apiRoutes } from '../../../routes'
-import { useUpdate } from '../../../utils/api/queries'
-import useQueryKeyStore from '../../../utils/api/useQueryKeyStore'
-import { IUserPreview } from '../interfaces'
-
-interface IUpdateUsernameBody {
-    updateType: string
-    newValue: string
-}
+import { apiRoutes } from '@/src/routes'
+import {
+  SchemaUpdateUsernameDto,
+  SchemaUserPreviewResponseDto,
+} from '@/src/types/schema'
+import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
+import { useUpdate } from '@/src/utils/api/mutations'
 
 const useUpdateUsername = () => {
-    const queryKeyStore = useQueryKeyStore()
-    return useUpdate<IUserPreview, IUpdateUsernameBody>({
-        path: apiRoutes.users,
-        qKey: queryKeyStore.users.currentUserPreview.queryKey,
-        updater: (oldData, newData) => ({
-            ...oldData,
-            ...newData,
-        }),
-    })
+  const queryKeyStore = useQueryKeyStore()
+  return useUpdate<SchemaUserPreviewResponseDto, SchemaUpdateUsernameDto>({
+    path: apiRoutes.updateUsername,
+    qKey: queryKeyStore.users.currentUserPreview.queryKey,
+    updater: (oldData, newData) => ({
+      ...oldData,
+      ...newData,
+    }),
+  })
 }
 
 export default useUpdateUsername

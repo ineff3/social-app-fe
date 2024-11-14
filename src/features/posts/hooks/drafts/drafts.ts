@@ -1,49 +1,68 @@
-import { useQuery } from '@tanstack/react-query'
-import useQueryKeyStore from '../../../../utils/api/useQueryKeyStore'
+import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
+import useGetUserPosts from '../useGetUserPosts'
+import { useAppSelector } from '@/src/redux/hooks'
+import { selectUserPreview } from '@/src/redux/user/userSlice'
 import {
-    useDelete,
-    useDeleteMultiple,
-    usePost,
-} from '../../../../utils/api/queries'
-import { apiRoutes } from '../../../../routes'
-import { IDraft } from '../../interfaces'
+  useDeleteMultiple,
+  usePost,
+  useUpdate,
+} from '@/src/utils/api/mutations'
+import { apiRoutes } from '@/src/routes'
+import { InfiniteData } from '@tanstack/react-query'
+import { SchemaGetAllPostsResponseDto } from '@/src/types/schema'
+
+const axiosOptions = {
+  headers: {
+    'Content-Type': 'multipart/form-data',
+  },
+}
 
 export const useGetDrafts = () => {
-    const queryKeyStore = useQueryKeyStore()
-    return useQuery({ ...queryKeyStore.posts.drafts })
+  const user = useAppSelector(selectUserPreview)!
+  return useGetUserPosts({
+    query: { limit: 20 },
+    userId: user?.id,
+    isDraft: true,
+  })
 }
 
 export const useCreateDraft = () => {
-    const queryKeyStore = useQueryKeyStore()
-    return usePost({
-        path: apiRoutes.drafts,
-        qKey: queryKeyStore.posts.drafts.queryKey,
-        axiosOptions: {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
-        },
-    })
+  const queryKeyStore = useQueryKeyStore()
+  const user = useAppSelector(selectUserPreview)!
+  return usePost<null, FormData>({
+    path: apiRoutes.posts,
+    qKey: queryKeyStore.posts.all({})._ctx.user(user?.id, true).queryKey,
+    axiosOptions,
+  })
 }
 
-export const useDeleteDraft = () => {
-    const queryKeyStore = useQueryKeyStore()
-    return useDelete<IDraft[], string>({
-        path: apiRoutes.drafts,
-        qKey: queryKeyStore.posts.drafts.queryKey,
-        updater: (oldData, draftId) => [
-            ...oldData.filter((draft) => draft._id !== String(draftId)),
-        ],
-    })
+export const useUpdateDraft = (id: string) => {
+  const queryKeyStore = useQueryKeyStore()
+  const user = useAppSelector(selectUserPreview)!
+  return useUpdate({
+    path: apiRoutes.updatePost(id),
+    qKey: queryKeyStore.posts.all({})._ctx.user(user?.id, true).queryKey,
+    axiosOptions,
+  })
 }
 
 export const useDeleteMultipleDrafts = () => {
-    const queryKeyStore = useQueryKeyStore()
-    return useDeleteMultiple<IDraft[]>({
-        path: apiRoutes.drafts,
-        qKey: queryKeyStore.posts.drafts.queryKey,
-        updater: (oldData, draftIds) => [
-            ...oldData.filter((draft) => !draftIds.value.includes(draft._id)),
-        ],
-    })
+  const queryKeyStore = useQueryKeyStore()
+  const user = useAppSelector(selectUserPreview)!
+
+  return useDeleteMultiple<InfiniteData<SchemaGetAllPostsResponseDto>>({
+    path: apiRoutes.posts,
+    qKey: queryKeyStore.posts.all({})._ctx.user(user?.id, true).queryKey,
+    updater: (oldData, draftIds) => {
+      if (!oldData) return oldData
+
+      return {
+        ...oldData,
+        pages: oldData.pages.map((page) => ({
+          ...page,
+          data: page.data.filter((draft) => !draftIds.value.includes(draft.id)),
+        })),
+      }
+    },
+  })
 }

@@ -1,69 +1,68 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState } from 'react'
-import useRefreshToken from '../../hooks/useRefreshToken'
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
-import { useAuthentication } from '../..'
-import { pageRoutes } from '../../../../routes'
+import { useAppDispatch, useAppSelector } from '@/src/redux/hooks'
+import {
+  selectIsAuthenticated,
+  setAccessToken,
+} from '@/src/redux/user/userSlice'
+import { PERSIST_AUTH_KEY } from '../../constants'
+import { LoadingSpinner } from '@/src/components/ui/LoadingSpinner'
+import { useQuery } from '@tanstack/react-query'
+import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
+import { useEffect, useState } from 'react'
+import { pageRoutes } from '@/src/routes'
 
-const PersistLogin = ({ required = false }: { required?: boolean }) => {
-    const [isLoading, setIsLoading] = useState(true)
-    const refresh = useRefreshToken()
-    const { auth, persist } = useAuthentication()
-    const location = useLocation()
+export const RouteAuth = ({ required = false }: { required?: boolean }) => {
+  const [isAuthLoading, setIsAuthLoading] = useState(true)
+  const location = useLocation()
+  const dispatch = useAppDispatch()
 
-    useEffect(() => {
-        const verifyRefreshToken = async () => {
-            try {
-                await refresh()
-            } catch (err) {
-                console.error(err)
-            } finally {
-                setIsLoading(false)
-            }
+  const isAuthenticated = useAppSelector(selectIsAuthenticated)
+  const isPersistAuth = !!localStorage.getItem(PERSIST_AUTH_KEY)
+
+  const queryKeyStore = useQueryKeyStore()
+  const { data, isFetched, isPending, isFetching } = useQuery({
+    ...queryKeyStore.auth.refreshToken,
+    enabled: !isAuthenticated && isPersistAuth,
+  })
+
+  useEffect(
+    function syncAuthentication() {
+      if (data) {
+        dispatch(setAccessToken(data.accessToken))
+      }
+    },
+    [dispatch, data],
+  )
+
+  useEffect(
+    function syncLoading() {
+      const isRefetchDisabled = isPending && !isFetching
+      if (isAuthenticated) {
+        setIsAuthLoading(false)
+      } else {
+        if (isFetched || isRefetchDisabled) {
+          setIsAuthLoading(false)
         }
-        !auth?.accessToken && persist
-            ? verifyRefreshToken()
-            : setIsLoading(false)
-    }, [])
+      }
+    },
+    [isAuthenticated, isFetched, isPending, isFetching],
+  )
 
-    // useEffect(() => {
-    //     console.log(`isLoading: ${isLoading}`)
-    //     console.log(`aT: ${JSON.stringify(auth)}`)
-    // }, [isLoading])
+  if (isAuthLoading) {
+    return <LoadingSpinner />
+  }
 
-    if (required) {
-        return (
-            <>
-                {isLoading ? (
-                    <div className=" flex h-screen w-screen items-center justify-center">
-                        <p className="loading loading-spinner w-14"></p>
-                    </div>
-                ) : auth?.accessToken ? (
-                    <Outlet />
-                ) : (
-                    <Navigate
-                        to={pageRoutes.auth}
-                        replace
-                        state={{ from: location }}
-                    />
-                )}
-            </>
-        )
-    }
-
+  if (required) {
     return (
-        <>
-            {isLoading ? (
-                <div className=" flex h-screen w-screen items-center justify-center">
-                    <p className="loading loading-spinner w-14"></p>
-                </div>
-            ) : auth?.accessToken ? (
-                <Navigate to={pageRoutes.home} />
-            ) : (
-                <Outlet />
-            )}
-        </>
+      <>
+        {isAuthenticated ? (
+          <Outlet />
+        ) : (
+          <Navigate to={pageRoutes.auth} replace state={{ from: location }} />
+        )}
+      </>
     )
-}
+  }
 
-export default PersistLogin
+  return <>{isAuthenticated ? <Navigate to={pageRoutes.home} /> : <Outlet />}</>
+}

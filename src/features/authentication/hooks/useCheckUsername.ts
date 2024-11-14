@@ -1,17 +1,17 @@
 import { apiRoutes } from '../../../routes'
-import { usePost } from '../../../utils/api/queries'
+import { usePost } from '../../../utils/api/mutations'
 
 interface IResponse {
-    isReserved: boolean
+  isReserved: boolean
 }
 interface IBodyData {
-    username: string
+  username: string
 }
 
 const useCheckUsername = () => {
-    return usePost<IBodyData, IBodyData, IResponse>({
-        path: apiRoutes.checkUsername,
-    })
+  return usePost<null, IBodyData, IResponse>({
+    path: apiRoutes.checkUsername,
+  })
 }
 
 export default useCheckUsername

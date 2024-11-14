@@ -1,30 +1,16 @@
+import { SchemaGetAllPostsResponseDto } from '@/src/types/schema'
+import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
+import { GetUserPostsParams } from '@/src/utils/api/interfaces'
+import { getNextPageParam } from '@/src/features/posts/utils/getNextPageParam'
 import { useInfiniteQuery } from '@tanstack/react-query'
-import useQueryKeyStore from '../../../utils/api/useQueryKeyStore'
-import { useApi } from '../../../utils/api/actions'
-import { apiRoutes } from '../../../routes'
-import { IPostsResponse } from '../../../utils/api/interfaces'
 
-const useGetUserPosts = ({
-    limit,
-    userId,
-}: {
-    limit: number
-    userId: string
-}) => {
-    const { get } = useApi()
-    const queryKeyStore = useQueryKeyStore()
-    return useInfiniteQuery({
-        queryKey: queryKeyStore.posts.all._ctx.user(userId).queryKey,
-        queryFn: ({ pageParam }) =>
-            get<IPostsResponse>(`${apiRoutes.posts}/${userId}`, {
-                page: pageParam,
-                limit,
-            }),
-        initialPageParam: 1,
-        getNextPageParam: (lastPage) => {
-            return lastPage.nextPage
-        },
-    })
+const useGetUserPosts = ({ query, userId, isDraft }: GetUserPostsParams) => {
+  const queryKeyStore = useQueryKeyStore()
+  return useInfiniteQuery<SchemaGetAllPostsResponseDto>({
+    ...queryKeyStore.posts.all({ query })._ctx.user(userId, isDraft),
+    initialPageParam: 1,
+    getNextPageParam,
+  })
 }
 
 export default useGetUserPosts

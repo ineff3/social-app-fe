@@ -1,71 +1,72 @@
-import { useState } from 'react'
 import GeneratedUsernames from './GeneratedUsernames'
 import UsernameInput from './UsernameInput'
 import useUpdateUsername from '../../../hooks/useUpdateUsername'
-import { useQueryClient } from '@tanstack/react-query'
-import { IUserPreview } from '../../../interfaces'
-import useQueryKeyStore from '../../../../../utils/api/useQueryKeyStore'
+import { useAppSelector } from '@/src/redux/hooks'
+import { selectUserPreview } from '@/src/redux/user/userSlice'
+import { useQuery } from '@tanstack/react-query'
+import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
+import { useState } from 'react'
 
 interface Props {
-    next: () => void
+  next: () => void
 }
+
 const UsernameModule = ({ next }: Props) => {
-    const queryClient = useQueryClient()
-    const queryKeyStore = useQueryKeyStore()
-    const initialUsername = queryClient.getQueryData<IUserPreview>(
-        queryKeyStore.users.currentUserPreview.queryKey
-    )?.username
-    const [username, setUsername] = useState(initialUsername || 'username123')
-    const [isReserved, setIsReserved] = useState(false)
-    const [isValid, setIsValid] = useState(true)
-    const [isLoading, setIsLoading] = useState(false)
+  const initialUsername = useAppSelector(selectUserPreview)!.username
+  const [debouncedUsername, setDebouncedUsername] = useState(initialUsername)
+  const [isDebounceLoading, setIsDebounceLoading] = useState(false)
+  const [isValid, setIsValid] = useState(true)
 
-    const updateUsernameMutation = useUpdateUsername()
+  const queryKeyStore = useQueryKeyStore()
+  const { data, isLoading } = useQuery({
+    ...queryKeyStore.users.isUsernameReserved(debouncedUsername),
+    enabled: debouncedUsername !== initialUsername,
+  })
 
-    const onSubmit = () => {
-        if (username !== initialUsername) {
-            updateUsernameMutation.mutate({
-                newValue: username.trim(),
-                updateType: 'username',
-            })
-        }
-        next()
+  const updateUsernameMutation = useUpdateUsername()
+
+  const onSubmit = () => {
+    if (debouncedUsername !== initialUsername) {
+      updateUsernameMutation.mutate({
+        username: debouncedUsername.trim(),
+      })
     }
+    next()
+  }
 
-    return (
-        <>
-            <div className=" flex flex-1 flex-col gap-5">
-                <div>
-                    <p className=" text-2xl font-bold text-secondary">
-                        What should we call you?
-                    </p>
-                    <p className=" text-sm">
-                        Your @username is unique. You can always change it
-                        later.
-                    </p>
-                </div>
+  return (
+    <>
+      <div className=" flex flex-1 flex-col gap-5">
+        <div>
+          <p className=" text-2xl font-bold text-secondary">
+            What should we call you?
+          </p>
+          <p className=" text-sm">
+            Your @username is unique. You can always change it later.
+          </p>
+        </div>
 
-                <UsernameInput
-                    isLoading={isLoading}
-                    setIsLoading={setIsLoading}
-                    isValid={isValid}
-                    setIsValid={setIsValid}
-                    initialUsername={initialUsername}
-                    isReserved={isReserved}
-                    setIsReserved={setIsReserved}
-                    username={username}
-                    setUsername={setUsername}
-                />
-                <GeneratedUsernames setUsername={setUsername} />
-            </div>
-            <button
-                onClick={onSubmit}
-                className={`btn ${(!isValid || isLoading) && ' btn-disabled !bg-base-200'} ${username === initialUsername ? ' btn-accent' : 'btn-primary'}`}
-            >
-                {username === initialUsername ? <>Skip for now</> : <>Next</>}
-            </button>
-        </>
-    )
+        <UsernameInput
+          key={debouncedUsername}
+          isLoading={isLoading}
+          isReserved={data?.isReserved}
+          debouncedUsername={debouncedUsername}
+          setDebouncedUsername={setDebouncedUsername}
+          isDebounceLoading={isDebounceLoading}
+          setIsDebounceLoading={setIsDebounceLoading}
+          isValid={isValid}
+          setIsValid={setIsValid}
+        />
+        <GeneratedUsernames setDebouncedUsername={setDebouncedUsername} />
+      </div>
+      <button
+        onClick={onSubmit}
+        className={`btn ${(!isValid || isLoading || isDebounceLoading || data?.isReserved) && ' btn-disabled !bg-base-200'} ${debouncedUsername === initialUsername ? ' btn-accent' : 'btn-primary'}`}
+      >
+        {debouncedUsername === initialUsername ? <>Skip for now</> : <>Next</>}
+      </button>
+    </>
+  )
 }
 
 export default UsernameModule

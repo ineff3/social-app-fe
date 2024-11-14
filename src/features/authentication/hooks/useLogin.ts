@@ -1,11 +1,12 @@
+import { SchemaAuthUserResponseDto } from '@/src/types/schema'
 import { apiRoutes } from '../../../routes'
-import { usePost } from '../../../utils/api/queries'
-import { ILoginData, ILoginResponse } from '../interfaces/'
+import { usePost } from '../../../utils/api/mutations'
+import { ILoginData } from '../interfaces/'
 
 const useLogin = () => {
-    return usePost<ILoginData, ILoginData, ILoginResponse>({
-        path: apiRoutes.login,
-    })
+  return usePost<ILoginData, ILoginData, SchemaAuthUserResponseDto>({
+    path: apiRoutes.login,
+  })
 }
 
 export default useLogin

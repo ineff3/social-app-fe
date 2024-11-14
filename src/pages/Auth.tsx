@@ -1,7 +1,7 @@
 import { Login } from '../features/authentication/index'
 
 const Auth = () => {
-    return <Login />
+  return <Login />
 }
 
 export default Auth

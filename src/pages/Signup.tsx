@@ -1,7 +1,7 @@
 import Signup from '../features/authentication/components/Signup'
 
 const SignupPage = () => {
-    return <Signup />
+  return <Signup />
 }
 
 export default SignupPage

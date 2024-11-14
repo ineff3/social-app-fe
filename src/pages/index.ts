@@ -7,17 +7,19 @@ import Premium from './Premium'
 import Auth from './Auth'
 import SignupPage from './Signup'
 import Profile from './Profile'
-import PostModal from './PostModal'
+import { CreatePost } from './CreatePost'
+import { ManageDrafts } from './ManageDrafts'
 
 export {
-    Home,
-    Search,
-    Notifications,
-    Messages,
-    Bookmarks,
-    Premium,
-    Auth,
-    SignupPage,
-    Profile,
-    PostModal,
+  Home,
+  Search,
+  Notifications,
+  Messages,
+  Bookmarks,
+  Premium,
+  Auth,
+  SignupPage,
+  Profile,
+  CreatePost,
+  ManageDrafts,
 }

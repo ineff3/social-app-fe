@@ -1,36 +1,53 @@
-import { useUsernames } from '../../..'
+import { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import { useAppSelector } from '@/src/redux/hooks'
+import { selectUserPreview } from '@/src/redux/user/userSlice'
+import { USERNAME_MAX_LENGTH } from './common/isUsernameValid'
+
+const USERNAME_ARRAY_SIZE = 5
 
 interface Props {
-    setUsername: (value: string) => void
+  setDebouncedUsername: Dispatch<SetStateAction<string>>
 }
 
-const GeneratedUsernames = ({ setUsername }: Props) => {
-    const { data, status } = useUsernames()
+const GeneratedUsernames = ({ setDebouncedUsername }: Props) => {
+  const [usernames, setUsernames] = useState<string[]>()
+  const firstName = useAppSelector(selectUserPreview)!.firstName
 
-    if (status === 'pending') {
-        return (
-            <div className=" flex justify-center">
-                <span className="loading loading-spinner loading-md"></span>
-            </div>
-        )
-    }
-    if (!data || status === 'error') {
-        return <></>
-    }
+  useEffect(() => {
+    const generateUsernames = (firstName: string, arraySize: number) => {
+      const arr = []
+      const numberSequenceLength = USERNAME_MAX_LENGTH - firstName.length
 
-    return (
-        <div className=" flex flex-wrap gap-1 text-sm text-primary">
-            {data.usernames.map((name, index) => (
-                <span
-                    className=" cursor-pointer"
-                    onClick={() => setUsername(name)}
-                    key={index}
-                >
-                    @{name},
-                </span>
-            ))}
-        </div>
-    )
+      for (let i = 0; i < arraySize; i++) {
+        let numberSequence = ''
+        for (let j = 0; j < numberSequenceLength; j++) {
+          numberSequence += String(Math.floor(Math.random() * 10))
+        }
+        arr.push(firstName + numberSequence)
+      }
+      return arr
+    }
+    const usernames = generateUsernames(firstName, USERNAME_ARRAY_SIZE)
+    setUsernames(usernames)
+  }, [firstName])
+
+  if (!usernames) {
+    return <></>
+  }
+
+  return (
+    <div className=" flex flex-wrap gap-1 text-sm text-primary">
+      {usernames.map((name, index) => (
+        <span
+          className=" cursor-pointer"
+          onClick={() => setDebouncedUsername(name)}
+          key={index}
+        >
+          @{name},
+        </span>
+      ))}
+    </div>
+  )
 }
 
 export default GeneratedUsernames

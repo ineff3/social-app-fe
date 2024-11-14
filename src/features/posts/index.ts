@@ -1,13 +1,13 @@
-import BookmarkedPostsFlow from './components/BookmarkedPostsFlow'
-import CreatePostForm from './components/CreatePostForm'
 import PostTabsWrapper from './components/PostTabsWrapper'
-import ModalSaveDialog from './components/post-creation/ModalSaveDialog'
-import DraftsContent from './components/post-drafts/DraftsContent'
+import { CreatePostPage } from './components/post-creation/CreatePostPage'
+import { PostProvider } from './contexts/PostContext'
+import { DraftProvider } from './contexts/DraftContext'
+import { DraftsPage } from './components/post-creation/drafts/DraftsPage'
 
 export {
-    PostTabsWrapper,
-    CreatePostForm,
-    BookmarkedPostsFlow,
-    DraftsContent,
-    ModalSaveDialog,
+  PostTabsWrapper,
+  CreatePostPage,
+  PostProvider,
+  DraftsPage,
+  DraftProvider,
 }
