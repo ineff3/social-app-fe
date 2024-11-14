@@ -1,5 +1,5 @@
 import { DraftsPage } from '../features/posts'
 
-export const Drafts = () => {
+export const ManageDrafts = () => {
   return <DraftsPage />
 }

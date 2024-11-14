@@ -10,6 +10,7 @@ import {
   Bookmarks,
   CreatePost,
   Home,
+  ManageDrafts,
   Messages,
   Notifications,
   Premium,
@@ -20,7 +21,6 @@ import {
 import { pageRoutes } from './routes'
 import { DraftProvider, PostProvider } from './features/posts'
 import { PostCreationLayout } from './layouts/PostCreationLayout'
-import { Drafts } from './pages/Drafts'
 
 const App = () => {
   const location = useLocation()
@@ -74,7 +74,7 @@ const App = () => {
                   path={pageRoutes.drafts}
                   element={
                     <DraftProvider>
-                      <Drafts />
+                      <ManageDrafts />
                     </DraftProvider>
                   }
                 />

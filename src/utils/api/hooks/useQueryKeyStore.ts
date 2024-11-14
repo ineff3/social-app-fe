@@ -1,6 +1,6 @@
 import { createQueryKeyStore } from '@lukemorales/query-key-factory'
 import { useApiActions } from './useApiActions'
-import { GetAllPostsParams, IUsernamesResponse } from '../interfaces'
+import { GetAllPostsParams } from '../interfaces'
 import {
   SchemaAuthUserResponseDto,
   SchemaGetAllPostsResponseDto,
@@ -60,10 +60,6 @@ const useQueryKeyStore = () => {
             { username },
           ),
       }),
-      usernames: {
-        queryKey: null,
-        queryFn: () => get<IUsernamesResponse>(apiRoutes.getUsernamesArray),
-      },
     },
     auth: {
       refreshToken: {

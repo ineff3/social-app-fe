@@ -25,10 +25,3 @@ export interface IUser {
   backgroundImage: string
   backgroundImageUrl: string
 }
-export interface IUserPreview {
-  id: string
-  firstName: string
-  username: string
-  userImageUrl: string
-  userImage: string
-}

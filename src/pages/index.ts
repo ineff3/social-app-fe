@@ -8,6 +8,7 @@ import Auth from './Auth'
 import SignupPage from './Signup'
 import Profile from './Profile'
 import { CreatePost } from './CreatePost'
+import { ManageDrafts } from './ManageDrafts'
 
 export {
   Home,
@@ -20,4 +21,5 @@ export {
   SignupPage,
   Profile,
   CreatePost,
+  ManageDrafts,
 }
