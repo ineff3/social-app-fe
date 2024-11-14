@@ -1,8 +1,8 @@
 import { Controller } from 'react-hook-form'
-import { useDraftContext } from '../../contexts/DraftContext'
 import { Checkbox } from '@headlessui/react'
 import { DraftRow } from './DraftRow'
 import ErrorAlert from '@/src/components/ui/ErrorAlert'
+import { useDraftContext } from '../../../contexts/DraftContext'
 
 interface Props {
   editMode: boolean
@@ -26,7 +26,7 @@ export const DraftList = ({ editMode }: Props) => {
   }
 
   return (
-    <div className=" flex max-h-[360px] flex-col gap-3 overflow-hidden overflow-y-auto">
+    <div className=" flex max-h-[360px] flex-col gap-3 overflow-hidden overflow-y-auto px-4">
       {fields.map((field, index) => (
         <div key={field.id} className=" flex items-center gap-3">
           {editMode && (

@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react'
-import BookmarkIconSvg from '../../../../components/ui/icons/BookmarkIconSvg'
-import useBookmarkPost from '../../hooks/useBookmarkPost.ts'
+import BookmarkIconSvg from '@/src/components/ui/icons/BookmarkIconSvg'
+import useBookmarkPost from '../../hooks/post-interactions/useBookmarkPost'
 
 interface Props {
   postId: string
@@ -8,10 +7,10 @@ interface Props {
 }
 
 const BookmarkSection = ({ postId, isBookmarked }: Props) => {
-  const useBookmarkPostMutatiton = useBookmarkPost(postId)
+  const useBookmarkPostMutation = useBookmarkPost(postId)
 
   const onClick = () => {
-    useBookmarkPostMutatiton.mutate()
+    useBookmarkPostMutation.mutate()
   }
   return (
     <button className=" btn btn-circle btn-ghost btn-sm" onClick={onClick}>

@@ -2,7 +2,7 @@ interface Props {
   onClick: () => void
 }
 
-const CloseBtn = ({ onClick }: Props) => {
+export const CloseBtn = ({ onClick }: Props) => {
   return (
     <button
       type="button"
@@ -13,5 +13,3 @@ const CloseBtn = ({ onClick }: Props) => {
     </button>
   )
 }
-
-export default CloseBtn

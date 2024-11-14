@@ -1,6 +1,6 @@
 import { SchemaPostResponseDto } from '@/src/types/schema'
 import { useNavigate } from 'react-router-dom'
-import { usePostContext } from '../../contexts/PostContext'
+import { usePostContext } from '../../../contexts/PostContext'
 
 export const DraftRow = ({
   draft,
@@ -23,7 +23,7 @@ export const DraftRow = ({
   return (
     <button
       onClick={handleDraftSelect}
-      className={`  btn  btn-ghost h-20 w-full gap-3 bg-base-200 ${editMode && ' btn-disabled !bg-base-200'}`}
+      className={`btn btn-ghost h-20 flex-grow gap-3 bg-base-200 ${editMode && ' btn-disabled !bg-base-200'}`}
     >
       <div className=" flex flex-1 items-center justify-between gap-2 text-left">
         {draft?.text ? <p>{draft.text}</p> : <p> </p>}

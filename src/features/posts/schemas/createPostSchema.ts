@@ -11,7 +11,7 @@ export const ACCEPTED_IMAGE_TYPES = [
 
 const validationSchema = z
   .object({
-    text: z.string().max(300, 'Cant exceed more than 300 symbols'),
+    text: z.string().max(500, 'Cant exceed more than 500 symbols'),
     postImages: z
       .any()
       .refine((files) => {
@@ -35,7 +35,7 @@ const validationSchema = z
           return false
         }
         return true
-      }, 'No more than 5 pictures allowed'),
+      }, 'No more than 4 pictures allowed'),
   })
   .refine((data) => data.postImages.length > 0 || data.text !== '', {
     message: 'Text or image is required',

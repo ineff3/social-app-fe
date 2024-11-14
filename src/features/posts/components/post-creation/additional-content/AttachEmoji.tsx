@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { SmileIcon } from '@/src/components/ui/icons'
+import Modal from '@/src/components/ui/Modal'
+import { useModal } from '@/src/hooks/useModal'
 import data from '@emoji-mart/data'
 import Picker from '@emoji-mart/react'
-import { SmileIcon } from '../../../../components/ui/icons'
-import Modal from '../../../../components/ui/Modal'
-import { useModal } from '../../../../hooks/useModal'
 
-const AttachEmoji = ({
+export const AttachEmoji = ({
   appendEmoji,
 }: {
   appendEmoji: (emoji: any) => void
@@ -41,5 +42,3 @@ const AttachEmoji = ({
     </div>
   )
 }
-
-export default AttachEmoji

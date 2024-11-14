@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext } from 'react'
 import {
   Control,
@@ -27,10 +28,8 @@ interface IDraftContextProps {
   hasSelected: boolean
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
 const DraftContext = createContext<IDraftContextProps | null>(null)
 
-// eslint-disable-next-line react-hooks/rules-of-hooks, react-refresh/only-export-components
 export const useDraftContext = () => {
   return useContext(DraftContext)
 }

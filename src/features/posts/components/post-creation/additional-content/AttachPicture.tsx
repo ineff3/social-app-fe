@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { UseFieldArrayAppend } from 'react-hook-form'
-import { ImageIcon } from '../../../../components/ui/icons'
 import { useRef } from 'react'
-import { CreatePostFormType } from '../../interfaces'
+import { CreatePostFormType } from '../../../interfaces'
+import { ImageIcon } from '@/src/components/ui/icons'
 
 interface Props {
   maxFilesAttached: boolean
@@ -9,7 +10,11 @@ interface Props {
   imageTypes: string[]
 }
 
-const AttachPicture = ({ append, imageTypes, maxFilesAttached }: Props) => {
+export const AttachPicture = ({
+  append,
+  imageTypes,
+  maxFilesAttached,
+}: Props) => {
   const postImageRef = useRef<HTMLInputElement | null>(null)
 
   const onChooseFile = () => {
@@ -49,5 +54,3 @@ const AttachPicture = ({ append, imageTypes, maxFilesAttached }: Props) => {
     </>
   )
 }
-
-export default AttachPicture

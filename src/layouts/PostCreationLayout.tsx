@@ -1,8 +1,8 @@
 import { Outlet, useNavigate } from 'react-router-dom'
 import Modal from '../components/ui/Modal'
 import { useModal } from '../hooks/useModal'
-import { ModalSaveDialog } from '../features/posts'
 import { usePostContext } from '../features/posts/contexts/PostContext'
+import ModalSaveDialog from '../features/posts/components/post-creation/modal-forms/ModalSaveDialog'
 
 export const PostCreationLayout = () => {
   const { isDirty, createDraft } = usePostContext()!

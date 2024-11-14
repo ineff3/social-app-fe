@@ -3,15 +3,19 @@ import useGetUserPosts from '../useGetUserPosts'
 import { useAppSelector } from '@/src/redux/hooks'
 import { selectUserPreview } from '@/src/redux/user/userSlice'
 import {
-  useDelete,
   useDeleteMultiple,
   usePost,
   useUpdate,
 } from '@/src/utils/api/mutations'
 import { apiRoutes } from '@/src/routes'
-import { IDraft } from '../../interfaces'
 import { InfiniteData } from '@tanstack/react-query'
 import { SchemaGetAllPostsResponseDto } from '@/src/types/schema'
+
+const axiosOptions = {
+  headers: {
+    'Content-Type': 'multipart/form-data',
+  },
+}
 
 export const useGetDrafts = () => {
   const user = useAppSelector(selectUserPreview)!
@@ -28,11 +32,7 @@ export const useCreateDraft = () => {
   return usePost<null, FormData>({
     path: apiRoutes.posts,
     qKey: queryKeyStore.posts.all({})._ctx.user(user?.id, true).queryKey,
-    axiosOptions: {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    },
+    axiosOptions,
   })
 }
 
@@ -42,23 +42,7 @@ export const useUpdateDraft = (id: string) => {
   return useUpdate({
     path: apiRoutes.updatePost(id),
     qKey: queryKeyStore.posts.all({})._ctx.user(user?.id, true).queryKey,
-    axiosOptions: {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    },
-  })
-}
-
-export const useDeleteDraft = () => {
-  const queryKeyStore = useQueryKeyStore()
-  const user = useAppSelector(selectUserPreview)!
-  return useDelete<IDraft[], string>({
-    path: apiRoutes.drafts,
-    qKey: queryKeyStore.posts.all({})._ctx.user(user?.id, true).queryKey,
-    updater: (oldData, draftId) => [
-      ...oldData.filter((draft) => draft._id !== String(draftId)),
-    ],
+    axiosOptions,
   })
 }
 
@@ -70,7 +54,7 @@ export const useDeleteMultipleDrafts = () => {
     path: apiRoutes.posts,
     qKey: queryKeyStore.posts.all({})._ctx.user(user?.id, true).queryKey,
     updater: (oldData, draftIds) => {
-      if (!oldData) return oldData // Return early if oldData is undefined
+      if (!oldData) return oldData
 
       return {
         ...oldData,

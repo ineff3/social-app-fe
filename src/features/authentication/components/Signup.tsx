@@ -5,7 +5,7 @@ import SignupForm from './SignupForm'
 import { useState } from 'react'
 import { pageRoutes } from '../../../routes'
 import ErrorAlert from '../../../components/ui/ErrorAlert'
-import CloseBtn from '../../../components/ui/CloseBtn'
+import { CloseBtn } from '@/src/components/ui/CloseBtn'
 
 const Signup = () => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null)

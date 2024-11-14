@@ -1,8 +1,8 @@
 import { useState } from 'react'
-import { useDraftContext } from '../../contexts/DraftContext'
 import { useNavigate } from 'react-router-dom'
 import ArrowIconSvg from '@/src/components/ui/icons/ArrowIconSvg'
 import { DraftList } from './DraftList'
+import { useDraftContext } from '../../../contexts/DraftContext'
 
 export const DraftsPage = () => {
   const [editMode, setEditMode] = useState(false)

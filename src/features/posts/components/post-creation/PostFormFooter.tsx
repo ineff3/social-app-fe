@@ -1,12 +1,12 @@
 import ErrorAlert from '@/src/components/ui/ErrorAlert'
 import { usePostContext } from '../../contexts/PostContext'
-import AttachPicture from '../post-creation/AttachPicture'
 import {
   ACCEPTED_IMAGE_TYPES,
   MAX_IMAGES_PER_POST,
 } from '../../schemas/createPostSchema'
-import AttachEmoji from '../post-creation/AttachEmoji'
 import { GifIcon, ScheduleIcon, StatsIcon } from '@/src/components/ui/icons'
+import { AttachEmoji } from './additional-content/AttachEmoji'
+import { AttachPicture } from './additional-content/AttachPicture'
 
 export const PostFormFooter = () => {
   const {
@@ -18,6 +18,9 @@ export const PostFormFooter = () => {
     isDirty,
     postIsPending,
   } = usePostContext()!
+
+  const isFormInvalid =
+    errors?.postImages || errors?.text || !isDirty || postIsPending
 
   return (
     <div>
@@ -44,7 +47,7 @@ export const PostFormFooter = () => {
 
         <button
           type="submit"
-          className={`  btn btn-primary btn-sm ${(errors?.postImages || errors?.text || !isDirty || postIsPending) && 'btn-disabled !bg-base-200'} `}
+          className={`btn btn-primary btn-sm ${isFormInvalid && 'btn-disabled !bg-base-200'} `}
         >
           <p>Post</p>
           {postIsPending && (

@@ -1,11 +1,11 @@
 import { useLocation, useNavigate } from 'react-router-dom'
 import { usePostContext } from '../../contexts/PostContext'
 import { PostFormContent } from './PostFormContent'
-import CloseBtn from '@/src/components/ui/CloseBtn'
 import { PostFormFooter } from './PostFormFooter'
-import ModalSaveDialog from '../post-creation/ModalSaveDialog'
+import ModalSaveDialog from './modal-forms/ModalSaveDialog'
 import { useModal } from '@/src/hooks/useModal'
 import { pageRoutes } from '@/src/routes'
+import { CloseBtn } from '@/src/components/ui/CloseBtn'
 
 export const CreatePostPage = () => {
   const { submitForm, isDirty, createDraft } = usePostContext()!

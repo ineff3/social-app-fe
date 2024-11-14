@@ -1,7 +1,7 @@
-import { FieldArrayWithId, UseFieldArrayRemove } from 'react-hook-form'
-import { CreatePostFormType } from '../../interfaces'
 import { useEffect, useState } from 'react'
-import ArrowIcon from '../../../../components/ui/icons/ArrowIcon'
+import { FieldArrayWithId, UseFieldArrayRemove } from 'react-hook-form'
+import { CreatePostFormType } from '../../../interfaces'
+import ArrowIcon from '@/src/components/ui/icons/ArrowIcon'
 
 interface Props {
   attachedFiles: FieldArrayWithId<CreatePostFormType>[]
@@ -23,7 +23,10 @@ const calcRange = (
   return []
 }
 
-const AttachedPictures = ({ attachedFiles, removeFile: remove }: Props) => {
+export const AttachedPictures = ({
+  attachedFiles,
+  removeFile: remove,
+}: Props) => {
   const [page, setPage] = useState(0)
   const hasNextPage = page + SHOW_PER_PAGE < attachedFiles.length
   const hasPrevPage = page > 0
@@ -105,5 +108,3 @@ const AttachedPictures = ({ attachedFiles, removeFile: remove }: Props) => {
     </>
   )
 }
-
-export default AttachedPictures

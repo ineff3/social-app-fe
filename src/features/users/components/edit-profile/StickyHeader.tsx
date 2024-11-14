@@ -1,4 +1,4 @@
-import CloseBtn from '../../../../components/ui/CloseBtn'
+import { CloseBtn } from '@/src/components/ui/CloseBtn'
 import { useEffect, useState } from 'react'
 interface Props {
   close: () => void

@@ -2,7 +2,7 @@ import UserIconLink from '@/src/components/ui/UserIconLink'
 import { useAppSelector } from '@/src/redux/hooks'
 import { selectUserPreview } from '@/src/redux/user/userSlice'
 import { usePostContext } from '../../contexts/PostContext'
-import AttachedPictures from '../post-creation/AttachedPictures'
+import { AttachedPictures } from './additional-content/AttachedPictures'
 
 export const PostFormContent = () => {
   const user = useAppSelector(selectUserPreview)
@@ -15,7 +15,7 @@ export const PostFormContent = () => {
         <label className=" form-control">
           <textarea
             {...register('text')}
-            className="textarea textarea-bordered max-h-[200px]  w-full  resize-none text-base"
+            className="textarea textarea-bordered max-h-[300px] min-h-[85px] w-full text-base"
             placeholder="What is happening?"
             rows={3}
           />

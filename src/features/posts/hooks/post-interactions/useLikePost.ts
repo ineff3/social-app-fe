@@ -1,8 +1,8 @@
+import { apiRoutes } from '@/src/routes'
+import { SchemaGetAllPostsResponseDto } from '@/src/types/schema'
+import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
+import { usePost } from '@/src/utils/api/mutations'
 import { InfiniteData } from '@tanstack/react-query'
-import { apiRoutes } from '../../../routes'
-import { usePost } from '../../../utils/api/mutations'
-import useQueryKeyStore from '../../../utils/api/hooks/useQueryKeyStore'
-import { SchemaGetAllPostsResponseDto } from '../../../types/schema'
 
 const useLikePost = (postId: string) => {
   const queryKeyStore = useQueryKeyStore()

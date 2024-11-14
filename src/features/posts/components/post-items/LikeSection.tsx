@@ -1,5 +1,5 @@
-import LikeIconSvg from '../../../../components/ui/icons/LikeIconSvg'
-import useLikePost from '../../hooks/useLikePost'
+import LikeIconSvg from '@/src/components/ui/icons/LikeIconSvg'
+import useLikePost from '../../hooks/post-interactions/useLikePost'
 
 interface Props {
   postId: string
