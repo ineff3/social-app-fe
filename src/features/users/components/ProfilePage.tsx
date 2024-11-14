@@ -78,7 +78,7 @@ const ProfilePage = () => {
                 <button className=" btn btn-outline btn-md" onClick={show}>
                   Edit profile
                 </button>
-                <Modal isOpen={visible} close={close} hasPadding={false}>
+                <Modal isOpen={visible} onClose={close} hasPadding={false}>
                   <EditProfileWindow
                     close={close}
                     username={userData?.username}

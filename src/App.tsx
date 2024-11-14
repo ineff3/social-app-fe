@@ -60,23 +60,25 @@ const App = () => {
 
       {backgroundLocation && (
         <Routes>
-          <Route element={<UserFetch />}>
-            <Route
-              element={
-                <PostProvider>
-                  <PostCreationLayout />
-                </PostProvider>
-              }
-            >
-              <Route path={pageRoutes.post} element={<CreatePost />} />
+          <Route element={<RouteAuth required />}>
+            <Route element={<UserFetch />}>
               <Route
-                path={pageRoutes.drafts}
                 element={
-                  <DraftProvider>
-                    <Drafts />
-                  </DraftProvider>
+                  <PostProvider>
+                    <PostCreationLayout />
+                  </PostProvider>
                 }
-              />
+              >
+                <Route path={pageRoutes.post} element={<CreatePost />} />
+                <Route
+                  path={pageRoutes.drafts}
+                  element={
+                    <DraftProvider>
+                      <Drafts />
+                    </DraftProvider>
+                  }
+                />
+              </Route>
             </Route>
           </Route>
         </Routes>

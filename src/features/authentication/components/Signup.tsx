@@ -17,7 +17,7 @@ const Signup = () => {
   }
 
   return (
-    <Modal close={closeWithPageShift} isOpen={visible}>
+    <Modal onClose={closeWithPageShift} isOpen={visible}>
       <div
         className={` flex flex-col items-center ${errorMessage ? 'gap-5' : 'gap-10'} `}
       >

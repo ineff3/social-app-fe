@@ -6,15 +6,22 @@ import ModalSaveDialog from './modal-forms/ModalSaveDialog'
 import { useModal } from '@/src/hooks/useModal'
 import { pageRoutes } from '@/src/routes'
 import { CloseBtn } from '@/src/components/ui/CloseBtn'
+import { useNavigateBackwards } from '@/src/hooks/useNavigateBackwards'
 
 export const CreatePostPage = () => {
   const { submitForm, isDirty, createDraft } = usePostContext()!
   const navigate = useNavigate()
+  const navBack = useNavigateBackwards()
   const location = useLocation()
   const state = location.state as {
     backgroundLocation?: Location
   }
   const backgroundLocation = state?.backgroundLocation ?? pageRoutes.home
+
+  const navigateToDrafts = () => {
+    navigate(pageRoutes.drafts, { state: { backgroundLocation } })
+  }
+
   const {
     visible: saveDialogVisible,
     show: showSaveDialog,
@@ -23,14 +30,14 @@ export const CreatePostPage = () => {
 
   const handleDraftSave = () => {
     createDraft()
-    navigate(pageRoutes.drafts, { state: { backgroundLocation } })
+    navigateToDrafts()
   }
 
   const handleDraftClick = () => {
     if (isDirty) {
       showSaveDialog()
     } else {
-      navigate(pageRoutes.drafts, { state: { backgroundLocation } })
+      navigateToDrafts()
     }
   }
 
@@ -38,7 +45,7 @@ export const CreatePostPage = () => {
     if (isDirty) {
       showSaveDialog()
     } else {
-      navigate(-1)
+      navBack()
     }
   }
 
@@ -62,11 +69,7 @@ export const CreatePostPage = () => {
         isOpen={saveDialogVisible}
         onSave={handleDraftSave}
         onClose={closeSaveDialog}
-        onDiscard={() =>
-          navigate(pageRoutes.drafts, {
-            state: { backgroundLocation },
-          })
-        }
+        onDiscard={() => navigateToDrafts()}
       />
     </>
   )

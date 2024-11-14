@@ -25,7 +25,7 @@ export const AttachEmoji = ({
       >
         <SmileIcon />
       </button>
-      <Modal isOpen={visible} close={close} asWindow={false}>
+      <Modal isOpen={visible} onClose={close} asWindow={false}>
         <div className=" max-h-[260px] overflow-hidden">
           <Picker
             emojiSize="18"

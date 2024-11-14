@@ -23,7 +23,7 @@ const FlowController = () => {
       {from === pageRoutes.authSignup ? (
         <Modal
           isOpen={visible}
-          close={modalClose}
+          onClose={modalClose}
           staticMode
           maxWidth="max-w-md"
         >

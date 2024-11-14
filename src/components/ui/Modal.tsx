@@ -8,7 +8,7 @@ import {
 
 interface Props {
   isOpen: boolean
-  close: () => void
+  onClose: () => void
   children?: ReactNode
   staticMode?: boolean
   asWindow?: boolean
@@ -18,7 +18,7 @@ interface Props {
 
 const Modal = ({
   isOpen,
-  close,
+  onClose,
   children,
   staticMode = false,
   asWindow = true,
@@ -31,7 +31,7 @@ const Modal = ({
         as="div"
         className="relative z-10"
         onClose={() => {
-          return staticMode ? {} : close()
+          return staticMode ? {} : onClose()
         }}
       >
         <TransitionChild

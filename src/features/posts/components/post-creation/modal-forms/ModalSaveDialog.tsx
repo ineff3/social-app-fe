@@ -9,7 +9,7 @@ interface Props {
 
 const ModalSaveDialog = ({ isOpen, onDiscard, onClose, onSave }: Props) => {
   return (
-    <Modal isOpen={isOpen} close={onClose} maxWidth="max-w-sm">
+    <Modal isOpen={isOpen} onClose={onClose} maxWidth="max-w-sm">
       <div className=" flex flex-col gap-5 ">
         <div>
           <p className="text-lg font-semibold text-secondary">Save post?</p>

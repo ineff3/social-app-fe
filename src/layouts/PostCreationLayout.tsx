@@ -1,8 +1,9 @@
-import { Outlet, useNavigate } from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
 import Modal from '../components/ui/Modal'
 import { useModal } from '../hooks/useModal'
 import { usePostContext } from '../features/posts/contexts/PostContext'
 import ModalSaveDialog from '../features/posts/components/post-creation/modal-forms/ModalSaveDialog'
+import { useNavigateBackwards } from '../hooks/useNavigateBackwards'
 
 export const PostCreationLayout = () => {
   const { isDirty, createDraft } = usePostContext()!
@@ -12,29 +13,29 @@ export const PostCreationLayout = () => {
     show: showSaveDialog,
     close: closeSaveDialog,
   } = useModal(false)
-  const navigate = useNavigate()
+  const navBack = useNavigateBackwards()
 
   const handleMainModalClose = () => {
     if (isDirty) {
       showSaveDialog()
     } else {
-      navigate(-1)
+      navBack()
     }
   }
 
   const handleDraftSave = () => {
     createDraft()
-    navigate(-1)
+    navBack()
   }
 
   return (
-    <Modal isOpen={mainModalVisible} close={handleMainModalClose}>
+    <Modal isOpen={mainModalVisible} onClose={handleMainModalClose}>
       <Outlet />
       <ModalSaveDialog
         onSave={handleDraftSave}
         isOpen={saveDialogVisible}
         onClose={closeSaveDialog}
-        onDiscard={() => navigate(-1)}
+        onDiscard={() => navBack()}
       />
     </Modal>
   )
