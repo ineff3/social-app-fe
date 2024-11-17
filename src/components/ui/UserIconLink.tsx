@@ -11,6 +11,7 @@ const UserIconLink = ({ username, userImageUrl, onClick }: Props) => {
   return (
     <>
       <Link
+        tabIndex={-1}
         to={'/users/' + username || ''}
         className=" h-[45px] w-[45px] flex-shrink-0 overflow-hidden rounded-full"
         onClick={onClick}

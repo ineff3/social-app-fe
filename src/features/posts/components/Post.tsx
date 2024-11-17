@@ -1,24 +1,31 @@
 import { convertPostDate } from '../utils/dateConvertions'
-import UserIconLink from '../../../components/ui/UserIconLink'
 import LikeSection from './post-items/LikeSection'
-import RepostIconSvg from '../../../components/ui/icons/RepostIconSvg'
-import CommentIconSvg from '../../../components/ui/icons/CommentIconSvg'
 import BookmarkSection from './post-items/BookmarkSection'
 import PostOptions from './post-items/PostOptions'
-import { SchemaPostResponseDto } from '../../../types/schema'
 import { useAppSelector } from '@/src/redux/hooks'
 import { selectUserPreview } from '@/src/redux/user/userSlice'
+import { useId } from 'react'
+import CommentIconSvg from '@/src/components/ui/icons/CommentIconSvg'
+import { SchemaPostResponseDto } from '@/src/types/schema'
+import UserIconLink from '@/src/components/ui/UserIconLink'
+import RepostIconSvg from '@/src/components/ui/icons/RepostIconSvg'
 
 interface Props {
   post: SchemaPostResponseDto
 }
 
 const Post = ({ post }: Props) => {
+  const authorId = useId()
   const userPreviewData = useAppSelector(selectUserPreview)
   const isPostAuthor = userPreviewData?.id === post.author.id
   const createdDate = new Date(post.createdAt)
+
   return (
-    <div className=" border-b border-accent p-5 md:p-10">
+    <article
+      tabIndex={0}
+      aria-labelledby={authorId}
+      className=" border-b border-accent p-5 md:p-10"
+    >
       <div className=" flex gap-3">
         <UserIconLink
           userImageUrl={post.author?.avatarUrl}
@@ -29,12 +36,16 @@ const Post = ({ post }: Props) => {
           <div className=" flex flex-col gap-2">
             <div className=" flex justify-between ">
               <div className="flex items-center gap-2 text-sm">
-                <p className=" font-medium text-secondary">
+                <span className=" font-medium text-secondary" id={authorId}>
                   {post.author?.firstName} {post.author?.secondName}
-                </p>
-                <p className=" hidden sm:block">@{post.author?.username}</p>
-                <p>·</p>
-                <p>{convertPostDate(createdDate)}</p>
+                </span>
+                <span className=" hidden sm:block">
+                  @{post.author?.username}
+                </span>
+                <span>·</span>
+                <time dateTime={createdDate.toISOString()}>
+                  {convertPostDate(createdDate)}
+                </time>
               </div>
               <PostOptions isPostAuthor={isPostAuthor} postId={post?.id} />
             </div>
@@ -58,7 +69,7 @@ const Post = ({ post }: Props) => {
               </div>
             )}
           </div>
-          <div className=" flex justify-between">
+          <div role="group" className=" flex justify-between">
             <div className=" flex items-center gap-1.5">
               <CommentIconSvg width={22} height={22} fill="currentColor" />
               <p>3</p>
@@ -83,7 +94,7 @@ const Post = ({ post }: Props) => {
           </div>
         </div>
       </div>
-    </div>
+    </article>
   )
 }
 

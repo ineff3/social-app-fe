@@ -29,9 +29,7 @@ const NavSidebar = ({
                 <XIconSvg width={22} height={22} fill="currentColor" />
               </Link>
             </div>
-            <div>
-              <NavMenu closeMenu={closeMenu} />
-            </div>
+            <NavMenu closeMenu={closeMenu} />
           </div>
           <div className=" px-4">
             <div className=" mb-5 flex justify-center">

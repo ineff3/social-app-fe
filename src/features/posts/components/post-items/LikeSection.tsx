@@ -14,7 +14,11 @@ const LikeSection = ({ postId, isLiked, likesCount }: Props) => {
   }
   return (
     <>
-      <button onClick={onPostLike} className=" btn btn-circle btn-ghost btn-sm">
+      <button
+        aria-label="Like"
+        onClick={onPostLike}
+        className=" btn btn-circle btn-ghost btn-sm"
+      >
         <div
           className={` transform transition duration-500 ${isLiked && 'animate-slide-up-and-down text-[#F61164]'}`}
         >
