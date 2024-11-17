@@ -10,6 +10,7 @@ import {
   UseFieldArrayRemove,
   useForm,
   UseFormRegister,
+  UseFormReset,
   UseFormSetValue,
 } from 'react-hook-form'
 import { CreatePostFormType } from '../interfaces'
@@ -32,6 +33,7 @@ interface IPostContextProps {
   removePostImage: UseFieldArrayRemove
   errors: FieldErrors<CreatePostFormType>
   postIsPending: boolean
+  reset: UseFormReset<CreatePostFormType>
 }
 
 const PostContext = createContext<IPostContextProps | null>(null)
@@ -144,6 +146,7 @@ export const PostProvider = ({ children }: { children: ReactNode }) => {
         removePostImage,
         errors,
         postIsPending: createPostMutation.isPending,
+        reset,
       }}
     >
       {children}

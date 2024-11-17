@@ -1,6 +1,7 @@
 import { SchemaPostResponseDto } from '@/src/types/schema'
 import { useNavigate } from 'react-router-dom'
 import { usePostContext } from '../../../contexts/PostContext'
+import { useId } from 'react'
 
 export const DraftRow = ({
   draft,
@@ -9,6 +10,7 @@ export const DraftRow = ({
   draft: SchemaPostResponseDto
   editMode: boolean
 }) => {
+  const descId = useId()
   const { setValue } = usePostContext()!
   const navigate = useNavigate()
 
@@ -22,11 +24,14 @@ export const DraftRow = ({
 
   return (
     <button
+      aria-label="Select draft"
+      aria-describedby={descId}
       onClick={handleDraftSelect}
+      disabled={editMode}
       className={`btn btn-ghost h-20 flex-grow gap-3 bg-base-200 ${editMode && ' btn-disabled !bg-base-200'}`}
     >
       <div className=" flex flex-1 items-center justify-between gap-2 text-left">
-        {draft?.text ? <p>{draft.text}</p> : <p> </p>}
+        {draft?.text ? <p id={descId}>{draft.text}</p> : <p> </p>}
         {draft?.imageUrls && (
           <div className=" h-[60px] w-[60px] flex-shrink-0">
             <div

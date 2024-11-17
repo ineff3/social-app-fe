@@ -23,6 +23,7 @@ export const DraftsPage = () => {
     <div className=" flex flex-1 flex-col">
       <div className=" flex items-center gap-4">
         <button
+          aria-label="Move back"
           className=" btn btn-circle btn-ghost"
           onClick={() => navigate(-1)}
         >
