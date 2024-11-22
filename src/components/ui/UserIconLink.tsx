@@ -5,15 +5,16 @@ interface Props {
   username?: string
   userImageUrl?: string
   onClick?: () => void
+  disabled?: boolean
 }
 
-const UserIconLink = ({ username, userImageUrl, onClick }: Props) => {
+const UserIconLink = ({ username, userImageUrl, onClick, disabled }: Props) => {
   return (
     <>
       <Link
         tabIndex={-1}
         to={'/users/' + username || ''}
-        className=" h-[45px] w-[45px] flex-shrink-0 overflow-hidden rounded-full"
+        className={`h-[45px] w-[45px] flex-shrink-0 overflow-hidden rounded-full ${disabled && 'pointer-events-none'}`}
         onClick={onClick}
       >
         {userImageUrl ? (

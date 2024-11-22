@@ -5,6 +5,8 @@ import { FaRegPenToSquare } from 'react-icons/fa6'
 import { pageRoutes } from '../../routes'
 import { UserPreview } from './UserPreview'
 import { UserPreviewDropdown } from './UserPreviewDropdown'
+import { useAppSelector } from '@/src/redux/hooks'
+import { selectUserPreview } from '@/src/redux/user/userSlice'
 
 const NavSidebar = ({
   menuOpen,
@@ -14,6 +16,8 @@ const NavSidebar = ({
   closeMenu: () => void
 }) => {
   const location = useLocation()
+  const user = useAppSelector(selectUserPreview)!
+
   return (
     <>
       <div
@@ -51,7 +55,7 @@ const NavSidebar = ({
               </Link>
             </div>
             <div className=" flex justify-between sm:flex-col lg:flex-row">
-              <UserPreview onUserLinkClick={closeMenu} />
+              <UserPreview onUserLinkClick={closeMenu} user={user} />
               <UserPreviewDropdown />
             </div>
           </div>
