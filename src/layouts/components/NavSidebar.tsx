@@ -1,9 +1,10 @@
 import { Link, useLocation } from 'react-router-dom'
 import XIconSvg from '../../components/ui/icons/XIconSvg'
 import NavMenu from './NavMenu'
-import UserPreview from './UserPreview'
 import { FaRegPenToSquare } from 'react-icons/fa6'
 import { pageRoutes } from '../../routes'
+import { UserPreview } from './UserPreview'
+import { UserPreviewDropdown } from './UserPreviewDropdown'
 
 const NavSidebar = ({
   menuOpen,
@@ -31,7 +32,7 @@ const NavSidebar = ({
             </div>
             <NavMenu closeMenu={closeMenu} />
           </div>
-          <div className=" px-4">
+          <div className=" flex flex-col justify-center px-4">
             <div className=" mb-5 flex justify-center">
               <Link
                 to={pageRoutes.post}
@@ -49,7 +50,10 @@ const NavSidebar = ({
                 />
               </Link>
             </div>
-            <UserPreview closeMenu={closeMenu} />
+            <div className=" flex justify-between sm:flex-col lg:flex-row">
+              <UserPreview onUserLinkClick={closeMenu} />
+              <UserPreviewDropdown />
+            </div>
           </div>
         </div>
       </div>
