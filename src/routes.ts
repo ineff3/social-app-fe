@@ -9,6 +9,7 @@ export const apiRoutes = {
   updateUsername: 'user/username',
   getUsernamesArray: 'users/usernames',
   checkUsernameIsReserved: 'user/username-reserved',
+  search: 'user/search',
   //posts
   posts: 'posts',
   likePost: (postId: string) => `posts/${postId}/like`,

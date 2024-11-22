@@ -116,6 +116,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/user/search": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["UserController_searchUsers"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/user/{username}": {
         parameters: {
             query?: never;
@@ -174,7 +190,7 @@ export interface paths {
         get: operations["PostController_findAll"];
         put?: never;
         post: operations["PostController_create"];
-        delete?: never;
+        delete: operations["PostController_bulkRemove"];
         options?: never;
         head?: never;
         patch?: never;
@@ -257,13 +273,24 @@ export interface paths {
         delete: operations["PostController_remove"];
         options?: never;
         head?: never;
-        patch?: never;
+        patch: operations["PostController_updatePost"];
         trace?: never;
     };
 }
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        PaginatedQueryDto: {
+            /** @default 1 */
+            page?: number;
+            /** @default 10 */
+            limit?: number;
+            /**
+             * @default desc
+             * @enum {string}
+             */
+            order?: "desc" | "asc";
+        };
         RegisterUserDto: {
             /** @example Ryan */
             firstName: string;
@@ -294,6 +321,10 @@ export interface components {
         };
         UsernameReservedResponseDto: {
             isReserved: boolean;
+        };
+        UserSearchResponseDto: {
+            data: components["schemas"]["UserPreviewResponseDto"][];
+            limit: number;
         };
         UserResponseDto: {
             id: string;
@@ -342,21 +373,11 @@ export interface components {
             liked?: boolean;
             bookmarked?: boolean;
         };
-        PaginatedQueryDto: {
-            /** @default 1 */
-            page?: number;
-            /** @default 10 */
-            limit?: number;
-            /**
-             * @default desc
-             * @enum {string}
-             */
-            order?: "desc" | "asc";
-        };
         CreatePostDto: {
+            text?: string;
             /** @default false */
             isDraft?: boolean;
-            text: string;
+            images?: string[];
         };
         PostResponseDto: {
             id: string;
@@ -376,6 +397,10 @@ export interface components {
             page: number;
             limit: number;
         };
+        UpdatePostDto: {
+            text?: string;
+            images?: string[];
+        };
     };
     responses: never;
     parameters: never;
@@ -383,20 +408,22 @@ export interface components {
     headers: never;
     pathItems: never;
 }
+export type SchemaPaginatedQueryDto = components['schemas']['PaginatedQueryDto'];
 export type SchemaRegisterUserDto = components['schemas']['RegisterUserDto'];
 export type SchemaAuthUserResponseDto = components['schemas']['AuthUserResponseDto'];
 export type SchemaLoginUserDto = components['schemas']['LoginUserDto'];
 export type SchemaUserPreviewResponseDto = components['schemas']['UserPreviewResponseDto'];
 export type SchemaUsernameReservedResponseDto = components['schemas']['UsernameReservedResponseDto'];
+export type SchemaUserSearchResponseDto = components['schemas']['UserSearchResponseDto'];
 export type SchemaUserResponseDto = components['schemas']['UserResponseDto'];
 export type SchemaGetUserByUsernameResponseDto = components['schemas']['GetUserByUsernameResponseDto'];
 export type SchemaUpdateUserDto = components['schemas']['UpdateUserDto'];
 export type SchemaUpdateUsernameDto = components['schemas']['UpdateUsernameDto'];
 export type SchemaGetPostsQueryDto = components['schemas']['GetPostsQueryDto'];
-export type SchemaPaginatedQueryDto = components['schemas']['PaginatedQueryDto'];
 export type SchemaCreatePostDto = components['schemas']['CreatePostDto'];
 export type SchemaPostResponseDto = components['schemas']['PostResponseDto'];
 export type SchemaGetAllPostsResponseDto = components['schemas']['GetAllPostsResponseDto'];
+export type SchemaUpdatePostDto = components['schemas']['UpdatePostDto'];
 export type $defs = Record<string, never>;
 export interface operations {
     AppController_getHello: {
@@ -540,6 +567,28 @@ export interface operations {
             };
         };
     };
+    UserController_searchUsers: {
+        parameters: {
+            query?: {
+                query?: string;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UserSearchResponseDto"];
+                };
+            };
+        };
+    };
     UserController_getUserByName: {
         parameters: {
             query?: never;
@@ -637,11 +686,30 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["CreatePostDto"];
+                "multipart/form-data": components["schemas"]["CreatePostDto"];
             };
         };
         responses: {
             201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    PostController_bulkRemove: {
+        parameters: {
+            query: {
+                ids: string[];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -742,6 +810,29 @@ export interface operations {
             cookie?: never;
         };
         requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    PostController_updatePost: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "multipart/form-data": components["schemas"]["UpdatePostDto"];
+            };
+        };
         responses: {
             200: {
                 headers: {

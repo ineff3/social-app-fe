@@ -3,6 +3,7 @@
 import { createContext, ReactNode, useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
+  Control,
   FieldArrayWithId,
   FieldErrors,
   useFieldArray,
@@ -22,6 +23,7 @@ import { useCreateDraft, useUpdateDraft } from '../hooks/drafts/drafts'
 
 interface IPostContextProps {
   register: UseFormRegister<CreatePostFormType>
+  control: Control<CreatePostFormType, any>
   setValue: UseFormSetValue<CreatePostFormType>
   submitForm: () => void
   createDraft: () => void
@@ -135,6 +137,7 @@ export const PostProvider = ({ children }: { children: ReactNode }) => {
     <PostContext.Provider
       value={{
         register,
+        control,
         setValue,
         submitForm,
         createDraft,
