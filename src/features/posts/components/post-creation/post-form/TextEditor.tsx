@@ -4,14 +4,16 @@ import Text from '@tiptap/extension-text'
 import Paragraph from '@tiptap/extension-paragraph'
 import Placeholder from '@tiptap/extension-placeholder'
 import Link from '@tiptap/extension-link'
-import { UserMention } from '../../../utils/mentions/userMention'
+import { UserMention } from '../../../utils/mentions/UserMention'
 
 interface Props {
   onChange: (text: string) => void
+  initialContent?: string
 }
 
-export const TextEditor = ({ onChange }: Props) => {
+export const TextEditor = ({ onChange, initialContent }: Props) => {
   const editor = useEditor({
+    content: initialContent,
     extensions: [
       Document,
       Paragraph,

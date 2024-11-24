@@ -10,40 +10,9 @@ type ComponentRef = {
 
 export const UserMention = Mention.configure({
   HTMLAttributes: {
-    class: ' text-primary bg-primary bg-opacity-20 rounded-md px-1  ',
+    class: ' text-primary bg-primary bg-opacity-20 rounded-md px-1',
   },
   suggestion: {
-    items: ({ query }) => {
-      return [
-        'Lea Thompson',
-        'Cyndi Lauper',
-        'Tom Cruise',
-        'Madonna',
-        'Jerry Hall',
-        'Joan Collins',
-        'Winona Ryder',
-        'Christina Applegate',
-        'Alyssa Milano',
-        'Molly Ringwald',
-        'Ally Sheedy',
-        'Debbie Harry',
-        'Olivia Newton-John',
-        'Elton John',
-        'Michael J. Fox',
-        'Axl Rose',
-        'Emilio Estevez',
-        'Ralph Macchio',
-        'Rob Lowe',
-        'Jennifer Grey',
-        'Mickey Rourke',
-        'John Cusack',
-        'Matthew Broderick',
-        'Justine Bateman',
-        'Lisa Bonet',
-      ]
-        .filter((item) => item.toLowerCase().startsWith(query.toLowerCase()))
-        .slice(0, 5)
-    },
     render: () => {
       let component: ReactRenderer
       let popup: Instance[]

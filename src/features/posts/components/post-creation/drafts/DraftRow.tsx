@@ -28,10 +28,16 @@ export const DraftRow = ({
       aria-describedby={descId}
       onClick={handleDraftSelect}
       disabled={editMode}
-      className={`btn btn-ghost h-20 flex-grow gap-3 bg-base-200 ${editMode && ' btn-disabled !bg-base-200'}`}
+      className={`btn btn-ghost flex h-20 flex-1 gap-3 bg-base-200 ${editMode && ' btn-disabled !bg-base-200'}`}
     >
       <div className=" flex flex-1 items-center justify-between gap-2 text-left">
-        {draft?.text ? <p id={descId}>{draft.text}</p> : <p> </p>}
+        {draft?.text ? (
+          <p className=" text-base" id={descId}>
+            {draft.text}
+          </p>
+        ) : (
+          <p> </p>
+        )}
         {draft?.imageUrls && (
           <div className=" h-[60px] w-[60px] flex-shrink-0">
             <div

@@ -15,16 +15,15 @@ export const PostFormContent = () => {
       <UserIconLink userImageUrl={user?.avatarUrl} username={user?.username} />
       <div className=" flex w-full flex-col gap-5">
         <label className=" form-control">
-          {/* <textarea
-            {...register('text')}
-            className="textarea textarea-bordered max-h-[300px] min-h-[85px] w-full text-base"
-            placeholder="What is happening?"
-            rows={3}
-          /> */}
           <Controller
             control={control}
             name="text"
-            render={({ field }) => <TextEditor onChange={field.onChange} />}
+            render={({ field }) => (
+              <TextEditor
+                initialContent={field.value}
+                onChange={field.onChange}
+              />
+            )}
           />
           <div className="label">
             {errors?.text && (
