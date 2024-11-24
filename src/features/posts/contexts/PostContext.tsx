@@ -3,6 +3,7 @@
 import { createContext, ReactNode, useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
+  Control,
   FieldArrayWithId,
   FieldErrors,
   useFieldArray,
@@ -10,6 +11,7 @@ import {
   UseFieldArrayRemove,
   useForm,
   UseFormRegister,
+  UseFormReset,
   UseFormSetValue,
 } from 'react-hook-form'
 import { CreatePostFormType } from '../interfaces'
@@ -21,6 +23,7 @@ import { useCreateDraft, useUpdateDraft } from '../hooks/drafts/drafts'
 
 interface IPostContextProps {
   register: UseFormRegister<CreatePostFormType>
+  control: Control<CreatePostFormType, any>
   setValue: UseFormSetValue<CreatePostFormType>
   submitForm: () => void
   createDraft: () => void
@@ -32,6 +35,7 @@ interface IPostContextProps {
   removePostImage: UseFieldArrayRemove
   errors: FieldErrors<CreatePostFormType>
   postIsPending: boolean
+  reset: UseFormReset<CreatePostFormType>
 }
 
 const PostContext = createContext<IPostContextProps | null>(null)
@@ -133,6 +137,7 @@ export const PostProvider = ({ children }: { children: ReactNode }) => {
     <PostContext.Provider
       value={{
         register,
+        control,
         setValue,
         submitForm,
         createDraft,
@@ -144,6 +149,7 @@ export const PostProvider = ({ children }: { children: ReactNode }) => {
         removePostImage,
         errors,
         postIsPending: createPostMutation.isPending,
+        reset,
       }}
     >
       {children}

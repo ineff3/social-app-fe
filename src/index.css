@@ -5,13 +5,21 @@
 
 html,
 body {
-    height: 100%;
-    overflow-x: hidden;
-    font-family: 'Montserrat', sans-serif;
+  height: 100%;
+  overflow-x: hidden;
+  font-family: 'Montserrat', sans-serif;
 }
 
 #root {
-    min-height: 100%;
-    display: flex;
-    flex-direction: column;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.tiptap p.is-editor-empty:first-child::before {
+  opacity: 80%;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
 }

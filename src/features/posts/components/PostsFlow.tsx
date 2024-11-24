@@ -32,7 +32,7 @@ export const PostsFlow = <
   }, [inView, fetchNextPage])
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col" role="feed">
       {data &&
         data.pages.map((page) => (
           <div key={page.page}>

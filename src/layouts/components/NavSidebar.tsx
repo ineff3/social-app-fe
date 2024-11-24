@@ -1,9 +1,12 @@
 import { Link, useLocation } from 'react-router-dom'
 import XIconSvg from '../../components/ui/icons/XIconSvg'
 import NavMenu from './NavMenu'
-import UserPreview from './UserPreview'
 import { FaRegPenToSquare } from 'react-icons/fa6'
 import { pageRoutes } from '../../routes'
+import { UserPreview } from './UserPreview'
+import { UserPreviewDropdown } from './UserPreviewDropdown'
+import { useAppSelector } from '@/src/redux/hooks'
+import { selectUserPreview } from '@/src/redux/user/userSlice'
 
 const NavSidebar = ({
   menuOpen,
@@ -13,6 +16,8 @@ const NavSidebar = ({
   closeMenu: () => void
 }) => {
   const location = useLocation()
+  const user = useAppSelector(selectUserPreview)!
+
   return (
     <>
       <div
@@ -29,11 +34,9 @@ const NavSidebar = ({
                 <XIconSvg width={22} height={22} fill="currentColor" />
               </Link>
             </div>
-            <div>
-              <NavMenu closeMenu={closeMenu} />
-            </div>
+            <NavMenu closeMenu={closeMenu} />
           </div>
-          <div className=" px-4">
+          <div className=" flex flex-col justify-center px-4">
             <div className=" mb-5 flex justify-center">
               <Link
                 to={pageRoutes.post}
@@ -51,7 +54,10 @@ const NavSidebar = ({
                 />
               </Link>
             </div>
-            <UserPreview closeMenu={closeMenu} />
+            <div className=" flex justify-between sm:flex-col lg:flex-row">
+              <UserPreview onUserLinkClick={closeMenu} user={user} />
+              <UserPreviewDropdown />
+            </div>
           </div>
         </div>
       </div>

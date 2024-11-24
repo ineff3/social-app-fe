@@ -7,6 +7,7 @@ import {
   SchemaGetUserByUsernameResponseDto,
   SchemaUsernameReservedResponseDto,
   SchemaUserPreviewResponseDto,
+  SchemaUserSearchResponseDto,
 } from '@/src/types/schema'
 import { apiRoutes } from '@/src/routes'
 
@@ -59,6 +60,11 @@ const useQueryKeyStore = () => {
             apiRoutes.checkUsernameIsReserved,
             { username },
           ),
+      }),
+      search: (query: string, limit?: number) => ({
+        queryKey: [query],
+        queryFn: () =>
+          get<SchemaUserSearchResponseDto>(apiRoutes.search, { query, limit }),
       }),
     },
     auth: {

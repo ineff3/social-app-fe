@@ -109,25 +109,27 @@ const NavMenu = ({ closeMenu }: { closeMenu: () => void }) => {
   const activeLinkStyles = linkStyles + ' !text-secondary !bg-transparent '
 
   return (
-    <ul className="menu gap-2 p-0 text-base-content">
-      {menuItems.map((item, index) => (
-        <li
-          key={index}
-          className={` ${location.pathname === item.path ? '  before:w-[3.5px] ' : ''} before:content-[" "] before:absolute before:inline-block before:h-[44px] before:bg-primary `}
-        >
-          <NavLink
-            className={({ isActive }) =>
-              isActive ? activeLinkStyles : linkStyles
-            }
-            to={item.path}
-            onClick={closeMenu}
+    <nav>
+      <ul className="menu gap-2 p-0 text-base-content">
+        {menuItems.map((item, index) => (
+          <li
+            key={index}
+            className={` ${location.pathname === item.path ? '  before:w-[3.5px] ' : ''} before:content-[" "] before:absolute before:inline-block before:h-[44px] before:bg-primary `}
           >
-            {item.svg}
-            <p className=" text-lg sm:hidden lg:block ">{item.name}</p>
-          </NavLink>
-        </li>
-      ))}
-    </ul>
+            <NavLink
+              className={({ isActive }) =>
+                isActive ? activeLinkStyles : linkStyles
+              }
+              to={item.path}
+              onClick={closeMenu}
+            >
+              {item.svg}
+              <p className=" text-lg sm:hidden lg:block ">{item.name}</p>
+            </NavLink>
+          </li>
+        ))}
+      </ul>
+    </nav>
   )
 }
 export default NavMenu

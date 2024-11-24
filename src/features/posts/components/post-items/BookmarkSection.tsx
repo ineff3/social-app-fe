@@ -13,7 +13,11 @@ const BookmarkSection = ({ postId, isBookmarked }: Props) => {
     useBookmarkPostMutation.mutate()
   }
   return (
-    <button className=" btn btn-circle btn-ghost btn-sm" onClick={onClick}>
+    <button
+      aria-label="bookmark"
+      className=" btn btn-circle btn-ghost btn-sm"
+      onClick={onClick}
+    >
       <div className={` ${isBookmarked && 'text-primary'}`}>
         <BookmarkIconSvg
           width={22}

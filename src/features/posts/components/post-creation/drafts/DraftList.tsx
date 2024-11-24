@@ -26,7 +26,7 @@ export const DraftList = ({ editMode }: Props) => {
   }
 
   return (
-    <div className=" flex max-h-[360px] flex-col gap-3 overflow-hidden overflow-y-auto px-4">
+    <div className=" flex max-h-[360px] w-full flex-col gap-3 overflow-y-auto px-4">
       {fields.map((field, index) => (
         <div key={field.id} className=" flex items-center gap-3">
           {editMode && (
