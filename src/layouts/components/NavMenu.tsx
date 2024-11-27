@@ -3,11 +3,18 @@ import { HomeIcon } from '@/src/components/ui/icons/nav-menu/HomeIcon'
 import { MessageIcon } from '@/src/components/ui/icons/nav-menu/MessageIcon'
 import { NotificationIcon } from '@/src/components/ui/icons/nav-menu/NotificationIcon'
 import { PremiumIcon } from '@/src/components/ui/icons/nav-menu/PremiumIcon'
+import { ProfileIcon } from '@/src/components/ui/icons/nav-menu/ProfileIcon'
 import { SearchIcon } from '@/src/components/ui/icons/nav-menu/SearchIcon'
+import { useAppSelector } from '@/src/redux/hooks'
+import { selectUserPreview } from '@/src/redux/user/userSlice'
 import { NavLink, useLocation } from 'react-router-dom'
 
 const ICON_SIZE = 20
-const menuItems = [
+
+const LINK_HEIGHT = 52
+const TRANSITION_DURATION = 0.25
+
+const generateMenuItems = (username: string) => [
   {
     path: '/',
     name: 'Home',
@@ -34,18 +41,24 @@ const menuItems = [
     svg: <BookmarkIcon width={ICON_SIZE} height={ICON_SIZE} />,
   },
   {
+    path: username ? `/users/${username}` : '/users/:username',
+    name: 'Profile',
+    svg: <ProfileIcon width={ICON_SIZE} height={ICON_SIZE} />,
+  },
+  {
     path: '/premium',
     name: 'Premium',
     svg: <PremiumIcon width={ICON_SIZE} height={ICON_SIZE} />,
   },
 ]
-const LINK_HEIGHT = 52
-const TRANSITION_DURATION = 0.25
 
 const NavMenu = ({ closeMenu }: { closeMenu: () => void }) => {
+  const user = useAppSelector(selectUserPreview)!
   const location = useLocation()
   const linkStyles = ` rounded-none px-7 py-3 h-[${LINK_HEIGHT}px] transition-color duration-[${TRANSITION_DURATION}s] `
   const activeLinkStyles = linkStyles + ' !text-secondary !bg-transparent '
+
+  const menuItems = generateMenuItems(user.username)
 
   const activeIndex = menuItems.findIndex(
     (item) => item.path === location.pathname,
@@ -57,6 +70,7 @@ const NavMenu = ({ closeMenu }: { closeMenu: () => void }) => {
         {menuItems.map((item, index) => (
           <li key={index}>
             <NavLink
+              key={index}
               className={({ isActive }) =>
                 isActive ? activeLinkStyles : linkStyles
               }
@@ -68,12 +82,14 @@ const NavMenu = ({ closeMenu }: { closeMenu: () => void }) => {
             </NavLink>
           </li>
         ))}
-        <div
-          className={`absolute left-0 w-[3.5px] bg-primary h-[${LINK_HEIGHT}px] top-0  transition-all duration-[${TRANSITION_DURATION}s]`}
-          style={{
-            marginTop: `${activeIndex * LINK_HEIGHT}px`,
-          }}
-        />
+        {activeIndex !== -1 && (
+          <div
+            className={`absolute left-0 w-[3.5px] bg-primary h-[${LINK_HEIGHT}px] top-0  transition-all duration-[${TRANSITION_DURATION}s] shadow-[25px_0px_80px_20px_rgba(26,92,255,1)]`}
+            style={{
+              marginTop: `${activeIndex * LINK_HEIGHT}px`,
+            }}
+          />
+        )}
       </ul>
     </nav>
   )

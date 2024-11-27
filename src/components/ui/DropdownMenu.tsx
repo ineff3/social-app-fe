@@ -49,7 +49,7 @@ export const DropdownMenu = ({ items, anchor }: Props) => {
         >
           <MenuItems
             anchor={anchor}
-            className=" absolute z-[10] flex w-[240px] origin-center flex-col overflow-hidden rounded-xl bg-base-200 shadow-lg ring-1 ring-black/5 focus:outline-none"
+            className=" absolute z-[10] flex w-[240px] origin-center flex-col overflow-hidden rounded-xl bg-base-100  shadow-[0px_0px_20px_-8px_rgba(255,255,255,1);] ring-1 ring-black/5 focus:outline-none"
           >
             {items.length === 0 && (
               <MenuItem>
