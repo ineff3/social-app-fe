@@ -58,7 +58,7 @@ const NavMenu = ({ closeMenu }: { closeMenu: () => void }) => {
   const linkStyles = ` rounded-none px-7 py-3 h-[${LINK_HEIGHT}px] transition-color duration-[${TRANSITION_DURATION}s] `
   const activeLinkStyles = linkStyles + ' !text-secondary !bg-transparent '
 
-  const menuItems = generateMenuItems(user.username)
+  const menuItems = generateMenuItems(user?.username)
 
   const activeIndex = menuItems.findIndex(
     (item) => item.path === location.pathname,
