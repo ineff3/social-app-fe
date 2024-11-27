@@ -1,7 +1,7 @@
-import React from 'react'
+import { NotificationsFlow } from '../features/notifications/components/NotificationsFlow'
 
 const Notifications = () => {
-  return <div>Notifications</div>
+  return <NotificationsFlow />
 }
 
 export default Notifications

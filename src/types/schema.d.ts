@@ -276,6 +276,22 @@ export interface paths {
         patch: operations["PostController_updatePost"];
         trace?: never;
     };
+    "/notifications": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["NotificationController_findAll"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -401,6 +417,22 @@ export interface components {
             text?: string;
             images?: string[];
         };
+        NotificationResponseDto: {
+            id: string;
+            message: string | null;
+            mentionedPost: components["schemas"]["PostResponseDto"] | null;
+            isViewed: boolean;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        GetAllNotificationsResponseDto: {
+            data: components["schemas"]["NotificationResponseDto"][];
+            total: number;
+            page: number;
+            limit: number;
+        };
     };
     responses: never;
     parameters: never;
@@ -424,6 +456,8 @@ export type SchemaCreatePostDto = components['schemas']['CreatePostDto'];
 export type SchemaPostResponseDto = components['schemas']['PostResponseDto'];
 export type SchemaGetAllPostsResponseDto = components['schemas']['GetAllPostsResponseDto'];
 export type SchemaUpdatePostDto = components['schemas']['UpdatePostDto'];
+export type SchemaNotificationResponseDto = components['schemas']['NotificationResponseDto'];
+export type SchemaGetAllNotificationsResponseDto = components['schemas']['GetAllNotificationsResponseDto'];
 export type $defs = Record<string, never>;
 export interface operations {
     AppController_getHello: {
@@ -839,6 +873,29 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+        };
+    };
+    NotificationController_findAll: {
+        parameters: {
+            query?: {
+                page?: number;
+                limit?: number;
+                order?: "desc" | "asc";
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GetAllNotificationsResponseDto"];
+                };
             };
         };
     };
