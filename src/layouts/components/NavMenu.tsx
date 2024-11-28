@@ -10,7 +10,6 @@ import { selectUserPreview } from '@/src/redux/user/userSlice'
 import { NavLink, useLocation } from 'react-router-dom'
 
 const ICON_SIZE = 20
-
 const LINK_HEIGHT = 52
 const TRANSITION_DURATION = 0.25
 
@@ -55,7 +54,7 @@ const generateMenuItems = (username: string) => [
 const NavMenu = ({ closeMenu }: { closeMenu: () => void }) => {
   const user = useAppSelector(selectUserPreview)!
   const location = useLocation()
-  const linkStyles = ` rounded-none px-7 py-3 h-[${LINK_HEIGHT}px] transition-color duration-[${TRANSITION_DURATION}s] `
+  const linkStyles = ` rounded-none px-7 py-3 transition-color duration-[${TRANSITION_DURATION}s] `
   const activeLinkStyles = linkStyles + ' !text-secondary !bg-transparent '
 
   const menuItems = generateMenuItems(user?.username)
@@ -74,6 +73,9 @@ const NavMenu = ({ closeMenu }: { closeMenu: () => void }) => {
               className={({ isActive }) =>
                 isActive ? activeLinkStyles : linkStyles
               }
+              style={{
+                height: `${LINK_HEIGHT}px`,
+              }}
               to={item.path}
               onClick={closeMenu}
             >
@@ -84,9 +86,10 @@ const NavMenu = ({ closeMenu }: { closeMenu: () => void }) => {
         ))}
         {activeIndex !== -1 && (
           <div
-            className={`absolute left-0 w-[3.5px] bg-primary h-[${LINK_HEIGHT}px] top-0  transition-all duration-[${TRANSITION_DURATION}s] shadow-[25px_0px_80px_20px_rgba(26,92,255,1)]`}
+            className={`absolute left-0 top-0 w-[3.5px] bg-primary  transition-all duration-[${TRANSITION_DURATION}s] shadow-[35px_0px_60px_20px_rgba(26,92,255,1)]`}
             style={{
-              marginTop: `${activeIndex * LINK_HEIGHT}px`,
+              height: `${LINK_HEIGHT}px`,
+              marginTop: `${activeIndex * 52}px`,
             }}
           />
         )}

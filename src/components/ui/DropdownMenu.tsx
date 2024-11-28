@@ -61,7 +61,7 @@ export const DropdownMenu = ({ items, anchor }: Props) => {
             {items.map((item) => (
               <MenuItem key={item.value}>
                 <button
-                  className={` flex items-center gap-3 px-5 py-3 ${item.dangerItem ? 'text-error' : 'text-secondary'} data-[focus]:bg-neutral`}
+                  className={` flex items-center gap-3 px-5 py-3 ${item.dangerItem && 'text-error'} data-[focus]:bg-neutral`}
                   onClick={item.action}
                 >
                   <item.Icon {...item.iconProps} />
