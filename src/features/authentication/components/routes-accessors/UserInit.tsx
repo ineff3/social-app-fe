@@ -5,8 +5,10 @@ import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
 import { setPreview } from '@/src/redux/user/userSlice'
 import { useEffect } from 'react'
 import { LoadingSpinner } from '@/src/components/ui/LoadingSpinner'
+import { useNotifications } from '@/src/hooks/useNotifications'
+import { useSocketConnection } from '@/src/hooks/useSocketConnection'
 
-const UserFetch = () => {
+export const UserInit = () => {
   const dispatch = useAppDispatch()
   const queryKeyStore = useQueryKeyStore()
   const { data, isLoading, isSuccess } = useQuery({
@@ -20,7 +22,8 @@ const UserFetch = () => {
     }
   }, [isSuccess, dispatch, data])
 
+  useSocketConnection()
+  useNotifications()
+
   return <>{isLoading ? <LoadingSpinner /> : <Outlet />}</>
 }
-
-export default UserFetch

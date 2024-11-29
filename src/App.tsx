@@ -3,7 +3,7 @@ import BaseLayout from './layouts/BaseLayout'
 import {
   FlowController,
   RouteAuth,
-  UserFetch,
+  UserInit,
 } from './features/authentication/index'
 import {
   Auth,
@@ -40,7 +40,7 @@ const App = () => {
           </Route>
         </Route>
         <Route element={<RouteAuth required />}>
-          <Route element={<UserFetch />}>
+          <Route element={<UserInit />}>
             <Route element={<BaseLayout />}>
               <Route
                 path={pageRoutes.signupFlow}
@@ -61,7 +61,7 @@ const App = () => {
       {backgroundLocation && (
         <Routes>
           <Route element={<RouteAuth required />}>
-            <Route element={<UserFetch />}>
+            <Route element={<UserInit />}>
               <Route
                 element={
                   <PostProvider>
