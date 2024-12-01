@@ -8,6 +8,7 @@ import { SearchIcon } from '@/src/components/ui/icons/nav-menu/SearchIcon'
 import { useAppSelector } from '@/src/redux/hooks'
 import { selectUserPreview } from '@/src/redux/user/userSlice'
 import { NavLink, useLocation } from 'react-router-dom'
+import { NotificationBadge } from './NotificationBadge'
 
 const ICON_SIZE = 20
 const LINK_HEIGHT = 52
@@ -28,6 +29,7 @@ const generateMenuItems = (username: string) => [
     path: '/notifications',
     name: 'Notifications',
     svg: <NotificationIcon width={ICON_SIZE} height={ICON_SIZE} />,
+    badge: <NotificationBadge />,
   },
   {
     path: '/messages',
@@ -50,7 +52,10 @@ const generateMenuItems = (username: string) => [
     svg: <PremiumIcon width={ICON_SIZE} height={ICON_SIZE} />,
   },
 ]
+// TODO:::
+// Animation for horizontal tabs
 
+//
 const NavMenu = ({ closeMenu }: { closeMenu: () => void }) => {
   const user = useAppSelector(selectUserPreview)!
   const location = useLocation()
@@ -79,7 +84,10 @@ const NavMenu = ({ closeMenu }: { closeMenu: () => void }) => {
               to={item.path}
               onClick={closeMenu}
             >
-              {item.svg}
+              <div className=" relative">
+                {item.svg}
+                {item.badge && item.badge}
+              </div>
               <p className=" text-lg sm:hidden lg:block ">{item.name}</p>
             </NavLink>
           </li>

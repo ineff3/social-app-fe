@@ -109,7 +109,11 @@ export const MentionSelectList = forwardRef(
                 onClick={() => selectItem(index)}
                 key={user.id}
               >
-                <UserPreview user={user} disabledLink={true} />
+                <UserPreview
+                  user={user}
+                  disabledLink={true}
+                  isResponsive={false}
+                />
               </li>
             ))
           ))}

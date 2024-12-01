@@ -5,19 +5,31 @@ interface Props {
   onUserLinkClick?: () => void
   user: SchemaUserPreviewResponseDto
   disabledLink?: boolean
+  isResponsive: boolean
 }
 
-export const UserPreview = ({ onUserLinkClick, user, disabledLink }: Props) => {
+export const UserPreview = ({
+  onUserLinkClick,
+  user,
+  disabledLink,
+  isResponsive,
+}: Props) => {
   return (
-    <div className=" flex items-center gap-2 sm:flex-col lg:flex-row">
+    <div
+      className={` flex items-center gap-2  ${isResponsive && 'sm:flex-col lg:flex-row'}`}
+    >
       <UserIconLink
         onClick={onUserLinkClick}
         userImageUrl={user?.avatarUrl}
         username={user?.username}
         disabled={disabledLink}
       />
-      <div className=" flex w-full items-center justify-between sm:justify-center lg:justify-between ">
-        <div className=" flex flex-col sm:hidden lg:flex">
+      <div
+        className={` flex w-full items-center justify-between  ${isResponsive ? 'sm:justify-center lg:justify-between' : 'justify-between'}`}
+      >
+        <div
+          className={` flex flex-col ${isResponsive && 'sm:hidden lg:flex'}`}
+        >
           <p className=" text-secondary">{user?.firstName}</p>
           <p className=" text-sm ">@{user?.username}</p>
         </div>
