@@ -30,4 +30,6 @@ export const pageRoutes = {
   createPost: '/create-post',
   post: '/post/:postId',
   drafts: '/drafts',
+  notifications: '/notifications',
+  bookmarks: '/bookmarks',
 }
