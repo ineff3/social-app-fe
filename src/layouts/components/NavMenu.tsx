@@ -52,10 +52,7 @@ const generateMenuItems = (username: string) => [
     svg: <PremiumIcon width={ICON_SIZE} height={ICON_SIZE} />,
   },
 ]
-// TODO:::
-// Animation for horizontal tabs
 
-//
 const NavMenu = ({ closeMenu }: { closeMenu: () => void }) => {
   const user = useAppSelector(selectUserPreview)!
   const location = useLocation()
