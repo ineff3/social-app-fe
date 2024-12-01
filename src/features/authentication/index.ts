@@ -1,6 +1,6 @@
 import Login from './components/Login'
 import { RouteAuth } from './components/routes-accessors/RouteAuth'
-import UserFetch from './components/routes-accessors/UserFetch'
+import { UserInit } from './components/routes-accessors/UserInit'
 import FlowController from './components/signup-flow/FlowController'
 import useLogin from './hooks/useLogin'
 import useLogout from './hooks/useLogout'
@@ -14,6 +14,6 @@ export {
   useLogin,
   useUsernames,
   RouteAuth,
-  UserFetch,
+  UserInit,
   FlowController,
 }

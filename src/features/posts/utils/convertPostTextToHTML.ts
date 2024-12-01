@@ -3,7 +3,7 @@ import { pageRoutes } from '@/src/routes'
 const linkRegex =
   /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/g
 
-const mentionRegex = /@([a-zA-Z0-9_]+)/g
+const mentionRegex = /@([a-zA-Z0-9_.]+)/g
 
 export const convertPostTextToHTML = (text: string) => {
   const replacedLinks = text.replace(linkRegex, (match) => getLink(match))

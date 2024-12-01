@@ -4,7 +4,7 @@ import Text from '@tiptap/extension-text'
 import Paragraph from '@tiptap/extension-paragraph'
 import Placeholder from '@tiptap/extension-placeholder'
 import Link from '@tiptap/extension-link'
-import { UserMention } from '../../../utils/mentions/UserMention'
+import { UserMention } from '../../../utils/mentions/userMention'
 
 interface Props {
   onChange: (text: string) => void

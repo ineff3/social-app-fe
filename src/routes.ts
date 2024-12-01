@@ -17,6 +17,8 @@ export const apiRoutes = {
   updatePost: (postId: string) => `posts/${postId}`,
   //drafts
   drafts: 'drafts',
+  //notifications
+  notifications: 'notifications',
 }
 
 export const pageRoutes = {

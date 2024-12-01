@@ -3,6 +3,7 @@ import { useApiActions } from './useApiActions'
 import { GetAllPostsParams } from '../interfaces'
 import {
   SchemaAuthUserResponseDto,
+  SchemaGetAllNotificationsResponseDto,
   SchemaGetAllPostsResponseDto,
   SchemaGetUserByUsernameResponseDto,
   SchemaUsernameReservedResponseDto,
@@ -36,6 +37,17 @@ const useQueryKeyStore = () => {
                 },
               ),
           }),
+          notifications: {
+            queryKey: null,
+            queryFn: ({ pageParam }: { pageParam: number }) =>
+              get<SchemaGetAllNotificationsResponseDto>(
+                apiRoutes.notifications,
+                {
+                  page: pageParam,
+                  ...query,
+                },
+              ),
+          },
         },
       }),
     },
@@ -67,6 +79,7 @@ const useQueryKeyStore = () => {
           get<SchemaUserSearchResponseDto>(apiRoutes.search, { query, limit }),
       }),
     },
+
     auth: {
       refreshToken: {
         queryKey: null,
