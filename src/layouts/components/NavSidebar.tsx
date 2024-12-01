@@ -39,7 +39,7 @@ const NavSidebar = ({
           <div className=" flex flex-col justify-center px-4">
             <div className=" mb-5 flex justify-center">
               <Link
-                to={pageRoutes.post}
+                to={pageRoutes.createPost}
                 state={{ backgroundLocation: location }}
                 onClick={() => {
                   closeMenu()

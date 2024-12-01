@@ -27,6 +27,7 @@ export const pageRoutes = {
   profile: '/users/:username',
   authSignup: '/auth/signup',
   signupFlow: '/signup-flow',
-  post: '/post',
+  createPost: '/create-post',
+  post: '/post/:postId',
   drafts: '/drafts',
 }
