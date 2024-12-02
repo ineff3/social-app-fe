@@ -6,6 +6,7 @@ import {
   SchemaGetAllNotificationsResponseDto,
   SchemaGetAllPostsResponseDto,
   SchemaGetUserByUsernameResponseDto,
+  SchemaPostResponseDto,
   SchemaUsernameReservedResponseDto,
   SchemaUserPreviewResponseDto,
   SchemaUserSearchResponseDto,
@@ -28,14 +29,11 @@ const useQueryKeyStore = () => {
           user: (userId: string, isDraft?: boolean) => ({
             queryKey: isDraft ? [userId, { isDraft }] : [userId],
             queryFn: ({ pageParam }: { pageParam: number }) =>
-              get<SchemaGetAllPostsResponseDto>(
-                `${apiRoutes.posts}/${userId}`,
-                {
-                  ...query,
-                  page: pageParam,
-                  isDraft,
-                },
-              ),
+              get<SchemaGetAllPostsResponseDto>(apiRoutes.userPosts(userId), {
+                ...query,
+                page: pageParam,
+                isDraft,
+              }),
           }),
           notifications: {
             queryKey: null,
@@ -49,6 +47,11 @@ const useQueryKeyStore = () => {
               ),
           },
         },
+      }),
+      detail: (postId: string) => ({
+        queryKey: [postId],
+        queryFn: () =>
+          get<SchemaPostResponseDto>(`${apiRoutes.posts}/${postId}`),
       }),
     },
 

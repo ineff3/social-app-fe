@@ -9,7 +9,7 @@ import SignupPage from './Signup'
 import Profile from './Profile'
 import { CreatePost } from './CreatePost'
 import { ManageDrafts } from './ManageDrafts'
-import { PostPage } from './PostPage'
+import { ViewPost } from './ViewPost'
 
 export {
   Home,
@@ -23,5 +23,5 @@ export {
   Profile,
   CreatePost,
   ManageDrafts,
-  PostPage,
+  ViewPost,
 }

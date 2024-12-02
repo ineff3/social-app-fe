@@ -13,7 +13,7 @@ import {
   ManageDrafts,
   Messages,
   Notifications,
-  PostPage,
+  ViewPost,
   Premium,
   Profile,
   Search,
@@ -49,7 +49,7 @@ const App = () => {
               />
               <Route path={pageRoutes.home} element={<Home />} />
               <Route path={pageRoutes.profile} element={<Profile />} />
-              <Route path={pageRoutes.post} element={<PostPage />} />
+              <Route path={pageRoutes.post} element={<ViewPost />} />
               <Route path="/search" element={<Search />} />
               <Route
                 path={pageRoutes.notifications}

@@ -260,6 +260,38 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/posts/{postId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["PostController_findPostById"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/posts/{postId}/comments": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["PostController_findPostComments"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/posts/{id}": {
         parameters: {
             query?: never;
@@ -290,6 +322,22 @@ export interface paths {
         options?: never;
         head?: never;
         patch?: never;
+        trace?: never;
+    };
+    "/notifications/{id}/view": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["NotificationController_viewNotification"];
         trace?: never;
     };
 }
@@ -394,6 +442,7 @@ export interface components {
             /** @default false */
             isDraft?: boolean;
             images?: string[];
+            parentPostId?: string;
         };
         PostResponseDto: {
             id: string;
@@ -416,6 +465,7 @@ export interface components {
         UpdatePostDto: {
             text?: string;
             images?: string[];
+            parentPostId?: string;
         };
         NotificationResponseDto: {
             id: string;
@@ -834,6 +884,52 @@ export interface operations {
             };
         };
     };
+    PostController_findPostById: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                postId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GetAllPostsResponseDto"];
+                };
+            };
+        };
+    };
+    PostController_findPostComments: {
+        parameters: {
+            query?: {
+                page?: number;
+                limit?: number;
+                order?: "desc" | "asc";
+            };
+            header?: never;
+            path: {
+                postId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GetAllPostsResponseDto"];
+                };
+            };
+        };
+    };
     PostController_remove: {
         parameters: {
             query?: never;
@@ -896,6 +992,25 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["GetAllNotificationsResponseDto"];
                 };
+            };
+        };
+    };
+    NotificationController_viewNotification: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
         };
     };
