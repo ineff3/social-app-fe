@@ -10,22 +10,39 @@ import { SchemaPostResponseDto } from '@/src/types/schema'
 import UserIconLink from '@/src/components/ui/UserIconLink'
 import RepostIconSvg from '@/src/components/ui/icons/RepostIconSvg'
 import { convertPostTextToHTML } from '../utils/convertPostTextToHTML'
+import { useNavigate } from 'react-router-dom'
 
 interface Props {
   post: SchemaPostResponseDto
+  allowRedirect?: boolean
 }
 
-const Post = ({ post }: Props) => {
+const Post = ({ post, allowRedirect = true }: Props) => {
   const authorId = useId()
   const userPreviewData = useAppSelector(selectUserPreview)
+  const navigate = useNavigate()
+
   const isPostAuthor = userPreviewData?.id === post.author.id
   const createdDate = new Date(post.createdAt)
+
+  const redirectToPostPage = (e: React.MouseEvent<HTMLInputElement>) => {
+    if (allowRedirect) {
+      // Check if the clicked element is an interactive element
+      const isInteractiveElement = (e.target as HTMLElement).closest(
+        'button, a',
+      )
+      if (!isInteractiveElement) {
+        navigate(`/post/${post.id}`)
+      }
+    }
+  }
 
   return (
     <article
       tabIndex={0}
       aria-labelledby={authorId}
-      className=" border-b border-accent p-5 md:p-10"
+      className={`border-b border-accent p-5 transition-colors duration-100 ease-in md:p-10 ${allowRedirect && 'hover:cursor-pointer hover:bg-base-300 hover:bg-opacity-50'}`}
+      onClick={redirectToPostPage}
     >
       <div className=" flex gap-3">
         <UserIconLink

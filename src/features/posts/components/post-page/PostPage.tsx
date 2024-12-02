@@ -34,7 +34,7 @@ export const PostPage = () => {
         </div>
         <button className="btn btn-outline btn-secondary btn-sm ">Reply</button>
       </header>
-      <div>{data && <Post post={data} />}</div>
+      <div>{data && <Post post={data} allowRedirect={false} />}</div>
     </div>
   )
 }

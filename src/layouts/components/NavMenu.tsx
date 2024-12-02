@@ -43,7 +43,7 @@ const generateMenuItems = (username: string) => [
     svg: <BookmarkIcon width={ICON_SIZE} height={ICON_SIZE} />,
   },
   {
-    path: username ? `/users/${username}` : '/users/:username',
+    path: `/users/${username}`,
     name: 'Profile',
     svg: <ProfileIcon width={ICON_SIZE} height={ICON_SIZE} />,
   },
