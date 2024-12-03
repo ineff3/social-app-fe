@@ -5,6 +5,7 @@ import Paragraph from '@tiptap/extension-paragraph'
 import Placeholder from '@tiptap/extension-placeholder'
 import Link from '@tiptap/extension-link'
 import { UserMention } from '../../../utils/mentions/userMention'
+import { useEffect } from 'react'
 
 interface Props {
   onChange: (text: string) => void
@@ -41,6 +42,12 @@ export const TextEditor = ({ onChange, initialContent }: Props) => {
       onChange(editor.getText())
     },
   })
+
+  useEffect(() => {
+    if (editor && initialContent === '') {
+      editor.commands.clearContent()
+    }
+  }, [initialContent, editor])
 
   return <EditorContent editor={editor} />
 }

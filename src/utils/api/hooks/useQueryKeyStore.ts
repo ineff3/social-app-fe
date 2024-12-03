@@ -1,6 +1,6 @@
 import { createQueryKeyStore } from '@lukemorales/query-key-factory'
 import { useApiActions } from './useApiActions'
-import { GetAllPostsParams } from '../interfaces'
+import { GetAllPostsParams, PaginatedQueryParams } from '../interfaces'
 import {
   SchemaAuthUserResponseDto,
   SchemaGetAllNotificationsResponseDto,
@@ -52,6 +52,19 @@ const useQueryKeyStore = () => {
         queryKey: [postId],
         queryFn: () =>
           get<SchemaPostResponseDto>(`${apiRoutes.posts}/${postId}`),
+        contextQueries: {
+          comments: (query?: PaginatedQueryParams) => ({
+            queryKey: [{}],
+            queryFn: ({ pageParam }: { pageParam: number }) =>
+              get<SchemaGetAllPostsResponseDto>(
+                apiRoutes.postComments(postId),
+                {
+                  ...query,
+                  page: pageParam,
+                },
+              ),
+          }),
+        },
       }),
     },
 

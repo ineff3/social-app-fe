@@ -13,7 +13,7 @@ export const PostInteractions = ({ post }: Props) => {
     <div role="group" className=" flex justify-between">
       <div className=" flex items-center gap-1.5">
         <CommentIconSvg width={22} height={22} fill="currentColor" />
-        <p>3</p>
+        <p>{post.comments}</p>
       </div>
       <div className=" flex items-center gap-1.5">
         <RepostIconSvg width={22} height={22} fill="currentColor" />

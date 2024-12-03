@@ -16,6 +16,7 @@ export const apiRoutes = {
   bookmarkPost: (postId: string) => `posts/${postId}/bookmark`,
   updatePost: (postId: string) => `posts/${postId}`,
   userPosts: (userId: string) => `user/${userId}/posts`,
+  postComments: (postId: string) => `posts/${postId}/comments`,
   //drafts
   drafts: 'drafts',
   //notifications

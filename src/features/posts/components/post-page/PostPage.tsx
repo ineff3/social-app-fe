@@ -4,6 +4,8 @@ import { useGetPostDetail } from '../../hooks/useGetPostDetail'
 import { useParams } from 'react-router-dom'
 import { PostNotFound } from './PostNotFound'
 import { DetailPost } from './DetailPost'
+import { PostsFlow } from '../PostsFlow'
+import { useGetPostComments } from '../../hooks/useGetPostComments'
 
 export const PostPage = () => {
   const { postId } = useParams()
@@ -35,6 +37,12 @@ export const PostPage = () => {
         <button className="btn btn-outline btn-secondary btn-sm ">Reply</button>
       </header>
       <div>{data && <DetailPost post={data} />}</div>
+      <div>
+        <PostsFlow
+          useGetPostsHook={useGetPostComments}
+          params={{ postId: postId! }}
+        />
+      </div>
     </div>
   )
 }
