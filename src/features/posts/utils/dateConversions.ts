@@ -1,3 +1,5 @@
+import { format } from 'date-fns'
+
 const monthMap: { [key: number]: string } = {
   0: 'Jan',
   1: 'Feb',
@@ -23,4 +25,8 @@ export const convertPostDate = (date: Date) => {
   } else {
     return monthMap[date.getMonth()] + ' ' + date.getDate()
   }
+}
+
+export const convertToFullFate = (date: Date) => {
+  return [format(date, 'H:mm 	a'), format(date, 'MMM d, yyyy')]
 }

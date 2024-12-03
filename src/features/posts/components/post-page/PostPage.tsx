@@ -3,7 +3,7 @@ import { useIsScrolled } from '@/src/hooks/useIsScrolled'
 import { useGetPostDetail } from '../../hooks/useGetPostDetail'
 import { useParams } from 'react-router-dom'
 import { PostNotFound } from './PostNotFound'
-import Post from '../Post'
+import { DetailPost } from './DetailPost'
 
 export const PostPage = () => {
   const { postId } = useParams()
@@ -34,7 +34,7 @@ export const PostPage = () => {
         </div>
         <button className="btn btn-outline btn-secondary btn-sm ">Reply</button>
       </header>
-      <div>{data && <Post post={data} allowRedirect={false} />}</div>
+      <div>{data && <DetailPost post={data} />}</div>
     </div>
   )
 }

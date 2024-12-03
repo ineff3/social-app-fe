@@ -8,7 +8,14 @@ import { GifIcon, ScheduleIcon, StatsIcon } from '@/src/components/ui/icons'
 import { AttachEmoji } from './additional-content/AttachEmoji'
 import { AttachPicture } from './additional-content/AttachPicture'
 
-export const PostFormFooter = () => {
+interface Props {
+  hasDivider?: boolean
+  submitBtnTitle?: string
+}
+export const PostFormFooter = ({
+  hasDivider = true,
+  submitBtnTitle = 'Post',
+}: Props) => {
   const {
     creationError,
     postImages,
@@ -25,7 +32,7 @@ export const PostFormFooter = () => {
   return (
     <div>
       {creationError && <ErrorAlert errorMessage={creationError} />}
-      <div className=" divider"></div>
+      {hasDivider && <div className=" divider"></div>}
       <div className=" flex  items-center justify-between">
         <div className=" flex items-center gap-1.5 ">
           <AttachPicture
@@ -49,7 +56,7 @@ export const PostFormFooter = () => {
           type="submit"
           className={`btn btn-primary btn-sm ${isFormInvalid && 'btn-disabled !bg-base-200'} `}
         >
-          <p>Post</p>
+          <p>{submitBtnTitle}</p>
           {postIsPending && (
             <span className="loading loading-spinner loading-sm"></span>
           )}
