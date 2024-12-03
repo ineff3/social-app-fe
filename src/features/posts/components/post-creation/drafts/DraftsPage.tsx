@@ -22,13 +22,15 @@ export const DraftsPage = () => {
   return (
     <div className=" flex flex-1 flex-col">
       <div className=" flex items-center gap-4">
-        <button
-          aria-label="Move back"
-          className=" btn btn-circle btn-ghost"
-          onClick={() => navigate(-1)}
-        >
-          <ArrowIconSvg width={18} height={18} fill="currentColor" />
-        </button>
+        <div data-tip="Back" className=" tooltip tooltip-secondary">
+          <button
+            aria-label="Move back"
+            className=" btn btn-circle btn-ghost"
+            onClick={() => navigate(-1)}
+          >
+            <ArrowIconSvg width={18} height={18} fill="currentColor" />
+          </button>
+        </div>
         <div className=" flex flex-1 items-center justify-between">
           <p className=" text-lg font-semibold">Drafts</p>
           <button

@@ -18,13 +18,15 @@ export const AttachEmoji = ({
 
   return (
     <div>
-      <button
-        onClick={show}
-        type="button"
-        className="btn btn-circle btn-ghost btn-sm p-0.5"
-      >
-        <SmileIcon />
-      </button>
+      <div data-tip="Emoji" className=" tooltip tooltip-secondary">
+        <button
+          onClick={show}
+          type="button"
+          className="btn btn-circle btn-ghost btn-sm p-0.5"
+        >
+          <SmileIcon />
+        </button>
+      </div>
       <Modal isOpen={visible} onClose={close} asWindow={false}>
         <div className=" max-h-[260px] overflow-hidden">
           <Picker

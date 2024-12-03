@@ -13,6 +13,7 @@ interface Props {
 }
 
 export const ReplySection = ({ parentPostId }: Props) => {
+  const [isReplyMinimized, setIsReplyMinimized] = useState<boolean>(true)
   const { handleSubmit, reset } = usePostContext()!
   const [creationError, setCreationError] = useState<string | null>(null)
   const createPostMutation = useCreatePost()
@@ -43,15 +44,32 @@ export const ReplySection = ({ parentPostId }: Props) => {
   })
   return (
     <form onSubmit={submitForm}>
-      <PostFormContent />
-      <div className="pl-14 pt-3">
-        <PostFormFooter
-          hasDivider={false}
-          submitBtnTitle="Reply"
-          creationError={creationError}
-          isCreationPending={createPostMutation.isPending}
-        />
+      <div className="flex gap-5">
+        <div className=" w-full" onClick={() => setIsReplyMinimized(false)}>
+          <PostFormContent
+            placeholder="Post your reply"
+            isTextEditorMinimized={isReplyMinimized}
+          />
+        </div>
+        {isReplyMinimized && (
+          <button
+            disabled
+            className=" btn btn-disabled btn-primary btn-sm mt-2 !bg-base-200"
+          >
+            Reply
+          </button>
+        )}
       </div>
+      {!isReplyMinimized && (
+        <div className="pl-14 pt-3">
+          <PostFormFooter
+            hasDivider={false}
+            submitBtnTitle="Reply"
+            creationError={creationError}
+            isCreationPending={createPostMutation.isPending}
+          />
+        </div>
+      )}
     </form>
   )
 }

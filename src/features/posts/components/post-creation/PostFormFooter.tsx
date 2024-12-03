@@ -43,15 +43,21 @@ export const PostFormFooter = ({
             imageTypes={ACCEPTED_IMAGE_TYPES}
           />
           <AttachEmoji appendEmoji={appendEmoji} />
-          <button type="button" className=" btn btn-circle btn-ghost btn-sm">
-            <StatsIcon />
-          </button>
-          <button type="button" className=" btn btn-circle btn-ghost btn-sm">
-            <GifIcon />
-          </button>
-          <button type="button" className=" btn btn-circle btn-ghost btn-sm">
-            <ScheduleIcon />
-          </button>
+          <div data-tip="Poll" className=" tooltip tooltip-secondary">
+            <button type="button" className=" btn btn-circle btn-ghost btn-sm">
+              <StatsIcon />
+            </button>
+          </div>
+          <div data-tip="Gif" className=" tooltip tooltip-secondary">
+            <button type="button" className=" btn btn-circle btn-ghost btn-sm">
+              <GifIcon />
+            </button>
+          </div>
+          <div data-tip="Schedule" className=" tooltip tooltip-secondary">
+            <button type="button" className=" btn btn-circle btn-ghost btn-sm">
+              <ScheduleIcon />
+            </button>
+          </div>
         </div>
 
         <button

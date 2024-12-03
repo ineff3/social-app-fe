@@ -28,13 +28,12 @@ export const PostPage = () => {
   return (
     <div>
       <header
-        className={` sticky top-0 flex items-center justify-between border-b border-accent bg-base-100 px-10 py-1.5 ${isScrolled && ' bg-opacity-60 backdrop-blur-sm'}`}
+        className={` sticky top-0 z-10 flex items-center border-b border-accent bg-base-100 px-10 py-1.5 ${isScrolled && ' bg-opacity-60 backdrop-blur-sm'}`}
       >
         <div className=" flex items-center gap-4">
           <BackBtn />
           <span className="text-lg font-bold text-secondary">Post</span>
         </div>
-        <button className="btn btn-outline btn-secondary btn-sm ">Reply</button>
       </header>
       <div>{data && <DetailPost post={data} />}</div>
       <div>

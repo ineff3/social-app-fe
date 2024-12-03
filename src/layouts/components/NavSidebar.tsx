@@ -55,7 +55,11 @@ const NavSidebar = ({
               </Link>
             </div>
             <div className=" flex items-center justify-between sm:flex-col lg:flex-row">
-              <UserPreview onUserLinkClick={closeMenu} user={user} />
+              <UserPreview
+                onUserLinkClick={closeMenu}
+                user={user}
+                isResponsive
+              />
               <UserPreviewDropdown />
             </div>
           </div>
