@@ -1,12 +1,20 @@
-import { usePostContext } from '../../contexts/PostContext'
 import { PostFormContent } from './PostFormContent'
 import { PostFormFooter } from './PostFormFooter'
 import ModalSaveDialog from './modal-forms/ModalSaveDialog'
 import { CloseBtn } from '@/src/components/ui/CloseBtn'
 import { usePostModalActions } from '../../hooks/usePostModalActions'
+import { usePostContext } from '../../contexts/PostContext'
+import useCreatePost from '../../hooks/useCreatePost'
+import { AxiosError } from 'axios'
+import { useNavigate } from 'react-router-dom'
+import { constructPostFormData } from '../../utils/constructPostFormData'
+import { useState } from 'react'
 
 export const CreatePostPage = () => {
-  const { submitForm } = usePostContext()!
+  const { handleSubmit } = usePostContext()!
+  const [creationError, setCreationError] = useState<string | null>(null)
+  const createPostMutation = useCreatePost()
+  const navigate = useNavigate()
   const {
     saveDialogVisible,
     handleDraftClick,
@@ -15,6 +23,23 @@ export const CreatePostPage = () => {
     closeSaveDialog,
     modalSaveDialogDiscard,
   } = usePostModalActions()
+
+  const submitForm = handleSubmit((data) => {
+    const formData = constructPostFormData(data)
+
+    createPostMutation.mutate(formData, {
+      onError: (error) => {
+        if (error instanceof AxiosError) {
+          setCreationError(
+            error.response?.data?.message || 'Something went wrong',
+          )
+        }
+      },
+      onSuccess: () => {
+        navigate(-1)
+      },
+    })
+  })
 
   return (
     <>
@@ -30,7 +55,10 @@ export const CreatePostPage = () => {
           </button>
         </div>
         <PostFormContent />
-        <PostFormFooter />
+        <PostFormFooter
+          creationError={creationError}
+          isCreationPending={createPostMutation.isPending}
+        />
       </form>
       <ModalSaveDialog
         isOpen={saveDialogVisible}

@@ -14,7 +14,11 @@ export const usePostModalActions = () => {
     show: showSaveDialog,
     close: closeSaveDialog,
   } = useModal()
-  const { isDirty, createDraft, reset } = usePostContext()!
+  const {
+    formState: { isDirty },
+    createDraft,
+    reset,
+  } = usePostContext()!
   const location = useLocation()
   const state = location.state as {
     backgroundLocation?: Location

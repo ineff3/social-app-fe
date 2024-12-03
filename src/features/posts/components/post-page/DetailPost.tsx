@@ -9,6 +9,7 @@ import { ImageDisplay } from '../post-items/ImageDisplay'
 import { PostInteractions } from '../post-items/PostInteractions'
 import { convertToFullFate } from '../../utils/dateConversions'
 import { ReplySection } from './ReplySection'
+import { PostProvider } from '../../contexts/PostContext'
 
 interface Props {
   post: SchemaPostResponseDto
@@ -69,7 +70,9 @@ export const DetailPost = ({ post }: Props) => {
         <div className=" w-full border-b border-accent" />
       </div>
       <div>
-        <ReplySection />
+        <PostProvider>
+          <ReplySection parentPostId={post.id} />
+        </PostProvider>
       </div>
     </article>
   )

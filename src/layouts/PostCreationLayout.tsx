@@ -6,7 +6,10 @@ import ModalSaveDialog from '../features/posts/components/post-creation/modal-fo
 import { useNavigateBackwards } from '../hooks/useNavigateBackwards'
 
 export const PostCreationLayout = () => {
-  const { isDirty, createDraft } = usePostContext()!
+  const {
+    formState: { isDirty },
+    createDraft,
+  } = usePostContext()!
   const { visible: mainModalVisible } = useModal(true)
   const {
     visible: saveDialogVisible,

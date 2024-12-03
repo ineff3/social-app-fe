@@ -8,7 +8,12 @@ import { Controller } from 'react-hook-form'
 
 export const PostFormContent = () => {
   const user = useAppSelector(selectUserPreview)
-  const { control, errors, postImages, removePostImage } = usePostContext()!
+  const {
+    control,
+    formState: { errors },
+    postImages,
+    removePostImage,
+  } = usePostContext()!
 
   return (
     <div className="flex flex-1 gap-2 px-1.5">

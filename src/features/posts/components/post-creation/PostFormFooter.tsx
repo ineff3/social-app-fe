@@ -11,23 +11,25 @@ import { AttachPicture } from './additional-content/AttachPicture'
 interface Props {
   hasDivider?: boolean
   submitBtnTitle?: string
+  creationError: string | null
+  isCreationPending: boolean
 }
+
 export const PostFormFooter = ({
   hasDivider = true,
   submitBtnTitle = 'Post',
+  creationError,
+  isCreationPending,
 }: Props) => {
   const {
-    creationError,
     postImages,
     appendPostImage,
     appendEmoji,
-    errors,
-    isDirty,
-    postIsPending,
+    formState: { errors, isDirty },
   } = usePostContext()!
 
   const isFormInvalid =
-    errors?.postImages || errors?.text || !isDirty || postIsPending
+    errors?.postImages || errors?.text || !isDirty || isCreationPending
 
   return (
     <div>
@@ -57,7 +59,7 @@ export const PostFormFooter = ({
           className={`btn btn-primary btn-sm ${isFormInvalid && 'btn-disabled !bg-base-200'} `}
         >
           <p>{submitBtnTitle}</p>
-          {postIsPending && (
+          {isCreationPending && (
             <span className="loading loading-spinner loading-sm"></span>
           )}
         </button>

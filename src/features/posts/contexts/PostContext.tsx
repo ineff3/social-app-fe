@@ -1,41 +1,26 @@
 /* eslint-disable react-refresh/only-export-components */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { createContext, ReactNode, useContext, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { createContext, ReactNode, useContext } from 'react'
 import {
-  Control,
   FieldArrayWithId,
-  FieldErrors,
   useFieldArray,
   UseFieldArrayAppend,
   UseFieldArrayRemove,
   useForm,
-  UseFormRegister,
-  UseFormReset,
-  UseFormSetValue,
+  UseFormReturn,
 } from 'react-hook-form'
 import { CreatePostFormType } from '../interfaces'
 import { zodResolver } from '@hookform/resolvers/zod'
 import validationSchema from '../schemas/createPostSchema'
-import useCreatePost from '../hooks/useCreatePost'
-import { AxiosError } from 'axios'
 import { useCreateDraft, useUpdateDraft } from '../hooks/drafts/drafts'
+import { constructPostFormData } from '../utils/constructPostFormData'
 
-interface IPostContextProps {
-  register: UseFormRegister<CreatePostFormType>
-  control: Control<CreatePostFormType, any>
-  setValue: UseFormSetValue<CreatePostFormType>
-  submitForm: () => void
+interface IPostContextProps extends UseFormReturn<CreatePostFormType> {
   createDraft: () => void
-  creationError: string | null
-  isDirty: boolean
   appendEmoji: (emoji: any) => void
   postImages: FieldArrayWithId<CreatePostFormType, 'postImages', 'id'>[]
   appendPostImage: UseFieldArrayAppend<CreatePostFormType, 'postImages'>
   removePostImage: UseFieldArrayRemove
-  errors: FieldErrors<CreatePostFormType>
-  postIsPending: boolean
-  reset: UseFormReset<CreatePostFormType>
 }
 
 const PostContext = createContext<IPostContextProps | null>(null)
@@ -44,19 +29,7 @@ export const usePostContext = () => {
 }
 
 export const PostProvider = ({ children }: { children: ReactNode }) => {
-  const [creationError, setCreationError] = useState<string | null>(null)
-  const navigate = useNavigate()
-
-  const {
-    handleSubmit,
-    register,
-    formState: { errors, isDirty },
-    control,
-    getValues,
-    setValue,
-    watch,
-    reset,
-  } = useForm<CreatePostFormType>({
+  const formMethods = useForm<CreatePostFormType>({
     mode: 'onChange',
     defaultValues: {
       text: '',
@@ -70,57 +43,30 @@ export const PostProvider = ({ children }: { children: ReactNode }) => {
     append: appendPostImage,
     remove: removePostImage,
   } = useFieldArray({
-    control,
+    control: formMethods.control,
     name: 'postImages',
   })
 
-  const draftId = watch('id')
+  const draftId = formMethods.watch('id')
 
-  const createPostMutation = useCreatePost()
   const createDraftMutation = useCreateDraft()
   const updateDraftMutation = useUpdateDraft(draftId!)
 
-  const constructFormData = (data: CreatePostFormType) => {
-    const formData = new FormData()
-    data.postImages.forEach(({ file }) => {
-      formData.append('images', file)
-    })
-    formData.append('text', data.text)
-    return formData
-  }
-
-  const submitForm = handleSubmit((data) => {
-    const formData = constructFormData(data)
-
-    createPostMutation.mutate(formData, {
-      onError: (error) => {
-        if (error instanceof AxiosError) {
-          setCreationError(
-            error.response?.data?.message || 'Something went wrong',
-          )
-        }
-      },
-      onSuccess: () => {
-        navigate(-1)
-      },
-    })
-  })
-
   const createDraft = () => {
-    const formValues = getValues()
-    const formData = constructFormData(formValues)
+    const formValues = formMethods.getValues()
+    const formData = constructPostFormData(formValues)
 
     if (formValues.id) {
       updateDraftMutation.mutate(formData, {
         onSettled: () => {
-          reset()
+          formMethods.reset()
         },
       })
     } else {
       formData.append('isDraft', 'true')
       createDraftMutation.mutate(formData, {
         onSettled: () => {
-          reset()
+          formMethods.reset()
         },
       })
     }
@@ -136,20 +82,12 @@ export const PostProvider = ({ children }: { children: ReactNode }) => {
   return (
     <PostContext.Provider
       value={{
-        register,
-        control,
-        setValue,
-        submitForm,
+        ...formMethods,
         createDraft,
-        creationError,
-        isDirty,
         appendEmoji,
         postImages,
         appendPostImage,
         removePostImage,
-        errors,
-        postIsPending: createPostMutation.isPending,
-        reset,
       }}
     >
       {children}
