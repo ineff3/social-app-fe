@@ -1,66 +1,45 @@
-import { useLocation, useNavigate } from 'react-router-dom'
-import { usePostContext } from '../../contexts/PostContext'
 import { PostFormContent } from './PostFormContent'
 import { PostFormFooter } from './PostFormFooter'
 import ModalSaveDialog from './modal-forms/ModalSaveDialog'
-import { useModal } from '@/src/hooks/useModal'
-import { pageRoutes } from '@/src/routes'
 import { CloseBtn } from '@/src/components/ui/CloseBtn'
-import { useNavigateBackwards } from '@/src/hooks/useNavigateBackwards'
+import { usePostModalActions } from '../../hooks/usePostModalActions'
+import { usePostContext } from '../../contexts/PostContext'
+import useCreatePost from '../../hooks/useCreatePost'
+import { AxiosError } from 'axios'
+import { useNavigate } from 'react-router-dom'
+import { constructPostFormData } from '../../utils/constructPostFormData'
 import { useState } from 'react'
 
-type ExitMode = 'complete' | 'drafts'
 export const CreatePostPage = () => {
-  const [exitMode, setExitMode] = useState<ExitMode | null>(null)
-  const { submitForm, isDirty, createDraft, reset } = usePostContext()!
+  const { handleSubmit } = usePostContext()!
+  const [creationError, setCreationError] = useState<string | null>(null)
+  const createPostMutation = useCreatePost()
   const navigate = useNavigate()
-  const navBack = useNavigateBackwards()
-  const location = useLocation()
-  const state = location.state as {
-    backgroundLocation?: Location
-  }
-  const backgroundLocation = state?.backgroundLocation ?? pageRoutes.home
-
-  const navigateToDrafts = () => {
-    navigate(pageRoutes.drafts, { state: { backgroundLocation } })
-  }
-  const modalSaveDialogDiscard = () => {
-    if (exitMode === 'complete') {
-      navBack()
-    } else if (exitMode === 'drafts') {
-      navigateToDrafts()
-      reset()
-    }
-  }
-
   const {
-    visible: saveDialogVisible,
-    show: showSaveDialog,
-    close: closeSaveDialog,
-  } = useModal()
+    saveDialogVisible,
+    handleDraftClick,
+    handleMainModalClose,
+    handleDraftSave,
+    closeSaveDialog,
+    modalSaveDialogDiscard,
+  } = usePostModalActions()
 
-  const handleDraftSave = () => {
-    createDraft()
-    navigateToDrafts()
-  }
+  const submitForm = handleSubmit((data) => {
+    const formData = constructPostFormData(data)
 
-  const handleDraftClick = () => {
-    if (isDirty) {
-      setExitMode('drafts')
-      showSaveDialog()
-    } else {
-      navigateToDrafts()
-    }
-  }
-
-  const handleMainModalClose = () => {
-    if (isDirty) {
-      setExitMode('complete')
-      showSaveDialog()
-    } else {
-      navBack()
-    }
-  }
+    createPostMutation.mutate(formData, {
+      onError: (error) => {
+        if (error instanceof AxiosError) {
+          setCreationError(
+            error.response?.data?.message || 'Something went wrong',
+          )
+        }
+      },
+      onSuccess: () => {
+        navigate(-1)
+      },
+    })
+  })
 
   return (
     <>
@@ -76,7 +55,10 @@ export const CreatePostPage = () => {
           </button>
         </div>
         <PostFormContent />
-        <PostFormFooter />
+        <PostFormFooter
+          creationError={creationError}
+          isCreationPending={createPostMutation.isPending}
+        />
       </form>
       <ModalSaveDialog
         isOpen={saveDialogVisible}

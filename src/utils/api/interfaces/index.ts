@@ -18,3 +18,8 @@ export interface GetUserPostsParams {
   userId: string
   isDraft?: boolean
 }
+
+export interface GetPostCommentsParams {
+  query?: PaginatedQueryParams
+  postId: string
+}

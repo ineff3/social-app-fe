@@ -39,7 +39,7 @@ const NavSidebar = ({
           <div className=" flex flex-col justify-center px-4">
             <div className=" mb-5 flex justify-center">
               <Link
-                to={pageRoutes.post}
+                to={pageRoutes.createPost}
                 state={{ backgroundLocation: location }}
                 onClick={() => {
                   closeMenu()
@@ -55,7 +55,11 @@ const NavSidebar = ({
               </Link>
             </div>
             <div className=" flex items-center justify-between sm:flex-col lg:flex-row">
-              <UserPreview onUserLinkClick={closeMenu} user={user} />
+              <UserPreview
+                onUserLinkClick={closeMenu}
+                user={user}
+                isResponsive
+              />
               <UserPreviewDropdown />
             </div>
           </div>

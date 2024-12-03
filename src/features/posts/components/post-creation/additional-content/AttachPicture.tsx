@@ -35,13 +35,15 @@ export const AttachPicture = ({
 
   return (
     <>
-      <button
-        onClick={onChooseFile}
-        type="button"
-        className={` btn btn-circle btn-ghost btn-sm ${maxFilesAttached && 'btn-disabled !bg-base-200'}`}
-      >
-        <ImageIcon />
-      </button>
+      <div data-tip="Media" className=" tooltip tooltip-secondary">
+        <button
+          onClick={onChooseFile}
+          type="button"
+          className={` btn btn-circle btn-ghost btn-sm ${maxFilesAttached && 'btn-disabled !bg-base-200'}`}
+        >
+          <ImageIcon />
+        </button>
+      </div>
 
       <input
         disabled={maxFilesAttached}

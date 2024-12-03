@@ -1,15 +1,20 @@
 import { SchemaNotificationResponseDto } from '@/src/types/schema'
 import Post from '../../posts/components/Post'
 import { NotificationMessage } from './NotificationMessage'
+import { useViewNotification } from '../hooks/useViewNotification'
 
 interface Props {
   notification: SchemaNotificationResponseDto
 }
 
 export const NotificationRow = ({ notification }: Props) => {
+  const viewNotificationMutation = useViewNotification(notification.id)
   const { isViewed } = notification
   return (
-    <div className={`relative ${!isViewed && 'bg-base-200 bg-opacity-45'} `}>
+    <div
+      onClick={() => viewNotificationMutation.mutate({})}
+      className={`relative ${!isViewed && 'bg-base-200 bg-opacity-45 hover:bg-opacity-20'} `}
+    >
       {notification?.mentionedPost ? (
         <Post post={notification.mentionedPost} />
       ) : (

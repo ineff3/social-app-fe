@@ -148,6 +148,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/user/{id}/posts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["UserController_findUserPosts"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/user": {
         parameters: {
             query?: never;
@@ -244,22 +260,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/posts/{userId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["PostController_findUserPosts"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/posts/{id}": {
         parameters: {
             query?: never;
@@ -267,13 +267,29 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get?: never;
+        get: operations["PostController_findPostById"];
         put?: never;
         post?: never;
         delete: operations["PostController_remove"];
         options?: never;
         head?: never;
         patch: operations["PostController_updatePost"];
+        trace?: never;
+    };
+    "/posts/{id}/comments": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["PostController_findPostComments"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
         trace?: never;
     };
     "/notifications": {
@@ -290,6 +306,22 @@ export interface paths {
         options?: never;
         head?: never;
         patch?: never;
+        trace?: never;
+    };
+    "/notifications/{id}/view": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["NotificationController_viewNotification"];
         trace?: never;
     };
 }
@@ -361,6 +393,25 @@ export interface components {
             isCurrentUser: boolean;
             user: components["schemas"]["UserResponseDto"];
         };
+        PostResponseDto: {
+            id: string;
+            text: string;
+            isDraft: boolean;
+            likes: number;
+            comments: number;
+            isLiked: boolean;
+            isBookmarked: boolean;
+            author: components["schemas"]["UserPreviewResponseDto"];
+            imageUrls?: string[];
+            /** Format: date-time */
+            createdAt: string;
+        };
+        GetAllPostsResponseDto: {
+            data: components["schemas"]["PostResponseDto"][];
+            total: number;
+            page: number;
+            limit: number;
+        };
         UpdateUserDto: {
             /** @example Ryan */
             firstName?: string;
@@ -394,28 +445,12 @@ export interface components {
             /** @default false */
             isDraft?: boolean;
             images?: string[];
-        };
-        PostResponseDto: {
-            id: string;
-            text: string;
-            isDraft: boolean;
-            likes: number;
-            isLiked: boolean;
-            isBookmarked: boolean;
-            author: components["schemas"]["UserPreviewResponseDto"];
-            imageUrls?: string[];
-            /** Format: date-time */
-            createdAt: string;
-        };
-        GetAllPostsResponseDto: {
-            data: components["schemas"]["PostResponseDto"][];
-            total: number;
-            page: number;
-            limit: number;
+            parentPostId?: string;
         };
         UpdatePostDto: {
             text?: string;
             images?: string[];
+            parentPostId?: string;
         };
         NotificationResponseDto: {
             id: string;
@@ -449,12 +484,12 @@ export type SchemaUsernameReservedResponseDto = components['schemas']['UsernameR
 export type SchemaUserSearchResponseDto = components['schemas']['UserSearchResponseDto'];
 export type SchemaUserResponseDto = components['schemas']['UserResponseDto'];
 export type SchemaGetUserByUsernameResponseDto = components['schemas']['GetUserByUsernameResponseDto'];
+export type SchemaPostResponseDto = components['schemas']['PostResponseDto'];
+export type SchemaGetAllPostsResponseDto = components['schemas']['GetAllPostsResponseDto'];
 export type SchemaUpdateUserDto = components['schemas']['UpdateUserDto'];
 export type SchemaUpdateUsernameDto = components['schemas']['UpdateUsernameDto'];
 export type SchemaGetPostsQueryDto = components['schemas']['GetPostsQueryDto'];
 export type SchemaCreatePostDto = components['schemas']['CreatePostDto'];
-export type SchemaPostResponseDto = components['schemas']['PostResponseDto'];
-export type SchemaGetAllPostsResponseDto = components['schemas']['GetAllPostsResponseDto'];
 export type SchemaUpdatePostDto = components['schemas']['UpdatePostDto'];
 export type SchemaNotificationResponseDto = components['schemas']['NotificationResponseDto'];
 export type SchemaGetAllNotificationsResponseDto = components['schemas']['GetAllNotificationsResponseDto'];
@@ -644,6 +679,32 @@ export interface operations {
             };
         };
     };
+    UserController_findUserPosts: {
+        parameters: {
+            query?: {
+                page?: number;
+                limit?: number;
+                order?: "desc" | "asc";
+                isDraft?: boolean;
+            };
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GetAllPostsResponseDto"];
+                };
+            };
+        };
+    };
     UserController_updateUser: {
         parameters: {
             query?: never;
@@ -808,17 +869,12 @@ export interface operations {
             };
         };
     };
-    PostController_findUserPosts: {
+    PostController_findPostById: {
         parameters: {
-            query?: {
-                page?: number;
-                limit?: number;
-                order?: "desc" | "asc";
-                isDraft?: boolean;
-            };
+            query?: never;
             header?: never;
             path: {
-                userId: string;
+                id: string;
             };
             cookie?: never;
         };
@@ -829,7 +885,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["GetAllPostsResponseDto"];
+                    "application/json": components["schemas"]["PostResponseDto"];
                 };
             };
         };
@@ -876,6 +932,31 @@ export interface operations {
             };
         };
     };
+    PostController_findPostComments: {
+        parameters: {
+            query?: {
+                page?: number;
+                limit?: number;
+                order?: "desc" | "asc";
+            };
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GetAllPostsResponseDto"];
+                };
+            };
+        };
+    };
     NotificationController_findAll: {
         parameters: {
             query?: {
@@ -896,6 +977,25 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["GetAllNotificationsResponseDto"];
                 };
+            };
+        };
+    };
+    NotificationController_viewNotification: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
         };
     };

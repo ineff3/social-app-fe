@@ -30,12 +30,14 @@ export const DropdownMenu = ({ items, anchor }: Props) => {
       <Menu>
         <MenuButton as={Fragment}>
           {({ active }) => (
-            <button
-              aria-label="Options"
-              className={` btn btn-ghost btn-sm ${active && 'btn-active'} `}
-            >
-              <SlOptions size={18} />
-            </button>
+            <div data-tip="Options" className=" tooltip tooltip-secondary">
+              <button
+                aria-label="Options"
+                className={` btn btn-ghost btn-sm ${active && 'btn-active'} `}
+              >
+                <SlOptions size={18} />
+              </button>
+            </div>
           )}
         </MenuButton>
         <Transition

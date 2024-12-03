@@ -9,6 +9,7 @@ import { useAppSelector } from '@/src/redux/hooks'
 import { selectUserPreview } from '@/src/redux/user/userSlice'
 import { NavLink, useLocation } from 'react-router-dom'
 import { NotificationBadge } from './NotificationBadge'
+import { pageRoutes } from '@/src/routes'
 
 const ICON_SIZE = 20
 const LINK_HEIGHT = 52
@@ -16,7 +17,7 @@ const TRANSITION_DURATION = 0.25
 
 const generateMenuItems = (username: string) => [
   {
-    path: '/',
+    path: pageRoutes.home,
     name: 'Home',
     svg: <HomeIcon width={ICON_SIZE} height={ICON_SIZE} />,
   },
@@ -26,7 +27,7 @@ const generateMenuItems = (username: string) => [
     svg: <SearchIcon width={ICON_SIZE} height={ICON_SIZE} />,
   },
   {
-    path: '/notifications',
+    path: pageRoutes.notifications,
     name: 'Notifications',
     svg: <NotificationIcon width={ICON_SIZE} height={ICON_SIZE} />,
     badge: <NotificationBadge />,
@@ -37,12 +38,12 @@ const generateMenuItems = (username: string) => [
     svg: <MessageIcon width={ICON_SIZE} height={ICON_SIZE} />,
   },
   {
-    path: '/bookmarks',
+    path: pageRoutes.bookmarks,
     name: 'Bookmarks',
     svg: <BookmarkIcon width={ICON_SIZE} height={ICON_SIZE} />,
   },
   {
-    path: username ? `/users/${username}` : '/users/:username',
+    path: `/users/${username}`,
     name: 'Profile',
     svg: <ProfileIcon width={ICON_SIZE} height={ICON_SIZE} />,
   },

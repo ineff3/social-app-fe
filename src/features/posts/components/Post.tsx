@@ -1,15 +1,14 @@
-import { convertPostDate } from '../utils/dateConvertions'
-import LikeSection from './post-items/LikeSection'
-import BookmarkSection from './post-items/BookmarkSection'
+import { convertPostDate } from '../utils/dateConversions'
 import PostOptions from './post-items/PostOptions'
 import { useAppSelector } from '@/src/redux/hooks'
 import { selectUserPreview } from '@/src/redux/user/userSlice'
 import { useId } from 'react'
-import CommentIconSvg from '@/src/components/ui/icons/CommentIconSvg'
 import { SchemaPostResponseDto } from '@/src/types/schema'
 import UserIconLink from '@/src/components/ui/UserIconLink'
-import RepostIconSvg from '@/src/components/ui/icons/RepostIconSvg'
 import { convertPostTextToHTML } from '../utils/convertPostTextToHTML'
+import { useNavigate } from 'react-router-dom'
+import { PostInteractions } from './post-items/PostInteractions'
+import { ImageDisplay } from './post-items/ImageDisplay'
 
 interface Props {
   post: SchemaPostResponseDto
@@ -18,14 +17,24 @@ interface Props {
 const Post = ({ post }: Props) => {
   const authorId = useId()
   const userPreviewData = useAppSelector(selectUserPreview)
+  const navigate = useNavigate()
+
   const isPostAuthor = userPreviewData?.id === post.author.id
   const createdDate = new Date(post.createdAt)
+
+  const redirectToPostPage = (e: React.MouseEvent<HTMLInputElement>) => {
+    const isInteractiveElement = (e.target as HTMLElement).closest('button, a')
+    if (!isInteractiveElement) {
+      navigate(`/post/${post.id}`)
+    }
+  }
 
   return (
     <article
       tabIndex={0}
       aria-labelledby={authorId}
-      className=" border-b border-accent p-5 md:p-10"
+      className="border-b border-accent p-5 transition-colors duration-100 ease-in hover:cursor-pointer hover:bg-base-300 hover:bg-opacity-50 md:p-10"
+      onClick={redirectToPostPage}
     >
       <div className=" flex gap-3">
         <UserIconLink
@@ -50,6 +59,7 @@ const Post = ({ post }: Props) => {
               </div>
               <PostOptions isPostAuthor={isPostAuthor} postId={post?.id} />
             </div>
+
             {post.text && (
               <p
                 className=" text-secondary"
@@ -58,48 +68,12 @@ const Post = ({ post }: Props) => {
                 }}
               />
             )}
+
             {post?.imageUrls && post?.imageUrls.length > 0 && (
-              <div
-                className={` grid grid-cols-[repeat(auto-fit,minmax(230px,1fr))]  overflow-hidden rounded-lg ${post.imageUrls.length > 2 ? 'max-h-[550px] grid-rows-2 ' : 'max-h-[500px] grid-rows-1'}  `}
-              >
-                {post.imageUrls?.map((path, index) => (
-                  <div
-                    key={index}
-                    className={` ${post.imageUrls?.length === 3 && index === 0 && 'col-span-2'}`}
-                  >
-                    <img
-                      src={path}
-                      alt="Post Image"
-                      className="h-full w-full object-cover"
-                    />
-                  </div>
-                ))}
-              </div>
+              <ImageDisplay imageUrls={post.imageUrls} />
             )}
           </div>
-          <div role="group" className=" flex justify-between">
-            <div className=" flex items-center gap-1.5">
-              <CommentIconSvg width={22} height={22} fill="currentColor" />
-              <p>3</p>
-            </div>
-            <div className=" flex items-center gap-1.5">
-              <RepostIconSvg width={22} height={22} fill="currentColor" />
-              <p>12</p>
-            </div>
-            <div className=" flex items-center gap-1.5">
-              <LikeSection
-                postId={post.id}
-                likesCount={post.likes}
-                isLiked={post.isLiked}
-              />
-            </div>
-            <div className=" flex items-center gap-1.5">
-              <BookmarkSection
-                postId={post.id}
-                isBookmarked={post.isBookmarked}
-              />
-            </div>
-          </div>
+          <PostInteractions post={post} />
         </div>
       </div>
     </article>

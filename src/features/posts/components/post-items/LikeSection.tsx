@@ -14,23 +14,25 @@ const LikeSection = ({ postId, isLiked, likesCount }: Props) => {
   }
   return (
     <>
-      <button
-        aria-label="Like"
-        onClick={onPostLike}
-        className=" btn btn-circle btn-ghost btn-sm"
-      >
-        <div
-          className={` transform transition duration-500 ${isLiked && 'animate-slide-up-and-down text-[#F61164]'}`}
+      <div data-tip="Like" className=" tooltip tooltip-secondary">
+        <button
+          aria-label="Like"
+          onClick={onPostLike}
+          className=" btn btn-circle btn-ghost btn-sm"
         >
-          <LikeIconSvg
-            width={22}
-            height={22}
-            stroke={isLiked ? 'none' : 'currentColor'}
-            strokeWidth={1.4}
-            fill={isLiked ? 'currentColor' : 'none'}
-          />
-        </div>
-      </button>
+          <div
+            className={` transform transition duration-500 ${isLiked && 'animate-slide-up-and-down text-[#F61164]'}`}
+          >
+            <LikeIconSvg
+              width={22}
+              height={22}
+              stroke={isLiked ? 'none' : 'currentColor'}
+              strokeWidth={1.4}
+              fill={isLiked ? 'currentColor' : 'none'}
+            />
+          </div>
+        </button>
+      </div>
 
       <p>{likesCount}</p>
     </>

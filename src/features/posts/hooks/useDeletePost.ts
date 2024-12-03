@@ -8,7 +8,8 @@ const useDeletePost = () => {
   const queryKeyStore = useQueryKeyStore()
   return useDelete<InfiniteData<SchemaGetAllPostsResponseDto>, string>({
     path: apiRoutes.posts,
-    qKey: queryKeyStore.posts.all({}).queryKey,
+    // qKey: queryKeyStore.posts.all({}).queryKey,
+    qKey: queryKeyStore.posts._def, // TODO: refactor optimistic mutations
     updater: (oldData, deletedPostId) => {
       if (!oldData) return oldData
 

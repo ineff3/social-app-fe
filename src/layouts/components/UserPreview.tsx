@@ -5,7 +5,7 @@ interface Props {
   onUserLinkClick?: () => void
   user: SchemaUserPreviewResponseDto
   disabledLink?: boolean
-  isResponsive: boolean
+  isResponsive?: boolean
 }
 
 export const UserPreview = ({

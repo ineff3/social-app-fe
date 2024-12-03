@@ -29,9 +29,9 @@ const StickyHeader = ({ close, onSave }: Props) => {
 
   return (
     <header
-      className={`sticky top-0 z-10 flex items-center gap-4 bg-base-300 px-5 py-3 ${
+      className={`sticky top-0 flex items-center gap-4 bg-base-300 px-5 py-3 transition duration-300 ${
         isScrolled ? 'bg-opacity-70 backdrop-blur-sm' : 'bg-opacity-100'
-      } transition duration-300`}
+      } `}
     >
       <div>
         <CloseBtn onClick={close} />

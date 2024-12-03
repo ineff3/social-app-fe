@@ -5,13 +5,21 @@ import Paragraph from '@tiptap/extension-paragraph'
 import Placeholder from '@tiptap/extension-placeholder'
 import Link from '@tiptap/extension-link'
 import { UserMention } from '../../../utils/mentions/userMention'
+import { useEffect } from 'react'
 
 interface Props {
   onChange: (text: string) => void
   initialContent?: string
+  placeholder?: string
+  isMinimized?: boolean
 }
 
-export const TextEditor = ({ onChange, initialContent }: Props) => {
+export const TextEditor = ({
+  onChange,
+  initialContent,
+  placeholder = 'What is happening?',
+  isMinimized = false,
+}: Props) => {
   const editor = useEditor({
     content: initialContent,
     extensions: [
@@ -19,7 +27,7 @@ export const TextEditor = ({ onChange, initialContent }: Props) => {
       Paragraph,
       Text,
       Placeholder.configure({
-        placeholder: 'What is happening?',
+        placeholder,
       }),
       Link.configure({
         openOnClick: false,
@@ -33,14 +41,19 @@ export const TextEditor = ({ onChange, initialContent }: Props) => {
     ],
     editorProps: {
       attributes: {
-        class:
-          'textarea textarea-bordered max-h-[300px] min-h-[85px] w-full text-base resize-y overflow-y-auto cursor-text',
+        class: `textarea ${isMinimized ? 'min-h-[47px]' : 'min-h-[85px] resize-y'} textarea-bordered  max-h-[300px]  w-full text-base overflow-y-auto cursor-text`,
       },
     },
     onUpdate: ({ editor }) => {
       onChange(editor.getText())
     },
   })
+
+  useEffect(() => {
+    if (editor && initialContent === '') {
+      editor.commands.clearContent()
+    }
+  }, [initialContent, editor])
 
   return <EditorContent editor={editor} />
 }

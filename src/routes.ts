@@ -15,10 +15,13 @@ export const apiRoutes = {
   likePost: (postId: string) => `posts/${postId}/like`,
   bookmarkPost: (postId: string) => `posts/${postId}/bookmark`,
   updatePost: (postId: string) => `posts/${postId}`,
+  userPosts: (userId: string) => `user/${userId}/posts`,
+  postComments: (postId: string) => `posts/${postId}/comments`,
   //drafts
   drafts: 'drafts',
   //notifications
   notifications: 'notifications',
+  viewNotification: (id: string) => `notifications/${id}/view`,
 }
 
 export const pageRoutes = {
@@ -27,6 +30,9 @@ export const pageRoutes = {
   profile: '/users/:username',
   authSignup: '/auth/signup',
   signupFlow: '/signup-flow',
-  post: '/post',
+  createPost: '/create-post',
+  post: '/post/:postId',
   drafts: '/drafts',
+  notifications: '/notifications',
+  bookmarks: '/bookmarks',
 }

@@ -13,20 +13,22 @@ const BookmarkSection = ({ postId, isBookmarked }: Props) => {
     useBookmarkPostMutation.mutate()
   }
   return (
-    <button
-      aria-label="bookmark"
-      className=" btn btn-circle btn-ghost btn-sm"
-      onClick={onClick}
-    >
-      <div className={` ${isBookmarked && 'text-primary'}`}>
-        <BookmarkIconSvg
-          width={22}
-          height={22}
-          stroke={isBookmarked ? 'none' : 'currentColor'}
-          fill={isBookmarked ? 'currentColor' : 'none'}
-        />
-      </div>
-    </button>
+    <div data-tip="Bookmark" className=" tooltip tooltip-secondary">
+      <button
+        aria-label="bookmark"
+        className=" btn btn-circle btn-ghost btn-sm"
+        onClick={onClick}
+      >
+        <div className={` ${isBookmarked && 'text-primary'}`}>
+          <BookmarkIconSvg
+            width={22}
+            height={22}
+            stroke={isBookmarked ? 'none' : 'currentColor'}
+            fill={isBookmarked ? 'currentColor' : 'none'}
+          />
+        </div>
+      </button>
+    </div>
   )
 }
 

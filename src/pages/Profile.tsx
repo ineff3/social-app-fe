@@ -1,4 +1,3 @@
-import React from 'react'
 import { ProfilePage } from '../features/users'
 
 const Profile = () => {

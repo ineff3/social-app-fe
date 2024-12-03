@@ -5,11 +5,15 @@ import Post from './Post'
 import { SchemaGetAllPostsResponseDto } from '@/src/types/schema'
 import {
   GetAllPostsParams,
+  GetPostCommentsParams,
   GetUserPostsParams,
 } from '@/src/utils/api/interfaces'
 
 export const PostsFlow = <
-  TParams extends GetAllPostsParams | GetUserPostsParams,
+  TParams extends
+    | GetAllPostsParams
+    | GetUserPostsParams
+    | GetPostCommentsParams,
 >({
   useGetPostsHook,
   params,

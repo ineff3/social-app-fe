@@ -6,9 +6,22 @@ import { AttachedPictures } from './additional-content/AttachedPictures'
 import { TextEditor } from './post-form/TextEditor'
 import { Controller } from 'react-hook-form'
 
-export const PostFormContent = () => {
+interface Props {
+  isTextEditorMinimized?: boolean
+  placeholder?: string
+}
+
+export const PostFormContent = ({
+  placeholder,
+  isTextEditorMinimized,
+}: Props) => {
   const user = useAppSelector(selectUserPreview)
-  const { control, errors, postImages, removePostImage } = usePostContext()!
+  const {
+    control,
+    formState: { errors },
+    postImages,
+    removePostImage,
+  } = usePostContext()!
 
   return (
     <div className="flex flex-1 gap-2 px-1.5">
@@ -20,8 +33,10 @@ export const PostFormContent = () => {
             name="text"
             render={({ field }) => (
               <TextEditor
+                placeholder={placeholder}
                 initialContent={field.value}
                 onChange={field.onChange}
+                isMinimized={isTextEditorMinimized}
               />
             )}
           />

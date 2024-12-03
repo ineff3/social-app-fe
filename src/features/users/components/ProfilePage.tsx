@@ -1,17 +1,16 @@
-import { Link, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import useFetchUserProfile from '../hooks/useFetchUserProfile'
 import ProfileNotFound from './ProfileNotFound'
-import { pageRoutes } from '../../../routes'
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react'
 import DescriptionPoints from './DescriptionPoints'
 import { useModal } from '../../../hooks/useModal'
 import Modal from '../../../components/ui/Modal'
 import EditProfileWindow from './edit-profile/EditProfileWindow'
 import { FaUserCircle } from 'react-icons/fa'
-import ArrowIconSvg from '../../../components/ui/icons/ArrowIconSvg'
 import useGetUserPosts from '../../posts/hooks/useGetUserPosts'
 import useGetPosts from '../../posts/hooks/useGetPosts'
 import { PostsFlow } from '../../posts/components/PostsFlow'
+import { BackBtn } from '@/src/components/ui/BackBtn'
 
 const ProfilePage = () => {
   const { username } = useParams()
@@ -35,12 +34,7 @@ const ProfilePage = () => {
   return (
     <div className=" flex h-full flex-col">
       <header className=" flex items-center justify-start gap-4 border-b border-accent px-10 py-1.5">
-        <Link
-          to={pageRoutes.home}
-          className=" btn btn-circle btn-ghost btn-sm text-secondary"
-        >
-          <ArrowIconSvg width={18} height={18} fill="currentColor" />
-        </Link>
+        <BackBtn />
 
         <div className=" flex flex-col">
           <p className=" font-bold text-secondary">

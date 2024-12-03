@@ -8,24 +8,33 @@ import { GifIcon, ScheduleIcon, StatsIcon } from '@/src/components/ui/icons'
 import { AttachEmoji } from './additional-content/AttachEmoji'
 import { AttachPicture } from './additional-content/AttachPicture'
 
-export const PostFormFooter = () => {
+interface Props {
+  hasDivider?: boolean
+  submitBtnTitle?: string
+  creationError: string | null
+  isCreationPending: boolean
+}
+
+export const PostFormFooter = ({
+  hasDivider = true,
+  submitBtnTitle = 'Post',
+  creationError,
+  isCreationPending,
+}: Props) => {
   const {
-    creationError,
     postImages,
     appendPostImage,
     appendEmoji,
-    errors,
-    isDirty,
-    postIsPending,
+    formState: { errors, isDirty },
   } = usePostContext()!
 
   const isFormInvalid =
-    errors?.postImages || errors?.text || !isDirty || postIsPending
+    errors?.postImages || errors?.text || !isDirty || isCreationPending
 
   return (
     <div>
       {creationError && <ErrorAlert errorMessage={creationError} />}
-      <div className=" divider"></div>
+      {hasDivider && <div className=" divider"></div>}
       <div className=" flex  items-center justify-between">
         <div className=" flex items-center gap-1.5 ">
           <AttachPicture
@@ -34,23 +43,29 @@ export const PostFormFooter = () => {
             imageTypes={ACCEPTED_IMAGE_TYPES}
           />
           <AttachEmoji appendEmoji={appendEmoji} />
-          <button type="button" className=" btn btn-circle btn-ghost btn-sm">
-            <StatsIcon />
-          </button>
-          <button type="button" className=" btn btn-circle btn-ghost btn-sm">
-            <GifIcon />
-          </button>
-          <button type="button" className=" btn btn-circle btn-ghost btn-sm">
-            <ScheduleIcon />
-          </button>
+          <div data-tip="Poll" className=" tooltip tooltip-secondary">
+            <button type="button" className=" btn btn-circle btn-ghost btn-sm">
+              <StatsIcon />
+            </button>
+          </div>
+          <div data-tip="Gif" className=" tooltip tooltip-secondary">
+            <button type="button" className=" btn btn-circle btn-ghost btn-sm">
+              <GifIcon />
+            </button>
+          </div>
+          <div data-tip="Schedule" className=" tooltip tooltip-secondary">
+            <button type="button" className=" btn btn-circle btn-ghost btn-sm">
+              <ScheduleIcon />
+            </button>
+          </div>
         </div>
 
         <button
           type="submit"
           className={`btn btn-primary btn-sm ${isFormInvalid && 'btn-disabled !bg-base-200'} `}
         >
-          <p>Post</p>
-          {postIsPending && (
+          <p>{submitBtnTitle}</p>
+          {isCreationPending && (
             <span className="loading loading-spinner loading-sm"></span>
           )}
         </button>
