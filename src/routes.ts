@@ -21,6 +21,7 @@ export const apiRoutes = {
   drafts: 'drafts',
   //notifications
   notifications: 'notifications',
+  viewNotification: (id: string) => `notifications/${id}/view`,
 }
 
 export const pageRoutes = {
