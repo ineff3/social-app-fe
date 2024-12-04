@@ -10,6 +10,7 @@ import {
 } from '@/src/utils/api/interfaces'
 import { ScrollPositionKey } from '@/src/redux/user/userSlice'
 import { useRestoreScrollPosition } from '@/src/hooks/useRestoreScrollPosition'
+import { PostSkeleton } from './PostSkeleton'
 
 type PossibleParams =
   | GetAllPostsParams
@@ -31,7 +32,8 @@ export const PostsFlow = <TParams extends PossibleParams>({
   scrollPositionKey?: ScrollPositionKey
 }) => {
   const { ref, inView } = useInView()
-  const { data, fetchNextPage, hasNextPage } = useGetPostsHook(params)
+  const { data, fetchNextPage, hasNextPage, isLoading } =
+    useGetPostsHook(params)
 
   useRestoreScrollPosition(scrollPositionKey)
 
@@ -40,6 +42,15 @@ export const PostsFlow = <TParams extends PossibleParams>({
       fetchNextPage()
     }
   }, [inView, fetchNextPage])
+
+  if (isLoading) {
+    return (
+      <div className="flex flex-col">
+        <PostSkeleton />
+        <PostSkeleton />
+      </div>
+    )
+  }
 
   return (
     <div className="flex flex-col" role="feed">
