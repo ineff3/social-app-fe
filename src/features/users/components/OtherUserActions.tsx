@@ -4,16 +4,11 @@ import { useUnfollow } from '../hooks/useUnfollow'
 interface Props {
   isFollowing: boolean
   followeeId: string
-  followeeUsername: string
 }
 
-export const OtherUserActions = ({
-  isFollowing,
-  followeeId,
-  followeeUsername,
-}: Props) => {
-  const followMutation = useFollow(followeeId, followeeUsername)
-  const unfollowMutation = useUnfollow(followeeId, followeeUsername)
+export const OtherUserActions = ({ isFollowing, followeeId }: Props) => {
+  const followMutation = useFollow(followeeId)
+  const unfollowMutation = useUnfollow(followeeId)
 
   return (
     <button

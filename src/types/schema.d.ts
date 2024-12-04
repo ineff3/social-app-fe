@@ -420,6 +420,9 @@ export interface components {
             backgroundUrl?: string;
             /** Format: date-time */
             createdAt: string;
+            amountOfPosts: number;
+            followersCount?: number;
+            followingCount?: number;
         };
         GetUserByUsernameResponseDto: {
             isCurrentUser: boolean;

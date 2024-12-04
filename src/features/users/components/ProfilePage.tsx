@@ -35,7 +35,7 @@ export const ProfilePage = () => {
           <p className=" font-bold text-secondary">
             {user.firstName} {user.secondName}
           </p>
-          <p className=" text-sm">1,070 Tweets</p>
+          <p className=" text-sm">{user.amountOfPosts} Posts</p>
         </div>
       </header>
       <div className=" h-[250px] bg-base-200">
@@ -69,7 +69,6 @@ export const ProfilePage = () => {
                 <OtherUserActions
                   isFollowing={data.isFollowing}
                   followeeId={user.id}
-                  followeeUsername={user.username}
                 />
               )}
             </div>
