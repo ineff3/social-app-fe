@@ -5,7 +5,8 @@ import DescriptionPoints from './DescriptionPoints'
 import { FaUserCircle } from 'react-icons/fa'
 import { BackBtn } from '@/src/components/ui/BackBtn'
 import { ProfileTabs } from './ProfileTabs'
-import { ProfileActions } from './ProfileActions'
+import { CurrentUserActions } from './CurrentUserActions'
+import { OtherUserActions } from './OtherUserActions'
 
 export const ProfilePage = () => {
   const { username } = useParams()
@@ -62,7 +63,15 @@ export const ProfilePage = () => {
               )}
             </div>
             <div className=" self-end">
-              <ProfileActions isCurrentUser={data.isCurrentUser} />
+              {data.isCurrentUser ? (
+                <CurrentUserActions />
+              ) : (
+                <OtherUserActions
+                  isFollowing={data.isFollowing}
+                  followeeId={user.id}
+                  followeeUsername={user.username}
+                />
+              )}
             </div>
           </div>
 

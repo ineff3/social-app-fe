@@ -10,6 +10,8 @@ export const apiRoutes = {
   getUsernamesArray: 'users/usernames',
   checkUsernameIsReserved: 'user/username-reserved',
   search: 'user/search',
+  follow: (followeeId: string) => `user/${followeeId}/follow`,
+  unfollow: (followeeId: string) => `user/${followeeId}/unfollow`,
   //posts
   posts: 'posts',
   likePost: (postId: string) => `posts/${postId}/like`,
