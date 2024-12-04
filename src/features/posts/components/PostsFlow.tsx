@@ -8,15 +8,18 @@ import {
   GetPostCommentsParams,
   GetUserPostsParams,
 } from '@/src/utils/api/interfaces'
+import { ScrollPositionKey } from '@/src/redux/user/userSlice'
+import { useRestoreScrollPosition } from '@/src/hooks/useRestoreScrollPosition'
 
-export const PostsFlow = <
-  TParams extends
-    | GetAllPostsParams
-    | GetUserPostsParams
-    | GetPostCommentsParams,
->({
+type PossibleParams =
+  | GetAllPostsParams
+  | GetUserPostsParams
+  | GetPostCommentsParams
+
+export const PostsFlow = <TParams extends PossibleParams>({
   useGetPostsHook,
   params,
+  scrollPositionKey,
 }: {
   useGetPostsHook: (
     options: TParams,
@@ -25,9 +28,12 @@ export const PostsFlow = <
     Error
   >
   params: TParams
+  scrollPositionKey?: ScrollPositionKey
 }) => {
   const { ref, inView } = useInView()
   const { data, fetchNextPage, hasNextPage } = useGetPostsHook(params)
+
+  useRestoreScrollPosition(scrollPositionKey)
 
   useEffect(() => {
     if (inView) {

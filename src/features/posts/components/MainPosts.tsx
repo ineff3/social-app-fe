@@ -34,12 +34,17 @@ export const MainPosts = () => {
       </TabList>
       <TabPanels>
         <TabPanel>
-          <PostsFlow useGetPostsHook={useGetPosts} params={{}} />
+          <PostsFlow
+            useGetPostsHook={useGetPosts}
+            params={{}}
+            scrollPositionKey="mainContext"
+          />
         </TabPanel>
         <TabPanel>
           <PostsFlow
             useGetPostsHook={useGetPosts}
             params={{ filters: { isFollowing: true } }}
+            scrollPositionKey="followingContext"
           />
         </TabPanel>
       </TabPanels>
