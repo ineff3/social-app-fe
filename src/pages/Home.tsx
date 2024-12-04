@@ -1,11 +1,7 @@
-import { PostTabsWrapper } from '../features/posts'
+import { MainPosts } from '../features/posts/components/MainPosts'
 
 const Home = () => {
-  return (
-    <div>
-      <PostTabsWrapper />
-    </div>
-  )
+  return <MainPosts />
 }
 
 export default Home

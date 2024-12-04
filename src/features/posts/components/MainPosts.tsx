@@ -5,19 +5,21 @@ import { PostsFlow } from './PostsFlow'
 const tabItems = [
   {
     name: 'For you',
+    value: 'for you',
   },
   {
     name: 'Following',
+    value: 'following',
   },
 ]
 
-const PostTabsWrapper = () => {
+export const MainPosts = () => {
   return (
     <TabGroup>
       <TabList className=" flex border-b border-accent">
-        {tabItems.map((item, index) => (
+        {tabItems.map((item) => (
           <Tab
-            key={index}
+            key={item.value}
             className=" flex w-1/2 items-center justify-center transition-all duration-150 ease-in-out hover:bg-base-300 "
           >
             {({ selected }) => (
@@ -34,10 +36,13 @@ const PostTabsWrapper = () => {
         <TabPanel>
           <PostsFlow useGetPostsHook={useGetPosts} params={{}} />
         </TabPanel>
-        <TabPanel>Content 2</TabPanel>
+        <TabPanel>
+          <PostsFlow
+            useGetPostsHook={useGetPosts}
+            params={{ filters: { isFollowing: true } }}
+          />
+        </TabPanel>
       </TabPanels>
     </TabGroup>
   )
 }
-
-export default PostTabsWrapper
