@@ -1,45 +1,55 @@
+import { DropdownItem } from '@/src/types'
 import {
   Menu,
   MenuButton,
+  MenuButtonProps,
   MenuItem,
   MenuItems,
   Transition,
 } from '@headlessui/react'
-import { ComponentProps, Fragment, SVGProps } from 'react'
+import { ComponentProps, forwardRef, Fragment } from 'react'
 import { SlOptions } from 'react-icons/sl'
 
-type IconProps = SVGProps<SVGSVGElement>
-
-export interface DropdownItem {
-  title: string
-  value: string
-  Icon: (props: IconProps) => JSX.Element
-  iconProps?: IconProps
-  action: () => void
-  dangerItem?: boolean
-}
-
+type WidthType = 'default' | 'fit-content'
 interface Props {
   items: DropdownItem[]
   anchor: ComponentProps<typeof MenuItems>['anchor']
+  width?: WidthType
+  OpenButton?: React.ForwardRefExoticComponent<
+    object & React.RefAttributes<HTMLButtonElement>
+  >
 }
 
-export const DropdownMenu = ({ items, anchor }: Props) => {
+const DefaultDropdownButton = forwardRef(
+  (props: MenuButtonProps, ref: React.ForwardedRef<HTMLButtonElement>) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { className, ...rest } = props
+
+    return (
+      <div data-tip="Options" className=" tooltip tooltip-secondary">
+        <button
+          {...rest}
+          ref={ref}
+          className={' btn btn-ghost btn-sm data-[active]:btn-active '}
+          aria-label="Options"
+        >
+          <SlOptions size={18} />
+        </button>
+      </div>
+    )
+  },
+)
+
+export const DropdownMenu = ({
+  items,
+  anchor,
+  width = 'default',
+  OpenButton = DefaultDropdownButton,
+}: Props) => {
   return (
     <div className="relative text-right">
       <Menu>
-        <MenuButton as={Fragment}>
-          {({ active }) => (
-            <div data-tip="Options" className=" tooltip tooltip-secondary">
-              <button
-                aria-label="Options"
-                className={` btn btn-ghost btn-sm ${active && 'btn-active'} `}
-              >
-                <SlOptions size={18} />
-              </button>
-            </div>
-          )}
-        </MenuButton>
+        <MenuButton as={OpenButton} />
         <Transition
           as={Fragment}
           enter="transition ease-out duration-75"
@@ -51,7 +61,7 @@ export const DropdownMenu = ({ items, anchor }: Props) => {
         >
           <MenuItems
             anchor={anchor}
-            className=" absolute z-[10] flex w-[240px] origin-center flex-col overflow-hidden rounded-xl bg-base-100  shadow-[0px_0px_20px_-8px_rgba(255,255,255,1);] ring-1 ring-black/5 focus:outline-none"
+            className={` absolute z-[10] flex ${width === 'default' && 'w-[240px]'} origin-center flex-col overflow-hidden rounded-xl bg-base-100  shadow-[0px_0px_20px_-8px_rgba(255,255,255,1);] ring-1 ring-black/5 focus:outline-none`}
           >
             {items.length === 0 && (
               <MenuItem>

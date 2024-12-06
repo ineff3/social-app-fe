@@ -1,8 +1,8 @@
 import CommentIconSvg from '@/src/components/ui/icons/CommentIconSvg'
-import RepostIconSvg from '@/src/components/ui/icons/RepostIconSvg'
 import LikeSection from './LikeSection'
 import BookmarkSection from './BookmarkSection'
 import { SchemaPostResponseDto } from '@/src/types/schema'
+import { RepostSection } from './repost/RepostSection'
 
 interface Props {
   post: SchemaPostResponseDto
@@ -16,8 +16,7 @@ export const PostInteractions = ({ post }: Props) => {
         <p>{post.comments}</p>
       </div>
       <div className=" flex items-center gap-1.5">
-        <RepostIconSvg width={22} height={22} fill="currentColor" />
-        <p>12</p>
+        <RepostSection repostsCount={12} />
       </div>
       <div className=" flex items-center gap-1.5">
         <LikeSection
