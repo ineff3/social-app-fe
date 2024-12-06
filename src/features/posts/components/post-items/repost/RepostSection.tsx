@@ -1,4 +1,4 @@
-import { DropdownMenu } from '@/src/components/ui/DropdownMenu'
+import { DropdownMenu } from '@/src/components/ui/dropdown-menu/DropdownMenu'
 import RepostIconSvg from '@/src/components/ui/icons/RepostIconSvg'
 
 import { DropdownItem } from '@/src/types'

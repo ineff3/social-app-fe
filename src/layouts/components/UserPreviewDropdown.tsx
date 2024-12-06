@@ -1,4 +1,4 @@
-import { DropdownMenu } from '@/src/components/ui/DropdownMenu'
+import { DropdownMenu } from '@/src/components/ui/dropdown-menu/DropdownMenu'
 import { useLogout } from '@/src/features/authentication'
 import { useAppSelector } from '@/src/redux/hooks'
 import { selectUserPreview } from '@/src/redux/user/userSlice'
