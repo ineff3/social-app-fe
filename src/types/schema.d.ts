@@ -437,10 +437,12 @@ export interface components {
             comments: number;
             isLiked: boolean;
             isBookmarked: boolean;
+            isReposted: boolean;
             author: components["schemas"]["UserPreviewResponseDto"];
             imageUrls?: string[];
             /** Format: date-time */
             createdAt: string;
+            reposted: components["schemas"]["PostResponseDto"];
         };
         GetAllPostsResponseDto: {
             data: components["schemas"]["PostResponseDto"][];
@@ -475,6 +477,7 @@ export interface components {
             order?: "desc" | "asc";
             liked?: boolean;
             bookmarked?: boolean;
+            isFollowing?: boolean;
         };
         CreatePostDto: {
             text?: string;
@@ -482,11 +485,13 @@ export interface components {
             isDraft?: boolean;
             images?: string[];
             parentPostId?: string;
+            repostedId?: string;
         };
         UpdatePostDto: {
             text?: string;
             images?: string[];
             parentPostId?: string;
+            repostedId?: string;
         };
         NotificationResponseDto: {
             id: string;
@@ -829,6 +834,7 @@ export interface operations {
                 order?: "desc" | "asc";
                 liked?: boolean;
                 bookmarked?: boolean;
+                isFollowing?: boolean;
             };
             header?: never;
             path?: never;

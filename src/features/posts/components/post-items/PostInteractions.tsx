@@ -16,7 +16,11 @@ export const PostInteractions = ({ post }: Props) => {
         <p>{post.comments}</p>
       </div>
       <div className=" flex items-center gap-1.5">
-        <RepostSection repostsCount={12} />
+        <RepostSection
+          repostsCount={12}
+          postId={post.id}
+          isReposted={post.isReposted}
+        />
       </div>
       <div className=" flex items-center gap-1.5">
         <LikeSection
