@@ -76,7 +76,7 @@ const Post = ({ post }: Props) => {
               <ImageDisplay imageUrls={imageUrls} />
             )}
           </div>
-          <PostInteractions post={post} />
+          <PostInteractions post={actualPost} initialPostId={post.id} />
         </div>
       </div>
     </article>

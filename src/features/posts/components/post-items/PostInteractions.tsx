@@ -6,9 +6,10 @@ import { RepostSection } from './repost/RepostSection'
 
 interface Props {
   post: SchemaPostResponseDto
+  initialPostId: string
 }
 
-export const PostInteractions = ({ post }: Props) => {
+export const PostInteractions = ({ post, initialPostId }: Props) => {
   return (
     <div role="group" className=" flex justify-between">
       <div className=" flex items-center gap-1.5">
@@ -18,7 +19,7 @@ export const PostInteractions = ({ post }: Props) => {
       <div className=" flex items-center gap-1.5">
         <RepostSection
           repostsCount={12}
-          postId={post.id}
+          postId={initialPostId}
           isReposted={post.isReposted}
         />
       </div>
