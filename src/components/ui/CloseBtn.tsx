@@ -1,5 +1,5 @@
 interface Props {
-  onClick: () => void
+  onClick: React.MouseEventHandler
 }
 
 export const CloseBtn = ({ onClick }: Props) => {

@@ -6,19 +6,25 @@ import { RepostButton } from './RepostButton'
 import { FaRegPenToSquare } from 'react-icons/fa6'
 import useCreatePost from '../../../hooks/useCreatePost'
 import useDeletePost from '../../../hooks/useDeletePost'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { pageRoutes } from '@/src/routes'
+import { SchemaPostResponseDto } from '@/src/types/schema'
+import { PostCreationLocationState } from '../../../interfaces'
 
 interface Props {
   repostsCount: number
   postId: string
-  isReposted: boolean
+  actualPost: SchemaPostResponseDto
 }
 
-export const RepostSection = ({ repostsCount, postId, isReposted }: Props) => {
+export const RepostSection = ({ repostsCount, postId, actualPost }: Props) => {
   const createPostMutation = useCreatePost()
   const deletePostMutation = useDeletePost()
+  const navigate = useNavigate()
+  const location = useLocation()
 
   const handleRepost = () => {
-    if (isReposted) {
+    if (actualPost.isReposted) {
       deletePostMutation.mutate(postId)
     } else {
       const formData = new FormData()
@@ -26,11 +32,18 @@ export const RepostSection = ({ repostsCount, postId, isReposted }: Props) => {
       createPostMutation.mutate(formData)
     }
   }
-  const handleQuote = () => {}
+  const handleQuote = () => {
+    navigate(pageRoutes.createPost, {
+      state: {
+        backgroundLocation: location,
+        repost: actualPost,
+      } as PostCreationLocationState,
+    })
+  }
 
   const items: DropdownItem[] = [
     {
-      title: isReposted ? 'Undo repost' : 'Repost',
+      title: actualPost.isReposted ? 'Undo repost' : 'Repost',
       value: 'repost',
       Icon: RepostIconSvg,
       iconProps: {
@@ -56,7 +69,7 @@ export const RepostSection = ({ repostsCount, postId, isReposted }: Props) => {
     <>
       <div
         data-tip="Repost"
-        className={` tooltip tooltip-secondary ${isReposted && 'text-success'}`}
+        className={` tooltip tooltip-secondary ${actualPost.isReposted && 'text-success'}`}
       >
         <DropdownMenu
           items={items}

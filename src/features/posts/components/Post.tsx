@@ -41,7 +41,11 @@ const Post = ({ post }: Props) => {
       onClick={redirectToPostPage}
     >
       <div className="relative flex gap-3">
-        {post.reposted && <RepostBadge repostAuthor={post.author} />}
+        {post.reposted && (
+          <div className="absolute -top-[20px] left-[35px]">
+            <RepostBadge repostAuthor={post.author} />
+          </div>
+        )}
         <UserIconLink
           userImageUrl={author?.avatarUrl}
           username={author?.username}

@@ -12,6 +12,7 @@ export const ACCEPTED_IMAGE_TYPES = [
 const validationSchema = z
   .object({
     text: z.string().max(500, 'Cant exceed more than 500 symbols'),
+    repostId: z.string().uuid(),
     postImages: z
       .any()
       .refine((files) => {

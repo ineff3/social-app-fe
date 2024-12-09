@@ -4,6 +4,7 @@ import { pageRoutes } from '@/src/routes'
 import { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { usePostContext } from '../contexts/PostContext'
+import { PostCreationLocationState } from '../interfaces'
 
 type ExitMode = 'complete' | 'drafts'
 
@@ -20,9 +21,7 @@ export const usePostModalActions = () => {
     reset,
   } = usePostContext()!
   const location = useLocation()
-  const state = location.state as {
-    backgroundLocation?: Location
-  }
+  const state = location.state as PostCreationLocationState
   const backgroundLocation = state?.backgroundLocation ?? pageRoutes.home
   const navigate = useNavigate()
   const navBack = useNavigateBackwards()

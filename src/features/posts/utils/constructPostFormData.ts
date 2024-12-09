@@ -6,5 +6,8 @@ export const constructPostFormData = (data: CreatePostFormType) => {
     formData.append('images', file)
   })
   formData.append('text', data.text)
+  if (data.repostId) {
+    formData.append('repostedId', data.repostId)
+  }
   return formData
 }
