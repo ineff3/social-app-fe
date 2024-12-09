@@ -10,13 +10,15 @@ import { useNavigate } from 'react-router-dom'
 import { PostInteractions } from './post-items/PostInteractions'
 import { ImageDisplay } from './post-items/ImageDisplay'
 import { RepostBadge } from './post-items/RepostBadge'
+import { Repost } from './post-creation/additional-content/Repost'
 
 interface Props {
   post: SchemaPostResponseDto
 }
 
 const Post = ({ post }: Props) => {
-  const actualPost = post.reposted ? post.reposted : post
+  const isQuoted = (post.text || post.imageUrls) && post.reposted
+  const actualPost = isQuoted ? post : post.reposted ? post.reposted : post
   const { id, author, createdAt, text, imageUrls } = actualPost
   const authorId = useId()
   const userPreviewData = useAppSelector(selectUserPreview)
@@ -24,14 +26,15 @@ const Post = ({ post }: Props) => {
 
   const navigate = useNavigate()
 
-  const createdDate = new Date(createdAt)
-
   const redirectToPostPage = (e: React.MouseEvent<HTMLInputElement>) => {
-    const isInteractiveElement = (e.target as HTMLElement).closest('button, a')
+    const isInteractiveElement = (e.target as HTMLElement).closest(
+      'button, a, [data-interactive="true"]',
+    )
     if (!isInteractiveElement) {
       navigate(`/post/${id}`)
     }
   }
+  const createdDate = new Date(createdAt)
 
   return (
     <article
@@ -41,7 +44,7 @@ const Post = ({ post }: Props) => {
       onClick={redirectToPostPage}
     >
       <div className="relative flex gap-3">
-        {post.reposted && (
+        {!isQuoted && post.reposted && (
           <div className="absolute -top-[20px] left-[35px]">
             <RepostBadge repostAuthor={post.author} />
           </div>
@@ -78,6 +81,10 @@ const Post = ({ post }: Props) => {
 
             {imageUrls && imageUrls.length > 0 && (
               <ImageDisplay imageUrls={imageUrls} />
+            )}
+
+            {isQuoted && (
+              <Repost post={actualPost.reposted} isInteractive={true} />
             )}
           </div>
           <PostInteractions post={actualPost} initialPostId={post.id} />
