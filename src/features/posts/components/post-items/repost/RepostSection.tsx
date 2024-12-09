@@ -12,12 +12,11 @@ import { SchemaPostResponseDto } from '@/src/types/schema'
 import { PostCreationLocationState } from '../../../interfaces'
 
 interface Props {
-  repostsCount: number
   postId: string
   actualPost: SchemaPostResponseDto
 }
 
-export const RepostSection = ({ repostsCount, postId, actualPost }: Props) => {
+export const RepostSection = ({ postId, actualPost }: Props) => {
   const createPostMutation = useCreatePost()
   const deletePostMutation = useDeletePost()
   const navigate = useNavigate()
@@ -78,7 +77,7 @@ export const RepostSection = ({ repostsCount, postId, actualPost }: Props) => {
           OpenButton={RepostButton}
         />
       </div>
-      <p>{repostsCount}</p>
+      <p>{actualPost.reposts}</p>
     </>
   )
 }

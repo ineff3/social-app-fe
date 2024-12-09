@@ -10,12 +10,14 @@ import { PostInteractions } from '../post-items/PostInteractions'
 import { convertToFullFate } from '../../utils/dateConversions'
 import { ReplySection } from './ReplySection'
 import { PostProvider } from '../../contexts/PostContext'
+import { Repost } from '../post-creation/additional-content/Repost'
 
 interface Props {
   post: SchemaPostResponseDto
 }
 
 export const DetailPost = ({ post }: Props) => {
+  const isQuoted = (post.text || post.imageUrls) && post.reposted
   const authorId = useId()
   const userPreviewData = useAppSelector(selectUserPreview)
 
@@ -56,6 +58,8 @@ export const DetailPost = ({ post }: Props) => {
         {post?.imageUrls && post?.imageUrls.length > 0 && (
           <ImageDisplay imageUrls={post.imageUrls} />
         )}
+
+        {isQuoted && <Repost post={post.reposted} isInteractive={true} />}
       </div>
       <time className="flex gap-2" dateTime={createdDate.toISOString()}>
         <span>{time}</span>
@@ -65,7 +69,7 @@ export const DetailPost = ({ post }: Props) => {
       <div className="flex flex-col gap-1.5">
         <div className=" w-full border-b border-accent" />
         <div className="px-10">
-          <PostInteractions post={post} />
+          <PostInteractions post={post} initialPostId={post.id} />
         </div>
         <div className=" w-full border-b border-accent" />
       </div>
