@@ -35,9 +35,11 @@ export const DraftRow = ({
       className={` btn btn-ghost flex h-20 flex-1 gap-3 bg-base-200 ${editMode && ' btn-disabled !bg-base-200'}`}
     >
       <div className=" relative flex flex-1 items-center justify-between gap-2 text-left">
-        <div className=" absolute -top-[20px]">
-          <RepostBadge disabled={true} repostAuthor={draft.reposted.author} />
-        </div>
+        {draft.reposted && (
+          <div className=" absolute -top-[20px]">
+            <RepostBadge disabled={true} repostAuthor={draft.reposted.author} />
+          </div>
+        )}
         {draft?.text ? (
           <p className=" text-base text-secondary" id={descId}>
             {draft.text}

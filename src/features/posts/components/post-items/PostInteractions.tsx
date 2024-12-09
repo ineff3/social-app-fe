@@ -18,7 +18,7 @@ export const PostInteractions = ({ post, initialPostId }: Props) => {
       </div>
       <div className=" flex items-center gap-1.5">
         <RepostSection
-          repostsCount={12}
+          repostsCount={post.reposts}
           postId={initialPostId}
           actualPost={post}
         />

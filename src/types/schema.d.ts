@@ -435,6 +435,7 @@ export interface components {
             isDraft: boolean;
             likes: number;
             comments: number;
+            reposts: number;
             isLiked: boolean;
             isBookmarked: boolean;
             isReposted: boolean;
