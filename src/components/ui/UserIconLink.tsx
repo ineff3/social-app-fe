@@ -1,14 +1,28 @@
 import { FaUserCircle } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 
+const iconSizes = {
+  sm: 25,
+  md: 45,
+}
+
+type IconSize = keyof typeof iconSizes
+
 interface Props {
   username?: string
   userImageUrl?: string
   onClick?: () => void
   disabled?: boolean
+  iconSize?: IconSize
 }
 
-const UserIconLink = ({ username, userImageUrl, onClick, disabled }: Props) => {
+const UserIconLink = ({
+  username,
+  userImageUrl,
+  onClick,
+  disabled,
+  iconSize = 'md',
+}: Props) => {
   return (
     <>
       <Link
@@ -16,6 +30,10 @@ const UserIconLink = ({ username, userImageUrl, onClick, disabled }: Props) => {
         to={'/users/' + username || ''}
         className={`h-[45px] w-[45px] flex-shrink-0 overflow-hidden rounded-full ${disabled && 'pointer-events-none'}`}
         onClick={onClick}
+        style={{
+          height: `${iconSizes[iconSize]}px`,
+          width: `${iconSizes[iconSize]}px`,
+        }}
       >
         {userImageUrl ? (
           <img
@@ -24,7 +42,7 @@ const UserIconLink = ({ username, userImageUrl, onClick, disabled }: Props) => {
             className="h-full w-full object-cover"
           />
         ) : (
-          <FaUserCircle size={45} />
+          <FaUserCircle size={iconSizes[iconSize]} />
         )}
       </Link>
     </>

@@ -1,10 +1,10 @@
 interface Props {
-  onClick: () => void
+  onClick: React.MouseEventHandler
 }
 
 export const CloseBtn = ({ onClick }: Props) => {
   return (
-    <div data-tip="Close" className=" tooltip tooltip-secondary">
+    <div data-tip="Close" className=" tooltip tooltip-bottom tooltip-secondary">
       <button
         aria-label="Close"
         type="button"

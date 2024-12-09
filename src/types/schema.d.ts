@@ -196,6 +196,38 @@ export interface paths {
         patch: operations["UserController_updateUsername"];
         trace?: never;
     };
+    "/user/{id}/follow": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["UserController_followUser"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/user/{id}/unfollow": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["UserController_unfollowUser"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/posts": {
         parameters: {
             query?: never;
@@ -388,9 +420,13 @@ export interface components {
             backgroundUrl?: string;
             /** Format: date-time */
             createdAt: string;
+            amountOfPosts: number;
+            followersCount?: number;
+            followingCount?: number;
         };
         GetUserByUsernameResponseDto: {
             isCurrentUser: boolean;
+            isFollowing: boolean;
             user: components["schemas"]["UserResponseDto"];
         };
         PostResponseDto: {
@@ -399,12 +435,15 @@ export interface components {
             isDraft: boolean;
             likes: number;
             comments: number;
+            reposts: number;
             isLiked: boolean;
             isBookmarked: boolean;
+            isReposted: boolean;
             author: components["schemas"]["UserPreviewResponseDto"];
             imageUrls?: string[];
             /** Format: date-time */
             createdAt: string;
+            reposted: components["schemas"]["PostResponseDto"];
         };
         GetAllPostsResponseDto: {
             data: components["schemas"]["PostResponseDto"][];
@@ -439,6 +478,7 @@ export interface components {
             order?: "desc" | "asc";
             liked?: boolean;
             bookmarked?: boolean;
+            isFollowing?: boolean;
         };
         CreatePostDto: {
             text?: string;
@@ -446,11 +486,13 @@ export interface components {
             isDraft?: boolean;
             images?: string[];
             parentPostId?: string;
+            repostedId?: string;
         };
         UpdatePostDto: {
             text?: string;
             images?: string[];
             parentPostId?: string;
+            repostedId?: string;
         };
         NotificationResponseDto: {
             id: string;
@@ -747,6 +789,44 @@ export interface operations {
             };
         };
     };
+    UserController_followUser: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    UserController_unfollowUser: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     PostController_findAll: {
         parameters: {
             query?: {
@@ -755,6 +835,7 @@ export interface operations {
                 order?: "desc" | "asc";
                 liked?: boolean;
                 bookmarked?: boolean;
+                isFollowing?: boolean;
             };
             header?: never;
             path?: never;

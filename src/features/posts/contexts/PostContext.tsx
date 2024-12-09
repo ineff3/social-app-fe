@@ -9,11 +9,12 @@ import {
   useForm,
   UseFormReturn,
 } from 'react-hook-form'
-import { CreatePostFormType } from '../interfaces'
+import { CreatePostFormType, PostCreationLocationState } from '../interfaces'
 import { zodResolver } from '@hookform/resolvers/zod'
 import validationSchema from '../schemas/createPostSchema'
 import { useCreateDraft, useUpdateDraft } from '../hooks/drafts/drafts'
 import { constructPostFormData } from '../utils/constructPostFormData'
+import { useLocation } from 'react-router-dom'
 
 interface IPostContextProps extends UseFormReturn<CreatePostFormType> {
   createDraft: () => void
@@ -29,11 +30,14 @@ export const usePostContext = () => {
 }
 
 export const PostProvider = ({ children }: { children: ReactNode }) => {
+  const location = useLocation()
+  const repost = (location.state as PostCreationLocationState)?.repost
   const formMethods = useForm<CreatePostFormType>({
     mode: 'onChange',
     defaultValues: {
       text: '',
       postImages: [],
+      repostId: repost?.id,
     },
     resolver: zodResolver(validationSchema),
   })

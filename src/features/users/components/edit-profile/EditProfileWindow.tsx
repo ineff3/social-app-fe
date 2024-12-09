@@ -1,22 +1,24 @@
 import StickyHeader from './StickyHeader'
-import { useQueryClient } from '@tanstack/react-query'
-import useQueryKeyStore from '../../../../utils/api/hooks/useQueryKeyStore'
-import { IUserDetailResponse } from '../../../../utils/api/interfaces'
-import EditProfileForm from './EditProfileForm'
 import { useRef } from 'react'
+import { useAppSelector } from '@/src/redux/hooks'
+import { selectUserPreview } from '@/src/redux/user/userSlice'
+import { useQueryClient } from '@tanstack/react-query'
+import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
+import { SchemaGetUserByUsernameResponseDto } from '@/src/types/schema'
+import { EditProfileForm } from './EditProfileForm'
 interface Props {
   close: () => void
-  username: string
 }
 
-const EditProfileWindow = ({ close, username }: Props) => {
+const EditProfileWindow = ({ close }: Props) => {
   const formRef = useRef<HTMLButtonElement | null>(null)
+  const username = useAppSelector(selectUserPreview)!.username
+
   const queryClient = useQueryClient()
   const queryKeyStore = useQueryKeyStore()
-  const data = queryClient.getQueryData<IUserDetailResponse>(
-    queryKeyStore.users.detail(username).queryKey,
-  )
-  const userData = data?.userData
+
+  const profileData: SchemaGetUserByUsernameResponseDto | undefined =
+    queryClient.getQueryData(queryKeyStore.users.detail(username).queryKey)
 
   const triggerFormSubmit = () => {
     if (formRef) {
@@ -27,8 +29,8 @@ const EditProfileWindow = ({ close, username }: Props) => {
   return (
     <div className=" flex w-full flex-col">
       <StickyHeader close={close} onSave={triggerFormSubmit} />
-      {userData && (
-        <EditProfileForm user={userData} ref={formRef} close={close} />
+      {profileData && (
+        <EditProfileForm user={profileData.user} ref={formRef} close={close} />
       )}
     </div>
   )

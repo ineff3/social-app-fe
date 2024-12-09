@@ -5,6 +5,10 @@ import { usePostContext } from '../../contexts/PostContext'
 import { AttachedPictures } from './additional-content/AttachedPictures'
 import { TextEditor } from './post-form/TextEditor'
 import { Controller } from 'react-hook-form'
+import { useLocation } from 'react-router-dom'
+import { PostCreationLocationState } from '../../interfaces'
+import { Repost } from './additional-content/Repost'
+import { AttachedRepost } from './additional-content/AttachedRepost'
 
 interface Props {
   isTextEditorMinimized?: boolean
@@ -16,12 +20,18 @@ export const PostFormContent = ({
   isTextEditorMinimized,
 }: Props) => {
   const user = useAppSelector(selectUserPreview)
+  const location = useLocation()
+  const repost = (location.state as PostCreationLocationState)?.repost
+
   const {
     control,
     formState: { errors },
     postImages,
     removePostImage,
+    getValues,
   } = usePostContext()!
+
+  const savedRepostId = getValues('repostId')
 
   return (
     <div className="flex flex-1 gap-2 px-1.5">
@@ -52,6 +62,11 @@ export const PostFormContent = ({
           attachedFiles={postImages}
           removeFile={removePostImage}
         />
+        {repost ? (
+          <Repost post={repost} />
+        ) : (
+          savedRepostId && <AttachedRepost savedRepostId={savedRepostId} />
+        )}
       </div>
     </div>
   )

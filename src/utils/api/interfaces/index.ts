@@ -6,6 +6,7 @@ export interface PaginatedQueryParams {
 export interface PostFilters {
   liked?: boolean
   bookmarked?: boolean
+  isFollowing?: boolean
 }
 
 export interface GetAllPostsParams {

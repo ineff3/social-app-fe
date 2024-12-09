@@ -6,6 +6,7 @@ const Bookmarks = () => {
     <PostsFlow
       useGetPostsHook={useGetPosts}
       params={{ filters: { bookmarked: true } }}
+      scrollPositionKey="bookmarksContext"
     />
   )
 }
