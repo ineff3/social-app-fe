@@ -1,11 +1,10 @@
-import { BlockContainer } from '../BlockContainer'
 import { FollowSuggestions } from './FollowSuggestions'
+import { SearchBar } from './SearchBar'
 
 export const NewsSidebarContent = () => {
   return (
-    <div className="flex flex-col gap-5">
-      <div>SearchBar</div>
-      <BlockContainer>Hi there</BlockContainer>
+    <div className="flex flex-col gap-5 py-2">
+      <SearchBar />
       <FollowSuggestions />
     </div>
   )
