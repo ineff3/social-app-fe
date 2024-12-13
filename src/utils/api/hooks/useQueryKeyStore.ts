@@ -5,11 +5,13 @@ import {
   SchemaAuthUserResponseDto,
   SchemaGetAllNotificationsResponseDto,
   SchemaGetAllPostsResponseDto,
+  SchemaGetSuggestionsQueryDto,
   SchemaGetUserByUsernameResponseDto,
   SchemaPostResponseDto,
   SchemaUsernameReservedResponseDto,
   SchemaUserPreviewResponseDto,
   SchemaUserSearchResponseDto,
+  SchemaUserSuggestionsResponseDto,
 } from '@/src/types/schema'
 import { apiRoutes } from '@/src/routes'
 
@@ -93,6 +95,14 @@ const useQueryKeyStore = () => {
         queryKey: [query],
         queryFn: () =>
           get<SchemaUserSearchResponseDto>(apiRoutes.search, { query, limit }),
+      }),
+      suggestions: (query: SchemaGetSuggestionsQueryDto) => ({
+        queryKey: [query],
+        queryFn: ({ pageParam }: { pageParam: number }) =>
+          get<SchemaUserSuggestionsResponseDto>(apiRoutes.suggestions, {
+            ...query,
+            page: pageParam,
+          }),
       }),
     },
 
