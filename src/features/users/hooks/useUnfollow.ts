@@ -1,11 +1,17 @@
 import { apiRoutes } from '@/src/routes'
-import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
 import { usePost } from '@/src/utils/api/mutations'
+import { FollowMutationProps } from '../interfaces'
+import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
+import { SchemaGetUserByUsernameResponseDto } from '@/src/types/schema'
 
-export const useUnfollow = (followeeId: string) => {
+export const useUnfollow = ({ followeeId, username }: FollowMutationProps) => {
   const queryKeyStore = useQueryKeyStore()
-  return usePost({
+
+  return usePost<SchemaGetUserByUsernameResponseDto, void>({
     path: apiRoutes.unfollow(followeeId),
-    qKey: queryKeyStore.users._def,
+    qKey: queryKeyStore.users.detail(username).queryKey,
+    updater: (oldData) => {
+      return { ...oldData, isFollowing: false }
+    },
   })
 }

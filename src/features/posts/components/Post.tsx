@@ -11,12 +11,14 @@ import { PostInteractions } from './post-items/PostInteractions'
 import { ImageDisplay } from './post-items/ImageDisplay'
 import { RepostBadge } from './post-items/RepostBadge'
 import { Repost } from './post-creation/additional-content/Repost'
+import { QueryKey } from '@tanstack/react-query'
 
 interface Props {
   post: SchemaPostResponseDto
+  qKey: QueryKey
 }
 
-const Post = ({ post }: Props) => {
+const Post = ({ post, qKey }: Props) => {
   const isQuoted = (post.text || post.imageUrls) && post.reposted
   const actualPost = isQuoted ? post : post.reposted ? post.reposted : post
   const { id, author, createdAt, text, imageUrls } = actualPost
@@ -40,7 +42,7 @@ const Post = ({ post }: Props) => {
     <article
       tabIndex={0}
       aria-labelledby={authorId}
-      className="border-b border-accent p-5 transition-colors duration-100 ease-in hover:cursor-pointer hover:bg-base-300 hover:bg-opacity-50 md:p-10"
+      className="border-b border-accent p-5 transition-colors duration-100 ease-in hover:cursor-pointer hover:bg-base-300 hover:bg-opacity-50 md:py-7"
       onClick={redirectToPostPage}
     >
       <div className="relative flex gap-3">
@@ -87,7 +89,11 @@ const Post = ({ post }: Props) => {
               <Repost post={actualPost.reposted} isInteractive={true} />
             )}
           </div>
-          <PostInteractions post={actualPost} initialPostId={post.id} />
+          <PostInteractions
+            qKey={qKey}
+            post={actualPost}
+            initialPostId={post.id}
+          />
         </div>
       </div>
     </article>

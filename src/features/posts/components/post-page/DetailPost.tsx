@@ -11,12 +11,16 @@ import { convertToFullFate } from '../../utils/dateConversions'
 import { ReplySection } from './ReplySection'
 import { PostProvider } from '../../contexts/PostContext'
 import { Repost } from '../post-creation/additional-content/Repost'
+import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
+import { updateBookmarkedPost, updateLikedPost } from '../../utils/updaters'
+import { QueryUpdater } from '@/src/utils/api/interfaces'
 
 interface Props {
   post: SchemaPostResponseDto
 }
 
 export const DetailPost = ({ post }: Props) => {
+  const queryKeyStore = useQueryKeyStore()
   const isQuoted = (post.text || post.imageUrls) && post.reposted
   const authorId = useId()
   const userPreviewData = useAppSelector(selectUserPreview)
@@ -69,7 +73,19 @@ export const DetailPost = ({ post }: Props) => {
       <div className="flex flex-col gap-1.5">
         <div className=" w-full border-b border-accent" />
         <div className="px-10">
-          <PostInteractions post={post} initialPostId={post.id} />
+          <PostInteractions
+            qKey={queryKeyStore.posts.detail(post.id).queryKey}
+            post={post}
+            initialPostId={post.id}
+            likeUpdater={
+              ((oldData: SchemaPostResponseDto) =>
+                updateLikedPost(oldData)) as QueryUpdater
+            }
+            bookmarkUpdater={
+              ((oldData: SchemaPostResponseDto) =>
+                updateBookmarkedPost(oldData)) as QueryUpdater
+            }
+          />
         </div>
         <div className=" w-full border-b border-accent" />
       </div>

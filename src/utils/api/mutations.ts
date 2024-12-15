@@ -7,6 +7,25 @@ interface IMutationProps<T, S> {
   qKey?: QueryKey
   updater?: (oldData: T, updatedData: S) => T
   axiosOptions?: AxiosRequestConfig
+  shouldInvalidate?: boolean
+}
+
+export const useUpdateCache = <T>(
+  qKey: QueryKey,
+  updater: (oldData: T) => T,
+) => {
+  const queryClient = useQueryClient()
+
+  const updateCache = () => {
+    const previousData = queryClient.getQueryData(qKey)
+
+    if (previousData) {
+      queryClient.setQueryData(qKey, (oldData: T) => {
+        return updater(oldData)
+      })
+    }
+  }
+  return updateCache
 }
 
 export const useOptimisticMutation = <T, S, R>(
@@ -56,7 +75,7 @@ export const useOptimisticMutation = <T, S, R>(
   })
 }
 
-export const usePost = <T, S, R = void>({
+export const usePost = <T, S = void, R = void>({
   path,
   qKey,
   updater,

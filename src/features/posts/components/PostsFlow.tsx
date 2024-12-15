@@ -1,4 +1,8 @@
-import { InfiniteData, UseInfiniteQueryResult } from '@tanstack/react-query'
+import {
+  InfiniteData,
+  QueryKey,
+  UseInfiniteQueryResult,
+} from '@tanstack/react-query'
 import { useInView } from 'react-intersection-observer'
 import { useEffect } from 'react'
 import Post from './Post'
@@ -20,6 +24,7 @@ type PossibleParams =
 export const PostsFlow = <TParams extends PossibleParams>({
   useGetPostsHook,
   params,
+  flowQueryKey,
   scrollPositionKey,
 }: {
   useGetPostsHook: (
@@ -29,6 +34,7 @@ export const PostsFlow = <TParams extends PossibleParams>({
     Error
   >
   params: TParams
+  flowQueryKey: QueryKey
   scrollPositionKey?: ScrollPositionKey
 }) => {
   const { ref, inView } = useInView()
@@ -58,7 +64,7 @@ export const PostsFlow = <TParams extends PossibleParams>({
         data.pages.map((page) => (
           <div key={page.page}>
             {page.data.map((post) => (
-              <Post key={post.id} post={post} />
+              <Post qKey={flowQueryKey} key={post.id} post={post} />
             ))}
           </div>
         ))}

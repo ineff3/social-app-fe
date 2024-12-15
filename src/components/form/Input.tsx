@@ -2,13 +2,13 @@ import { InputHTMLAttributes, forwardRef } from 'react'
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   placeholder?: string
-  isInvalid: boolean
+  isInvalid?: boolean
   errorMessage?: string
   label?: string
   primaryBorder?: boolean
 }
 
-const Input = forwardRef(
+const Input = forwardRef<HTMLInputElement, Props>(
   (
     {
       placeholder,
@@ -17,8 +17,8 @@ const Input = forwardRef(
       label,
       primaryBorder = true,
       ...props
-    }: Props,
-    ref: any,
+    },
+    ref,
   ) => {
     return (
       <>

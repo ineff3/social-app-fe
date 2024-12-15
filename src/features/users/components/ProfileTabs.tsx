@@ -2,6 +2,7 @@ import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react'
 import { PostsFlow } from '../../posts/components/PostsFlow'
 import useGetUserPosts from '../../posts/hooks/useGetUserPosts'
 import useGetPosts from '../../posts/hooks/useGetPosts'
+import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
 
 const tabItems = [
   {
@@ -23,6 +24,7 @@ const tabItems = [
 ]
 
 export const ProfileTabs = ({ userId }: { userId: string }) => {
+  const queryKeyStore = useQueryKeyStore()
   return (
     <TabGroup>
       <TabList className=" flex border-b border-accent">
@@ -43,12 +45,21 @@ export const ProfileTabs = ({ userId }: { userId: string }) => {
       </TabList>
       <TabPanels>
         <TabPanel>
-          <PostsFlow useGetPostsHook={useGetUserPosts} params={{ userId }} />
+          <PostsFlow
+            flowQueryKey={
+              queryKeyStore.posts.all({})._ctx.user(userId).queryKey
+            }
+            useGetPostsHook={useGetUserPosts}
+            params={{ userId }}
+          />
         </TabPanel>
         <TabPanel>Content 2</TabPanel>
         <TabPanel>Content 3</TabPanel>
         <TabPanel>
           <PostsFlow
+            flowQueryKey={
+              queryKeyStore.posts.all({ filters: { liked: true } }).queryKey
+            }
             useGetPostsHook={useGetPosts}
             params={{ filters: { liked: true } }}
           />

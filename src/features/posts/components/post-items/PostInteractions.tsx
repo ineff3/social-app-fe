@@ -3,13 +3,24 @@ import LikeSection from './LikeSection'
 import BookmarkSection from './BookmarkSection'
 import { SchemaPostResponseDto } from '@/src/types/schema'
 import { RepostSection } from './repost/RepostSection'
+import { QueryKey } from '@tanstack/react-query'
+import { QueryUpdater } from '@/src/utils/api/interfaces'
 
 interface Props {
   post: SchemaPostResponseDto
   initialPostId: string
+  qKey: QueryKey
+  likeUpdater?: QueryUpdater
+  bookmarkUpdater?: QueryUpdater
 }
 
-export const PostInteractions = ({ post, initialPostId }: Props) => {
+export const PostInteractions = ({
+  post,
+  initialPostId,
+  qKey,
+  likeUpdater,
+  bookmarkUpdater,
+}: Props) => {
   return (
     <div role="group" className=" flex justify-between">
       <div className=" flex items-center gap-1.5">
@@ -21,13 +32,20 @@ export const PostInteractions = ({ post, initialPostId }: Props) => {
       </div>
       <div className=" flex items-center gap-1.5">
         <LikeSection
+          qKey={qKey}
           postId={post.id}
           likesCount={post.likes}
           isLiked={post.isLiked}
+          updater={likeUpdater}
         />
       </div>
       <div className=" flex items-center gap-1.5">
-        <BookmarkSection postId={post.id} isBookmarked={post.isBookmarked} />
+        <BookmarkSection
+          qKey={qKey}
+          postId={post.id}
+          isBookmarked={post.isBookmarked}
+          updater={bookmarkUpdater}
+        />
       </div>
     </div>
   )

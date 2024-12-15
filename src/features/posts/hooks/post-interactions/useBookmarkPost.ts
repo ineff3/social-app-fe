@@ -1,32 +1,38 @@
 import { apiRoutes } from '@/src/routes'
 import { SchemaGetAllPostsResponseDto } from '@/src/types/schema'
-import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
+import { QueryUpdater } from '@/src/utils/api/interfaces'
 import { usePost } from '@/src/utils/api/mutations'
-import { InfiniteData } from '@tanstack/react-query'
+import { InfiniteData, QueryKey } from '@tanstack/react-query'
 
-const useBookmarkPost = (postId: string) => {
-  const queryKeyStore = useQueryKeyStore()
+const useBookmarkPost = (
+  postId: string,
+  qKey: QueryKey,
+  updater?: QueryUpdater,
+) => {
+  const defaultUpdater = (
+    oldData: InfiniteData<SchemaGetAllPostsResponseDto>,
+  ) => {
+    if (!oldData) return oldData
+
+    const updatedPages = oldData.pages.map((page) => ({
+      ...page,
+      data: page.data.map((post) =>
+        post.id == postId
+          ? { ...post, isBookmarked: !post.isBookmarked }
+          : post,
+      ),
+    }))
+
+    return {
+      ...oldData,
+      pages: updatedPages,
+    }
+  }
+
   return usePost<InfiniteData<SchemaGetAllPostsResponseDto>, void>({
     path: apiRoutes.bookmarkPost(postId),
-    // qKey: queryKeyStore.posts.all({}).queryKey,
-    qKey: queryKeyStore.posts._def, // TODO: refactor optimistic mutations
-    updater: (oldData) => {
-      if (!oldData) return oldData
-
-      const updatedPages = oldData.pages.map((page) => ({
-        ...page,
-        data: page.data.map((post) =>
-          post.id == postId
-            ? { ...post, isBookmarked: !post.isBookmarked }
-            : post,
-        ),
-      }))
-
-      return {
-        ...oldData,
-        pages: updatedPages,
-      }
-    },
+    qKey,
+    updater: updater ?? defaultUpdater,
   })
 }
 

@@ -6,8 +6,10 @@ import { PostNotFound } from './PostNotFound'
 import { DetailPost } from './DetailPost'
 import { PostsFlow } from '../PostsFlow'
 import { useGetPostComments } from '../../hooks/useGetPostComments'
+import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
 
 export const PostPage = () => {
+  const queryKeyStore = useQueryKeyStore()
   const { postId } = useParams()
   const isScrolled = useIsScrolled()
 
@@ -38,6 +40,9 @@ export const PostPage = () => {
       <div>{data && <DetailPost post={data} />}</div>
       <div>
         <PostsFlow
+          flowQueryKey={
+            queryKeyStore.posts.detail(postId!)._ctx.comments({}).queryKey
+          }
           useGetPostsHook={useGetPostComments}
           params={{ postId: postId! }}
         />

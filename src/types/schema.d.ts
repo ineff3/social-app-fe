@@ -100,6 +100,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/user/suggestions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["UserController_getUserSuggestions"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/user/username-reserved": {
         parameters: {
             query?: never;
@@ -392,12 +408,25 @@ export interface components {
             /** @example Pa$w0rd2023 */
             password: string;
         };
+        GetSuggestionsQueryDto: {
+            /** @default 1 */
+            page?: number;
+            /** @default 10 */
+            limit?: number;
+        };
         UserPreviewResponseDto: {
             id: string;
             firstName: string;
             secondName: string;
             username: string;
             avatarUrl?: string;
+            isFollowing: boolean;
+        };
+        UserSuggestionsResponseDto: {
+            data: components["schemas"]["UserPreviewResponseDto"][];
+            total: number;
+            page: number;
+            limit: number;
         };
         UsernameReservedResponseDto: {
             isReserved: boolean;
@@ -521,7 +550,9 @@ export type SchemaPaginatedQueryDto = components['schemas']['PaginatedQueryDto']
 export type SchemaRegisterUserDto = components['schemas']['RegisterUserDto'];
 export type SchemaAuthUserResponseDto = components['schemas']['AuthUserResponseDto'];
 export type SchemaLoginUserDto = components['schemas']['LoginUserDto'];
+export type SchemaGetSuggestionsQueryDto = components['schemas']['GetSuggestionsQueryDto'];
 export type SchemaUserPreviewResponseDto = components['schemas']['UserPreviewResponseDto'];
+export type SchemaUserSuggestionsResponseDto = components['schemas']['UserSuggestionsResponseDto'];
 export type SchemaUsernameReservedResponseDto = components['schemas']['UsernameReservedResponseDto'];
 export type SchemaUserSearchResponseDto = components['schemas']['UserSearchResponseDto'];
 export type SchemaUserResponseDto = components['schemas']['UserResponseDto'];
@@ -653,6 +684,28 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["UserPreviewResponseDto"];
+                };
+            };
+        };
+    };
+    UserController_getUserSuggestions: {
+        parameters: {
+            query?: {
+                page?: number;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UserSuggestionsResponseDto"];
                 };
             };
         };

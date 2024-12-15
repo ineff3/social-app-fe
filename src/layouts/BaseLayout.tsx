@@ -17,7 +17,7 @@ const BaseLayout = () => {
   }
 
   return (
-    <div className="mx-auto w-full max-w-[1250px] flex-1 flex-col justify-between">
+    <div className="mx-auto w-full max-w-[1300px] flex-1 flex-col justify-between">
       <div className=" flex h-[50px] w-full items-center justify-end border-b border-accent px-2 sm:hidden">
         <button
           className=" btn btn-circle btn-ghost text-secondary"
@@ -39,13 +39,13 @@ const BaseLayout = () => {
         )}
       </div>
       <div className=" flex w-full">
-        <header className="hidden w-full max-w-[270px] sm:block sm:max-w-[75px] lg:max-w-[270px]">
+        <header className="hidden w-full max-w-[270px] sm:block sm:max-w-[75px] xl:max-w-[270px]">
           <NavSidebar menuOpen closeMenu={closeMenu} />
         </header>
         <main className=" w-full max-w-screen-lg ">
           <Outlet />
         </main>
-        <div className=" hidden w-full max-w-[200px] md:block  lg:max-w-[270px]">
+        <div className=" hidden w-full  max-w-[360px] lg:block">
           <NewsSidebar />
         </div>
       </div>

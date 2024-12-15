@@ -1,14 +1,18 @@
 import LikeIconSvg from '@/src/components/ui/icons/LikeIconSvg'
 import useLikePost from '../../hooks/post-interactions/useLikePost'
+import { QueryKey } from '@tanstack/react-query'
+import { QueryUpdater } from '@/src/utils/api/interfaces'
 
 interface Props {
   postId: string
   isLiked: boolean
   likesCount: number
+  qKey: QueryKey
+  updater?: QueryUpdater
 }
 
-const LikeSection = ({ postId, isLiked, likesCount }: Props) => {
-  const postLikeMutation = useLikePost(postId)
+const LikeSection = ({ postId, isLiked, likesCount, qKey, updater }: Props) => {
+  const postLikeMutation = useLikePost(postId, qKey, updater)
   const onPostLike = () => {
     postLikeMutation.mutate()
   }
