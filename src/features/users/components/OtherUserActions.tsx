@@ -1,3 +1,5 @@
+import { useFollow } from '../hooks/useFollow'
+import { useUnfollow } from '../hooks/useUnfollow'
 import { FollowButton } from './FollowButton'
 
 interface Props {
@@ -6,5 +8,12 @@ interface Props {
 }
 
 export const OtherUserActions = ({ isFollowing, followeeId }: Props) => {
-  return <FollowButton isFollowing={isFollowing} followeeId={followeeId} />
+  return (
+    <FollowButton
+      isFollowing={isFollowing}
+      followeeId={followeeId}
+      useFollow={useFollow}
+      useUnfollow={useUnfollow}
+    />
+  )
 }

@@ -1,6 +1,8 @@
 import { FollowButton } from '@/src/features/users/components/FollowButton'
 import { UserPreview } from '@/src/layouts/components/UserPreview'
 import { SchemaUserPreviewResponseDto } from '@/src/types/schema'
+import { useFollowPreview } from '../../hooks/useFollowPreview'
+import { useUnfollowPreview } from '../../hooks/useUnfollowPreview'
 
 interface Props {
   userPreview: SchemaUserPreviewResponseDto
@@ -15,6 +17,8 @@ export const SuggestionRow = ({ userPreview }: Props) => {
         followeeId={userPreview.id}
         isFollowing={userPreview.isFollowing}
         size="sm"
+        useFollow={useFollowPreview}
+        useUnfollow={useUnfollowPreview}
       />
     </div>
   )

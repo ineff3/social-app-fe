@@ -97,7 +97,7 @@ const useQueryKeyStore = () => {
           get<SchemaUserSearchResponseDto>(apiRoutes.search, { query, limit }),
       }),
       suggestions: (query: SchemaGetSuggestionsQueryDto) => ({
-        queryKey: [query],
+        queryKey: [{}],
         queryFn: ({ pageParam }: { pageParam: number }) =>
           get<SchemaUserSuggestionsResponseDto>(apiRoutes.suggestions, {
             ...query,

@@ -1,5 +1,4 @@
-import { useFollow } from '../hooks/useFollow'
-import { useUnfollow } from '../hooks/useUnfollow'
+import { UseMutationResult } from '@tanstack/react-query'
 
 const btnSizes = {
   sm: 'btn-sm',
@@ -9,13 +8,17 @@ const btnSizes = {
 interface Props {
   isFollowing: boolean
   followeeId: string
-  size: keyof typeof btnSizes
+  size?: keyof typeof btnSizes
+  useFollow: (followeeId: string) => UseMutationResult<void>
+  useUnfollow: (followeeId: string) => UseMutationResult<void>
 }
 
 export const FollowButton = ({
   isFollowing,
   followeeId,
   size = 'md',
+  useFollow,
+  useUnfollow,
 }: Props) => {
   const followMutation = useFollow(followeeId)
   const unfollowMutation = useUnfollow(followeeId)

@@ -7,12 +7,14 @@ interface IMutationProps<T, S> {
   qKey?: QueryKey
   updater?: (oldData: T, updatedData: S) => T
   axiosOptions?: AxiosRequestConfig
+  shouldInvalidate?: boolean
 }
 
 export const useOptimisticMutation = <T, S, R>(
   func: (data: S) => Promise<R>,
   qKey?: QueryKey | null,
   updater?: (oldData: T, newData: S) => T,
+  shouldInvalidate?: boolean,
 ) => {
   const queryClient = useQueryClient()
   return useMutation({
@@ -47,7 +49,7 @@ export const useOptimisticMutation = <T, S, R>(
     },
     // Always refetch after error or success:
     onSettled: () => {
-      if (qKey) {
+      if (qKey && (shouldInvalidate === undefined ? true : shouldInvalidate)) {
         queryClient.invalidateQueries({
           queryKey: qKey,
         })
@@ -61,12 +63,14 @@ export const usePost = <T, S, R = void>({
   qKey,
   updater,
   axiosOptions,
+  shouldInvalidate,
 }: IMutationProps<T, S>) => {
   const { post } = useApiActions()
   return useOptimisticMutation(
     (data) => post<R>(path, data, axiosOptions),
     qKey,
     updater,
+    shouldInvalidate,
   )
 }
 
