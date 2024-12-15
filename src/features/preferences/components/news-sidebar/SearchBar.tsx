@@ -2,10 +2,12 @@ import { useRef, useState } from 'react'
 import { useSearchShortcut } from '../../hooks/useSearchShortcut'
 import { SearchList } from './SearchList'
 import { useClickOutside } from '@/src/hooks/useClickOutside'
+import { useDebounce } from '@/src/hooks/useDebounce'
 
 export const SearchBar = () => {
   const [isListOpen, setIsListOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
+  const [debouncedSearchQuery] = useDebounce(searchQuery, 500)
   const inputRef = useRef<HTMLInputElement>(null)
   const dropdownRef = useRef<HTMLDivElement>(null)
 
@@ -33,7 +35,7 @@ export const SearchBar = () => {
       {isListOpen && (
         <div className=" absolute right-0 top-full mt-2 w-full">
           <SearchList
-            searchQuery={searchQuery}
+            searchQuery={debouncedSearchQuery}
             closeDropdown={() => {
               setIsListOpen(false)
             }}

@@ -18,7 +18,7 @@ import { MdOutlineErrorOutline } from 'react-icons/md'
 export const MentionSelectList = forwardRef(
   ({ command, query }: SuggestionProps<string>, ref: ForwardedRef<any>) => {
     const [selectedIndex, setSelectedIndex] = useState(0)
-    const { field: searchQuery, isDebounceLoading } = useDebounce(query, 500)
+    const [searchQuery, isDebounceLoading] = useDebounce(query, 500)
     const queryKeyStore = useQueryKeyStore()
     const {
       data: { data: users } = {},

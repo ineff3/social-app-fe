@@ -17,5 +17,5 @@ export const useDebounce = <T>(observedField: T, time: number) => {
     }
   }, [observedField, time, setField])
 
-  return { field, isDebounceLoading }
+  return [field, isDebounceLoading] as const
 }

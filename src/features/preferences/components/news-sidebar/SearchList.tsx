@@ -1,11 +1,11 @@
-import { CenteredLoadingSpinner } from '@/src/components/ui/CenteredLoadingSpinner'
 import ErrorAlert from '@/src/components/ui/ErrorAlert'
 import { UserPreview } from '@/src/layouts/components/UserPreview'
 import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
-import { useQuery } from '@tanstack/react-query'
+import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { MdOutlineErrorOutline } from 'react-icons/md'
 import { useNavigate } from 'react-router-dom'
 
+const RESULTS_LENGTH = 5
 interface Props {
   searchQuery: string
   closeDropdown: () => void
@@ -14,16 +14,13 @@ interface Props {
 export const SearchList = ({ searchQuery, closeDropdown }: Props) => {
   const queryKeyStore = useQueryKeyStore()
   const navigate = useNavigate()
-  const { data, isLoading, isError } = useQuery({
-    ...queryKeyStore.users.search(searchQuery, 5),
+  const { data, isError } = useQuery({
+    ...queryKeyStore.users.search(searchQuery, RESULTS_LENGTH),
+    placeholderData: keepPreviousData,
   })
+
   return (
     <ul className="flex max-h-[400px] w-full flex-col overflow-y-auto rounded-lg bg-base-100 shadow-[0px_0px_20px_-8px_rgba(255,255,255,1);]">
-      {isLoading && (
-        <div className="h-[350px]">
-          <CenteredLoadingSpinner />
-        </div>
-      )}
       {isError && (
         <div className=" p-5">
           <ErrorAlert errorMessage="Something went wrong. Please try again later." />
