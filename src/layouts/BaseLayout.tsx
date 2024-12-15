@@ -39,13 +39,13 @@ const BaseLayout = () => {
         )}
       </div>
       <div className=" flex w-full">
-        <header className="hidden w-full max-w-[270px] sm:block sm:max-w-[75px] lg:max-w-[270px]">
+        <header className="hidden w-full max-w-[270px] sm:block sm:max-w-[75px] xl:max-w-[270px]">
           <NavSidebar menuOpen closeMenu={closeMenu} />
         </header>
         <main className=" w-full max-w-screen-lg ">
           <Outlet />
         </main>
-        <div className=" hidden w-full max-w-[200px] md:block  lg:max-w-[360px]">
+        <div className=" hidden w-full  max-w-[360px] lg:block">
           <NewsSidebar />
         </div>
       </div>

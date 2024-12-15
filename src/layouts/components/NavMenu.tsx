@@ -86,7 +86,7 @@ const NavMenu = ({ closeMenu }: { closeMenu: () => void }) => {
                 {item.svg}
                 {item.badge && item.badge}
               </div>
-              <p className=" text-lg sm:hidden lg:block ">{item.name}</p>
+              <p className=" text-lg sm:hidden xl:block ">{item.name}</p>
             </NavLink>
           </li>
         ))}
