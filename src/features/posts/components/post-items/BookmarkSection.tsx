@@ -1,15 +1,17 @@
 import BookmarkIconSvg from '@/src/components/ui/icons/BookmarkIconSvg'
 import useBookmarkPost from '../../hooks/post-interactions/useBookmarkPost'
 import { QueryKey } from '@tanstack/react-query'
+import { QueryUpdater } from '@/src/utils/api/interfaces'
 
 interface Props {
   postId: string
   isBookmarked: boolean
   qKey: QueryKey
+  updater?: QueryUpdater
 }
 
-const BookmarkSection = ({ postId, isBookmarked, qKey }: Props) => {
-  const useBookmarkPostMutation = useBookmarkPost(postId, qKey)
+const BookmarkSection = ({ postId, isBookmarked, qKey, updater }: Props) => {
+  const useBookmarkPostMutation = useBookmarkPost(postId, qKey, updater)
 
   const onClick = () => {
     useBookmarkPostMutation.mutate()

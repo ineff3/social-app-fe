@@ -31,3 +31,5 @@ export interface PaginatedResponseDto<TData> {
   page: number
   limit: number
 }
+
+export type QueryUpdater = <T>(oldData: T) => T

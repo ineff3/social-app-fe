@@ -75,7 +75,7 @@ export const useOptimisticMutation = <T, S, R>(
   })
 }
 
-export const usePost = <T, S, R = void>({
+export const usePost = <T, S = void, R = void>({
   path,
   qKey,
   updater,
