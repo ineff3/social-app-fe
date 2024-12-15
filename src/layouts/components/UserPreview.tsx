@@ -16,7 +16,7 @@ export const UserPreview = ({
 }: Props) => {
   return (
     <div
-      className={` flex items-center gap-2  ${isResponsive && 'sm:flex-col lg:flex-row'}`}
+      className={` flex items-center gap-2  ${isResponsive && 'sm:flex-col xl:flex-row'}`}
     >
       <UserIconLink
         onClick={onUserLinkClick}
@@ -25,10 +25,10 @@ export const UserPreview = ({
         disabled={disabledLink}
       />
       <div
-        className={` flex w-full items-center justify-between  ${isResponsive ? 'sm:justify-center lg:justify-between' : 'justify-between'}`}
+        className={` flex w-full items-center justify-between  ${isResponsive ? 'sm:justify-center xl:justify-between' : 'justify-between'}`}
       >
         <div
-          className={` flex flex-col ${isResponsive && 'sm:hidden lg:flex'}`}
+          className={` flex flex-col ${isResponsive && 'sm:hidden xl:flex'}`}
         >
           <p className=" text-secondary">{user?.firstName}</p>
           <p className=" text-sm ">@{user?.username}</p>
