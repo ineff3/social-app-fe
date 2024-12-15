@@ -11,6 +11,24 @@ interface IMutationProps<T, S> {
   shouldInvalidate?: boolean
 }
 
+export const useUpdateCache = <T>(
+  qKey: QueryKey,
+  updater: (oldData: T) => T,
+) => {
+  const queryClient = useQueryClient()
+
+  const updateCache = () => {
+    const previousData = queryClient.getQueryData(qKey)
+
+    if (previousData) {
+      queryClient.setQueryData(qKey, (oldData: T) => {
+        return updater(oldData)
+      })
+    }
+  }
+  return updateCache
+}
+
 export const useOptimisticMutation = <T, S, R>(
   func: (data: S) => Promise<R>,
   qKey?: QueryKey | null,

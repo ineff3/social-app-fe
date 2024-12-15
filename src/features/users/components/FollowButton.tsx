@@ -1,6 +1,8 @@
+import { useUpdateCache } from '@/src/utils/api/mutations'
 import { useFollow } from '../hooks/useFollow'
 import { useUnfollow } from '../hooks/useUnfollow'
-import { FollowMutationProps } from '../interfaces'
+import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
+import { handleUpdater } from '@/src/utils/api/helpers'
 
 const btnSizes = {
   sm: 'btn-sm',
@@ -10,26 +12,38 @@ const btnSizes = {
 interface Props {
   isFollowing: boolean
   size?: keyof typeof btnSizes
-  followProps: FollowMutationProps
-  unfollowProps: FollowMutationProps
+  followeeId: string
+  username: string
 }
 
 export const FollowButton = ({
   isFollowing,
   size = 'md',
-  followProps,
-  unfollowProps,
+  followeeId,
+  username,
 }: Props) => {
-  const followMutation = useFollow(followProps)
-  const unfollowMutation = useUnfollow(unfollowProps)
+  const queryKeyStore = useQueryKeyStore()
+  const followMutation = useFollow({ followeeId, username })
+  const unfollowMutation = useUnfollow({ followeeId, username })
+
+  const updateFollowCache = useUpdateCache(
+    queryKeyStore.users.suggestions({}).queryKey,
+    handleUpdater(followeeId, { isFollowing: true }),
+  )
+  const updateUnfollowCache = useUpdateCache(
+    queryKeyStore.users.suggestions({}).queryKey,
+    handleUpdater(followeeId, { isFollowing: false }),
+  )
 
   return (
     <button
       onClick={() => {
         if (isFollowing) {
-          unfollowMutation.mutate({})
+          updateUnfollowCache()
+          unfollowMutation.mutate()
         } else {
-          followMutation.mutate({})
+          updateFollowCache()
+          followMutation.mutate()
         }
       }}
       className={` btn btn-outline btn-secondary ${btnSizes[size]}`}

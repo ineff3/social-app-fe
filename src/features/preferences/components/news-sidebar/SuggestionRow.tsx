@@ -1,9 +1,6 @@
 import { FollowButton } from '@/src/features/users/components/FollowButton'
-import { FollowMutationProps } from '@/src/features/users/interfaces'
 import { UserPreview } from '@/src/layouts/components/UserPreview'
 import { SchemaUserPreviewResponseDto } from '@/src/types/schema'
-import { handleUpdater } from '@/src/utils/api/helpers'
-import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
 import { useNavigate } from 'react-router-dom'
 
 interface Props {
@@ -11,8 +8,6 @@ interface Props {
 }
 
 export const SuggestionRow = ({ userPreview }: Props) => {
-  const followeeId = userPreview.id
-  const queryKeyStore = useQueryKeyStore()
   const navigate = useNavigate()
 
   const handleProfileRedirect = (e: React.MouseEvent) => {
@@ -21,24 +16,6 @@ export const SuggestionRow = ({ userPreview }: Props) => {
     if (!isInteractiveElement) {
       navigate(`/users/${userPreview.username}`)
     }
-  }
-
-  const followProps: FollowMutationProps = {
-    followeeId,
-    qKey: queryKeyStore.users.suggestions({}).queryKey,
-    updater: handleUpdater(followeeId, { isFollowing: true }) as <T>(
-      oldData: T,
-    ) => T,
-    shouldInvalidate: false,
-  }
-
-  const unfollowProps: FollowMutationProps = {
-    followeeId,
-    qKey: queryKeyStore.users.suggestions({}).queryKey,
-    updater: handleUpdater(followeeId, { isFollowing: false }) as <T>(
-      oldData: T,
-    ) => T,
-    shouldInvalidate: false,
   }
 
   return (
@@ -52,8 +29,8 @@ export const SuggestionRow = ({ userPreview }: Props) => {
       <FollowButton
         isFollowing={userPreview.isFollowing}
         size="sm"
-        followProps={followProps}
-        unfollowProps={unfollowProps}
+        followeeId={userPreview.id}
+        username={userPreview.username}
       />
     </div>
   )
