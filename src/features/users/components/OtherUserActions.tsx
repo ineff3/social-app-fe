@@ -1,7 +1,6 @@
 import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
 import { FollowButton } from './FollowButton'
 import { FollowMutationProps } from '../interfaces'
-import { SchemaGetUserByUsernameResponseDto } from '@/src/types/schema'
 
 interface Props {
   isFollowing: boolean
@@ -15,7 +14,7 @@ export const OtherUserActions = ({
   followeeUsername,
 }: Props) => {
   const queryKeyStore = useQueryKeyStore()
-  const followProps: FollowMutationProps<SchemaGetUserByUsernameResponseDto> = {
+  const followProps: FollowMutationProps = {
     followeeId,
     qKey: queryKeyStore.users.detail(followeeUsername).queryKey,
     updater: (oldData) => {
@@ -23,14 +22,13 @@ export const OtherUserActions = ({
     },
   }
 
-  const unfollowProps: FollowMutationProps<SchemaGetUserByUsernameResponseDto> =
-    {
-      followeeId,
-      qKey: queryKeyStore.users.detail(followeeUsername).queryKey,
-      updater: (oldData) => {
-        return { ...oldData, isFollowing: false }
-      },
-    }
+  const unfollowProps: FollowMutationProps = {
+    followeeId,
+    qKey: queryKeyStore.users.detail(followeeUsername).queryKey,
+    updater: (oldData) => {
+      return { ...oldData, isFollowing: false }
+    },
+  }
   return (
     <FollowButton
       isFollowing={isFollowing}

@@ -1,13 +1,9 @@
 import { FollowButton } from '@/src/features/users/components/FollowButton'
 import { FollowMutationProps } from '@/src/features/users/interfaces'
 import { UserPreview } from '@/src/layouts/components/UserPreview'
-import {
-  SchemaUserPreviewResponseDto,
-  SchemaUserSuggestionsResponseDto,
-} from '@/src/types/schema'
+import { SchemaUserPreviewResponseDto } from '@/src/types/schema'
 import { handleUpdater } from '@/src/utils/api/helpers'
 import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
-import { InfiniteData } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
 
 interface Props {
@@ -27,21 +23,21 @@ export const SuggestionRow = ({ userPreview }: Props) => {
     }
   }
 
-  const followProps: FollowMutationProps<
-    InfiniteData<SchemaUserSuggestionsResponseDto>
-  > = {
+  const followProps: FollowMutationProps = {
     followeeId,
     qKey: queryKeyStore.users.suggestions({}).queryKey,
-    updater: handleUpdater(followeeId, { isFollowing: true }),
+    updater: handleUpdater(followeeId, { isFollowing: true }) as <T>(
+      oldData: T,
+    ) => T,
     shouldInvalidate: false,
   }
 
-  const unfollowProps: FollowMutationProps<
-    InfiniteData<SchemaUserSuggestionsResponseDto>
-  > = {
+  const unfollowProps: FollowMutationProps = {
     followeeId,
     qKey: queryKeyStore.users.suggestions({}).queryKey,
-    updater: handleUpdater(followeeId, { isFollowing: false }),
+    updater: handleUpdater(followeeId, { isFollowing: false }) as <T>(
+      oldData: T,
+    ) => T,
     shouldInvalidate: false,
   }
 

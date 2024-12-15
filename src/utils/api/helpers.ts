@@ -21,7 +21,7 @@ export const handleUpdater = <
 >(
   id: string,
   update: Record<string, unknown>,
-) => {
+): ((data: TData) => TData) => {
   return (oldData: TData) => {
     if (!oldData) return oldData
 

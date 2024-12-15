@@ -1,8 +1,8 @@
 import { QueryKey } from '@tanstack/react-query'
 
-export interface FollowMutationProps<T> {
+export interface FollowMutationProps {
   followeeId: string
   qKey: QueryKey
-  updater?: (oldData: T) => T
+  updater?: <T>(oldData: T) => T
   shouldInvalidate?: boolean
 }
