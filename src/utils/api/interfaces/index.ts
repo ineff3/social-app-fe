@@ -24,3 +24,10 @@ export interface GetPostCommentsParams {
   query?: PaginatedQueryParams
   postId: string
 }
+
+export interface PaginatedResponseDto<TData> {
+  data: TData[]
+  total: number
+  page: number
+  limit: number
+}

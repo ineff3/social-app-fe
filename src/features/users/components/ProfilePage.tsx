@@ -69,6 +69,7 @@ export const ProfilePage = () => {
                 <OtherUserActions
                   isFollowing={data.isFollowing}
                   followeeId={user.id}
+                  followeeUsername={user.username}
                 />
               )}
             </div>

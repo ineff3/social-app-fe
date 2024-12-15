@@ -2,6 +2,7 @@ import { QueryKey, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useApiActions } from './hooks/useApiActions'
 import { AxiosRequestConfig } from 'axios'
 
+export type QueryUpdater = <T, S>(oldData: T, updatedData: S) => T
 interface IMutationProps<T, S> {
   path: string
   qKey?: QueryKey

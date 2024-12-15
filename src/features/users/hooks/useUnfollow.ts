@@ -1,11 +1,17 @@
 import { apiRoutes } from '@/src/routes'
-import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
 import { usePost } from '@/src/utils/api/mutations'
+import { FollowMutationProps } from '../interfaces'
 
-export const useUnfollow = (followeeId: string) => {
-  const queryKeyStore = useQueryKeyStore()
+export const useUnfollow = ({
+  followeeId,
+  qKey,
+  updater,
+  shouldInvalidate,
+}: FollowMutationProps) => {
   return usePost({
     path: apiRoutes.unfollow(followeeId),
-    qKey: queryKeyStore.users._def,
+    qKey,
+    updater,
+    shouldInvalidate,
   })
 }
