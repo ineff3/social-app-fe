@@ -2,7 +2,6 @@ import { QueryKey, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useApiActions } from './hooks/useApiActions'
 import { AxiosRequestConfig } from 'axios'
 
-export type QueryUpdater = <T, S>(oldData: T, updatedData: S) => T
 interface IMutationProps<T, S> {
   path: string
   qKey?: QueryKey
@@ -33,7 +32,6 @@ export const useOptimisticMutation = <T, S, R>(
   func: (data: S) => Promise<R>,
   qKey?: QueryKey | null,
   updater?: (oldData: T, newData: S) => T,
-  shouldInvalidate?: boolean,
 ) => {
   const queryClient = useQueryClient()
   return useMutation({
@@ -68,7 +66,7 @@ export const useOptimisticMutation = <T, S, R>(
     },
     // Always refetch after error or success:
     onSettled: () => {
-      if (qKey && (shouldInvalidate === undefined ? true : shouldInvalidate)) {
+      if (qKey) {
         queryClient.invalidateQueries({
           queryKey: qKey,
         })
@@ -82,14 +80,12 @@ export const usePost = <T, S, R = void>({
   qKey,
   updater,
   axiosOptions,
-  shouldInvalidate,
 }: IMutationProps<T, S>) => {
   const { post } = useApiActions()
   return useOptimisticMutation(
     (data) => post<R>(path, data, axiosOptions),
     qKey,
     updater,
-    shouldInvalidate,
   )
 }
 

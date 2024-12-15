@@ -11,12 +11,14 @@ import { PostInteractions } from './post-items/PostInteractions'
 import { ImageDisplay } from './post-items/ImageDisplay'
 import { RepostBadge } from './post-items/RepostBadge'
 import { Repost } from './post-creation/additional-content/Repost'
+import { QueryKey } from '@tanstack/react-query'
 
 interface Props {
   post: SchemaPostResponseDto
+  qKey: QueryKey
 }
 
-const Post = ({ post }: Props) => {
+const Post = ({ post, qKey }: Props) => {
   const isQuoted = (post.text || post.imageUrls) && post.reposted
   const actualPost = isQuoted ? post : post.reposted ? post.reposted : post
   const { id, author, createdAt, text, imageUrls } = actualPost
@@ -87,7 +89,11 @@ const Post = ({ post }: Props) => {
               <Repost post={actualPost.reposted} isInteractive={true} />
             )}
           </div>
-          <PostInteractions post={actualPost} initialPostId={post.id} />
+          <PostInteractions
+            qKey={qKey}
+            post={actualPost}
+            initialPostId={post.id}
+          />
         </div>
       </div>
     </article>

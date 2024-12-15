@@ -1,6 +1,7 @@
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react'
 import useGetPosts from '../hooks/useGetPosts'
 import { PostsFlow } from './PostsFlow'
+import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
 
 const tabItems = [
   {
@@ -14,6 +15,7 @@ const tabItems = [
 ]
 
 export const MainPosts = () => {
+  const queryKeyStore = useQueryKeyStore()
   return (
     <TabGroup>
       <TabList className=" flex border-b border-accent">
@@ -35,6 +37,7 @@ export const MainPosts = () => {
       <TabPanels>
         <TabPanel>
           <PostsFlow
+            flowQueryKey={queryKeyStore.posts.all({}).queryKey}
             useGetPostsHook={useGetPosts}
             params={{}}
             scrollPositionKey="mainContext"
@@ -42,6 +45,10 @@ export const MainPosts = () => {
         </TabPanel>
         <TabPanel>
           <PostsFlow
+            flowQueryKey={
+              queryKeyStore.posts.all({ filters: { isFollowing: true } })
+                .queryKey
+            }
             useGetPostsHook={useGetPosts}
             params={{ filters: { isFollowing: true } }}
             scrollPositionKey="followingContext"
