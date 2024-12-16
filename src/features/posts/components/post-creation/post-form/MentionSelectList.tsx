@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { CenteredLoadingSpinner } from '@/src/components/ui/CenteredLoadingSpinner'
 import ErrorAlert from '@/src/components/ui/ErrorAlert'
 import { useDebounce } from '@/src/hooks/useDebounce'
 import { UserPreview } from '@/src/layouts/components/UserPreview'
 import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
-import { useQuery } from '@tanstack/react-query'
+import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { SuggestionProps } from '@tiptap/suggestion'
 import {
   ForwardedRef,
@@ -18,14 +17,11 @@ import { MdOutlineErrorOutline } from 'react-icons/md'
 export const MentionSelectList = forwardRef(
   ({ command, query }: SuggestionProps<string>, ref: ForwardedRef<any>) => {
     const [selectedIndex, setSelectedIndex] = useState(0)
-    const [searchQuery, isDebounceLoading] = useDebounce(query, 500)
+    const [searchQuery] = useDebounce(query, 500)
     const queryKeyStore = useQueryKeyStore()
-    const {
-      data: { data: users } = {},
-      isLoading,
-      isError,
-    } = useQuery({
+    const { data: { data: users } = {}, isError } = useQuery({
       ...queryKeyStore.users.search(searchQuery, 5),
+      placeholderData: keepPreviousData,
     })
 
     const selectItem = (index: number) => {
@@ -80,21 +76,14 @@ export const MentionSelectList = forwardRef(
       },
     }))
 
-    const haveUsers = !isLoading && !isDebounceLoading && !isError && users
-
     return (
       <ul className="flex h-full max-h-[400px] w-[300px] flex-col overflow-y-auto rounded-lg bg-base-100 shadow-[0px_0px_20px_-8px_rgba(255,255,255,1);]">
-        {(isLoading || isDebounceLoading) && (
-          <div className="h-[350px]">
-            <CenteredLoadingSpinner />
-          </div>
-        )}
         {isError && (
           <div className=" p-5">
             <ErrorAlert errorMessage="Something went wrong. Please try again later." />
           </div>
         )}
-        {haveUsers &&
+        {users &&
           (users.length === 0 ? (
             <div className="flex h-[80px] items-center justify-center gap-2 text-lg">
               <MdOutlineErrorOutline size={25} />

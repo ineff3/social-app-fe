@@ -1,11 +1,18 @@
 import { useGetSuggestions } from '../../hooks/useGetSuggestions'
 import { SuggestionRow } from './SuggestionRow'
+import { SuggestionSkeleton } from './SuggestionSkeleton'
 
 export const SuggestionList = () => {
   const { data, isLoading, isError } = useGetSuggestions({ limit: 3 })
 
   if (isLoading) {
-    return <></>
+    return (
+      <div className="flex flex-col">
+        <SuggestionSkeleton />
+        <SuggestionSkeleton />
+        <SuggestionSkeleton />
+      </div>
+    )
   }
 
   if (isError) {
