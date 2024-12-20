@@ -33,7 +33,7 @@ const generateMenuItems = (username: string) => [
     badge: <NotificationBadge />,
   },
   {
-    path: '/messages',
+    path: pageRoutes.conversations,
     name: 'Messages',
     svg: <MessageIcon width={ICON_SIZE} height={ICON_SIZE} />,
   },

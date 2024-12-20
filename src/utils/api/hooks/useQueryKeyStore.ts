@@ -3,6 +3,7 @@ import { useApiActions } from './useApiActions'
 import { GetAllPostsParams, PaginatedQueryParams } from '../interfaces'
 import {
   SchemaAuthUserResponseDto,
+  SchemaGetAllConversationsResponseDto,
   SchemaGetAllNotificationsResponseDto,
   SchemaGetAllPostsResponseDto,
   SchemaGetSuggestionsQueryDto,
@@ -111,6 +112,17 @@ const useQueryKeyStore = () => {
         queryKey: null,
         queryFn: () => get<SchemaAuthUserResponseDto>(apiRoutes.refreshToken),
       },
+    },
+
+    chat: {
+      conversations: (query: PaginatedQueryParams) => ({
+        queryKey: [{}],
+        queryFn: ({ pageParam }: { pageParam: number }) =>
+          get<SchemaGetAllConversationsResponseDto>(apiRoutes.conversations, {
+            ...query,
+            page: pageParam,
+          }),
+      }),
     },
   })
 

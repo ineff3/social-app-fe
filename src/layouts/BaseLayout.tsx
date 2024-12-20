@@ -1,11 +1,13 @@
-import { Outlet } from 'react-router-dom'
+import { Outlet, useLocation } from 'react-router-dom'
 import NavSidebar from './components/NavSidebar'
 import NewsSidebar from './components/NewsSidebar'
 import { CiMenuBurger } from 'react-icons/ci'
 import { useState } from 'react'
+import { pageRoutes } from '../routes'
 
 const BaseLayout = () => {
   const [menuOpen, setMenuOpen] = useState(false)
+  const location = useLocation()
   const toggleMenu = () => {
     setMenuOpen((prev) => !prev)
   }
@@ -45,9 +47,11 @@ const BaseLayout = () => {
         <main className=" w-full max-w-screen-lg ">
           <Outlet />
         </main>
-        <div className=" hidden w-full  max-w-[360px] lg:block">
-          <NewsSidebar />
-        </div>
+        {location.pathname !== pageRoutes.conversations && (
+          <div className=" hidden w-full  max-w-[360px] lg:block">
+            <NewsSidebar />
+          </div>
+        )}
       </div>
     </div>
   )

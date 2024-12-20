@@ -7,6 +7,7 @@ import { useEffect } from 'react'
 import { LoadingSpinner } from '@/src/components/ui/LoadingSpinner'
 import { useNotifications } from '@/src/hooks/useNotifications'
 import { useSocketConnection } from '@/src/hooks/useSocketConnection'
+import { socketInstance } from '@/src/utils/api/socketInstance'
 
 export const UserInit = () => {
   const dispatch = useAppDispatch()
@@ -22,7 +23,7 @@ export const UserInit = () => {
     }
   }, [isSuccess, dispatch, data])
 
-  useSocketConnection()
+  useSocketConnection(socketInstance)
   useNotifications()
 
   return <>{isLoading ? <LoadingSpinner /> : <Outlet />}</>

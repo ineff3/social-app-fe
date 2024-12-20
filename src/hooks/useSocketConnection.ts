@@ -1,19 +1,19 @@
 import { useEffect } from 'react'
-import { socketInstance } from '../utils/api/socketInstance'
 import { useAppSelector } from '../redux/hooks'
 import { selectAccessToken } from '../redux/user/userSlice'
+import { Socket } from 'socket.io-client'
 
-export const useSocketConnection = () => {
+export const useSocketConnection = (socket: Socket) => {
   const accessToken = useAppSelector(selectAccessToken)
 
   useEffect(() => {
     if (accessToken) {
-      socketInstance.auth = { token: accessToken }
-      socketInstance.connect()
+      socket.auth = { token: accessToken }
+      socket.connect()
     }
 
     return () => {
-      socketInstance.disconnect()
+      socket.disconnect()
     }
-  }, [accessToken])
+  }, [accessToken, socket])
 }

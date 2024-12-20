@@ -11,7 +11,6 @@ import {
   CreatePost,
   Home,
   ManageDrafts,
-  Messages,
   Notifications,
   ViewPost,
   Premium,
@@ -22,6 +21,7 @@ import {
 import { pageRoutes } from './routes'
 import { DraftProvider, PostProvider } from './features/posts'
 import { PostCreationLayout } from './layouts/PostCreationLayout'
+import { ConversationsPage } from './features/chat/components/ConversationsPage'
 
 const App = () => {
   const location = useLocation()
@@ -55,7 +55,10 @@ const App = () => {
                 path={pageRoutes.notifications}
                 element={<Notifications />}
               />
-              <Route path="/messages" element={<Messages />} />
+              <Route
+                path={pageRoutes.conversations}
+                element={<ConversationsPage />}
+              />
               <Route path={pageRoutes.bookmarks} element={<Bookmarks />} />
               <Route path="/premium" element={<Premium />} />
             </Route>

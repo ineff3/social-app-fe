@@ -372,6 +372,38 @@ export interface paths {
         patch: operations["NotificationController_viewNotification"];
         trace?: never;
     };
+    "/conversations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["ChatController_findAll"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/conversations/{id}/messages": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["ChatController_findMessages"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -539,6 +571,25 @@ export interface components {
             page: number;
             limit: number;
         };
+        ConversationResponseDto: {
+            id: string;
+            participants: components["schemas"]["UserPreviewResponseDto"][];
+        };
+        GetAllConversationsResponseDto: {
+            data: components["schemas"]["ConversationResponseDto"][];
+            total: number;
+            page: number;
+            limit: number;
+        };
+        MessageResponseDto: {
+            id: string;
+            conversationId: string;
+            text: string;
+        };
+        GetAllMessagesResponseDto: {
+            data: components["schemas"]["MessageResponseDto"][];
+            nextCursor: Record<string, never>;
+        };
     };
     responses: never;
     parameters: never;
@@ -566,6 +617,10 @@ export type SchemaCreatePostDto = components['schemas']['CreatePostDto'];
 export type SchemaUpdatePostDto = components['schemas']['UpdatePostDto'];
 export type SchemaNotificationResponseDto = components['schemas']['NotificationResponseDto'];
 export type SchemaGetAllNotificationsResponseDto = components['schemas']['GetAllNotificationsResponseDto'];
+export type SchemaConversationResponseDto = components['schemas']['ConversationResponseDto'];
+export type SchemaGetAllConversationsResponseDto = components['schemas']['GetAllConversationsResponseDto'];
+export type SchemaMessageResponseDto = components['schemas']['MessageResponseDto'];
+export type SchemaGetAllMessagesResponseDto = components['schemas']['GetAllMessagesResponseDto'];
 export type $defs = Record<string, never>;
 export interface operations {
     AppController_getHello: {
@@ -1130,6 +1185,53 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+        };
+    };
+    ChatController_findAll: {
+        parameters: {
+            query?: {
+                page?: number;
+                limit?: number;
+                order?: "desc" | "asc";
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GetAllConversationsResponseDto"];
+                };
+            };
+        };
+    };
+    ChatController_findMessages: {
+        parameters: {
+            query?: {
+                cursor?: string;
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GetAllMessagesResponseDto"];
+                };
             };
         };
     };
