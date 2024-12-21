@@ -419,6 +419,11 @@ export interface components {
              */
             order?: "desc" | "asc";
         };
+        CursorQueryDto: {
+            cursor?: string;
+            /** @default 10 */
+            limit?: number;
+        };
         RegisterUserDto: {
             /** @example Ryan */
             firstName: string;
@@ -585,6 +590,7 @@ export interface components {
             id: string;
             conversationId: string;
             text: string;
+            senderId: string;
         };
         GetAllMessagesResponseDto: {
             data: components["schemas"]["MessageResponseDto"][];
@@ -598,6 +604,7 @@ export interface components {
     pathItems: never;
 }
 export type SchemaPaginatedQueryDto = components['schemas']['PaginatedQueryDto'];
+export type SchemaCursorQueryDto = components['schemas']['CursorQueryDto'];
 export type SchemaRegisterUserDto = components['schemas']['RegisterUserDto'];
 export type SchemaAuthUserResponseDto = components['schemas']['AuthUserResponseDto'];
 export type SchemaLoginUserDto = components['schemas']['LoginUserDto'];

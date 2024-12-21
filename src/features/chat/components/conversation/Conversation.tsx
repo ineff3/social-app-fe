@@ -5,6 +5,7 @@ import { retrieveRecipient } from '../../common/conversationHelpers'
 import { ConversationUserPreview } from './ConversationUserPreview'
 import { StickyHeader } from '@/src/components/ui/StickyHeader'
 import { useRef } from 'react'
+import { MessageFlow } from './MessageFlow'
 
 interface Props {
   conversation: SchemaConversationResponseDto
@@ -23,6 +24,7 @@ export const Conversation = ({ conversation }: Props) => {
         </div>
       </StickyHeader>
       <ConversationUserPreview userPreview={recipient} />
+      <MessageFlow conversationId={conversation.id} recipient={recipient} />
     </div>
   )
 }
