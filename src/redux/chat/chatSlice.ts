@@ -1,8 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from '../store'
+import { SchemaConversationResponseDto } from '@/src/types/schema'
 
 interface ChatInitState {
-  selectedConversation: string | null
+  selectedConversation: SchemaConversationResponseDto | null
 }
 
 const chatInitState: ChatInitState = {
@@ -13,7 +14,10 @@ export const chatSlice = createSlice({
   name: 'chat',
   initialState: chatInitState,
   reducers: {
-    selectConversation: (state, action: PayloadAction<string | null>) => {
+    selectConversation: (
+      state,
+      action: PayloadAction<SchemaConversationResponseDto | null>,
+    ) => {
       state.selectedConversation = action.payload
     },
   },

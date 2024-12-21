@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 const iconSizes = {
   sm: 25,
   md: 45,
+  lg: 65,
 }
 
 type IconSize = keyof typeof iconSizes

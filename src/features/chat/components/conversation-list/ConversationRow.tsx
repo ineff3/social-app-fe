@@ -5,24 +5,24 @@ import { selectUserPreview } from '@/src/redux/user/userSlice'
 import { SchemaConversationResponseDto } from '@/src/types/schema'
 
 interface Props {
-  conv: SchemaConversationResponseDto
+  conversation: SchemaConversationResponseDto
 }
 
-export const ConversationRow = ({ conv }: Props) => {
+export const ConversationRow = ({ conversation }: Props) => {
   const dispatch = useAppDispatch()
   const currentUserId = useAppSelector(selectUserPreview)!.id
 
-  const recipient = conv.participants.find(
+  const recipient = conversation.participants.find(
     (participant) => participant.id !== currentUserId,
   )
 
   const handleSelectConversation = () => {
-    dispatch(selectConversation(conv.id))
+    dispatch(selectConversation(conversation))
   }
 
   return (
     <div
-      className="flex gap-3 px-3 py-3.5 transition-all duration-150 hover:bg-base-200 hover:bg-opacity-50"
+      className="flex gap-3 px-4 py-3.5 transition-all duration-150 hover:bg-base-200 hover:bg-opacity-70"
       onClick={handleSelectConversation}
     >
       <UserIconLink username={recipient?.username} />

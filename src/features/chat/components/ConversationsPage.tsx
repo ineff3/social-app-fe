@@ -1,7 +1,7 @@
 import { useSocketConnection } from '@/src/hooks/useSocketConnection'
 import { conversationSocketInstance } from '../conversationSocketInstance'
 import { ConversationsPanel } from './ConversationsPanel'
-import { Conversation } from './Conversation'
+import { ConversationContainer } from './ConversationContainer'
 
 export const ConversationsPage = () => {
   useSocketConnection(conversationSocketInstance)
@@ -9,7 +9,7 @@ export const ConversationsPage = () => {
   return (
     <div className=" flex">
       <ConversationsPanel />
-      <Conversation />
+      <ConversationContainer />
     </div>
   )
 }

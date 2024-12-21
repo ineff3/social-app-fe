@@ -27,8 +27,11 @@ export const ConversationList = () => {
       {data &&
         data.pages.map((page) => (
           <div key={page.page}>
-            {page.data.map((conv) => (
-              <ConversationRow conv={conv} key={conv.id} />
+            {page.data.map((conversation) => (
+              <ConversationRow
+                conversation={conversation}
+                key={conversation.id}
+              />
             ))}
           </div>
         ))}
