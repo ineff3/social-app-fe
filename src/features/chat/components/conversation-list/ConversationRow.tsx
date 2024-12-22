@@ -1,5 +1,8 @@
 import UserIconLink from '@/src/components/ui/UserIconLink'
-import { selectConversation } from '@/src/redux/chat/chatSlice'
+import {
+  selectConversation,
+  selectSelectedConversation,
+} from '@/src/redux/chat/chatSlice'
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks'
 import { selectUserPreview } from '@/src/redux/user/userSlice'
 import { SchemaConversationResponseDto } from '@/src/types/schema'
@@ -10,6 +13,7 @@ interface Props {
 
 export const ConversationRow = ({ conversation }: Props) => {
   const dispatch = useAppDispatch()
+  const selectedConversationId = useAppSelector(selectSelectedConversation)?.id
   const currentUserId = useAppSelector(selectUserPreview)!.id
 
   const recipient = conversation.participants.find(
@@ -19,10 +23,11 @@ export const ConversationRow = ({ conversation }: Props) => {
   const handleSelectConversation = () => {
     dispatch(selectConversation(conversation))
   }
+  const isSelected = conversation.id === selectedConversationId
 
   return (
     <div
-      className="flex gap-3 px-4 py-3.5 transition-all duration-150 hover:bg-base-200 hover:bg-opacity-70"
+      className={`flex gap-3 px-4 py-3.5 transition-all duration-150 hover:bg-base-200 hover:bg-opacity-70 ${isSelected && 'bg-base-200'}`}
       onClick={handleSelectConversation}
     >
       <UserIconLink username={recipient?.username} />
