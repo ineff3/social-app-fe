@@ -5,6 +5,6 @@ export const retrieveRecipient = (
   currentUserId: string,
 ) => {
   return conversation.participants.find(
-    (participant) => participant.id !== currentUserId,
+    (participant) => participant.user.id !== currentUserId,
   )
 }

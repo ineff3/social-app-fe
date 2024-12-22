@@ -576,9 +576,13 @@ export interface components {
             page: number;
             limit: number;
         };
+        ParticipantResponseDto: {
+            id: string;
+            user: components["schemas"]["UserPreviewResponseDto"];
+        };
         ConversationResponseDto: {
             id: string;
-            participants: components["schemas"]["UserPreviewResponseDto"][];
+            participants: components["schemas"]["ParticipantResponseDto"][];
         };
         GetAllConversationsResponseDto: {
             data: components["schemas"]["ConversationResponseDto"][];
@@ -624,6 +628,7 @@ export type SchemaCreatePostDto = components['schemas']['CreatePostDto'];
 export type SchemaUpdatePostDto = components['schemas']['UpdatePostDto'];
 export type SchemaNotificationResponseDto = components['schemas']['NotificationResponseDto'];
 export type SchemaGetAllNotificationsResponseDto = components['schemas']['GetAllNotificationsResponseDto'];
+export type SchemaParticipantResponseDto = components['schemas']['ParticipantResponseDto'];
 export type SchemaConversationResponseDto = components['schemas']['ConversationResponseDto'];
 export type SchemaGetAllConversationsResponseDto = components['schemas']['GetAllConversationsResponseDto'];
 export type SchemaMessageResponseDto = components['schemas']['MessageResponseDto'];

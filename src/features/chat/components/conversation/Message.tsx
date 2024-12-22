@@ -9,7 +9,7 @@ export const Message = ({ message, isFromCurrentUser }: Props) => {
   return (
     <div className={`chat ${isFromCurrentUser ? 'chat-end' : 'chat-start'}`}>
       <div
-        className={`chat-bubble ${isFromCurrentUser && 'chat-bubble-primary'}`}
+        className={`chat-bubble ${isFromCurrentUser ? 'chat-bubble-primary' : 'text-secondary'}`}
       >
         {message.text}
       </div>

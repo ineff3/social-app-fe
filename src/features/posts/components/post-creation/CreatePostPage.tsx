@@ -25,7 +25,6 @@ export const CreatePostPage = () => {
   } = usePostModalActions()
 
   const submitForm = handleSubmit((data) => {
-    console.log(1)
     const formData = constructPostFormData(data)
 
     createPostMutation.mutate(formData, {

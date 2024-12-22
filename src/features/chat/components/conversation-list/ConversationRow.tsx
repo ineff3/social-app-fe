@@ -30,14 +30,14 @@ export const ConversationRow = ({ conversation }: Props) => {
       className={`flex gap-3 px-4 py-3.5 transition-all duration-150 hover:bg-base-200 hover:bg-opacity-70 ${isSelected && 'bg-base-200'}`}
       onClick={handleSelectConversation}
     >
-      <UserIconLink username={recipient?.username} />
+      <UserIconLink username={recipient?.user.username} />
       <div className=" flex flex-col gap-1 text-sm">
         <div className="flex gap-1">
           <span className=" font-medium text-secondary">
-            {recipient?.firstName}
+            {recipient?.user.firstName}
           </span>
           <span>·</span>
-          <span>{recipient?.username}</span>
+          <span>{recipient?.user.username}</span>
           <span>·</span>
           <time dateTime={new Date().toISOString()}>8m</time>
         </div>
