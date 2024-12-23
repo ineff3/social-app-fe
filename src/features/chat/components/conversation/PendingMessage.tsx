@@ -11,8 +11,12 @@ export const PendingMessage = ({ pendingMessage }: Props) => {
         <div className="chat-bubble chat-bubble-primary">
           {pendingMessage.text}
         </div>
+        {pendingMessage.status === 'sending' && (
+          <div className="chat-footer opacity-50">
+            <span className="loading loading-dots loading-sm "></span>
+          </div>
+        )}
       </div>
-      <p>{pendingMessage.status}</p>
     </div>
   )
 }

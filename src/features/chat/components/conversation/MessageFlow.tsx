@@ -31,7 +31,7 @@ export const MessageFlow = ({
   }, [isLoading, scrollElementRef])
 
   return (
-    <div className="flex flex-col gap-5 p-4">
+    <div className="flex flex-col gap-4 p-4">
       {data &&
         data.pages.flatMap((page) =>
           page.data.map((message) => (

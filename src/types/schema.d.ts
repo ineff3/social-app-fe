@@ -591,10 +591,14 @@ export interface components {
             limit: number;
         };
         MessageResponseDto: {
+            /** @enum {string} */
+            status: "sent" | "read";
             id: string;
             conversationId: string;
             text: string;
             senderId: string;
+            /** Format: date-time */
+            createdAt: string;
         };
         GetAllMessagesResponseDto: {
             data: components["schemas"]["MessageResponseDto"][];

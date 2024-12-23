@@ -1,4 +1,4 @@
-import { format } from 'date-fns'
+import { format, isToday, isYesterday, differenceInDays } from 'date-fns'
 
 const monthMap: { [key: number]: string } = {
   0: 'Jan',
@@ -29,4 +29,24 @@ export const convertPostDate = (date: Date) => {
 
 export const convertToFullFate = (date: Date) => {
   return [format(date, 'H:mm 	a'), format(date, 'MMM d, yyyy')]
+}
+
+export function formatMessageDate(date: Date): string {
+  const now = new Date()
+
+  if (isToday(date)) {
+    return format(date, 'hh:mm a') // Format: '11:55 AM'
+  }
+
+  if (isYesterday(date)) {
+    return `Yesterday, ${format(date, 'hh:mm a')}` // Format: 'Yesterday, 8:48 PM'
+  }
+
+  const daysDifference = differenceInDays(now, date)
+
+  if (daysDifference <= 6) {
+    return format(date, 'EEE hh:mm a') // Format: 'Fri 8:41 PM'
+  }
+
+  return format(date, 'MMM dd, yyyy, hh:mm a') // Format: 'Dec 10, 2024, 1:13 PM'
 }
