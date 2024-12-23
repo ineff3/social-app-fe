@@ -7,8 +7,20 @@ import { selectSelectedConversation } from '@/src/redux/chat/chatSlice'
 import { conversationSocketInstance } from '../../conversationSocketInstance'
 import { useQueryClient } from '@tanstack/react-query'
 import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
+import { PendingMessageType, ResponseAcknowledgement } from '../../interfaces'
+import { isScrolledToBottom } from '../../common/scrollHelpers'
 
-export const MessageInputForm = () => {
+interface Props {
+  scrollElementRef: React.RefObject<HTMLDivElement>
+  setPendingMessages: React.Dispatch<React.SetStateAction<PendingMessageType[]>>
+  triggerScrollToBottom: () => void
+}
+
+export const MessageInputForm = ({
+  scrollElementRef,
+  setPendingMessages,
+  triggerScrollToBottom,
+}: Props) => {
   const conversationId = useAppSelector(selectSelectedConversation)!.id
   const queryClient = useQueryClient()
   const queryKeyStore = useQueryKeyStore()
@@ -22,13 +34,36 @@ export const MessageInputForm = () => {
   })
 
   const onSubmit: SubmitHandler<MessageForm> = (data) => {
+    const id = crypto.randomUUID()
+    const element = scrollElementRef.current
+    if (element && isScrolledToBottom(element)) {
+      triggerScrollToBottom()
+    }
+    setPendingMessages((prev) => [...prev, { ...data, id, status: 'sending' }])
+
     conversationSocketInstance.emit(
       'sendMessage',
       { ...data, conversationId },
-      () => {
-        queryClient.invalidateQueries({
-          queryKey: queryKeyStore.chat.messages({}, conversationId).queryKey,
-        })
+      (response: ResponseAcknowledgement) => {
+        queryClient
+          .invalidateQueries({
+            queryKey: queryKeyStore.chat.messages({}, conversationId).queryKey,
+          })
+          .then(() => {
+            if (response.status === 'error') {
+              setPendingMessages((prev) =>
+                prev.map((message) =>
+                  message.id === id
+                    ? { ...message, status: 'failed' }
+                    : message,
+                ),
+              )
+            } else if (response.status === 'success') {
+              setPendingMessages((prev) =>
+                prev.filter((message) => message.id !== id),
+              )
+            }
+          })
       },
     )
     reset()
