@@ -5,6 +5,7 @@ import { useHandleIncomingMessage } from '../../hooks/useHandleIncomingMessage'
 import { RefObject, useEffect } from 'react'
 import { PendingMessageType } from '../../interfaces'
 import { PendingMessage } from './PendingMessage'
+import { useInView } from 'react-intersection-observer'
 
 interface Props {
   conversationId: string
@@ -13,13 +14,26 @@ interface Props {
   pendingMessages: PendingMessageType[]
 }
 
+const MESSAGE_PER_PAGE = 30
+const FETCH_NEXT_MESSAGE_INDEX = Math.ceil(MESSAGE_PER_PAGE / 4)
+
 export const MessageFlow = ({
   conversationId,
   recipient,
   scrollElementRef,
   pendingMessages,
 }: Props) => {
-  const { data, isLoading } = useGetMessages({ limit: 20 }, conversationId)
+  const { data, isLoading, fetchNextPage } = useGetMessages(
+    { limit: MESSAGE_PER_PAGE },
+    conversationId,
+  )
+  const { ref: fetchNextRef, inView } = useInView()
+
+  useEffect(() => {
+    if (inView) {
+      fetchNextPage()
+    }
+  }, [inView, fetchNextPage])
 
   useHandleIncomingMessage(conversationId)
 
@@ -33,17 +47,28 @@ export const MessageFlow = ({
   return (
     <div className="flex flex-col gap-4 p-4">
       {data &&
-        data.pages.flatMap((page) =>
-          page.data.map((message) => (
-            <Message
+        data.pages.flatMap((page, pageIndex) =>
+          page.data.map((message, messageIndex) => (
+            <div
               key={message.id}
-              message={message}
-              isFromCurrentUser={message.senderId !== recipient.id}
-            />
+              ref={
+                pageIndex === 0 && messageIndex === FETCH_NEXT_MESSAGE_INDEX
+                  ? fetchNextRef
+                  : undefined
+              }
+            >
+              <Message
+                message={message}
+                isFromCurrentUser={message.senderId !== recipient.id}
+              />
+            </div>
           )),
         )}
       {pendingMessages.map((message) => (
-        <PendingMessage key={message.id} pendingMessage={message} />
+        <PendingMessage
+          key={`pending-${message.id}`}
+          pendingMessage={message}
+        />
       ))}
     </div>
   )

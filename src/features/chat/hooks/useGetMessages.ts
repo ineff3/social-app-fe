@@ -15,5 +15,9 @@ export const useGetMessages = (
     ...queryKeyStore.chat.messages(query, conversationId),
     initialPageParam: undefined,
     getNextPageParam: ({ nextCursor }) => nextCursor,
+    select: (data) => ({
+      pages: [...data.pages].reverse(),
+      pageParams: [...data.pageParams].reverse(),
+    }),
   })
 }
