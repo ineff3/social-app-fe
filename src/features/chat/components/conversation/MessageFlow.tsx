@@ -6,6 +6,8 @@ import { RefObject, useEffect } from 'react'
 import { PendingMessageType } from '../../interfaces'
 import { PendingMessage } from './PendingMessage'
 import { useInView } from 'react-intersection-observer'
+import { useAppSelector } from '@/src/redux/hooks'
+import { selectChatScrollPosition } from '@/src/redux/chat/chatSlice'
 
 interface Props {
   conversationId: string
@@ -23,6 +25,9 @@ export const MessageFlow = ({
   scrollElementRef,
   pendingMessages,
 }: Props) => {
+  const storedScrollPosition = useAppSelector(
+    selectChatScrollPosition(conversationId),
+  )
   const { data, isLoading, fetchNextPage } = useGetMessages(
     { limit: MESSAGE_PER_PAGE },
     conversationId,
@@ -37,12 +42,15 @@ export const MessageFlow = ({
 
   useHandleIncomingMessage(conversationId)
 
-  useEffect(() => {
-    const element = scrollElementRef.current
-    if (!isLoading && element) {
-      element.scrollTo(0, element.scrollHeight)
-    }
-  }, [isLoading, scrollElementRef])
+  useEffect(
+    function initialScroll() {
+      const element = scrollElementRef.current
+      if (!storedScrollPosition && !isLoading && element) {
+        element.scrollTo(0, element.scrollHeight)
+      }
+    },
+    [isLoading, scrollElementRef, storedScrollPosition],
+  )
 
   return (
     <div className="flex flex-col gap-4 p-4">

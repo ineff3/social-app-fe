@@ -4,10 +4,12 @@ import { SchemaConversationResponseDto } from '@/src/types/schema'
 
 interface ChatInitState {
   selectedConversation: SchemaConversationResponseDto | null
+  scrollPositions: Record<string, number>
 }
 
 const chatInitState: ChatInitState = {
   selectedConversation: null,
+  scrollPositions: {},
 }
 
 export const chatSlice = createSlice({
@@ -20,12 +22,22 @@ export const chatSlice = createSlice({
     ) => {
       state.selectedConversation = action.payload
     },
+    setChatScrollPosition: (
+      state,
+      action: PayloadAction<Record<string, number>>,
+    ) => {
+      state.scrollPositions = { ...state.scrollPositions, ...action.payload }
+    },
   },
 })
 
-export const { selectConversation } = chatSlice.actions
+export const { selectConversation, setChatScrollPosition } = chatSlice.actions
 
 export const selectSelectedConversation = (state: RootState) =>
   state.chat.selectedConversation
+
+export const selectChatScrollPosition =
+  (conversationId: string) => (state: RootState) =>
+    state.chat.scrollPositions[conversationId]
 
 export default chatSlice.reducer
