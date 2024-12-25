@@ -3,7 +3,6 @@ import { selectUserPreview } from '@/src/redux/user/userSlice'
 import { SchemaConversationResponseDto } from '@/src/types/schema'
 import { retrieveRecipient } from '../../common/conversationHelpers'
 import { ConversationUserPreview } from './ConversationUserPreview'
-import { StickyHeader } from '@/src/components/ui/StickyHeader'
 import { useRef, useState } from 'react'
 import { MessageFlow } from './MessageFlow'
 import { MessageInputForm } from '../send-message-form/MessageInputForm'
@@ -32,15 +31,15 @@ export const Conversation = ({ conversation }: Props) => {
 
   return (
     <div className="flex h-full flex-col">
+      <header className="fixed top-0 z-10 h-[60px] w-full max-w-[600px] border-b border-r border-accent bg-base-100">
+        <p className="p-4 text-lg font-bold text-secondary">
+          {recipient?.user.firstName}
+        </p>
+      </header>
       <div
         ref={scrollElementRef}
-        className="flex h-full flex-col overflow-y-auto border-b border-accent"
+        className="mt-[60px] flex h-full flex-col overflow-y-auto border-b border-accent"
       >
-        <StickyHeader scrolledElementRef={scrollElementRef}>
-          <div className="p-4 text-lg font-bold text-secondary">
-            {recipient?.user.firstName}
-          </div>
-        </StickyHeader>
         <ConversationUserPreview userPreview={recipient.user} />
         <MessageFlow
           conversationId={conversation.id}

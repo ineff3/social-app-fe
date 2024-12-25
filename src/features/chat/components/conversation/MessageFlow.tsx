@@ -8,6 +8,11 @@ import { PendingMessage } from './PendingMessage'
 import { useInView } from 'react-intersection-observer'
 import { useAppSelector } from '@/src/redux/hooks'
 import { selectChatScrollPosition } from '@/src/redux/chat/chatSlice'
+import { format } from 'date-fns'
+import {
+  calculateNextFetchMessageIndex,
+  groupMessagesByDate,
+} from '../../common/messageHelpers'
 
 interface Props {
   conversationId: string
@@ -17,7 +22,7 @@ interface Props {
 }
 
 const MESSAGE_PER_PAGE = 30
-const FETCH_NEXT_MESSAGE_INDEX = Math.ceil(MESSAGE_PER_PAGE / 4)
+const MAX_CHAT_VISIBLE_MESSAGES = 15
 
 export const MessageFlow = ({
   conversationId,
@@ -51,27 +56,40 @@ export const MessageFlow = ({
     },
     [isLoading, scrollElementRef, storedScrollPosition],
   )
-
+  const groupedMessages =
+    data && groupMessagesByDate(data.pages.flatMap((page) => page.data))
   return (
     <div className="flex flex-col gap-4 p-4">
-      {data &&
-        data.pages.flatMap((page, pageIndex) =>
-          page.data.map((message, messageIndex) => (
-            <div
-              key={message.id}
-              ref={
-                pageIndex === 0 && messageIndex === FETCH_NEXT_MESSAGE_INDEX
-                  ? fetchNextRef
-                  : undefined
-              }
-            >
-              <Message
-                message={message}
-                isFromCurrentUser={message.senderId !== recipient.id}
-              />
+      {groupedMessages &&
+        Object.entries(groupedMessages).map(([date, messages], pageIndex) => (
+          <div key={date} className="flex flex-col">
+            {/* Date Header */}
+            <div className="sticky top-0 bg-base-200 py-1 text-center text-xs">
+              {format(new Date(date), 'EEEE, MMMM d')}
             </div>
-          )),
-        )}
+            {messages.map((message, messageIndex) => (
+              <div
+                key={message.id}
+                ref={
+                  pageIndex === 0 &&
+                  messageIndex ===
+                    calculateNextFetchMessageIndex(
+                      messages.length,
+                      MESSAGE_PER_PAGE,
+                      MAX_CHAT_VISIBLE_MESSAGES,
+                    )
+                    ? fetchNextRef
+                    : undefined
+                }
+              >
+                <Message
+                  message={message}
+                  isFromCurrentUser={message.senderId !== recipient.id}
+                />
+              </div>
+            ))}
+          </div>
+        ))}
       {pendingMessages.map((message) => (
         <PendingMessage
           key={`pending-${message.id}`}

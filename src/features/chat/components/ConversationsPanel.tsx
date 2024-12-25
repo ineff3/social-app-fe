@@ -1,4 +1,3 @@
-import React from 'react'
 import { ConversationList } from './conversation-list/ConversationList'
 
 export const ConversationsPanel = () => {

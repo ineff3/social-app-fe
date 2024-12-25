@@ -72,10 +72,10 @@ export const MessageInputForm = ({
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className=" flex items-center gap-2 bg-base-300 p-4"
+      className=" flex items-center gap-2  p-4"
     >
       <MessageAttachmentOptions />
-      <label className="input input-bordered input-primary flex flex-grow items-center gap-2 bg-base-100">
+      <label className="input input-bordered input-accent flex flex-grow items-center gap-2 bg-base-100">
         <input
           {...register('text')}
           className="flex flex-grow"
