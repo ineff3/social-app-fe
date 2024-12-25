@@ -3,22 +3,21 @@ import { useGetMessages } from '../../hooks/useGetMessages'
 import { Message } from './Message'
 import { useHandleIncomingMessage } from '../../hooks/useHandleIncomingMessage'
 import { RefObject, useEffect } from 'react'
-import { PendingMessageType } from '../../interfaces'
-import { PendingMessage } from './PendingMessage'
+import { ExtendedChatMessage } from '../../interfaces'
 import { useInView } from 'react-intersection-observer'
 import { useAppSelector } from '@/src/redux/hooks'
 import { selectChatScrollPosition } from '@/src/redux/chat/chatSlice'
-import { format } from 'date-fns'
 import {
   calculateNextFetchMessageIndex,
   groupMessagesByDate,
 } from '../../common/messageHelpers'
+import { formatDateForToday } from '@/src/features/posts/utils/dateConversions'
 
 interface Props {
   conversationId: string
   recipient: SchemaParticipantResponseDto
   scrollElementRef: RefObject<HTMLDivElement>
-  pendingMessages: PendingMessageType[]
+  pendingMessages: ExtendedChatMessage[]
 }
 
 const MESSAGE_PER_PAGE = 30
@@ -59,13 +58,12 @@ export const MessageFlow = ({
   const groupedMessages =
     data && groupMessagesByDate(data.pages.flatMap((page) => page.data))
   return (
-    <div className="flex flex-col gap-4 p-4">
+    <div className="flex flex-col p-4">
       {groupedMessages &&
         Object.entries(groupedMessages).map(([date, messages], pageIndex) => (
           <div key={date} className="flex flex-col">
-            {/* Date Header */}
-            <div className="sticky top-0 bg-base-200 py-1 text-center text-xs">
-              {format(new Date(date), 'EEEE, MMMM d')}
+            <div className="sticky top-4 z-10 m-[10px_auto_10px_auto] flex w-fit items-center justify-center rounded-full bg-base-200 bg-opacity-60 px-2 py-1 text-xs text-secondary">
+              {formatDateForToday(new Date(date))}
             </div>
             {messages.map((message, messageIndex) => (
               <div
@@ -91,10 +89,7 @@ export const MessageFlow = ({
           </div>
         ))}
       {pendingMessages.map((message) => (
-        <PendingMessage
-          key={`pending-${message.id}`}
-          pendingMessage={message}
-        />
+        <Message key={message.id} message={message} isFromCurrentUser={true} />
       ))}
     </div>
   )

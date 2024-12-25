@@ -1,8 +1,10 @@
+import { CheckmarkIcon } from '@/src/components/ui/icons/CheckmarkIcon'
+import { DoubleCheckmarkIcon } from '@/src/components/ui/icons/DoubleCheckmarkIcon'
 import { formatMessageDate } from '@/src/features/posts/utils/dateConversions'
-import { SchemaMessageResponseDto } from '@/src/types/schema'
+import { ExtendedChatMessage } from '../../interfaces'
 
 interface Props {
-  message: SchemaMessageResponseDto
+  message: ExtendedChatMessage
   isFromCurrentUser: boolean
 }
 
@@ -10,22 +12,30 @@ export const Message = ({ message, isFromCurrentUser }: Props) => {
   return (
     <div className={`chat ${isFromCurrentUser ? 'chat-end' : 'chat-start'}`}>
       <div
-        className={`chat-bubble ${isFromCurrentUser ? 'chat-bubble-primary' : 'text-secondary'}`}
+        className={`chat-bubble !min-h-[40px] text-secondary ${isFromCurrentUser && 'bg-primary'}`}
       >
-        {message.text}
-      </div>
-      {isFromCurrentUser && (
-        <div className="chat-footer flex gap-1 opacity-50">
-          <time dateTime={message.createdAt}>
-            {formatMessageDate(new Date(message.createdAt))}
-          </time>
-          <span>·</span>
-          <span>
-            {message.status === 'sent' && 'Sent'}
-            {message.status === 'read' && 'Seen'}
-          </span>
+        <div className=" flex flex-wrap gap-3">
+          <span className=" inline-block">{message.text}</span>
+          {isFromCurrentUser && (
+            <div className=" flex flex-grow items-center justify-end gap-1 self-end text-xs italic text-secondary">
+              <time dateTime={message.createdAt}>
+                {formatMessageDate(new Date(message.createdAt))}
+              </time>
+              <span>
+                {message.status === 'sending' && (
+                  <span className="loading loading-spinner !w-[13px]"></span>
+                )}
+                {message.status === 'sent' && (
+                  <CheckmarkIcon width={12} height={12} stroke="white" />
+                )}
+                {message.status === 'read' && (
+                  <DoubleCheckmarkIcon width={12} height={12} stroke="white" />
+                )}
+              </span>
+            </div>
+          )}
         </div>
-      )}
+      </div>
     </div>
   )
 }

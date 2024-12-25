@@ -1,10 +1,11 @@
+import { SchemaMessageResponseDto } from '@/src/types/schema'
+
 export interface ResponseAcknowledgement {
   status: 'success' | 'error'
   message?: string
 }
 
-export interface PendingMessageType {
-  id: string
-  text: string
-  status: 'sending' | 'failed'
+export interface ExtendedChatMessage
+  extends Pick<SchemaMessageResponseDto, 'id' | 'text' | 'createdAt'> {
+  status: SchemaMessageResponseDto['status'] | 'sending' | 'failed'
 }

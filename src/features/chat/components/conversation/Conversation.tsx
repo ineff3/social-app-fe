@@ -7,7 +7,7 @@ import { useRef, useState } from 'react'
 import { MessageFlow } from './MessageFlow'
 import { MessageInputForm } from '../send-message-form/MessageInputForm'
 import { useChatRoomSubscription } from '../../hooks/useChatRoomSubscription'
-import { PendingMessageType } from '../../interfaces'
+import { ExtendedChatMessage } from '../../interfaces'
 import { useTriggerScrollToBottom } from '../../hooks/useTriggerScrollToBottom'
 import { useRestoreChatScrollPosition } from '../../hooks/useRestoreChatScrollPosition'
 
@@ -16,7 +16,7 @@ interface Props {
 }
 
 export const Conversation = ({ conversation }: Props) => {
-  const [pendingMessages, setPendingMessages] = useState<PendingMessageType[]>(
+  const [pendingMessages, setPendingMessages] = useState<ExtendedChatMessage[]>(
     [],
   )
   const currentUserId = useAppSelector(selectUserPreview)!.id

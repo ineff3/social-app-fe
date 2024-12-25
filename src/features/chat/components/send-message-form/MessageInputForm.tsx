@@ -7,12 +7,14 @@ import { selectSelectedConversation } from '@/src/redux/chat/chatSlice'
 import { conversationSocketInstance } from '../../conversationSocketInstance'
 import { useQueryClient } from '@tanstack/react-query'
 import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
-import { PendingMessageType, ResponseAcknowledgement } from '../../interfaces'
+import { ExtendedChatMessage, ResponseAcknowledgement } from '../../interfaces'
 import { isScrolledToBottom } from '../../common/scrollHelpers'
 
 interface Props {
   scrollElementRef: React.RefObject<HTMLDivElement>
-  setPendingMessages: React.Dispatch<React.SetStateAction<PendingMessageType[]>>
+  setPendingMessages: React.Dispatch<
+    React.SetStateAction<ExtendedChatMessage[]>
+  >
   triggerScrollToBottom: () => void
 }
 
@@ -39,7 +41,10 @@ export const MessageInputForm = ({
     if (element && isScrolledToBottom(element)) {
       triggerScrollToBottom()
     }
-    setPendingMessages((prev) => [...prev, { ...data, id, status: 'sending' }])
+    setPendingMessages((prev) => [
+      ...prev,
+      { ...data, id, status: 'sending', createdAt: new Date().toISOString() },
+    ])
 
     conversationSocketInstance.emit(
       'sendMessage',

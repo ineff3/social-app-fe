@@ -22,7 +22,6 @@ export const useRestoreChatScrollPosition = (
 
     return () => {
       if (element) {
-        console.log('Save:', element.scrollTop)
         dispatch(setChatScrollPosition({ [conversationId]: element.scrollTop }))
       }
     }
