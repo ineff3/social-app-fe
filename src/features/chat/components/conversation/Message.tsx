@@ -5,6 +5,12 @@ import { ExtendedChatMessage } from '../../interfaces'
 import { MdOutlineErrorOutline } from 'react-icons/md'
 import { RestartIcon } from '@/src/components/ui/icons/RestartIcon'
 import { CircleButton } from '@/src/components/ui/CircleButton'
+import { useSendMessage } from '../../hooks/useSendMessage'
+import { useAppDispatch } from '@/src/redux/hooks'
+import {
+  removePendingChatMessage,
+  updatePendingMessageStatus,
+} from '@/src/redux/chat/chatSlice'
 
 interface Props {
   message: ExtendedChatMessage
@@ -13,10 +19,33 @@ interface Props {
 
 export const Message = ({ message, isFromCurrentUser }: Props) => {
   const { status } = message
+  const dispatch = useAppDispatch()
+  const sendMessage = useSendMessage()
+
+  const resendPendingMessage = () => {
+    dispatch(
+      updatePendingMessageStatus({
+        conversationId: message.conversationId,
+        messageId: message.id,
+        status: 'sending',
+      }),
+    )
+    sendMessage(message, message.id)
+  }
+
+  const removePendingMessage = () => {
+    dispatch(
+      removePendingChatMessage({
+        conversationId: message.conversationId,
+        messageId: message.id,
+      }),
+    )
+  }
+
   return (
     <div className={`chat ${isFromCurrentUser ? 'chat-end' : 'chat-start'}`}>
       <div
-        className={`chat-bubble !min-h-[40px] text-secondary ${isFromCurrentUser && 'bg-primary'}`}
+        className={`chat-bubble !min-h-[40px] !max-w-[85%] text-secondary ${isFromCurrentUser && 'bg-primary'}`}
       >
         <div className=" flex flex-wrap gap-3">
           <span className=" inline-block">{message.text}</span>
@@ -43,10 +72,10 @@ export const Message = ({ message, isFromCurrentUser }: Props) => {
           )}
         </div>
         {status === 'failed' && (
-          <div className="absolute -left-[40%] top-1/2 flex -translate-y-1/2 gap-2">
+          <div className="absolute -left-[80px] top-1/2 flex -translate-y-1/2 gap-2">
             <CircleButton
               tooltipPosition="top"
-              onClick={() => {}}
+              onClick={() => removePendingMessage()}
               label="Remove"
               isGhost={false}
               size="sm"
@@ -55,7 +84,7 @@ export const Message = ({ message, isFromCurrentUser }: Props) => {
             </CircleButton>
             <CircleButton
               tooltipPosition="top"
-              onClick={() => {}}
+              onClick={() => resendPendingMessage()}
               label="Resend"
               isGhost={false}
               size="sm"

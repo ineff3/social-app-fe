@@ -5,15 +5,10 @@ import { MessageForm } from '../../schemas'
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks'
 import {
   addPendingChatMessage,
-  removePendingChatMessage,
   selectSelectedConversation,
-  updatePendingMessageStatus,
 } from '@/src/redux/chat/chatSlice'
-import { conversationSocketInstance } from '../../conversationSocketInstance'
-import { useQueryClient } from '@tanstack/react-query'
-import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
-import { ResponseAcknowledgement } from '../../interfaces'
 import { isScrolledToBottom } from '../../common/scrollHelpers'
+import { useSendMessage } from '../../hooks/useSendMessage'
 
 interface Props {
   scrollElementRef: React.RefObject<HTMLDivElement>
@@ -26,8 +21,7 @@ export const MessageInputForm = ({
 }: Props) => {
   const dispatch = useAppDispatch()
   const conversationId = useAppSelector(selectSelectedConversation)!.id
-  const queryClient = useQueryClient()
-  const queryKeyStore = useQueryKeyStore()
+  const sendMessage = useSendMessage()
   const {
     register,
     handleSubmit,
@@ -38,7 +32,7 @@ export const MessageInputForm = ({
   })
 
   const onSubmit: SubmitHandler<MessageForm> = (data) => {
-    const id = crypto.randomUUID()
+    const messageId = crypto.randomUUID()
     const element = scrollElementRef.current
     if (element && isScrolledToBottom(element)) {
       triggerScrollToBottom()
@@ -48,39 +42,15 @@ export const MessageInputForm = ({
         conversationId,
         message: {
           ...data,
-          id,
+          id: messageId,
           status: 'sending',
+          conversationId,
           createdAt: new Date().toISOString(),
         },
       }),
     )
-
-    conversationSocketInstance.emit(
-      'sendMessage',
-      { ...data, conversationId },
-      (response: ResponseAcknowledgement) => {
-        queryClient
-          .invalidateQueries({
-            queryKey: queryKeyStore.chat.messages({}, conversationId).queryKey,
-          })
-          .then(() => {
-            if (response.status === 'error') {
-              dispatch(
-                updatePendingMessageStatus({
-                  conversationId,
-                  messageId: id,
-                  status: 'failed',
-                }),
-              )
-            } else if (response.status === 'success') {
-              dispatch(
-                removePendingChatMessage({ conversationId, messageId: id }),
-              )
-            }
-          })
-      },
-    )
     reset()
+    sendMessage({ ...data, conversationId }, messageId)
   }
 
   return (

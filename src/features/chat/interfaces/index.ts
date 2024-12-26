@@ -10,6 +10,9 @@ export type ExtendedChatMessageStatus =
   | 'sending'
   | 'failed'
 export interface ExtendedChatMessage
-  extends Pick<SchemaMessageResponseDto, 'id' | 'text' | 'createdAt'> {
+  extends Pick<
+    SchemaMessageResponseDto,
+    'id' | 'text' | 'createdAt' | 'conversationId'
+  > {
   status: ExtendedChatMessageStatus
 }
