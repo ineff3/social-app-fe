@@ -3,11 +3,10 @@ import { selectUserPreview } from '@/src/redux/user/userSlice'
 import { SchemaConversationResponseDto } from '@/src/types/schema'
 import { retrieveRecipient } from '../../common/conversationHelpers'
 import { ConversationUserPreview } from './ConversationUserPreview'
-import { useRef, useState } from 'react'
+import { useRef } from 'react'
 import { MessageFlow } from './MessageFlow'
 import { MessageInputForm } from '../send-message-form/MessageInputForm'
 import { useChatRoomSubscription } from '../../hooks/useChatRoomSubscription'
-import { ExtendedChatMessage } from '../../interfaces'
 import { useTriggerScrollToBottom } from '../../hooks/useTriggerScrollToBottom'
 import { useRestoreChatScrollPosition } from '../../hooks/useRestoreChatScrollPosition'
 
@@ -16,9 +15,6 @@ interface Props {
 }
 
 export const Conversation = ({ conversation }: Props) => {
-  const [pendingMessages, setPendingMessages] = useState<ExtendedChatMessage[]>(
-    [],
-  )
   const currentUserId = useAppSelector(selectUserPreview)!.id
   const scrollElementRef = useRef<HTMLDivElement>(null)
 
@@ -45,12 +41,10 @@ export const Conversation = ({ conversation }: Props) => {
           conversationId={conversation.id}
           recipient={recipient}
           scrollElementRef={scrollElementRef}
-          pendingMessages={pendingMessages}
         />
       </div>
       <MessageInputForm
         scrollElementRef={scrollElementRef}
-        setPendingMessages={setPendingMessages}
         triggerScrollToBottom={triggerScrollToBottom}
       />
     </div>

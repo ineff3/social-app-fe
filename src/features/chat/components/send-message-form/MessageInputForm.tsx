@@ -2,27 +2,29 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { MessageAttachmentOptions } from './MessageAttachmentOptions'
 import { BiSend } from 'react-icons/bi'
 import { MessageForm } from '../../schemas'
-import { useAppSelector } from '@/src/redux/hooks'
-import { selectSelectedConversation } from '@/src/redux/chat/chatSlice'
+import { useAppDispatch, useAppSelector } from '@/src/redux/hooks'
+import {
+  addPendingChatMessage,
+  removePendingChatMessage,
+  selectSelectedConversation,
+  updatePendingMessageStatus,
+} from '@/src/redux/chat/chatSlice'
 import { conversationSocketInstance } from '../../conversationSocketInstance'
 import { useQueryClient } from '@tanstack/react-query'
 import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
-import { ExtendedChatMessage, ResponseAcknowledgement } from '../../interfaces'
+import { ResponseAcknowledgement } from '../../interfaces'
 import { isScrolledToBottom } from '../../common/scrollHelpers'
 
 interface Props {
   scrollElementRef: React.RefObject<HTMLDivElement>
-  setPendingMessages: React.Dispatch<
-    React.SetStateAction<ExtendedChatMessage[]>
-  >
   triggerScrollToBottom: () => void
 }
 
 export const MessageInputForm = ({
   scrollElementRef,
-  setPendingMessages,
   triggerScrollToBottom,
 }: Props) => {
+  const dispatch = useAppDispatch()
   const conversationId = useAppSelector(selectSelectedConversation)!.id
   const queryClient = useQueryClient()
   const queryKeyStore = useQueryKeyStore()
@@ -41,10 +43,17 @@ export const MessageInputForm = ({
     if (element && isScrolledToBottom(element)) {
       triggerScrollToBottom()
     }
-    setPendingMessages((prev) => [
-      ...prev,
-      { ...data, id, status: 'sending', createdAt: new Date().toISOString() },
-    ])
+    dispatch(
+      addPendingChatMessage({
+        conversationId,
+        message: {
+          ...data,
+          id,
+          status: 'sending',
+          createdAt: new Date().toISOString(),
+        },
+      }),
+    )
 
     conversationSocketInstance.emit(
       'sendMessage',
@@ -56,16 +65,16 @@ export const MessageInputForm = ({
           })
           .then(() => {
             if (response.status === 'error') {
-              setPendingMessages((prev) =>
-                prev.map((message) =>
-                  message.id === id
-                    ? { ...message, status: 'failed' }
-                    : message,
-                ),
+              dispatch(
+                updatePendingMessageStatus({
+                  conversationId,
+                  messageId: id,
+                  status: 'failed',
+                }),
               )
             } else if (response.status === 'success') {
-              setPendingMessages((prev) =>
-                prev.filter((message) => message.id !== id),
+              dispatch(
+                removePendingChatMessage({ conversationId, messageId: id }),
               )
             }
           })

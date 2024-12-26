@@ -5,7 +5,11 @@ export interface ResponseAcknowledgement {
   message?: string
 }
 
+export type ExtendedChatMessageStatus =
+  | SchemaMessageResponseDto['status']
+  | 'sending'
+  | 'failed'
 export interface ExtendedChatMessage
   extends Pick<SchemaMessageResponseDto, 'id' | 'text' | 'createdAt'> {
-  status: SchemaMessageResponseDto['status'] | 'sending' | 'failed'
+  status: ExtendedChatMessageStatus
 }

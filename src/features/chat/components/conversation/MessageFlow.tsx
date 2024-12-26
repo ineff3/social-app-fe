@@ -3,10 +3,12 @@ import { useGetMessages } from '../../hooks/useGetMessages'
 import { Message } from './Message'
 import { useHandleIncomingMessage } from '../../hooks/useHandleIncomingMessage'
 import { RefObject, useEffect } from 'react'
-import { ExtendedChatMessage } from '../../interfaces'
 import { useInView } from 'react-intersection-observer'
 import { useAppSelector } from '@/src/redux/hooks'
-import { selectChatScrollPosition } from '@/src/redux/chat/chatSlice'
+import {
+  selectChatScrollPosition,
+  selectPendingMessages,
+} from '@/src/redux/chat/chatSlice'
 import {
   calculateNextFetchMessageIndex,
   groupMessagesByDate,
@@ -17,7 +19,6 @@ interface Props {
   conversationId: string
   recipient: SchemaParticipantResponseDto
   scrollElementRef: RefObject<HTMLDivElement>
-  pendingMessages: ExtendedChatMessage[]
 }
 
 const MESSAGE_PER_PAGE = 30
@@ -27,8 +28,8 @@ export const MessageFlow = ({
   conversationId,
   recipient,
   scrollElementRef,
-  pendingMessages,
 }: Props) => {
+  const pendingMessages = useAppSelector(selectPendingMessages(conversationId))
   const storedScrollPosition = useAppSelector(
     selectChatScrollPosition(conversationId),
   )
@@ -88,9 +89,14 @@ export const MessageFlow = ({
             ))}
           </div>
         ))}
-      {pendingMessages.map((message) => (
-        <Message key={message.id} message={message} isFromCurrentUser={true} />
-      ))}
+      {pendingMessages &&
+        pendingMessages.map((message) => (
+          <Message
+            key={message.id}
+            message={message}
+            isFromCurrentUser={true}
+          />
+        ))}
     </div>
   )
 }
