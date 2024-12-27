@@ -3,6 +3,8 @@ import { useSearchShortcut } from '../../hooks/useSearchShortcut'
 import { SearchList } from './SearchList'
 import { useClickOutside } from '@/src/hooks/useClickOutside'
 import { useDebounce } from '@/src/hooks/useDebounce'
+import { useNavigate } from 'react-router-dom'
+import { SchemaUserPreviewResponseDto } from '@/src/types/schema'
 
 export const SearchBar = () => {
   const [isListOpen, setIsListOpen] = useState(false)
@@ -10,6 +12,12 @@ export const SearchBar = () => {
   const [debouncedSearchQuery] = useDebounce(searchQuery, 500)
   const inputRef = useRef<HTMLInputElement>(null)
   const dropdownRef = useRef<HTMLDivElement>(null)
+  const navigate = useNavigate()
+
+  const onUserRowSelect = (user: SchemaUserPreviewResponseDto) => {
+    navigate(`users/${user.username}`)
+    setIsListOpen(false)
+  }
 
   useSearchShortcut(inputRef)
   useClickOutside(dropdownRef, () => {
@@ -36,9 +44,8 @@ export const SearchBar = () => {
         <div className=" absolute right-0 top-full mt-2 w-full">
           <SearchList
             searchQuery={debouncedSearchQuery}
-            closeDropdown={() => {
-              setIsListOpen(false)
-            }}
+            onClick={onUserRowSelect}
+            resultLength={5}
           />
         </div>
       )}

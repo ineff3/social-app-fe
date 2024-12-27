@@ -3,7 +3,11 @@ import { useAppSelector } from '@/src/redux/hooks'
 import { ConversationPreview } from './ConversationPreview'
 import { Conversation } from './conversation/Conversation'
 
-export const ConversationContainer = () => {
+interface Props {
+  show: () => void
+}
+
+export const ConversationContainer = ({ show }: Props) => {
   const conversation = useAppSelector(selectSelectedConversation)
 
   return (
@@ -11,7 +15,7 @@ export const ConversationContainer = () => {
       {conversation ? (
         <Conversation conversation={conversation} key={conversation.id} />
       ) : (
-        <ConversationPreview />
+        <ConversationPreview show={show} />
       )}
     </div>
   )

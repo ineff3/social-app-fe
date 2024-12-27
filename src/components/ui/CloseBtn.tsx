@@ -9,7 +9,7 @@ export const CloseBtn = ({ onClick }: Props) => {
         aria-label="Close"
         type="button"
         onClick={onClick}
-        className="btn btn-circle btn-ghost text-base "
+        className="btn btn-circle btn-ghost text-base text-secondary "
       >
         ✕
       </button>

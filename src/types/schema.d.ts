@@ -381,7 +381,7 @@ export interface paths {
         };
         get: operations["ChatController_findAll"];
         put?: never;
-        post?: never;
+        post: operations["ChatController_createConversation"];
         delete?: never;
         options?: never;
         head?: never;
@@ -605,6 +605,9 @@ export interface components {
             page: number;
             limit: number;
         };
+        CreateConversationDto: {
+            recipientId: string;
+        };
         GetAllMessagesResponseDto: {
             data: components["schemas"]["MessageResponseDto"][];
             nextCursor: Record<string, never>;
@@ -642,6 +645,7 @@ export type SchemaParticipantResponseDto = components['schemas']['ParticipantRes
 export type SchemaMessageResponseDto = components['schemas']['MessageResponseDto'];
 export type SchemaConversationResponseDto = components['schemas']['ConversationResponseDto'];
 export type SchemaGetAllConversationsResponseDto = components['schemas']['GetAllConversationsResponseDto'];
+export type SchemaCreateConversationDto = components['schemas']['CreateConversationDto'];
 export type SchemaGetAllMessagesResponseDto = components['schemas']['GetAllMessagesResponseDto'];
 export type $defs = Record<string, never>;
 export interface operations {
@@ -1230,6 +1234,27 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["GetAllConversationsResponseDto"];
                 };
+            };
+        };
+    };
+    ChatController_createConversation: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateConversationDto"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
         };
     };

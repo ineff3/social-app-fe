@@ -29,7 +29,7 @@ export const CircleButton = ({
   return (
     <div
       data-tip={label}
-      className={`tooltip ${tooltipPositions[tooltipPosition]} tooltip-secondary`}
+      className={`tooltip !z-20 ${tooltipPositions[tooltipPosition]} tooltip-secondary`}
     >
       <button
         aria-label={label}

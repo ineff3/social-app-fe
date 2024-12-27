@@ -1,10 +1,28 @@
+import { FaRegPenToSquare } from 'react-icons/fa6'
 import { ConversationList } from './conversation-list/ConversationList'
+import { CircleButton } from '@/src/components/ui/CircleButton'
 
-export const ConversationsPanel = () => {
+interface Props {
+  show: () => void
+}
+
+export const ConversationsPanel = ({ show }: Props) => {
   return (
-    <div className=" flex min-h-screen w-full max-w-[420px] flex-col gap-5 border-r border-accent py-4">
-      <p className=" px-4 text-lg font-bold text-secondary">Messages</p>
-      <ConversationList />
-    </div>
+    <>
+      <div className=" flex min-h-screen w-full max-w-[420px] flex-col gap-5 border-r border-accent py-4">
+        <div className="flex items-center justify-between px-4 text-secondary">
+          <span className="text-lg font-bold">Messages</span>
+          <CircleButton
+            size="sm"
+            tooltipPosition="bottom"
+            onClick={show}
+            label="New message"
+          >
+            <FaRegPenToSquare height={25} width={25} />
+          </CircleButton>
+        </div>
+        <ConversationList />
+      </div>
+    </>
   )
 }
