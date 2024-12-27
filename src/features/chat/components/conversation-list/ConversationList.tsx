@@ -5,7 +5,7 @@ import { ConversationRow } from './ConversationRow'
 import { useAppSelector } from '@/src/redux/hooks'
 import { selectSelectedConversation } from '@/src/redux/chat/chatSlice'
 
-const ROW_HEIGHT = 73
+export const ROW_HEIGHT = 73
 
 export const ConversationList = () => {
   const isSelected = useAppSelector(selectSelectedConversation)

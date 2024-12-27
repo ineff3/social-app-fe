@@ -584,16 +584,6 @@ export interface components {
             id: string;
             user: components["schemas"]["UserPreviewResponseDto"];
         };
-        ConversationResponseDto: {
-            id: string;
-            participants: components["schemas"]["ParticipantResponseDto"][];
-        };
-        GetAllConversationsResponseDto: {
-            data: components["schemas"]["ConversationResponseDto"][];
-            total: number;
-            page: number;
-            limit: number;
-        };
         MessageResponseDto: {
             /** @enum {string} */
             status: "sent" | "read";
@@ -603,6 +593,17 @@ export interface components {
             senderId: string;
             /** Format: date-time */
             createdAt: string;
+        };
+        ConversationResponseDto: {
+            id: string;
+            participants: components["schemas"]["ParticipantResponseDto"][];
+            lastMessage: components["schemas"]["MessageResponseDto"];
+        };
+        GetAllConversationsResponseDto: {
+            data: components["schemas"]["ConversationResponseDto"][];
+            total: number;
+            page: number;
+            limit: number;
         };
         GetAllMessagesResponseDto: {
             data: components["schemas"]["MessageResponseDto"][];
@@ -638,9 +639,9 @@ export type SchemaNotificationResponseDto = components['schemas']['NotificationR
 export type SchemaGetAllNotificationsResponseDto = components['schemas']['GetAllNotificationsResponseDto'];
 export type SchemaCreateMessageDto = components['schemas']['CreateMessageDto'];
 export type SchemaParticipantResponseDto = components['schemas']['ParticipantResponseDto'];
+export type SchemaMessageResponseDto = components['schemas']['MessageResponseDto'];
 export type SchemaConversationResponseDto = components['schemas']['ConversationResponseDto'];
 export type SchemaGetAllConversationsResponseDto = components['schemas']['GetAllConversationsResponseDto'];
-export type SchemaMessageResponseDto = components['schemas']['MessageResponseDto'];
 export type SchemaGetAllMessagesResponseDto = components['schemas']['GetAllMessagesResponseDto'];
 export type $defs = Record<string, never>;
 export interface operations {

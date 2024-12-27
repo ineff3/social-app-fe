@@ -6,6 +6,8 @@ import {
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks'
 import { selectUserPreview } from '@/src/redux/user/userSlice'
 import { SchemaConversationResponseDto } from '@/src/types/schema'
+import { ROW_HEIGHT } from './ConversationList'
+import { formatConversationDate } from '@/src/features/posts/utils/dateConversions'
 
 interface Props {
   conversation: SchemaConversationResponseDto
@@ -24,10 +26,14 @@ export const ConversationRow = ({ conversation }: Props) => {
     dispatch(selectConversation(conversation))
   }
   const isSelected = conversation.id === selectedConversationId
+  const lastMessageDate = conversation.lastMessage
+    ? formatConversationDate(new Date(conversation.lastMessage.createdAt))
+    : undefined
 
   return (
     <div
       className={`flex gap-3 px-4 py-3.5 transition-all duration-150 hover:bg-base-200 hover:bg-opacity-70 ${isSelected && 'bg-base-200'}`}
+      style={{ height: `${ROW_HEIGHT}px` }}
       onClick={handleSelectConversation}
     >
       <UserIconLink username={recipient?.user.username} />
@@ -38,10 +44,20 @@ export const ConversationRow = ({ conversation }: Props) => {
           </span>
           <span>·</span>
           <span>{recipient?.user.username}</span>
-          <span>·</span>
-          <time dateTime={new Date().toISOString()}>8m</time>
+          {lastMessageDate && (
+            <>
+              <span>·</span>
+              <time dateTime={conversation.lastMessage.createdAt}>
+                {lastMessageDate}
+              </time>
+            </>
+          )}
         </div>
-        <div>Hey there!!</div>
+        {conversation.lastMessage && (
+          <span className="overflow-hidden">
+            {conversation.lastMessage.text}
+          </span>
+        )}
       </div>
     </div>
   )

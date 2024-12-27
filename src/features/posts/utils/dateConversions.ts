@@ -1,4 +1,4 @@
-import { format, isToday } from 'date-fns'
+import { differenceInDays, format, isToday, isYesterday } from 'date-fns'
 
 const monthMap: { [key: number]: string } = {
   0: 'Jan',
@@ -25,6 +25,26 @@ export const convertPostDate = (date: Date) => {
   } else {
     return monthMap[date.getMonth()] + ' ' + date.getDate()
   }
+}
+
+export function formatConversationDate(date: Date): string {
+  const now = new Date()
+
+  if (isToday(date)) {
+    return format(date, 'hh:mm a')
+  }
+
+  if (isYesterday(date)) {
+    return `Yesterday, ${format(date, 'hh:mm a')}`
+  }
+
+  const daysDifference = differenceInDays(now, date)
+
+  if (daysDifference <= 6) {
+    return format(date, 'EEE hh:mm a')
+  }
+
+  return format(date, 'MMM dd')
 }
 
 export const convertToFullFate = (date: Date) => {
