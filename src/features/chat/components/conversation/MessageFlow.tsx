@@ -33,6 +33,7 @@ export const MessageFlow = ({
   const storedScrollPosition = useAppSelector(
     selectChatScrollPosition(conversationId),
   )
+
   const { data, isLoading, fetchNextPage } = useGetMessages(
     { limit: MESSAGE_PER_PAGE },
     conversationId,
