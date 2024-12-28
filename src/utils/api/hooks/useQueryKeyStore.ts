@@ -3,11 +3,13 @@ import { useApiActions } from './useApiActions'
 import { GetAllPostsParams, PaginatedQueryParams } from '../interfaces'
 import {
   SchemaAuthUserResponseDto,
+  SchemaConversationResponseDto,
   SchemaCursorQueryDto,
   SchemaGetAllConversationsResponseDto,
   SchemaGetAllMessagesResponseDto,
   SchemaGetAllNotificationsResponseDto,
   SchemaGetAllPostsResponseDto,
+  SchemaGetDirectConversationQueryDto,
   SchemaGetSuggestionsQueryDto,
   SchemaGetUserByUsernameResponseDto,
   SchemaPostResponseDto,
@@ -135,6 +137,13 @@ const useQueryKeyStore = () => {
               cursor: pageParam,
             },
           ),
+      }),
+      direct: (query: SchemaGetDirectConversationQueryDto) => ({
+        queryKey: [query],
+        queryFn: () =>
+          get<SchemaConversationResponseDto>(apiRoutes.direct, {
+            ...query,
+          }),
       }),
     },
   })

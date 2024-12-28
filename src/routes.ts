@@ -27,6 +27,7 @@ export const apiRoutes = {
   viewNotification: (id: string) => `notifications/${id}/view`,
   //chat
   conversations: 'conversations',
+  direct: 'conversations/direct',
   messages: (conversationId: string) =>
     `conversations/${conversationId}/messages`,
 }

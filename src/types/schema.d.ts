@@ -388,6 +388,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/conversations/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete: operations["ChatController_removeConversation"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/conversations/{id}/messages": {
         parameters: {
             query?: never;
@@ -396,6 +412,22 @@ export interface paths {
             cookie?: never;
         };
         get: operations["ChatController_findMessages"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/conversations/direct": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["ChatController_findDirectConversation"];
         put?: never;
         post?: never;
         delete?: never;
@@ -580,6 +612,9 @@ export interface components {
             conversationId: string;
             text: string;
         };
+        GetDirectConversationQueryDto: {
+            recipientId: string;
+        };
         ParticipantResponseDto: {
             id: string;
             user: components["schemas"]["UserPreviewResponseDto"];
@@ -641,6 +676,7 @@ export type SchemaUpdatePostDto = components['schemas']['UpdatePostDto'];
 export type SchemaNotificationResponseDto = components['schemas']['NotificationResponseDto'];
 export type SchemaGetAllNotificationsResponseDto = components['schemas']['GetAllNotificationsResponseDto'];
 export type SchemaCreateMessageDto = components['schemas']['CreateMessageDto'];
+export type SchemaGetDirectConversationQueryDto = components['schemas']['GetDirectConversationQueryDto'];
 export type SchemaParticipantResponseDto = components['schemas']['ParticipantResponseDto'];
 export type SchemaMessageResponseDto = components['schemas']['MessageResponseDto'];
 export type SchemaConversationResponseDto = components['schemas']['ConversationResponseDto'];
@@ -1254,6 +1290,27 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
+                content: {
+                    "application/json": components["schemas"]["ConversationResponseDto"];
+                };
+            };
+        };
+    };
+    ChatController_removeConversation: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content?: never;
             };
         };
@@ -1278,6 +1335,27 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["GetAllMessagesResponseDto"];
+                };
+            };
+        };
+    };
+    ChatController_findDirectConversation: {
+        parameters: {
+            query: {
+                recipientId: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GetDirectConversationQueryDto"];
                 };
             };
         };
