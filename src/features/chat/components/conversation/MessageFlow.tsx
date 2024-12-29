@@ -2,18 +2,15 @@ import { SchemaParticipantResponseDto } from '@/src/types/schema'
 import { useGetMessages } from '../../hooks/useGetMessages'
 import { Message } from './Message'
 import { useHandleIncomingMessage } from '../../hooks/useHandleIncomingMessage'
-import { RefObject, useEffect } from 'react'
+import { RefObject, useEffect, useRef } from 'react'
 import { useInView } from 'react-intersection-observer'
-import { useAppSelector } from '@/src/redux/hooks'
-import {
-  selectChatScrollPosition,
-  selectPendingMessages,
-} from '@/src/redux/chat/chatSlice'
 import {
   calculateNextFetchMessageIndex,
   groupMessagesByDate,
 } from '../../common/messageHelpers'
 import { formatDateForToday } from '@/src/features/posts/utils/dateConversions'
+import { PendingMessages } from './PendingMessages'
+import { useInitialScroll } from '../../hooks/useInitialScroll'
 
 interface Props {
   conversationId: string
@@ -29,15 +26,11 @@ export const MessageFlow = ({
   recipient,
   scrollElementRef,
 }: Props) => {
-  const pendingMessages = useAppSelector(selectPendingMessages(conversationId))
-  const storedScrollPosition = useAppSelector(
-    selectChatScrollPosition(conversationId),
-  )
-
   const { data, isLoading, fetchNextPage } = useGetMessages(
     { limit: MESSAGE_PER_PAGE },
     conversationId,
   )
+  const lastMessageRef = useRef<HTMLDivElement>(null)
   const { ref: fetchNextRef, inView } = useInView()
 
   useEffect(() => {
@@ -47,16 +40,13 @@ export const MessageFlow = ({
   }, [inView, fetchNextPage])
 
   useHandleIncomingMessage(conversationId)
+  useInitialScroll({
+    conversationId,
+    isLoading,
+    lastMessageRef,
+    scrollElementRef,
+  })
 
-  useEffect(
-    function initialScroll() {
-      const element = scrollElementRef.current
-      if (!storedScrollPosition && !isLoading && element) {
-        element.scrollTo(0, element.scrollHeight)
-      }
-    },
-    [isLoading, scrollElementRef, storedScrollPosition],
-  )
   const groupedMessages =
     data && groupMessagesByDate(data.pages.flatMap((page) => page.data))
   return (
@@ -82,22 +72,24 @@ export const MessageFlow = ({
                     : undefined
                 }
               >
-                <Message
-                  message={message}
-                  isFromCurrentUser={message.senderId !== recipient.id}
-                />
+                <div
+                  ref={
+                    pageIndex === Object.entries(groupedMessages).length - 1 &&
+                    messageIndex === messages.length - 1
+                      ? lastMessageRef
+                      : undefined
+                  }
+                >
+                  <Message
+                    message={message}
+                    isFromCurrentUser={message.senderId !== recipient.id}
+                  />
+                </div>
               </div>
             ))}
           </div>
         ))}
-      {pendingMessages &&
-        pendingMessages.map((message) => (
-          <Message
-            key={message.id}
-            message={message}
-            isFromCurrentUser={true}
-          />
-        ))}
+      <PendingMessages conversationId={conversationId} />
     </div>
   )
 }
