@@ -20,10 +20,16 @@ export const useSendMessage = () => {
       'sendMessage',
       data,
       (response: ResponseAcknowledgement) => {
+        queryClient.invalidateQueries({
+          queryKey: queryKeyStore.chat.messages(
+            { unread: false },
+            conversationId,
+          ).queryKey,
+        })
         queryClient
           .invalidateQueries({
             queryKey: queryKeyStore.chat.messages(
-              { unread: false },
+              { unread: true },
               conversationId,
             ).queryKey,
           })

@@ -621,6 +621,10 @@ export interface components {
             limit?: number;
             unread: boolean;
         };
+        ReadMessageDto: {
+            messageId: string;
+            conversationId: string;
+        };
         ParticipantResponseDto: {
             id: string;
             user: components["schemas"]["UserPreviewResponseDto"];
@@ -684,6 +688,7 @@ export type SchemaGetAllNotificationsResponseDto = components['schemas']['GetAll
 export type SchemaCreateMessageDto = components['schemas']['CreateMessageDto'];
 export type SchemaGetDirectConversationQueryDto = components['schemas']['GetDirectConversationQueryDto'];
 export type SchemaGetMessagesQueryDto = components['schemas']['GetMessagesQueryDto'];
+export type SchemaReadMessageDto = components['schemas']['ReadMessageDto'];
 export type SchemaParticipantResponseDto = components['schemas']['ParticipantResponseDto'];
 export type SchemaMessageResponseDto = components['schemas']['MessageResponseDto'];
 export type SchemaConversationResponseDto = components['schemas']['ConversationResponseDto'];

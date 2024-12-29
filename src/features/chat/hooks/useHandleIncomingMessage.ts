@@ -20,7 +20,7 @@ export const useHandleIncomingMessage = (
         conversationId,
       ).queryKey
       queryClient.setQueryData(key, updateMessages(JSON.parse(newMessage)))
-      queryClient.invalidateQueries({ queryKey: key })
+      // queryClient.invalidateQueries({ queryKey: key })
     }
     conversationSocketInstance.on(EVENT_NEW_MESSAGE, handleIncomingMessage)
 

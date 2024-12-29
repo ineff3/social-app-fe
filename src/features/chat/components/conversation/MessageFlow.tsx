@@ -95,11 +95,12 @@ export const MessageFlow = ({
                     }
                   >
                     <Message
+                      conversationId={conversationId}
                       message={message}
                       isFromCurrentUser={message.senderId !== recipient.id}
                     />
                     {hasUnreadMessages && message.id === lastReadMessageId && (
-                      <div className=" mt-4 flex w-full items-center justify-center rounded-md bg-base-200 py-1.5 text-sm text-secondary">
+                      <div className=" my-4 flex w-full items-center justify-center rounded-md bg-base-200 py-1.5 text-sm text-secondary">
                         Unread messages
                       </div>
                     )}

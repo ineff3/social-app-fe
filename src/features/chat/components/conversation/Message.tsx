@@ -11,16 +11,33 @@ import {
   removePendingChatMessage,
   updatePendingMessageStatus,
 } from '@/src/redux/chat/chatSlice'
+import { useReadMessage } from '../../hooks/useReadMessage'
+import { useInView } from 'react-intersection-observer'
+import { useEffect } from 'react'
 
 interface Props {
   message: ExtendedChatMessage
   isFromCurrentUser: boolean
+  conversationId: string
 }
 
-export const Message = ({ message, isFromCurrentUser }: Props) => {
+export const Message = ({
+  message,
+  isFromCurrentUser,
+  conversationId,
+}: Props) => {
   const { status } = message
   const dispatch = useAppDispatch()
   const sendMessage = useSendMessage()
+  const readMessage = useReadMessage()
+
+  const { ref, inView } = useInView()
+
+  useEffect(() => {
+    if (inView && !isFromCurrentUser) {
+      readMessage({ messageId: message.id, conversationId })
+    }
+  }, [inView, message, readMessage, isFromCurrentUser, conversationId])
 
   const resendPendingMessage = () => {
     dispatch(
@@ -43,7 +60,10 @@ export const Message = ({ message, isFromCurrentUser }: Props) => {
   }
 
   return (
-    <div className={`chat ${isFromCurrentUser ? 'chat-end' : 'chat-start'}`}>
+    <div
+      ref={ref}
+      className={`chat ${isFromCurrentUser ? 'chat-end' : 'chat-start'}`}
+    >
       <div
         className={`chat-bubble !min-h-[40px] !max-w-[85%] text-secondary ${isFromCurrentUser && 'bg-primary'}`}
       >
