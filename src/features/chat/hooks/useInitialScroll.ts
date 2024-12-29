@@ -9,7 +9,7 @@ interface Props {
   scrollElementRef: React.RefObject<HTMLDivElement>
 }
 
-const OVERSCROLL_HEIGHT = 100
+const OVERSCROLL_HEIGHT = 200
 
 export const useInitialScroll = ({
   conversationId,

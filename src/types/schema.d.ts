@@ -615,6 +615,12 @@ export interface components {
         GetDirectConversationQueryDto: {
             recipientId: string;
         };
+        GetMessagesQueryDto: {
+            cursor?: string;
+            /** @default 10 */
+            limit?: number;
+            unread: boolean;
+        };
         ParticipantResponseDto: {
             id: string;
             user: components["schemas"]["UserPreviewResponseDto"];
@@ -677,6 +683,7 @@ export type SchemaNotificationResponseDto = components['schemas']['NotificationR
 export type SchemaGetAllNotificationsResponseDto = components['schemas']['GetAllNotificationsResponseDto'];
 export type SchemaCreateMessageDto = components['schemas']['CreateMessageDto'];
 export type SchemaGetDirectConversationQueryDto = components['schemas']['GetDirectConversationQueryDto'];
+export type SchemaGetMessagesQueryDto = components['schemas']['GetMessagesQueryDto'];
 export type SchemaParticipantResponseDto = components['schemas']['ParticipantResponseDto'];
 export type SchemaMessageResponseDto = components['schemas']['MessageResponseDto'];
 export type SchemaConversationResponseDto = components['schemas']['ConversationResponseDto'];
@@ -1317,9 +1324,10 @@ export interface operations {
     };
     ChatController_findMessages: {
         parameters: {
-            query?: {
+            query: {
                 cursor?: string;
                 limit?: number;
+                unread: boolean;
             };
             header?: never;
             path: {
@@ -1355,7 +1363,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["GetDirectConversationQueryDto"];
+                    "application/json": components["schemas"]["ConversationResponseDto"];
                 };
             };
         };

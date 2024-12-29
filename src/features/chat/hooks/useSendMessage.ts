@@ -22,7 +22,10 @@ export const useSendMessage = () => {
       (response: ResponseAcknowledgement) => {
         queryClient
           .invalidateQueries({
-            queryKey: queryKeyStore.chat.messages({}, conversationId).queryKey,
+            queryKey: queryKeyStore.chat.messages(
+              { unread: false },
+              conversationId,
+            ).queryKey,
           })
           .then(() => {
             if (response.status === 'error') {

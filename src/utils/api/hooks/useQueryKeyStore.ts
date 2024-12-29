@@ -4,12 +4,12 @@ import { GetAllPostsParams, PaginatedQueryParams } from '../interfaces'
 import {
   SchemaAuthUserResponseDto,
   SchemaConversationResponseDto,
-  SchemaCursorQueryDto,
   SchemaGetAllConversationsResponseDto,
   SchemaGetAllMessagesResponseDto,
   SchemaGetAllNotificationsResponseDto,
   SchemaGetAllPostsResponseDto,
   SchemaGetDirectConversationQueryDto,
+  SchemaGetMessagesQueryDto,
   SchemaGetSuggestionsQueryDto,
   SchemaGetUserByUsernameResponseDto,
   SchemaPostResponseDto,
@@ -127,8 +127,8 @@ const useQueryKeyStore = () => {
             page: pageParam,
           }),
       }),
-      messages: (query: SchemaCursorQueryDto, conversationId: string) => ({
-        queryKey: [conversationId],
+      messages: (query: SchemaGetMessagesQueryDto, conversationId: string) => ({
+        queryKey: [conversationId, { unread: query.unread }],
         queryFn: ({ pageParam }: { pageParam: number }) =>
           get<SchemaGetAllMessagesResponseDto>(
             apiRoutes.messages(conversationId),

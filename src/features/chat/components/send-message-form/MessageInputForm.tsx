@@ -7,18 +7,13 @@ import {
   addPendingChatMessage,
   selectSelectedConversation,
 } from '@/src/redux/chat/chatSlice'
-import { isScrolledToBottom } from '../../common/scrollHelpers'
 import { useSendMessage } from '../../hooks/useSendMessage'
 
 interface Props {
-  scrollElementRef: React.RefObject<HTMLDivElement>
   triggerScrollToBottom: () => void
 }
 
-export const MessageInputForm = ({
-  scrollElementRef,
-  triggerScrollToBottom,
-}: Props) => {
+export const MessageInputForm = ({ triggerScrollToBottom }: Props) => {
   const dispatch = useAppDispatch()
   const conversationId = useAppSelector(selectSelectedConversation)!.id
   const sendMessage = useSendMessage()
@@ -33,10 +28,7 @@ export const MessageInputForm = ({
 
   const onSubmit: SubmitHandler<MessageForm> = (data) => {
     const messageId = crypto.randomUUID()
-    const element = scrollElementRef.current
-    if (element && isScrolledToBottom(element)) {
-      triggerScrollToBottom()
-    }
+    triggerScrollToBottom()
     dispatch(
       addPendingChatMessage({
         conversationId,

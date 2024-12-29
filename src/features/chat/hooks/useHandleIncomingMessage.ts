@@ -6,13 +6,19 @@ import { updateMessages } from '../common/cacheUpdaters'
 
 const EVENT_NEW_MESSAGE = 'newMessage'
 
-export const useHandleIncomingMessage = (conversationId: string) => {
+export const useHandleIncomingMessage = (
+  conversationId: string,
+  hasUnreadMessages: boolean | null,
+) => {
   const queryKeyStore = useQueryKeyStore()
   const queryClient = useQueryClient()
 
   useEffect(() => {
     const handleIncomingMessage = (newMessage: string) => {
-      const key = queryKeyStore.chat.messages({}, conversationId).queryKey
+      const key = queryKeyStore.chat.messages(
+        { unread: !!hasUnreadMessages },
+        conversationId,
+      ).queryKey
       queryClient.setQueryData(key, updateMessages(JSON.parse(newMessage)))
       queryClient.invalidateQueries({ queryKey: key })
     }
@@ -21,5 +27,5 @@ export const useHandleIncomingMessage = (conversationId: string) => {
     return () => {
       conversationSocketInstance.off(EVENT_NEW_MESSAGE, handleIncomingMessage)
     }
-  }, [conversationId, queryClient, queryKeyStore])
+  }, [conversationId, queryClient, queryKeyStore, hasUnreadMessages])
 }

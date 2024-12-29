@@ -43,10 +43,7 @@ export const Conversation = ({ conversation }: Props) => {
           scrollElementRef={scrollElementRef}
         />
       </div>
-      <MessageInputForm
-        scrollElementRef={scrollElementRef}
-        triggerScrollToBottom={triggerScrollToBottom}
-      />
+      <MessageInputForm triggerScrollToBottom={triggerScrollToBottom} />
     </div>
   )
 }
