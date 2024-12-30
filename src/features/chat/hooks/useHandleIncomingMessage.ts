@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { conversationSocketInstance } from '../conversationSocketInstance'
 import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
 import { useQueryClient } from '@tanstack/react-query'
-import { updateMessages } from '../common/cacheUpdaters'
+import { appendNewMessage } from '../common/cacheUpdaters'
 import { isScrolledToBottom } from '../common/scrollHelpers'
 
 const EVENT_NEW_MESSAGE = 'newMessage'
@@ -22,7 +22,7 @@ export const useHandleIncomingMessage = (
         { unread: !!hasUnreadMessages },
         conversationId,
       ).queryKey
-      queryClient.setQueryData(key, updateMessages(JSON.parse(newMessage)))
+      queryClient.setQueryData(key, appendNewMessage(JSON.parse(newMessage)))
       // queryClient.invalidateQueries({ queryKey: key })
 
       const element = scrollElementRef.current

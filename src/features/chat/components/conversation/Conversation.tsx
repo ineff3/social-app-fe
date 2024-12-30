@@ -9,6 +9,7 @@ import { MessageInputForm } from '../send-message-form/MessageInputForm'
 import { useChatRoomSubscription } from '../../hooks/useChatRoomSubscription'
 import { useTriggerScrollToBottom } from '../../hooks/useTriggerScrollToBottom'
 import { useRestoreChatScrollPosition } from '../../hooks/useRestoreChatScrollPosition'
+import { useHandleReadMessage } from '../../hooks/useHandleReadMessage'
 
 interface Props {
   conversation: SchemaConversationResponseDto
@@ -22,6 +23,7 @@ export const Conversation = ({ conversation }: Props) => {
   const triggerScrollToBottom = useTriggerScrollToBottom(scrollElementRef)
 
   useChatRoomSubscription(conversation.id)
+  useHandleReadMessage(conversation.id)
 
   const recipient = retrieveRecipient(conversation, currentUserId)!
 
