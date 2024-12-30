@@ -1,5 +1,5 @@
 export const isScrolledToBottom = (element: HTMLElement) => {
-  return element.scrollTop + element.clientHeight >= element.scrollHeight
+  return element.scrollHeight - element.scrollTop === element.clientHeight
 }
 
 export const scrollToBottom = (element: HTMLElement) => {

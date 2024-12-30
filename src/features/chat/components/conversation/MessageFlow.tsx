@@ -18,6 +18,7 @@ interface Props {
   conversationId: string
   recipient: SchemaParticipantResponseDto
   scrollElementRef: RefObject<HTMLDivElement>
+  triggerScrollToBottom: () => void
 }
 
 const MESSAGE_PER_PAGE = 30
@@ -27,6 +28,7 @@ export const MessageFlow = ({
   conversationId,
   recipient,
   scrollElementRef,
+  triggerScrollToBottom,
 }: Props) => {
   const {
     data: readMessages,
@@ -48,7 +50,12 @@ export const MessageFlow = ({
     }
   }, [inView, fetchNextPage])
 
-  useHandleIncomingMessage(conversationId, hasUnreadMessages)
+  useHandleIncomingMessage(
+    conversationId,
+    hasUnreadMessages,
+    triggerScrollToBottom,
+    scrollElementRef,
+  )
   useInitialScroll({
     conversationId,
     isLoading: isReadLoading || isUnreadLoading,

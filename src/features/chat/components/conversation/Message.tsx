@@ -34,7 +34,7 @@ export const Message = ({
   const { ref, inView } = useInView()
 
   useEffect(() => {
-    if (inView && !isFromCurrentUser) {
+    if (inView && !isFromCurrentUser && message.status !== 'read') {
       readMessage({ messageId: message.id, conversationId })
     }
   }, [inView, message, readMessage, isFromCurrentUser, conversationId])
@@ -85,7 +85,7 @@ export const Message = ({
                   <CheckmarkIcon width={12} height={12} stroke="white" />
                 )}
                 {status === 'read' && (
-                  <DoubleCheckmarkIcon width={12} height={12} stroke="white" />
+                  <DoubleCheckmarkIcon width={16} height={16} stroke="white" />
                 )}
               </span>
             </div>

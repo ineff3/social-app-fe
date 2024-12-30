@@ -43,14 +43,13 @@ export const ConversationRow = ({ conversation }: Props) => {
       onClick={handleSelectConversation}
     >
       <UserIconLink username={recipient?.user.username} />
-      <div className=" flex flex-grow flex-col gap-1 text-sm">
+      <div className=" flex flex-grow flex-col  text-sm">
         <div className=" flex justify-between">
           <div className="flex gap-1">
             <span className=" font-medium text-secondary">
               {recipient?.user.firstName}
             </span>
-            <span>·</span>
-            <span>{recipient?.user.username}</span>
+
             {lastMessageDate && (
               <>
                 <span>·</span>
