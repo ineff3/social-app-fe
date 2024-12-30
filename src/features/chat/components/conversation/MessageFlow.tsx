@@ -2,17 +2,19 @@ import { SchemaParticipantResponseDto } from '@/src/types/schema'
 import { useGetMessages } from '../../hooks/useGetMessages'
 import { Message } from './Message'
 import { useHandleIncomingMessage } from '../../hooks/useHandleIncomingMessage'
-import { RefObject, useEffect, useRef } from 'react'
-import { useInView } from 'react-intersection-observer'
+import { RefObject, useRef } from 'react'
 import {
   calculateNextFetchMessageIndex,
   checkHasUnreadMessages,
+  getFirstUnreadMessageId,
   getLastReadMessageId,
   groupMessagesByDate,
 } from '../../common/messageHelpers'
 import { formatDateForToday } from '@/src/features/posts/utils/dateConversions'
 import { PendingMessages } from './PendingMessages'
 import { useInitialScroll } from '../../hooks/useInitialScroll'
+import { useHandleIntersection } from '../../hooks/useHandleIntersection'
+import { useStoreChatScrollPosition } from '../../hooks/useStoreChatScrollPosition'
 
 interface Props {
   conversationId: string
@@ -33,22 +35,21 @@ export const MessageFlow = ({
   const {
     data: readMessages,
     isLoading: isReadLoading,
-    fetchNextPage,
+    fetchNextPage: fetchNextReadPage,
   } = useGetMessages({ limit: MESSAGE_PER_PAGE, unread: false }, conversationId)
 
-  const { data: unreadMessages, isLoading: isUnreadLoading } = useGetMessages(
-    { limit: MESSAGE_PER_PAGE, unread: true },
-    conversationId,
-  )
-  const hasUnreadMessages = checkHasUnreadMessages(unreadMessages)
-  const lastMessageRef = useRef<HTMLDivElement>(null)
-  const { ref: fetchNextRef, inView } = useInView()
+  const {
+    data: unreadMessages,
+    isLoading: isUnreadLoading,
+    fetchNextPage: fetchNextUnreadPage,
+  } = useGetMessages({ limit: 10, unread: true }, conversationId, 0)
 
-  useEffect(() => {
-    if (inView) {
-      fetchNextPage()
-    }
-  }, [inView, fetchNextPage])
+  const hasUnreadMessages = checkHasUnreadMessages(unreadMessages)
+  const isLoading = isReadLoading || isUnreadLoading
+
+  const lastReadMessageRef = useRef<HTMLDivElement>(null)
+  const fetchReadRef = useHandleIntersection(fetchNextReadPage)
+  const fetchUnreadRef = useHandleIntersection(fetchNextUnreadPage)
 
   useHandleIncomingMessage(
     conversationId,
@@ -56,10 +57,11 @@ export const MessageFlow = ({
     triggerScrollToBottom,
     scrollElementRef,
   )
+  useStoreChatScrollPosition(scrollElementRef, conversationId, isLoading)
   useInitialScroll({
     conversationId,
-    isLoading: isReadLoading || isUnreadLoading,
-    lastMessageRef,
+    isLoading,
+    lastReadMessageRef,
     scrollElementRef,
   })
 
@@ -69,6 +71,7 @@ export const MessageFlow = ({
     groupMessagesByDate(readMessages, unreadMessages)
 
   const lastReadMessageId = getLastReadMessageId(readMessages)
+  const firstUnreadMessageId = getFirstUnreadMessageId(unreadMessages)
 
   return (
     <div className="flex flex-col p-4">
@@ -90,27 +93,36 @@ export const MessageFlow = ({
                         MESSAGE_PER_PAGE,
                         MAX_CHAT_VISIBLE_MESSAGES,
                       )
-                      ? fetchNextRef
+                      ? fetchReadRef
                       : undefined
                   }
                 >
                   <div
                     ref={
                       message.id === lastReadMessageId
-                        ? lastMessageRef
+                        ? lastReadMessageRef
                         : undefined
                     }
                   >
-                    <Message
-                      conversationId={conversationId}
-                      message={message}
-                      isFromCurrentUser={message.senderId !== recipient.id}
-                    />
-                    {hasUnreadMessages && message.id === lastReadMessageId && (
-                      <div className=" my-4 flex w-full items-center justify-center rounded-md bg-base-200 py-1.5 text-sm text-secondary">
-                        Unread messages
-                      </div>
-                    )}
+                    <div
+                      ref={
+                        message.id === firstUnreadMessageId
+                          ? fetchUnreadRef
+                          : undefined
+                      }
+                    >
+                      <Message
+                        conversationId={conversationId}
+                        message={message}
+                        isFromCurrentUser={message.senderId !== recipient.id}
+                      />
+                      {hasUnreadMessages &&
+                        message.id === lastReadMessageId && (
+                          <div className=" my-4 flex w-full items-center justify-center rounded-md bg-base-200 py-1.5 text-sm text-secondary">
+                            Unread messages
+                          </div>
+                        )}
+                    </div>
                   </div>
                 </div>
               ))}

@@ -5,7 +5,7 @@ import { useEffect } from 'react'
 interface Props {
   conversationId: string
   isLoading: boolean
-  lastMessageRef: React.RefObject<HTMLDivElement>
+  lastReadMessageRef: React.RefObject<HTMLDivElement>
   scrollElementRef: React.RefObject<HTMLDivElement>
 }
 
@@ -14,7 +14,7 @@ const OVERSCROLL_HEIGHT = 200
 export const useInitialScroll = ({
   conversationId,
   isLoading,
-  lastMessageRef,
+  lastReadMessageRef,
   scrollElementRef,
 }: Props) => {
   const storedScrollPosition = useAppSelector(
@@ -22,12 +22,16 @@ export const useInitialScroll = ({
   )
 
   useEffect(() => {
-    const lastMessage = lastMessageRef.current
+    const lastMessage = lastReadMessageRef.current
     const scrollElement = scrollElementRef.current
 
-    if (!storedScrollPosition && !isLoading && lastMessage && scrollElement) {
-      lastMessage.scrollIntoView(false)
-      scrollElement.scrollBy(0, OVERSCROLL_HEIGHT)
+    if (!isLoading && lastMessage && scrollElement) {
+      if (storedScrollPosition) {
+        scrollElement.scrollTop = storedScrollPosition
+      } else {
+        lastMessage.scrollIntoView(false)
+        scrollElement.scrollBy(0, OVERSCROLL_HEIGHT)
+      }
     }
-  }, [isLoading, scrollElementRef, lastMessageRef, storedScrollPosition])
+  }, [isLoading, scrollElementRef, lastReadMessageRef, storedScrollPosition])
 }

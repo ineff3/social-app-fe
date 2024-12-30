@@ -60,3 +60,16 @@ export function checkHasUnreadMessages(
   const pages = unreadMessages.pages
   return pages.length > 0 && pages[0].data.length > 0
 }
+
+export function getFirstUnreadMessageId(
+  unreadMessages: InfiniteData<SchemaGetAllMessagesResponseDto> | undefined,
+) {
+  if (!unreadMessages) {
+    return null
+  }
+  const pages = unreadMessages.pages
+  const data = pages[pages.length - 1].data
+  const id = data[0]?.id
+
+  return id
+}

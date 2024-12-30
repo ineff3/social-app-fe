@@ -8,6 +8,7 @@ import { useInfiniteQuery } from '@tanstack/react-query'
 export const useGetMessages = (
   query: SchemaGetMessagesQueryDto,
   conversationId: string,
+  gcTime?: number,
 ) => {
   const queryKeyStore = useQueryKeyStore()
 
@@ -22,5 +23,6 @@ export const useGetMessages = (
             pages: [...data.pages].reverse(),
             pageParams: [...data.pageParams].reverse(),
           },
+    gcTime,
   })
 }

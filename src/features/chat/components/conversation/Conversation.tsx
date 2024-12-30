@@ -8,7 +8,6 @@ import { MessageFlow } from './MessageFlow'
 import { MessageInputForm } from '../send-message-form/MessageInputForm'
 import { useChatRoomSubscription } from '../../hooks/useChatRoomSubscription'
 import { useTriggerScrollToBottom } from '../../hooks/useTriggerScrollToBottom'
-import { useRestoreChatScrollPosition } from '../../hooks/useRestoreChatScrollPosition'
 import { useHandleReadMessage } from '../../hooks/useHandleReadMessage'
 
 interface Props {
@@ -19,7 +18,6 @@ export const Conversation = ({ conversation }: Props) => {
   const currentUserId = useAppSelector(selectUserPreview)!.id
   const scrollElementRef = useRef<HTMLDivElement>(null)
 
-  useRestoreChatScrollPosition(scrollElementRef, conversation.id)
   const triggerScrollToBottom = useTriggerScrollToBottom(scrollElementRef)
 
   useChatRoomSubscription(conversation.id)
