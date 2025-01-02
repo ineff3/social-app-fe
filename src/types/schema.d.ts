@@ -643,6 +643,7 @@ export interface components {
             id: string;
             participants: components["schemas"]["ParticipantResponseDto"][];
             lastMessage: components["schemas"]["MessageResponseDto"];
+            unreadAmount: number;
         };
         GetAllConversationsResponseDto: {
             data: components["schemas"]["ConversationResponseDto"][];

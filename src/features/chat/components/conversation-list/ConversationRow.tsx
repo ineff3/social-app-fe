@@ -62,9 +62,14 @@ export const ConversationRow = ({ conversation }: Props) => {
           <ConversationDropdownOptions conversationId={conversation.id} />
         </div>
         {conversation.lastMessage && (
-          <span className="overflow-hidden">
-            {conversation.lastMessage.text}
-          </span>
+          <div className="flex overflow-hidden">
+            <p className="grow">{conversation.lastMessage.text}</p>
+            {conversation.unreadAmount !== 0 && (
+              <div className=" badge badge-secondary badge-sm mr-1.5 self-center">
+                {conversation.unreadAmount}
+              </div>
+            )}
+          </div>
         )}
       </div>
     </div>

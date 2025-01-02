@@ -4,10 +4,10 @@ import { Message } from './Message'
 import { useHandleIncomingMessage } from '../../hooks/useHandleIncomingMessage'
 import { RefObject, useRef } from 'react'
 import {
-  calculateNextFetchMessageIndex,
   checkHasUnreadMessages,
   getFirstUnreadMessageId,
   getLastReadMessageId,
+  getPrevReadMessageId,
   groupMessagesByDate,
 } from '../../common/messageHelpers'
 import { formatDateForToday } from '@/src/features/posts/utils/dateConversions'
@@ -24,7 +24,6 @@ interface Props {
 }
 
 const MESSAGE_PER_PAGE = 30
-const MAX_CHAT_VISIBLE_MESSAGES = 15
 
 export const MessageFlow = ({
   conversationId,
@@ -70,65 +69,55 @@ export const MessageFlow = ({
     unreadMessages &&
     groupMessagesByDate(readMessages, unreadMessages)
 
+  const prevReadMessageId = getPrevReadMessageId(readMessages)
   const lastReadMessageId = getLastReadMessageId(readMessages)
   const firstUnreadMessageId = getFirstUnreadMessageId(unreadMessages)
 
   return (
     <div className="flex flex-col p-4">
       {groupedMessages &&
-        Array.from(groupedMessages.entries()).map(
-          ([date, messages], pageIndex) => (
-            <div key={date} className="flex flex-col">
-              <div className="sticky top-4 z-10 m-[10px_auto_10px_auto] flex w-fit items-center justify-center rounded-full bg-base-200 bg-opacity-60 px-2 py-1 text-xs text-secondary">
-                {formatDateForToday(new Date(date))}
-              </div>
-              {messages.map((message, messageIndex) => (
+        Array.from(groupedMessages.entries()).map(([date, messages]) => (
+          <div key={date} className="flex flex-col">
+            <div className="sticky top-4 z-10 m-[10px_auto_10px_auto] flex w-fit items-center justify-center rounded-full bg-base-200 bg-opacity-60 px-2 py-1 text-xs text-secondary">
+              {formatDateForToday(new Date(date))}
+            </div>
+            {messages.map((message) => (
+              <div
+                key={message.id}
+                ref={
+                  message.id === prevReadMessageId ? fetchReadRef : undefined
+                }
+              >
                 <div
-                  key={message.id}
                   ref={
-                    pageIndex === 0 &&
-                    messageIndex ===
-                      calculateNextFetchMessageIndex(
-                        messages.length,
-                        MESSAGE_PER_PAGE,
-                        MAX_CHAT_VISIBLE_MESSAGES,
-                      )
-                      ? fetchReadRef
+                    message.id === lastReadMessageId
+                      ? lastReadMessageRef
                       : undefined
                   }
                 >
                   <div
                     ref={
-                      message.id === lastReadMessageId
-                        ? lastReadMessageRef
+                      message.id === firstUnreadMessageId
+                        ? fetchUnreadRef
                         : undefined
                     }
                   >
-                    <div
-                      ref={
-                        message.id === firstUnreadMessageId
-                          ? fetchUnreadRef
-                          : undefined
-                      }
-                    >
-                      <Message
-                        conversationId={conversationId}
-                        message={message}
-                        isFromCurrentUser={message.senderId !== recipient.id}
-                      />
-                      {hasUnreadMessages &&
-                        message.id === lastReadMessageId && (
-                          <div className=" my-4 flex w-full items-center justify-center rounded-md bg-base-200 py-1.5 text-sm text-secondary">
-                            Unread messages
-                          </div>
-                        )}
-                    </div>
+                    <Message
+                      conversationId={conversationId}
+                      message={message}
+                      isFromCurrentUser={message.senderId !== recipient.id}
+                    />
+                    {hasUnreadMessages && message.id === lastReadMessageId && (
+                      <div className=" my-4 flex w-full items-center justify-center rounded-md bg-base-200 py-1.5 text-sm text-secondary">
+                        Unread messages
+                      </div>
+                    )}
                   </div>
                 </div>
-              ))}
-            </div>
-          ),
-        )}
+              </div>
+            ))}
+          </div>
+        ))}
       <PendingMessages conversationId={conversationId} />
     </div>
   )

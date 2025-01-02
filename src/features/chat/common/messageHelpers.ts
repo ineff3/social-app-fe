@@ -5,19 +5,6 @@ import {
 import { InfiniteData } from '@tanstack/react-query'
 import { format } from 'date-fns'
 
-export const calculateNextFetchMessageIndex = (
-  pageLength: number,
-  messagesPerPage: number,
-  maxVisibleMessages: number,
-) => {
-  if (pageLength < messagesPerPage) {
-    if (pageLength < maxVisibleMessages) {
-      return pageLength - 1
-    }
-  }
-  return Math.ceil(messagesPerPage / 4)
-}
-
 export function groupMessagesByDate(
   readMessages: InfiniteData<SchemaGetAllMessagesResponseDto>,
   unreadMessages: InfiniteData<SchemaGetAllMessagesResponseDto>,
@@ -49,6 +36,18 @@ export function getLastReadMessageId(
   const lastReadMessageId = data[data.length - 1]?.id
 
   return lastReadMessageId
+}
+export function getPrevReadMessageId(
+  readMessages: InfiniteData<SchemaGetAllMessagesResponseDto> | undefined,
+) {
+  if (!readMessages) {
+    return null
+  }
+  const pages = readMessages.pages
+  const data = pages[0].data
+  const id = data[data.length - 1]?.id
+
+  return id
 }
 
 export function checkHasUnreadMessages(
