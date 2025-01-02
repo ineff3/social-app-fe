@@ -2,7 +2,10 @@ import { useEffect } from 'react'
 import { conversationSocketInstance } from '../conversationSocketInstance'
 import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
 import { useQueryClient } from '@tanstack/react-query'
-import { appendNewMessage } from '../common/cacheUpdaters'
+import {
+  appendNewMessage,
+  incrementConversationMessageCounter,
+} from '../common/cacheUpdaters'
 import { isScrolledToBottom } from '../common/scrollHelpers'
 
 const EVENT_NEW_MESSAGE = 'newMessage'
@@ -18,15 +21,25 @@ export const useHandleIncomingMessage = (
 
   useEffect(() => {
     const handleIncomingMessage = (newMessage: string) => {
-      const key = queryKeyStore.chat.messages(
+      const messageKey = queryKeyStore.chat.messages(
         { unread: !!hasUnreadMessages },
         conversationId,
       ).queryKey
-      queryClient.setQueryData(key, appendNewMessage(JSON.parse(newMessage)))
-      // queryClient.invalidateQueries({ queryKey: key })
+      queryClient.setQueryData(
+        messageKey,
+        appendNewMessage(JSON.parse(newMessage), !!hasUnreadMessages),
+      )
+      // Not invalidating to prevent page shifts
 
+      const conversationKey = queryKeyStore.chat.conversations({}).queryKey
+      queryClient.setQueryData(
+        conversationKey,
+        incrementConversationMessageCounter(conversationId),
+      )
+      queryClient.invalidateQueries({ queryKey: conversationKey })
       const element = scrollElementRef.current
-      if (element && isScrolledToBottom(element)) {
+      if (!element) return
+      if (isScrolledToBottom(element)) {
         triggerScrollToBottom()
       }
     }

@@ -1,5 +1,4 @@
 import { InfiniteData } from '@tanstack/react-query'
-import { PaginatedResponseDto } from './interfaces'
 
 export const getNextPageParam = ({
   page,
@@ -15,20 +14,20 @@ export const getNextPageParam = ({
 }
 
 export const handleUpdater = <
-  TEntry extends { id: string },
-  TRes extends PaginatedResponseDto<TEntry>,
-  TData extends InfiniteData<TRes>,
+  TRecord extends { id: string },
+  TRes extends { data: TRecord[] } = { data: TRecord[] },
+  TData extends InfiniteData<TRes> = InfiniteData<TRes>,
 >(
   id: string,
-  update: Record<string, unknown>,
+  updater: (record: TRecord) => TRecord,
 ): ((data: TData) => TData) => {
   return (oldData: TData) => {
     if (!oldData) return oldData
-
+    oldData
     const updatedPages = oldData.pages.map((page) => ({
       ...page,
-      data: page.data.map((entry) =>
-        id === entry.id ? { ...entry, ...update } : entry,
+      data: page.data.map((record) =>
+        id === record.id ? { ...record, ...updater(record) } : record,
       ),
     }))
 

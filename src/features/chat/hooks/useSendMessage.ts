@@ -20,16 +20,10 @@ export const useSendMessage = () => {
       'sendMessage',
       data,
       (response: ResponseAcknowledgement) => {
-        queryClient.invalidateQueries({
-          queryKey: queryKeyStore.chat.messages(
-            { unread: false },
-            conversationId,
-          ).queryKey,
-        })
         queryClient
           .invalidateQueries({
             queryKey: queryKeyStore.chat.messages(
-              { unread: true },
+              { unread: false },
               conversationId,
             ).queryKey,
           })
@@ -46,6 +40,13 @@ export const useSendMessage = () => {
               dispatch(removePendingChatMessage({ conversationId, messageId }))
             }
           })
+
+        queryClient.invalidateQueries({
+          queryKey: queryKeyStore.chat.messages(
+            { unread: true },
+            conversationId,
+          ).queryKey,
+        })
       },
     )
   }

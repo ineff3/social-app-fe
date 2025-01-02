@@ -3,6 +3,7 @@ import { useFollow } from '../hooks/useFollow'
 import { useUnfollow } from '../hooks/useUnfollow'
 import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
 import { handleUpdater } from '@/src/utils/api/helpers'
+import { SchemaUserPreviewResponseDto } from '@/src/types/schema'
 
 const btnSizes = {
   sm: 'btn-sm',
@@ -28,11 +29,17 @@ export const FollowButton = ({
 
   const updateFollowCache = useUpdateCache(
     queryKeyStore.users.suggestions({}).queryKey,
-    handleUpdater(followeeId, { isFollowing: true }),
+    handleUpdater<SchemaUserPreviewResponseDto>(followeeId, (userPreview) => ({
+      ...userPreview,
+      isFollowing: true,
+    })),
   )
   const updateUnfollowCache = useUpdateCache(
     queryKeyStore.users.suggestions({}).queryKey,
-    handleUpdater(followeeId, { isFollowing: false }),
+    handleUpdater<SchemaUserPreviewResponseDto>(followeeId, (userPreview) => ({
+      ...userPreview,
+      isFollowing: false,
+    })),
   )
 
   return (

@@ -1,24 +1,17 @@
-import { useEffect } from 'react'
 import { useGetConversations } from '../../hooks/useGetConversations'
-import { useInView } from 'react-intersection-observer'
 import { ConversationRow } from './ConversationRow'
 import { useAppSelector } from '@/src/redux/hooks'
 import { selectSelectedConversation } from '@/src/redux/chat/chatSlice'
+import { useHandleIntersection } from '../../hooks/useHandleIntersection'
 
 export const ROW_HEIGHT = 73
 
 export const ConversationList = () => {
   const isSelected = useAppSelector(selectSelectedConversation)
-  const { ref, inView } = useInView()
   const { data, fetchNextPage, hasNextPage, isLoading } = useGetConversations({
     limit: 10,
   })
-
-  useEffect(() => {
-    if (inView) {
-      fetchNextPage()
-    }
-  }, [inView, fetchNextPage])
+  const ref = useHandleIntersection(fetchNextPage)
 
   if (isLoading) {
     return (
