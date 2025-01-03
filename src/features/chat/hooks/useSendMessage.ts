@@ -8,6 +8,7 @@ import {
   removePendingChatMessage,
   updatePendingMessageStatus,
 } from '@/src/redux/chat/chatSlice'
+import { chatEvents } from '@/src/events'
 
 export const useSendMessage = () => {
   const dispatch = useAppDispatch()
@@ -17,7 +18,7 @@ export const useSendMessage = () => {
   const sendMessage = (data: SchemaCreateMessageDto, messageId: string) => {
     const { conversationId } = data
     conversationSocketInstance.emit(
-      'sendMessage',
+      chatEvents.MESSAGE.SEND,
       data,
       (response: ResponseAcknowledgement) => {
         queryClient

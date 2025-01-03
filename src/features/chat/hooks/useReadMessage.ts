@@ -6,13 +6,14 @@ import {
   decrementConversationMessageCounter,
   updateReadMessage,
 } from '../common/cacheUpdaters'
+import { chatEvents } from '@/src/events'
 
 export const useReadMessage = () => {
   const queryClient = useQueryClient()
   const queryKeyStore = useQueryKeyStore()
 
   const readMessage = async (readMessageBody: SchemaReadMessageDto) => {
-    conversationSocketInstance.emit('readMessage', readMessageBody)
+    conversationSocketInstance.emit(chatEvents.MESSAGE.READ, readMessageBody)
     const unreadMessageKey = queryKeyStore.chat.messages(
       { unread: true },
       readMessageBody.conversationId,

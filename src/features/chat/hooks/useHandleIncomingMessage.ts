@@ -7,8 +7,7 @@ import {
   incrementConversationMessageCounter,
 } from '../common/cacheUpdaters'
 import { isScrolledToBottom } from '../common/scrollHelpers'
-
-const EVENT_NEW_MESSAGE = 'newMessage'
+import { chatEvents } from '@/src/events'
 
 export const useHandleIncomingMessage = (
   conversationId: string,
@@ -43,10 +42,13 @@ export const useHandleIncomingMessage = (
         triggerScrollToBottom()
       }
     }
-    conversationSocketInstance.on(EVENT_NEW_MESSAGE, handleIncomingMessage)
+    conversationSocketInstance.on(chatEvents.MESSAGE.NEW, handleIncomingMessage)
 
     return () => {
-      conversationSocketInstance.off(EVENT_NEW_MESSAGE, handleIncomingMessage)
+      conversationSocketInstance.off(
+        chatEvents.MESSAGE.NEW,
+        handleIncomingMessage,
+      )
     }
   }, [
     conversationId,
