@@ -11,7 +11,6 @@ export const useHandleReadMessage = (conversationId: string) => {
 
   useEffect(() => {
     const handleReadMessage = (messageId: string) => {
-      console.log('TRIGGERED')
       const key = queryKeyStore.chat.messages(
         { unread: false },
         conversationId,

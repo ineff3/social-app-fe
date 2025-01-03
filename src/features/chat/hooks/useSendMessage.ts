@@ -17,37 +17,39 @@ export const useSendMessage = () => {
 
   const sendMessage = (data: SchemaCreateMessageDto, messageId: string) => {
     const { conversationId } = data
+    const readKey = queryKeyStore.chat.messages(
+      { unread: false },
+      conversationId,
+    ).queryKey
+    const unreadKey = queryKeyStore.chat.messages(
+      { unread: true },
+      conversationId,
+    ).queryKey
+
     conversationSocketInstance.emit(
       chatEvents.MESSAGE.SEND,
       data,
-      (response: ResponseAcknowledgement) => {
-        queryClient
-          .invalidateQueries({
-            queryKey: queryKeyStore.chat.messages(
-              { unread: false },
-              conversationId,
-            ).queryKey,
-          })
-          .then(() => {
-            if (response.status === 'error') {
-              dispatch(
-                updatePendingMessageStatus({
-                  conversationId,
-                  messageId,
-                  status: 'failed',
-                }),
-              )
-            } else if (response.status === 'success') {
-              dispatch(removePendingChatMessage({ conversationId, messageId }))
-            }
-          })
+      async (response: ResponseAcknowledgement) => {
+        await queryClient.invalidateQueries({ queryKey: readKey })
 
-        queryClient.invalidateQueries({
-          queryKey: queryKeyStore.chat.messages(
-            { unread: true },
-            conversationId,
-          ).queryKey,
-        })
+        queryClient.setQueryData(unreadKey, () => ({
+          pages: [{ data: [], nextCursor: null }],
+          pageParams: [null],
+        }))
+
+        if (response.status === 'error') {
+          dispatch(
+            updatePendingMessageStatus({
+              conversationId,
+              messageId,
+              status: 'failed',
+            }),
+          )
+        } else if (response.status === 'success') {
+          dispatch(removePendingChatMessage({ conversationId, messageId }))
+        }
+
+        await queryClient.invalidateQueries({ queryKey: unreadKey })
       },
     )
   }
