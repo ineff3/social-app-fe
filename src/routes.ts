@@ -30,6 +30,7 @@ export const apiRoutes = {
   direct: 'conversations/direct',
   messages: (conversationId: string) =>
     `conversations/${conversationId}/messages`,
+  onlineUsers: 'conversations/online-users',
 }
 
 export const pageRoutes = {

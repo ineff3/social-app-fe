@@ -145,6 +145,10 @@ const useQueryKeyStore = () => {
             ...query,
           }),
       }),
+      onlineUsers: {
+        queryKey: null,
+        queryFn: () => get<string[]>(apiRoutes.onlineUsers),
+      },
     },
   })
 

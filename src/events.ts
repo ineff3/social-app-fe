@@ -4,6 +4,10 @@ export const chatEvents = {
     NEW: 'message:new',
     READ: 'message:read',
   },
+  STATUS: {
+    ONLINE: 'status:online',
+    OFFLINE: 'status:offline',
+  },
   NOTIFICATION: {
     NEW_MESSAGE: 'notification:message:new',
   },

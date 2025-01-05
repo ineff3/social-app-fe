@@ -3,6 +3,8 @@ import { ConversationRow } from './ConversationRow'
 import { useAppSelector } from '@/src/redux/hooks'
 import { selectSelectedConversation } from '@/src/redux/chat/chatSlice'
 import { useHandleIntersection } from '../../hooks/useHandleIntersection'
+import { useGetOnlineUsers } from '../../hooks/useGetOnlineUsers'
+import { useTrackUserStatus } from '../../hooks/useTrackUserStatus'
 
 export const ROW_HEIGHT = 73
 
@@ -11,6 +13,8 @@ export const ConversationList = () => {
   const { data, fetchNextPage, hasNextPage, isLoading } = useGetConversations({
     limit: 10,
   })
+  const { data: onlineUsersIds } = useGetOnlineUsers()
+  useTrackUserStatus()
   const ref = useHandleIntersection(fetchNextPage)
 
   if (isLoading) {
@@ -29,7 +33,11 @@ export const ConversationList = () => {
     <div className="relative flex flex-col">
       {flattenedData &&
         flattenedData.map((conversation) => (
-          <ConversationRow conversation={conversation} key={conversation.id} />
+          <ConversationRow
+            conversation={conversation}
+            key={conversation.id}
+            onlineUsersIds={onlineUsersIds}
+          />
         ))}
       {hasNextPage && (
         <span

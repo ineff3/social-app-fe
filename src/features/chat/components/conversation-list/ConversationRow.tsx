@@ -12,9 +12,10 @@ import { ConversationDropdownOptions } from './ConversationDropdownOptions'
 
 interface Props {
   conversation: SchemaConversationResponseDto
+  onlineUsersIds: string[] | undefined
 }
 
-export const ConversationRow = ({ conversation }: Props) => {
+export const ConversationRow = ({ conversation, onlineUsersIds }: Props) => {
   const dispatch = useAppDispatch()
   const selectedConversationId = useAppSelector(selectSelectedConversation)?.id
   const currentUserId = useAppSelector(selectUserPreview)!.id
@@ -22,6 +23,8 @@ export const ConversationRow = ({ conversation }: Props) => {
   const recipient = conversation.participants.find(
     (participant) => participant.user.id !== currentUserId,
   )
+  const isUserOnline =
+    onlineUsersIds && onlineUsersIds.find((id) => id === recipient?.user.id)
 
   const handleSelectConversation = (e: React.MouseEvent) => {
     const isInteractiveElement = (e.target as HTMLElement).closest(
@@ -42,7 +45,16 @@ export const ConversationRow = ({ conversation }: Props) => {
       style={{ height: `${ROW_HEIGHT}px` }}
       onClick={handleSelectConversation}
     >
-      <UserIconLink username={recipient?.user.username} />
+      <div className="relative">
+        <UserIconLink username={recipient?.user.username} />
+        {isUserOnline && (
+          <div
+            className={`absolute bottom-0 right-0 rounded-full bg-base-100 ${isSelected && 'bg-base-200'} p-[3px]`}
+          >
+            <div className=" h-2.5 w-2.5 rounded-full bg-primary"></div>
+          </div>
+        )}
+      </div>
       <div className=" flex flex-grow flex-col  text-sm">
         <div className=" flex justify-between">
           <div className="flex gap-1">

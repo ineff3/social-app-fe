@@ -10,12 +10,14 @@ interface ChatInitState {
   selectedConversation: SchemaConversationResponseDto | null
   scrollPositions: Record<string, number>
   pendingMessages: Record<string, ExtendedChatMessage[] | undefined>
+  onlineUsers: string[]
 }
 
 const chatInitState: ChatInitState = {
   selectedConversation: null,
   scrollPositions: {},
   pendingMessages: {},
+  onlineUsers: [],
 }
 
 export const chatSlice = createSlice({
@@ -58,7 +60,6 @@ export const chatSlice = createSlice({
         ].filter((message) => message.id !== messageId)
       }
     },
-
     updatePendingMessageStatus: (
       state,
       action: PayloadAction<{
@@ -76,6 +77,9 @@ export const chatSlice = createSlice({
         )
       }
     },
+    setOnlineUsers: (state, action: PayloadAction<string[]>) => {
+      state.onlineUsers = action.payload
+    },
   },
 })
 
@@ -85,6 +89,7 @@ export const {
   addPendingChatMessage,
   removePendingChatMessage,
   updatePendingMessageStatus,
+  setOnlineUsers,
 } = chatSlice.actions
 
 export const selectSelectedConversation = (state: RootState) =>
@@ -97,5 +102,7 @@ export const selectChatScrollPosition =
 export const selectPendingMessages =
   (conversationId: string) => (state: RootState) =>
     state.chat.pendingMessages[conversationId]
+
+export const selectOnlineUsers = (state: RootState) => state.chat.onlineUsers
 
 export default chatSlice.reducer
