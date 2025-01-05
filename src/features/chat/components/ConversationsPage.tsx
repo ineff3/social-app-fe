@@ -1,5 +1,3 @@
-import { useSocketConnection } from '@/src/hooks/useSocketConnection'
-import { conversationSocketInstance } from '../conversationSocketInstance'
 import { ConversationsPanel } from './ConversationsPanel'
 import { ConversationContainer } from './ConversationContainer'
 import { useEffect } from 'react'
@@ -12,7 +10,6 @@ import { ConversationModalContent } from './conversation-modal/ConversationModal
 export const ConversationsPage = () => {
   const dispatch = useAppDispatch()
   const { show, close, visible } = useModal()
-  useSocketConnection(conversationSocketInstance)
 
   useEffect(() => {
     return () => {

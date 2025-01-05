@@ -8,6 +8,7 @@ import { LoadingSpinner } from '@/src/components/ui/LoadingSpinner'
 import { useNotifications } from '@/src/hooks/useNotifications'
 import { useSocketConnection } from '@/src/hooks/useSocketConnection'
 import { socketInstance } from '@/src/utils/api/socketInstance'
+import { conversationSocketInstance } from '@/src/features/chat/conversationSocketInstance'
 
 export const UserInit = () => {
   const dispatch = useAppDispatch()
@@ -24,6 +25,7 @@ export const UserInit = () => {
   }, [isSuccess, dispatch, data])
 
   useSocketConnection(socketInstance)
+  useSocketConnection(conversationSocketInstance)
   useNotifications()
 
   return <>{isLoading ? <LoadingSpinner /> : <Outlet />}</>

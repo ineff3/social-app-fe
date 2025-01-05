@@ -8,6 +8,10 @@ export const chatEvents = {
     ONLINE: 'status:online',
     OFFLINE: 'status:offline',
   },
+  TYPING: {
+    START: 'typing:start',
+    STOP: 'typing:stop',
+  },
   NOTIFICATION: {
     NEW_MESSAGE: 'notification:message:new',
   },

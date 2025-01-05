@@ -5,6 +5,7 @@ import { selectSelectedConversation } from '@/src/redux/chat/chatSlice'
 import { useHandleIntersection } from '../../hooks/useHandleIntersection'
 import { useGetOnlineUsers } from '../../hooks/useGetOnlineUsers'
 import { useTrackUserStatus } from '../../hooks/useTrackUserStatus'
+import { useTrackUserTyping } from '../../hooks/useTrackUserTyping'
 
 export const ROW_HEIGHT = 73
 
@@ -15,6 +16,7 @@ export const ConversationList = () => {
   })
   const { data: onlineUsersIds } = useGetOnlineUsers()
   useTrackUserStatus()
+  useTrackUserTyping()
   const ref = useHandleIntersection(fetchNextPage)
 
   if (isLoading) {

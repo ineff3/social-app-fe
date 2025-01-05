@@ -8,12 +8,15 @@ import {
   selectSelectedConversation,
 } from '@/src/redux/chat/chatSlice'
 import { useSendMessage } from '../../hooks/useSendMessage'
+import { selectUserPreview } from '@/src/redux/user/userSlice'
+import { useHandleUserTyping } from '../../hooks/useHandleUserTyping'
 
 interface Props {
   triggerScrollToBottom: () => void
 }
 
 export const MessageInputForm = ({ triggerScrollToBottom }: Props) => {
+  const currentUserId = useAppSelector(selectUserPreview)!.id
   const dispatch = useAppDispatch()
   const conversationId = useAppSelector(selectSelectedConversation)!.id
   const sendMessage = useSendMessage()
@@ -25,6 +28,10 @@ export const MessageInputForm = ({ triggerScrollToBottom }: Props) => {
   } = useForm<MessageForm>({
     defaultValues: { text: '' },
   })
+  const { handleKeyDown, triggerStopTyping } = useHandleUserTyping(
+    currentUserId,
+    conversationId,
+  )
 
   const onSubmit: SubmitHandler<MessageForm> = (data) => {
     const messageId = crypto.randomUUID()
@@ -42,6 +49,7 @@ export const MessageInputForm = ({ triggerScrollToBottom }: Props) => {
       }),
     )
     reset()
+    triggerStopTyping()
     sendMessage({ ...data, conversationId }, messageId)
   }
 
@@ -51,7 +59,10 @@ export const MessageInputForm = ({ triggerScrollToBottom }: Props) => {
       className=" flex items-center gap-2  p-4"
     >
       <MessageAttachmentOptions />
-      <label className="input input-bordered input-accent flex flex-grow items-center gap-2 bg-base-100">
+      <label
+        onKeyDown={handleKeyDown}
+        className="input input-bordered input-accent flex flex-grow items-center gap-2 bg-base-100"
+      >
         <input
           {...register('text')}
           className="flex flex-grow"

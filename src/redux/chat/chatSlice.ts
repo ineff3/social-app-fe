@@ -10,14 +10,14 @@ interface ChatInitState {
   selectedConversation: SchemaConversationResponseDto | null
   scrollPositions: Record<string, number>
   pendingMessages: Record<string, ExtendedChatMessage[] | undefined>
-  onlineUsers: string[]
+  typingUsers: Record<string, string[]>
 }
 
 const chatInitState: ChatInitState = {
   selectedConversation: null,
   scrollPositions: {},
   pendingMessages: {},
-  onlineUsers: [],
+  typingUsers: {},
 }
 
 export const chatSlice = createSlice({
@@ -77,8 +77,29 @@ export const chatSlice = createSlice({
         )
       }
     },
-    setOnlineUsers: (state, action: PayloadAction<string[]>) => {
-      state.onlineUsers = action.payload
+    addTypingUser: (
+      state,
+      action: PayloadAction<{ conversationId: string; userId: string }>,
+    ) => {
+      const { conversationId, userId } = action.payload
+      const existing = state.typingUsers[action.payload.conversationId]
+      if (existing) {
+        state.typingUsers[conversationId].push(userId)
+      } else {
+        state.typingUsers[conversationId] = [userId]
+      }
+    },
+    removeTypingUser: (
+      state,
+      action: PayloadAction<{ conversationId: string; userId: string }>,
+    ) => {
+      const { conversationId, userId } = action.payload
+      const existing = state.typingUsers[action.payload.conversationId]
+      if (existing) {
+        state.typingUsers[conversationId] = state.typingUsers[
+          conversationId
+        ].filter((id) => id !== userId)
+      }
     },
   },
 })
@@ -89,7 +110,8 @@ export const {
   addPendingChatMessage,
   removePendingChatMessage,
   updatePendingMessageStatus,
-  setOnlineUsers,
+  addTypingUser,
+  removeTypingUser,
 } = chatSlice.actions
 
 export const selectSelectedConversation = (state: RootState) =>
@@ -103,6 +125,8 @@ export const selectPendingMessages =
   (conversationId: string) => (state: RootState) =>
     state.chat.pendingMessages[conversationId]
 
-export const selectOnlineUsers = (state: RootState) => state.chat.onlineUsers
+export const selectTypingUser =
+  (conversationId: string) => (state: RootState) =>
+    state.chat.typingUsers[conversationId]
 
 export default chatSlice.reducer

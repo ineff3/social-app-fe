@@ -2,6 +2,7 @@ import UserIconLink from '@/src/components/ui/UserIconLink'
 import {
   selectConversation,
   selectSelectedConversation,
+  selectTypingUser,
 } from '@/src/redux/chat/chatSlice'
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks'
 import { selectUserPreview } from '@/src/redux/user/userSlice'
@@ -17,6 +18,9 @@ interface Props {
 
 export const ConversationRow = ({ conversation, onlineUsersIds }: Props) => {
   const dispatch = useAppDispatch()
+  const conversationTypingUsers = useAppSelector(
+    selectTypingUser(conversation.id),
+  )
   const selectedConversationId = useAppSelector(selectSelectedConversation)?.id
   const currentUserId = useAppSelector(selectUserPreview)!.id
 
@@ -25,6 +29,9 @@ export const ConversationRow = ({ conversation, onlineUsersIds }: Props) => {
   )
   const isUserOnline =
     onlineUsersIds && onlineUsersIds.find((id) => id === recipient?.user.id)
+  const isUserTyping =
+    conversationTypingUsers &&
+    conversationTypingUsers.find((id) => id === recipient?.user.id)
 
   const handleSelectConversation = (e: React.MouseEvent) => {
     const isInteractiveElement = (e.target as HTMLElement).closest(
@@ -73,16 +80,25 @@ export const ConversationRow = ({ conversation, onlineUsersIds }: Props) => {
           </div>
           <ConversationDropdownOptions conversationId={conversation.id} />
         </div>
-        {conversation.lastMessage && (
-          <div className="flex overflow-hidden">
-            <p className="grow">{conversation.lastMessage.text}</p>
-            {conversation.unreadAmount !== 0 && (
-              <div className=" badge badge-secondary badge-sm mr-1.5 self-center">
-                {conversation.unreadAmount}
+        <div className="flex w-full">
+          <div className="grow overflow-hidden">
+            {isUserTyping ? (
+              <div className="flex items-center gap-2">
+                <span className="loading loading-dots loading-xs"></span>
+                <span className=" font-medium">typing</span>
               </div>
+            ) : (
+              <p className=" max-w-[290px] overflow-hidden text-ellipsis whitespace-nowrap">
+                {conversation.lastMessage.text}
+              </p>
             )}
           </div>
-        )}
+          {conversation.unreadAmount !== 0 && (
+            <div className=" badge badge-secondary badge-sm mr-1.5 self-center">
+              {conversation.unreadAmount}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   )
