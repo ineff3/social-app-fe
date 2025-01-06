@@ -49,7 +49,7 @@ export const useSendMessage = () => {
           dispatch(removePendingChatMessage({ conversationId, messageId }))
         }
 
-        await queryClient.invalidateQueries({ queryKey: unreadKey })
+        queryClient.invalidateQueries({ queryKey: unreadKey })
       },
     )
   }

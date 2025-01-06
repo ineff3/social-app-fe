@@ -9,6 +9,7 @@ import { MessageInputForm } from '../send-message-form/MessageInputForm'
 import { useChatRoomSubscription } from '../../hooks/useChatRoomSubscription'
 import { useTriggerScrollToBottom } from '../../hooks/useTriggerScrollToBottom'
 import { useHandleReadMessage } from '../../hooks/useHandleReadMessage'
+import { ScrollToBottomBadge } from './ScrollToBottomBadge'
 
 interface Props {
   conversation: SchemaConversationResponseDto
@@ -41,6 +42,11 @@ export const Conversation = ({ conversation }: Props) => {
           conversationId={conversation.id}
           recipient={recipient}
           scrollElementRef={scrollElementRef}
+          triggerScrollToBottom={triggerScrollToBottom}
+        />
+        <ScrollToBottomBadge
+          scrollElementRef={scrollElementRef}
+          conversationId={conversation.id}
           triggerScrollToBottom={triggerScrollToBottom}
         />
       </div>

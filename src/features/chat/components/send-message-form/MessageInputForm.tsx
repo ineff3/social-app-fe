@@ -12,7 +12,7 @@ import { selectUserPreview } from '@/src/redux/user/userSlice'
 import { useHandleUserTyping } from '../../hooks/useHandleUserTyping'
 
 interface Props {
-  triggerScrollToBottom: () => void
+  triggerScrollToBottom: (behavior?: ScrollBehavior) => void
 }
 
 export const MessageInputForm = ({ triggerScrollToBottom }: Props) => {
@@ -35,7 +35,7 @@ export const MessageInputForm = ({ triggerScrollToBottom }: Props) => {
 
   const onSubmit: SubmitHandler<MessageForm> = (data) => {
     const messageId = crypto.randomUUID()
-    triggerScrollToBottom()
+    triggerScrollToBottom('instant')
     dispatch(
       addPendingChatMessage({
         conversationId,

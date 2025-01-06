@@ -3,6 +3,7 @@ export const chatEvents = {
     SEND: 'message:send',
     NEW: 'message:new',
     READ: 'message:read',
+    READ_ALL: 'message:read:all',
   },
   STATUS: {
     ONLINE: 'status:online',

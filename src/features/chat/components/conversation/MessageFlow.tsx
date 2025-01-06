@@ -20,7 +20,7 @@ interface Props {
   conversationId: string
   recipient: SchemaParticipantResponseDto
   scrollElementRef: RefObject<HTMLDivElement>
-  triggerScrollToBottom: () => void
+  triggerScrollToBottom: (behavior?: ScrollBehavior) => void
 }
 
 const MESSAGE_PER_PAGE = 30

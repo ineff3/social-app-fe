@@ -50,3 +50,13 @@ const updateConversationMessageCounter = (
     }),
   )
 }
+
+export const resetConversationUnreadAmount = (conversationId: string) => {
+  return handleUpdater<SchemaConversationResponseDto>(
+    conversationId,
+    (conversation) => ({
+      ...conversation,
+      unreadAmount: 0,
+    }),
+  )
+}

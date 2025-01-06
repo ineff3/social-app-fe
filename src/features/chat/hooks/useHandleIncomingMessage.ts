@@ -12,7 +12,7 @@ import { chatEvents } from '@/src/events'
 export const useHandleIncomingMessage = (
   conversationId: string,
   hasUnreadMessages: boolean | null,
-  triggerScrollToBottom: () => void,
+  triggerScrollToBottom: (behavior?: ScrollBehavior) => void,
   scrollElementRef: React.RefObject<HTMLDivElement>,
 ) => {
   const queryKeyStore = useQueryKeyStore()
@@ -39,7 +39,7 @@ export const useHandleIncomingMessage = (
       const element = scrollElementRef.current
       if (!element) return
       if (isScrolledToBottom(element)) {
-        triggerScrollToBottom()
+        triggerScrollToBottom('instant')
       }
     }
     conversationSocketInstance.on(chatEvents.MESSAGE.NEW, handleIncomingMessage)
