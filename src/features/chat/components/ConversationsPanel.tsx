@@ -9,7 +9,7 @@ interface Props {
 export const ConversationsPanel = ({ show }: Props) => {
   return (
     <>
-      <div className=" flex min-h-screen w-full max-w-[420px] flex-col gap-5 border-r border-accent py-4">
+      <div className=" flex min-h-screen w-full flex-grow flex-col gap-5 border-r border-accent py-4 lg:max-w-[420px]">
         <div className="flex items-center justify-between px-4 text-secondary">
           <span className="text-lg font-bold">Messages</span>
           <CircleButton

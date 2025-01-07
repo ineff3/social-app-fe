@@ -88,8 +88,8 @@ export const ConversationRow = ({ conversation, onlineUsersIds }: Props) => {
                 <span className=" font-medium">typing</span>
               </div>
             ) : (
-              <p className=" max-w-[290px] overflow-hidden text-ellipsis whitespace-nowrap">
-                {conversation.lastMessage.text}
+              <p className=" max-w-[225px] overflow-hidden text-ellipsis whitespace-nowrap">
+                {conversation.lastMessage?.text}
               </p>
             )}
           </div>

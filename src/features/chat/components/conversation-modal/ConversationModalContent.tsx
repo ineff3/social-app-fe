@@ -24,7 +24,7 @@ export const ConversationModalContent = ({ close }: Props) => {
   useEffect(
     function selectExistingConversation() {
       if (!isLoading && data) {
-        dispatch(selectConversation(data))
+        dispatch(selectConversation(data.id))
       }
     },
     [data, isLoading, dispatch],
@@ -40,7 +40,7 @@ export const ConversationModalContent = ({ close }: Props) => {
           }
         },
         onSuccess: (conversation) => {
-          dispatch(selectConversation(conversation))
+          dispatch(selectConversation(conversation.id))
         },
       },
     )

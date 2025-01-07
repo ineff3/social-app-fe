@@ -17,7 +17,7 @@ export const ConversationContainer = ({ show }: Props) => {
   useHandleNewMessageNotification()
 
   return (
-    <div className=" h-screen w-[600px]  border-r border-accent">
+    <div className="flex h-screen w-full max-w-[700px] flex-shrink-0 border-r border-accent  lg:w-[600px] lg:max-w-none ">
       {conversation ? (
         <Conversation conversation={conversation} key={conversation.id} />
       ) : (
