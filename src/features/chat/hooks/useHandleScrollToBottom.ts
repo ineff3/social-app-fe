@@ -6,11 +6,12 @@ import { SchemaReadAllMessagesDto } from '@/src/types/schema'
 import { useQueryClient } from '@tanstack/react-query'
 import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
 import { resetConversationUnreadAmount } from '../common/cacheUpdaters'
+import { TriggerScrollToBottom } from './useTriggerScrollToBottom'
 
 export const useHandleScrollToBottom = (
   scrollElementRef: React.RefObject<HTMLElement>,
   conversationId: string,
-  triggerScrollToBottom: (behavior?: ScrollBehavior) => void,
+  triggerScrollToBottom: TriggerScrollToBottom,
 ) => {
   const currentUserId = useAppSelector(selectUserPreview)!.id
   const queryClient = useQueryClient()

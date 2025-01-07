@@ -1,20 +1,19 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from '../store'
-import { SchemaConversationResponseDto } from '@/src/types/schema'
 import {
   ExtendedChatMessage,
   ExtendedChatMessageStatus,
 } from '@/src/features/chat/interfaces'
 
 interface ChatInitState {
-  selectedConversation: SchemaConversationResponseDto | null
+  selectedConversationId: string | null
   scrollPositions: Record<string, number>
   pendingMessages: Record<string, ExtendedChatMessage[] | undefined>
   typingUsers: Record<string, string[]>
 }
 
 const chatInitState: ChatInitState = {
-  selectedConversation: null,
+  selectedConversationId: null,
   scrollPositions: {},
   pendingMessages: {},
   typingUsers: {},
@@ -24,11 +23,8 @@ export const chatSlice = createSlice({
   name: 'chat',
   initialState: chatInitState,
   reducers: {
-    selectConversation: (
-      state,
-      action: PayloadAction<SchemaConversationResponseDto | null>,
-    ) => {
-      state.selectedConversation = action.payload
+    selectConversation: (state, action: PayloadAction<string | null>) => {
+      state.selectedConversationId = action.payload
     },
     setChatScrollPosition: (
       state,
@@ -114,8 +110,8 @@ export const {
   removeTypingUser,
 } = chatSlice.actions
 
-export const selectSelectedConversation = (state: RootState) =>
-  state.chat.selectedConversation
+export const selectSelectedConversationId = (state: RootState) =>
+  state.chat.selectedConversationId
 
 export const selectChatScrollPosition =
   (conversationId: string) => (state: RootState) =>

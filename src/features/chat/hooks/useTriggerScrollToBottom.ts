@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { scrollToBottom } from '../common/scrollHelpers'
 
+export type TriggerScrollToBottom = (behavior?: ScrollBehavior) => void
+
 export const useTriggerScrollToBottom = (
   elementRef: React.RefObject<HTMLDivElement>,
 ) => {
@@ -16,7 +18,9 @@ export const useTriggerScrollToBottom = (
     }
   }, [shouldScrollToBottom, elementRef, scrollBehavior])
 
-  const triggerScrollToBottom = (behavior?: ScrollBehavior) => {
+  const triggerScrollToBottom: TriggerScrollToBottom = (
+    behavior?: ScrollBehavior,
+  ) => {
     if (behavior) {
       setScrollBehavior(behavior)
     }

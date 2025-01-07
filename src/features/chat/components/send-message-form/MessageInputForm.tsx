@@ -5,20 +5,21 @@ import { MessageForm } from '../../schemas'
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks'
 import {
   addPendingChatMessage,
-  selectSelectedConversation,
+  selectSelectedConversationId,
 } from '@/src/redux/chat/chatSlice'
 import { useSendMessage } from '../../hooks/useSendMessage'
 import { selectUserPreview } from '@/src/redux/user/userSlice'
 import { useHandleUserTyping } from '../../hooks/useHandleUserTyping'
+import { TriggerScrollToBottom } from '../../hooks/useTriggerScrollToBottom'
 
 interface Props {
-  triggerScrollToBottom: (behavior?: ScrollBehavior) => void
+  triggerScrollToBottom: TriggerScrollToBottom
 }
 
 export const MessageInputForm = ({ triggerScrollToBottom }: Props) => {
   const currentUserId = useAppSelector(selectUserPreview)!.id
   const dispatch = useAppDispatch()
-  const conversationId = useAppSelector(selectSelectedConversation)!.id
+  const selectedConversationId = useAppSelector(selectSelectedConversationId)!
   const sendMessage = useSendMessage()
   const {
     register,
@@ -30,7 +31,7 @@ export const MessageInputForm = ({ triggerScrollToBottom }: Props) => {
   })
   const { handleKeyDown, triggerStopTyping } = useHandleUserTyping(
     currentUserId,
-    conversationId,
+    selectedConversationId,
   )
 
   const onSubmit: SubmitHandler<MessageForm> = (data) => {
@@ -38,19 +39,19 @@ export const MessageInputForm = ({ triggerScrollToBottom }: Props) => {
     triggerScrollToBottom('instant')
     dispatch(
       addPendingChatMessage({
-        conversationId,
+        conversationId: selectedConversationId,
         message: {
           ...data,
           id: messageId,
           status: 'sending',
-          conversationId,
+          conversationId: selectedConversationId,
           createdAt: new Date().toISOString(),
         },
       }),
     )
     reset()
     triggerStopTyping()
-    sendMessage({ ...data, conversationId }, messageId)
+    sendMessage({ ...data, conversationId: selectedConversationId }, messageId)
   }
 
   return (

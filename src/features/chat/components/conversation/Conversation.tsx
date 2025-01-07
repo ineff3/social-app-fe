@@ -46,7 +46,7 @@ export const Conversation = ({ conversation }: Props) => {
         />
         <ScrollToBottomBadge
           scrollElementRef={scrollElementRef}
-          conversationId={conversation.id}
+          conversation={conversation}
           triggerScrollToBottom={triggerScrollToBottom}
         />
       </div>

@@ -8,11 +8,12 @@ import {
 } from '../common/cacheUpdaters'
 import { isScrolledToBottom } from '../common/scrollHelpers'
 import { chatEvents } from '@/src/events'
+import { TriggerScrollToBottom } from './useTriggerScrollToBottom'
 
 export const useHandleIncomingMessage = (
   conversationId: string,
   hasUnreadMessages: boolean | null,
-  triggerScrollToBottom: (behavior?: ScrollBehavior) => void,
+  triggerScrollToBottom: TriggerScrollToBottom,
   scrollElementRef: React.RefObject<HTMLDivElement>,
 ) => {
   const queryKeyStore = useQueryKeyStore()

@@ -1,7 +1,7 @@
 import UserIconLink from '@/src/components/ui/UserIconLink'
 import {
   selectConversation,
-  selectSelectedConversation,
+  selectSelectedConversationId,
   selectTypingUser,
 } from '@/src/redux/chat/chatSlice'
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks'
@@ -21,7 +21,7 @@ export const ConversationRow = ({ conversation, onlineUsersIds }: Props) => {
   const conversationTypingUsers = useAppSelector(
     selectTypingUser(conversation.id),
   )
-  const selectedConversationId = useAppSelector(selectSelectedConversation)?.id
+  const selectedConversationId = useAppSelector(selectSelectedConversationId)
   const currentUserId = useAppSelector(selectUserPreview)!.id
 
   const recipient = conversation.participants.find(
@@ -38,7 +38,7 @@ export const ConversationRow = ({ conversation, onlineUsersIds }: Props) => {
       'button, a, [data-interactive="true"]',
     )
     if (!isInteractiveElement) {
-      dispatch(selectConversation(conversation))
+      dispatch(selectConversation(conversation.id))
     }
   }
   const isSelected = conversation.id === selectedConversationId

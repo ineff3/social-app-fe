@@ -15,12 +15,13 @@ import { PendingMessages } from './PendingMessages'
 import { useInitialScroll } from '../../hooks/useInitialScroll'
 import { useHandleIntersection } from '../../hooks/useHandleIntersection'
 import { useStoreChatScrollPosition } from '../../hooks/useStoreChatScrollPosition'
+import { TriggerScrollToBottom } from '../../hooks/useTriggerScrollToBottom'
 
 interface Props {
   conversationId: string
   recipient: SchemaParticipantResponseDto
   scrollElementRef: RefObject<HTMLDivElement>
-  triggerScrollToBottom: (behavior?: ScrollBehavior) => void
+  triggerScrollToBottom: TriggerScrollToBottom
 }
 
 const MESSAGE_PER_PAGE = 30

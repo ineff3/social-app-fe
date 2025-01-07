@@ -2,16 +2,18 @@ import { useEffect, useState } from 'react'
 import { SlArrowDown } from 'react-icons/sl'
 import { isScrolledToBottom } from '../../common/scrollHelpers'
 import { useHandleScrollToBottom } from '../../hooks/useHandleScrollToBottom'
+import { TriggerScrollToBottom } from '../../hooks/useTriggerScrollToBottom'
+import { SchemaConversationResponseDto } from '@/src/types/schema'
 
 interface Props {
   scrollElementRef: React.RefObject<HTMLElement>
-  conversationId: string
-  triggerScrollToBottom: (behavior?: ScrollBehavior) => void
+  conversation: SchemaConversationResponseDto
+  triggerScrollToBottom: TriggerScrollToBottom
 }
 
 export const ScrollToBottomBadge = ({
   scrollElementRef,
-  conversationId,
+  conversation,
   triggerScrollToBottom,
 }: Props) => {
   const [scrolledToBottom, setScrolledToBottom] = useState(true)
@@ -22,7 +24,7 @@ export const ScrollToBottomBadge = ({
 
   const handleScroll = useHandleScrollToBottom(
     scrollElementRef,
-    conversationId,
+    conversation.id,
     triggerScrollToBottom,
   )
 
@@ -73,6 +75,11 @@ export const ScrollToBottomBadge = ({
         className={`relative flex items-center justify-center rounded-full border border-base-content bg-base-100 p-2.5 transition-opacity duration-300 ${scrolledToBottom ? 'opacity-0' : 'opacity-100'}`}
       >
         <SlArrowDown width={30} height={30} className="fill-base-content" />
+        {conversation.unreadAmount !== 0 && (
+          <div className=" badge badge-secondary badge-sm absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 self-center">
+            {conversation.unreadAmount}
+          </div>
+        )}
       </button>
     </div>
   )
