@@ -54,7 +54,7 @@ export function checkHasUnreadMessages(
   unreadMessages: InfiniteData<SchemaGetAllMessagesResponseDto> | undefined,
 ) {
   if (!unreadMessages) {
-    return null
+    return false
   }
   const pages = unreadMessages.pages
   return pages.length > 0 && pages[0].data.length > 0

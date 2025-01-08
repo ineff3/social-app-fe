@@ -10,6 +10,7 @@ interface ChatInitState {
   scrollPositions: Record<string, number>
   pendingMessages: Record<string, ExtendedChatMessage[] | undefined>
   typingUsers: Record<string, string[]>
+  isNextPageFetchEnabled: boolean
 }
 
 const chatInitState: ChatInitState = {
@@ -17,6 +18,7 @@ const chatInitState: ChatInitState = {
   scrollPositions: {},
   pendingMessages: {},
   typingUsers: {},
+  isNextPageFetchEnabled: true,
 }
 
 export const chatSlice = createSlice({
@@ -97,6 +99,9 @@ export const chatSlice = createSlice({
         ].filter((id) => id !== userId)
       }
     },
+    setIsNextPageFetchEnabled: (state, action: PayloadAction<boolean>) => {
+      state.isNextPageFetchEnabled = action.payload
+    },
   },
 })
 
@@ -108,6 +113,7 @@ export const {
   updatePendingMessageStatus,
   addTypingUser,
   removeTypingUser,
+  setIsNextPageFetchEnabled,
 } = chatSlice.actions
 
 export const selectSelectedConversationId = (state: RootState) =>
@@ -124,5 +130,8 @@ export const selectPendingMessages =
 export const selectTypingUser =
   (conversationId: string) => (state: RootState) =>
     state.chat.typingUsers[conversationId]
+
+export const selectIsNextPageFetchEnabled = (state: RootState) =>
+  state.chat.isNextPageFetchEnabled
 
 export default chatSlice.reducer
