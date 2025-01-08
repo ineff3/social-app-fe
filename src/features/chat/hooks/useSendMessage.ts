@@ -6,11 +6,16 @@ import { ResponseAcknowledgement } from '../interfaces'
 import { useAppDispatch } from '@/src/redux/hooks'
 import {
   removePendingChatMessage,
+  setIsNextPageFetchEnabled,
   updatePendingMessageStatus,
 } from '@/src/redux/chat/chatSlice'
 import { chatEvents } from '@/src/events'
+import { resetConversationUnreadAmount } from '../common/cacheUpdaters'
+import { TriggerScrollToBottom } from './useTriggerScrollToBottom'
 
-export const useSendMessage = () => {
+export const useSendMessage = (
+  triggerScrollToBottom: TriggerScrollToBottom,
+) => {
   const dispatch = useAppDispatch()
   const queryClient = useQueryClient()
   const queryKeyStore = useQueryKeyStore()
@@ -25,17 +30,23 @@ export const useSendMessage = () => {
       { unread: true },
       conversationId,
     ).queryKey
+    const conversationKey = queryKeyStore.chat.conversations({}).queryKey
 
     conversationSocketInstance.emit(
       chatEvents.MESSAGE.SEND,
       data,
       async (response: ResponseAcknowledgement) => {
-        await queryClient.invalidateQueries({ queryKey: readKey })
-
-        queryClient.setQueryData(unreadKey, () => ({
-          pages: [{ data: [], nextCursor: null }],
-          pageParams: [null],
-        }))
+        dispatch(setIsNextPageFetchEnabled(false))
+        await queryClient.refetchQueries({ queryKey: readKey }),
+          queryClient.setQueryData(unreadKey, () => ({
+            pages: [{ data: [], nextCursor: null }],
+            pageParams: [null],
+          }))
+        queryClient.setQueryData(
+          conversationKey,
+          resetConversationUnreadAmount(conversationId),
+        )
+        queryClient.invalidateQueries({ queryKey: conversationKey })
 
         if (response.status === 'error') {
           dispatch(
@@ -49,7 +60,7 @@ export const useSendMessage = () => {
           dispatch(removePendingChatMessage({ conversationId, messageId }))
         }
 
-        queryClient.invalidateQueries({ queryKey: unreadKey })
+        triggerScrollToBottom('instant')
       },
     )
   }

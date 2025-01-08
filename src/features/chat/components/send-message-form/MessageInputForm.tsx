@@ -11,6 +11,7 @@ import { useSendMessage } from '../../hooks/useSendMessage'
 import { selectUserPreview } from '@/src/redux/user/userSlice'
 import { useHandleUserTyping } from '../../hooks/useHandleUserTyping'
 import { TriggerScrollToBottom } from '../../hooks/useTriggerScrollToBottom'
+import { useCheckHasNextUnreadPage } from '../../hooks/useCheckHasNextUnreadPage'
 
 interface Props {
   triggerScrollToBottom: TriggerScrollToBottom
@@ -20,7 +21,7 @@ export const MessageInputForm = ({ triggerScrollToBottom }: Props) => {
   const currentUserId = useAppSelector(selectUserPreview)!.id
   const dispatch = useAppDispatch()
   const selectedConversationId = useAppSelector(selectSelectedConversationId)!
-  const sendMessage = useSendMessage()
+  const sendMessage = useSendMessage(triggerScrollToBottom)
   const {
     register,
     handleSubmit,
@@ -33,10 +34,14 @@ export const MessageInputForm = ({ triggerScrollToBottom }: Props) => {
     currentUserId,
     selectedConversationId,
   )
+  const checkHasNextUnreadPage = useCheckHasNextUnreadPage()
 
   const onSubmit: SubmitHandler<MessageForm> = (data) => {
     const messageId = crypto.randomUUID()
-    triggerScrollToBottom('instant')
+    const hasNextUnreadPage = checkHasNextUnreadPage(selectedConversationId)
+    if (!hasNextUnreadPage) {
+      triggerScrollToBottom('instant')
+    }
     dispatch(
       addPendingChatMessage({
         conversationId: selectedConversationId,

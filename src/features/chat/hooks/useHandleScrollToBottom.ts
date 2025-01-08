@@ -2,16 +2,13 @@ import { chatEvents } from '@/src/events'
 import { conversationSocketInstance } from '../conversationSocketInstance'
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks'
 import { selectUserPreview } from '@/src/redux/user/userSlice'
-import {
-  SchemaGetAllMessagesResponseDto,
-  SchemaReadAllMessagesDto,
-} from '@/src/types/schema'
-import { InfiniteData, useQueryClient } from '@tanstack/react-query'
+import { SchemaReadAllMessagesDto } from '@/src/types/schema'
+import { useQueryClient } from '@tanstack/react-query'
 import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
 import { resetConversationUnreadAmount } from '../common/cacheUpdaters'
 import { TriggerScrollToBottom } from './useTriggerScrollToBottom'
 import { setIsNextPageFetchEnabled } from '@/src/redux/chat/chatSlice'
-import { checkHasUnreadMessages } from '../common/messageHelpers'
+import { useCheckHasNextUnreadPage } from './useCheckHasNextUnreadPage'
 
 export const useHandleScrollToBottom = (
   scrollElementRef: React.RefObject<HTMLElement>,
@@ -22,6 +19,7 @@ export const useHandleScrollToBottom = (
   const currentUserId = useAppSelector(selectUserPreview)!.id
   const queryClient = useQueryClient()
   const queryKeyStore = useQueryKeyStore()
+  const checkHasNextUnreadPage = useCheckHasNextUnreadPage()
 
   const readKey = queryKeyStore.chat.messages(
     { unread: false },
@@ -33,22 +31,14 @@ export const useHandleScrollToBottom = (
   ).queryKey
   const conversationKey = queryKeyStore.chat.conversations({}).queryKey
 
-  const checkHasCachedUnreadMessages = (): boolean => {
-    const cachedUnreadMessages:
-      | InfiniteData<SchemaGetAllMessagesResponseDto>
-      | undefined = queryClient.getQueryData(unreadKey)
-
-    return checkHasUnreadMessages(cachedUnreadMessages)
-  }
-
   const handleScrollToBottom = () => {
     const element = scrollElementRef.current
     if (!element) {
       return
     }
-    const hasUnreadMessages = checkHasCachedUnreadMessages()
+    const hasNextUnreadPage = checkHasNextUnreadPage(conversationId)
 
-    if (!hasUnreadMessages) {
+    if (!hasNextUnreadPage) {
       triggerScrollToBottom('smooth')
       return
     }
