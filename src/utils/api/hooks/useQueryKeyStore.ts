@@ -3,8 +3,13 @@ import { useApiActions } from './useApiActions'
 import { GetAllPostsParams, PaginatedQueryParams } from '../interfaces'
 import {
   SchemaAuthUserResponseDto,
+  SchemaConversationResponseDto,
+  SchemaGetAllConversationsResponseDto,
+  SchemaGetAllMessagesResponseDto,
   SchemaGetAllNotificationsResponseDto,
   SchemaGetAllPostsResponseDto,
+  SchemaGetDirectConversationQueryDto,
+  SchemaGetMessagesQueryDto,
   SchemaGetSuggestionsQueryDto,
   SchemaGetUserByUsernameResponseDto,
   SchemaPostResponseDto,
@@ -110,6 +115,39 @@ const useQueryKeyStore = () => {
       refreshToken: {
         queryKey: null,
         queryFn: () => get<SchemaAuthUserResponseDto>(apiRoutes.refreshToken),
+      },
+    },
+
+    chat: {
+      conversations: (query: PaginatedQueryParams) => ({
+        queryKey: [{}],
+        queryFn: ({ pageParam }: { pageParam: number }) =>
+          get<SchemaGetAllConversationsResponseDto>(apiRoutes.conversations, {
+            ...query,
+            page: pageParam,
+          }),
+      }),
+      messages: (query: SchemaGetMessagesQueryDto, conversationId: string) => ({
+        queryKey: [conversationId, { unread: query.unread }],
+        queryFn: ({ pageParam }: { pageParam: number }) =>
+          get<SchemaGetAllMessagesResponseDto>(
+            apiRoutes.messages(conversationId),
+            {
+              ...query,
+              cursor: pageParam,
+            },
+          ),
+      }),
+      direct: (query: SchemaGetDirectConversationQueryDto) => ({
+        queryKey: [query],
+        queryFn: () =>
+          get<SchemaConversationResponseDto>(apiRoutes.direct, {
+            ...query,
+          }),
+      }),
+      onlineUsers: {
+        queryKey: null,
+        queryFn: () => get<string[]>(apiRoutes.onlineUsers),
       },
     },
   })

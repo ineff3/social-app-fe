@@ -1,9 +1,7 @@
 import { GoTrash } from 'react-icons/go'
 import useDeletePost from '../../hooks/useDeletePost'
-import {
-  DropdownItem,
-  DropdownMenu,
-} from '@/src/components/ui/dropdown-menu/DropdownMenu'
+import { DropdownMenu } from '@/src/components/ui/dropdown-menu/DropdownMenu'
+import { DropdownItem } from '@/src/types'
 
 interface Props {
   isPostAuthor: boolean

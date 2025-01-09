@@ -25,6 +25,12 @@ export const apiRoutes = {
   //notifications
   notifications: 'notifications',
   viewNotification: (id: string) => `notifications/${id}/view`,
+  //chat
+  conversations: 'conversations',
+  direct: 'conversations/direct',
+  messages: (conversationId: string) =>
+    `conversations/${conversationId}/messages`,
+  onlineUsers: 'conversations/online-users',
 }
 
 export const pageRoutes = {
@@ -38,4 +44,5 @@ export const pageRoutes = {
   drafts: '/drafts',
   notifications: '/notifications',
   bookmarks: '/bookmarks',
+  conversations: '/conversations',
 }

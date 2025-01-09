@@ -33,7 +33,7 @@ const generateMenuItems = (username: string) => [
     badge: <NotificationBadge />,
   },
   {
-    path: '/messages',
+    path: pageRoutes.conversations,
     name: 'Messages',
     svg: <MessageIcon width={ICON_SIZE} height={ICON_SIZE} />,
   },
@@ -95,7 +95,7 @@ const NavMenu = ({ closeMenu }: { closeMenu: () => void }) => {
             className={`absolute left-0 top-0 w-[3.5px] bg-primary  transition-all duration-[${TRANSITION_DURATION}s] shadow-[35px_0px_60px_20px_rgba(26,92,255,1)]`}
             style={{
               height: `${LINK_HEIGHT}px`,
-              marginTop: `${activeIndex * 52}px`,
+              marginTop: `${activeIndex * LINK_HEIGHT}px`,
             }}
           />
         )}

@@ -1,20 +1,30 @@
-import { useEffect, useState } from 'react'
+import { RefObject, useEffect, useState } from 'react'
 
-export const useIsScrolled = () => {
+interface Props {
+  scrolledElementRef: RefObject<HTMLElement>
+}
+
+export const useIsScrolled = ({ scrolledElementRef }: Props) => {
   const [isScrolled, setIsScrolled] = useState(false)
 
   useEffect(() => {
+    const element = scrolledElementRef.current
     const handleScroll = () => {
-      const scrollPosition = document.body.scrollTop
-      setIsScrolled(scrollPosition > 0)
+      if (element) {
+        const scrollPosition = element.scrollTop
+        setIsScrolled(scrollPosition > 0)
+      }
     }
-
-    document.body.addEventListener('scroll', handleScroll)
+    if (element) {
+      element.addEventListener('scroll', handleScroll)
+    }
 
     return () => {
-      document.body.removeEventListener('scroll', handleScroll)
+      if (element) {
+        element.removeEventListener('scroll', handleScroll)
+      }
     }
-  }, [])
+  }, [scrolledElementRef])
 
   return isScrolled
 }

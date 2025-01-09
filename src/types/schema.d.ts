@@ -372,6 +372,86 @@ export interface paths {
         patch: operations["NotificationController_viewNotification"];
         trace?: never;
     };
+    "/conversations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["ChatController_findAll"];
+        put?: never;
+        post: operations["ChatController_createConversation"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/conversations/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete: operations["ChatController_removeConversation"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/conversations/{id}/messages": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["ChatController_findMessages"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/conversations/direct": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["ChatController_findDirectConversation"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/conversations/online-users": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["ChatController_findOnlineUsers"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -386,6 +466,11 @@ export interface components {
              * @enum {string}
              */
             order?: "desc" | "asc";
+        };
+        CursorQueryDto: {
+            cursor?: string;
+            /** @default 10 */
+            limit?: number;
         };
         RegisterUserDto: {
             /** @example Ryan */
@@ -421,6 +506,8 @@ export interface components {
             username: string;
             avatarUrl?: string;
             isFollowing: boolean;
+            /** Format: date-time */
+            createdAt: string;
         };
         UserSuggestionsResponseDto: {
             data: components["schemas"]["UserPreviewResponseDto"][];
@@ -539,6 +626,64 @@ export interface components {
             page: number;
             limit: number;
         };
+        CreateMessageDto: {
+            conversationId: string;
+            text: string;
+        };
+        GetDirectConversationQueryDto: {
+            recipientId: string;
+        };
+        GetMessagesQueryDto: {
+            cursor?: string;
+            /** @default 10 */
+            limit?: number;
+            unread: boolean;
+        };
+        ReadMessageDto: {
+            messageId: string;
+            conversationId: string;
+        };
+        UserTypingDto: {
+            conversationId: string;
+            userId: string;
+        };
+        ReadAllMessagesDto: {
+            conversationId: string;
+            userId: string;
+        };
+        ParticipantResponseDto: {
+            id: string;
+            user: components["schemas"]["UserPreviewResponseDto"];
+        };
+        MessageResponseDto: {
+            /** @enum {string} */
+            status: "sent" | "read";
+            id: string;
+            conversationId: string;
+            text: string;
+            senderId: string;
+            /** Format: date-time */
+            createdAt: string;
+        };
+        ConversationResponseDto: {
+            id: string;
+            participants: components["schemas"]["ParticipantResponseDto"][];
+            lastMessage: components["schemas"]["MessageResponseDto"];
+            unreadAmount: number;
+        };
+        GetAllConversationsResponseDto: {
+            data: components["schemas"]["ConversationResponseDto"][];
+            total: number;
+            page: number;
+            limit: number;
+        };
+        CreateConversationDto: {
+            recipientId: string;
+        };
+        GetAllMessagesResponseDto: {
+            data: components["schemas"]["MessageResponseDto"][];
+            nextCursor: Record<string, never>;
+        };
     };
     responses: never;
     parameters: never;
@@ -547,6 +692,7 @@ export interface components {
     pathItems: never;
 }
 export type SchemaPaginatedQueryDto = components['schemas']['PaginatedQueryDto'];
+export type SchemaCursorQueryDto = components['schemas']['CursorQueryDto'];
 export type SchemaRegisterUserDto = components['schemas']['RegisterUserDto'];
 export type SchemaAuthUserResponseDto = components['schemas']['AuthUserResponseDto'];
 export type SchemaLoginUserDto = components['schemas']['LoginUserDto'];
@@ -566,6 +712,18 @@ export type SchemaCreatePostDto = components['schemas']['CreatePostDto'];
 export type SchemaUpdatePostDto = components['schemas']['UpdatePostDto'];
 export type SchemaNotificationResponseDto = components['schemas']['NotificationResponseDto'];
 export type SchemaGetAllNotificationsResponseDto = components['schemas']['GetAllNotificationsResponseDto'];
+export type SchemaCreateMessageDto = components['schemas']['CreateMessageDto'];
+export type SchemaGetDirectConversationQueryDto = components['schemas']['GetDirectConversationQueryDto'];
+export type SchemaGetMessagesQueryDto = components['schemas']['GetMessagesQueryDto'];
+export type SchemaReadMessageDto = components['schemas']['ReadMessageDto'];
+export type SchemaUserTypingDto = components['schemas']['UserTypingDto'];
+export type SchemaReadAllMessagesDto = components['schemas']['ReadAllMessagesDto'];
+export type SchemaParticipantResponseDto = components['schemas']['ParticipantResponseDto'];
+export type SchemaMessageResponseDto = components['schemas']['MessageResponseDto'];
+export type SchemaConversationResponseDto = components['schemas']['ConversationResponseDto'];
+export type SchemaGetAllConversationsResponseDto = components['schemas']['GetAllConversationsResponseDto'];
+export type SchemaCreateConversationDto = components['schemas']['CreateConversationDto'];
+export type SchemaGetAllMessagesResponseDto = components['schemas']['GetAllMessagesResponseDto'];
 export type $defs = Record<string, never>;
 export interface operations {
     AppController_getHello: {
@@ -1130,6 +1288,136 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+        };
+    };
+    ChatController_findAll: {
+        parameters: {
+            query?: {
+                page?: number;
+                limit?: number;
+                order?: "desc" | "asc";
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GetAllConversationsResponseDto"];
+                };
+            };
+        };
+    };
+    ChatController_createConversation: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateConversationDto"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ConversationResponseDto"];
+                };
+            };
+        };
+    };
+    ChatController_removeConversation: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    ChatController_findMessages: {
+        parameters: {
+            query: {
+                cursor?: string;
+                limit?: number;
+                unread: boolean;
+            };
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GetAllMessagesResponseDto"];
+                };
+            };
+        };
+    };
+    ChatController_findDirectConversation: {
+        parameters: {
+            query: {
+                recipientId: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ConversationResponseDto"];
+                };
+            };
+        };
+    };
+    ChatController_findOnlineUsers: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": string[];
+                };
             };
         };
     };
