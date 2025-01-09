@@ -42,7 +42,11 @@ export const MessageFlow = ({
     data: unreadMessages,
     isLoading: isUnreadLoading,
     fetchNextPage: fetchNextUnreadPage,
-  } = useGetMessages({ limit: 10, unread: true }, conversationId, 0)
+  } = useGetMessages(
+    { limit: MESSAGE_PER_PAGE, unread: true },
+    conversationId,
+    0,
+  )
 
   const hasUnreadMessages = checkHasUnreadMessages(unreadMessages)
   const isLoading = isReadLoading || isUnreadLoading
@@ -107,6 +111,7 @@ export const MessageFlow = ({
                       conversationId={conversationId}
                       message={message}
                       isFromCurrentUser={message.senderId !== recipient.id}
+                      triggerScrollToBottom={triggerScrollToBottom}
                     />
                     {hasUnreadMessages && message.id === lastReadMessageId && (
                       <div className=" my-4 flex w-full items-center justify-center rounded-md bg-base-200 py-1.5 text-sm text-secondary">

@@ -506,6 +506,8 @@ export interface components {
             username: string;
             avatarUrl?: string;
             isFollowing: boolean;
+            /** Format: date-time */
+            createdAt: string;
         };
         UserSuggestionsResponseDto: {
             data: components["schemas"]["UserPreviewResponseDto"][];

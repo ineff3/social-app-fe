@@ -1,7 +1,7 @@
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { MessageAttachmentOptions } from './MessageAttachmentOptions'
 import { BiSend } from 'react-icons/bi'
-import { MessageForm } from '../../schemas'
+import { MessageForm, messageValidationSchema } from '../../schemas'
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks'
 import {
   addPendingChatMessage,
@@ -12,6 +12,7 @@ import { selectUserPreview } from '@/src/redux/user/userSlice'
 import { useHandleUserTyping } from '../../hooks/useHandleUserTyping'
 import { TriggerScrollToBottom } from '../../hooks/useTriggerScrollToBottom'
 import { useCheckHasNextUnreadPage } from '../../hooks/useCheckHasNextUnreadPage'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 interface Props {
   triggerScrollToBottom: TriggerScrollToBottom
@@ -28,6 +29,7 @@ export const MessageInputForm = ({ triggerScrollToBottom }: Props) => {
     reset,
     formState: { isDirty },
   } = useForm<MessageForm>({
+    resolver: zodResolver(messageValidationSchema),
     defaultValues: { text: '' },
   })
   const { handleKeyDown, triggerStopTyping } = useHandleUserTyping(

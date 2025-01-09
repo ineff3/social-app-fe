@@ -14,21 +14,24 @@ import {
 import { useReadMessage } from '../../hooks/useReadMessage'
 import { useInView } from 'react-intersection-observer'
 import { useEffect } from 'react'
+import { TriggerScrollToBottom } from '../../hooks/useTriggerScrollToBottom'
 
 interface Props {
   message: ExtendedChatMessage
   isFromCurrentUser: boolean
   conversationId: string
+  triggerScrollToBottom: TriggerScrollToBottom
 }
 
 export const Message = ({
   message,
   isFromCurrentUser,
   conversationId,
+  triggerScrollToBottom,
 }: Props) => {
   const { status } = message
   const dispatch = useAppDispatch()
-  const sendMessage = useSendMessage()
+  const sendMessage = useSendMessage(triggerScrollToBottom)
   const readMessage = useReadMessage()
 
   const { ref, inView } = useInView()
@@ -67,7 +70,7 @@ export const Message = ({
       <div
         className={`chat-bubble !min-h-[40px] !max-w-[85%] text-secondary ${isFromCurrentUser && 'bg-primary'}`}
       >
-        <div className=" flex flex-wrap gap-3">
+        <div className=" flex flex-wrap gap-x-3 gap-y-1">
           <span className=" inline-block">{message.text}</span>
           {isFromCurrentUser && (
             <div className=" flex flex-grow items-center justify-end gap-1 self-end text-xs italic text-secondary">
