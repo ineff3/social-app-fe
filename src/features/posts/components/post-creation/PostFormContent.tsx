@@ -44,7 +44,7 @@ export const PostFormContent = ({
             render={({ field }) => (
               <TextEditor
                 placeholder={placeholder}
-                initialContent={field.value}
+                content={field.value}
                 onChange={field.onChange}
                 isMinimized={isTextEditorMinimized}
               />

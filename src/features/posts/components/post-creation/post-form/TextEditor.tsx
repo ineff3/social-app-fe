@@ -6,22 +6,24 @@ import Placeholder from '@tiptap/extension-placeholder'
 import Link from '@tiptap/extension-link'
 import { UserMention } from '../../../utils/mentions/userMention'
 import { useEffect } from 'react'
+import { usePostContext } from '../../../contexts/PostContext'
 
 interface Props {
   onChange: (text: string) => void
-  initialContent?: string
+  content?: string
   placeholder?: string
   isMinimized?: boolean
 }
 
 export const TextEditor = ({
   onChange,
-  initialContent,
+  content,
   placeholder = 'What is happening?',
   isMinimized = false,
 }: Props) => {
+  const { setEditor } = usePostContext()!
   const editor = useEditor({
-    content: initialContent,
+    content,
     extensions: [
       Document,
       Paragraph,
@@ -49,11 +51,17 @@ export const TextEditor = ({
     },
   })
 
+  // Clearing editor after post creation (when form resets).
   useEffect(() => {
-    if (editor && initialContent === '') {
+    if (editor && content === '') {
       editor.commands.clearContent()
     }
-  }, [initialContent, editor])
+  }, [content, editor])
+
+  useEffect(() => {
+    if (editor) setEditor(editor)
+    return () => setEditor(null)
+  }, [editor, setEditor])
 
   return <EditorContent editor={editor} />
 }

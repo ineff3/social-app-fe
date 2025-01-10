@@ -13,6 +13,7 @@ import { useHandleUserTyping } from '../../hooks/useHandleUserTyping'
 import { TriggerScrollToBottom } from '../../hooks/useTriggerScrollToBottom'
 import { useCheckHasNextUnreadPage } from '../../hooks/useCheckHasNextUnreadPage'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useState } from 'react'
 
 interface Props {
   triggerScrollToBottom: TriggerScrollToBottom
@@ -23,10 +24,13 @@ export const MessageInputForm = ({ triggerScrollToBottom }: Props) => {
   const dispatch = useAppDispatch()
   const selectedConversationId = useAppSelector(selectSelectedConversationId)!
   const sendMessage = useSendMessage(triggerScrollToBottom)
+  const [caretPosition, setCaretPosition] = useState<number>(0)
   const {
     register,
     handleSubmit,
     reset,
+    getValues,
+    setValue,
     formState: { isDirty },
   } = useForm<MessageForm>({
     resolver: zodResolver(messageValidationSchema),
@@ -61,12 +65,30 @@ export const MessageInputForm = ({ triggerScrollToBottom }: Props) => {
     sendMessage({ ...data, conversationId: selectedConversationId }, messageId)
   }
 
+  const handleEmojiSelect = (emoji: string) => {
+    const text = getValues('text')
+    const newText =
+      text.slice(0, caretPosition) + emoji + text.slice(caretPosition)
+    setValue('text', newText, { shouldDirty: true })
+    setCaretPosition((prev) => prev + emoji.length)
+  }
+
+  const handleCaretPosition = (
+    e:
+      | React.MouseEvent<HTMLInputElement>
+      | React.FocusEvent<HTMLInputElement>
+      | React.KeyboardEvent<HTMLInputElement>,
+  ) => {
+    const input = e.currentTarget as HTMLInputElement
+    setCaretPosition(input.selectionStart || 0)
+  }
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
       className=" flex items-center gap-2  p-4"
     >
-      <MessageAttachmentOptions />
+      <MessageAttachmentOptions handleEmojiSelect={handleEmojiSelect} />
       <label
         onKeyDown={handleKeyDown}
         className="input input-bordered input-accent flex flex-grow items-center gap-2 bg-base-100"
@@ -75,6 +97,9 @@ export const MessageInputForm = ({ triggerScrollToBottom }: Props) => {
           {...register('text')}
           className="flex flex-grow"
           placeholder="Start a new message"
+          onClick={handleCaretPosition}
+          onKeyUp={handleCaretPosition}
+          onFocus={handleCaretPosition}
         />
         <button
           type="submit"

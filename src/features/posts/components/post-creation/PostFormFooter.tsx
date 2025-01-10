@@ -5,8 +5,8 @@ import {
   MAX_IMAGES_PER_POST,
 } from '../../schemas/createPostSchema'
 import { GifIcon, ScheduleIcon, StatsIcon } from '@/src/components/ui/icons'
-import { AttachEmoji } from './additional-content/AttachEmoji'
 import { AttachPicture } from './additional-content/AttachPicture'
+import { EmojiPopover } from '@/src/components/emoji/EmojiPopover'
 
 interface Props {
   hasDivider?: boolean
@@ -24,7 +24,7 @@ export const PostFormFooter = ({
   const {
     postImages,
     appendPostImage,
-    appendEmoji,
+    addEmojiToText,
     formState: { errors, isDirty },
   } = usePostContext()!
 
@@ -42,7 +42,10 @@ export const PostFormFooter = ({
             append={appendPostImage}
             imageTypes={ACCEPTED_IMAGE_TYPES}
           />
-          <AttachEmoji appendEmoji={appendEmoji} />
+          <EmojiPopover
+            onSelect={addEmojiToText}
+            anchor={{ gap: 5, to: 'bottom end' }}
+          />
           <div data-tip="Poll" className=" tooltip tooltip-secondary">
             <button type="button" className=" btn btn-circle btn-ghost btn-sm">
               <StatsIcon />

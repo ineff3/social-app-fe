@@ -6,13 +6,13 @@ import {
   MenuItems,
   Transition,
 } from '@headlessui/react'
-import { ComponentProps, Fragment } from 'react'
+import { Fragment } from 'react'
 import { DefaultDropdownButton } from './DefaultDropdownButton'
+import { ComponentWithAnchorProps } from '@/src/common/props'
 
 type WidthType = 'default' | 'fit-content'
 interface Props {
   items: DropdownItem[]
-  anchor: ComponentProps<typeof MenuItems>['anchor']
   width?: WidthType
   OpenButton?: React.ForwardRefExoticComponent<
     object & React.RefAttributes<HTMLButtonElement>
@@ -24,7 +24,7 @@ export const DropdownMenu = ({
   anchor,
   width = 'default',
   OpenButton = DefaultDropdownButton,
-}: Props) => {
+}: Props & ComponentWithAnchorProps) => {
   return (
     <Menu>
       <MenuButton as={OpenButton} />
@@ -39,7 +39,7 @@ export const DropdownMenu = ({
       >
         <MenuItems
           anchor={typeof anchor === 'string' ? { to: anchor, gap: 10 } : anchor}
-          className={` absolute z-[10] flex ${width === 'default' && 'w-[240px]'} origin-center flex-col overflow-hidden rounded-xl bg-base-100  shadow-[0px_0px_20px_-8px_rgba(255,255,255,1);] ring-1 ring-black/5 focus:outline-none`}
+          className={` absolute z-[10] flex ${width === 'default' && 'w-[240px]'} origin-center flex-col overflow-hidden rounded-xl border border-accent bg-base-100 ring-1 ring-black/5 focus:outline-none`}
         >
           {items.length === 0 && (
             <MenuItem>

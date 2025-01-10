@@ -1,6 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { createContext, ReactNode, useContext } from 'react'
+import { createContext, ReactNode, useContext, useRef } from 'react'
 import {
   FieldArrayWithId,
   useFieldArray,
@@ -15,13 +15,15 @@ import validationSchema from '../schemas/createPostSchema'
 import { useCreateDraft, useUpdateDraft } from '../hooks/drafts/drafts'
 import { constructPostFormData } from '../utils/constructPostFormData'
 import { useLocation } from 'react-router-dom'
+import { Editor } from '@tiptap/react'
 
 interface IPostContextProps extends UseFormReturn<CreatePostFormType> {
   createDraft: () => void
-  appendEmoji: (emoji: any) => void
+  addEmojiToText: (value: string) => void
   postImages: FieldArrayWithId<CreatePostFormType, 'postImages', 'id'>[]
   appendPostImage: UseFieldArrayAppend<CreatePostFormType, 'postImages'>
   removePostImage: UseFieldArrayRemove
+  setEditor: (editor: Editor | null) => void
 }
 
 const PostContext = createContext<IPostContextProps | null>(null)
@@ -56,6 +58,12 @@ export const PostProvider = ({ children }: { children: ReactNode }) => {
   const createDraftMutation = useCreateDraft()
   const updateDraftMutation = useUpdateDraft(draftId!)
 
+  const editorRef = useRef<Editor | null>(null)
+
+  const setEditor = (editor: Editor | null) => {
+    editorRef.current = editor
+  }
+
   const createDraft = () => {
     const formValues = formMethods.getValues()
     const formData = constructPostFormData(formValues)
@@ -76,11 +84,10 @@ export const PostProvider = ({ children }: { children: ReactNode }) => {
     }
   }
 
-  const appendEmoji = (emoji: any) => {
-    console.log(emoji)
-    // const currentValue = textArea
-    // const newValue = `${currentValue}${emoji?.native}`
-    // setValue('text', newValue)
+  const addEmojiToText = (emoji: string) => {
+    if (editorRef.current) {
+      editorRef.current.chain().insertContent(emoji).run()
+    }
   }
 
   return (
@@ -88,10 +95,11 @@ export const PostProvider = ({ children }: { children: ReactNode }) => {
       value={{
         ...formMethods,
         createDraft,
-        appendEmoji,
+        addEmojiToText,
         postImages,
         appendPostImage,
         removePostImage,
+        setEditor,
       }}
     >
       {children}
