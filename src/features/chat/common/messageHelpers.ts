@@ -1,7 +1,7 @@
 import {
   SchemaGetAllMessagesResponseDto,
   SchemaMessageResponseDto,
-} from '@/src/types/schema'
+} from '@/src/generated/schema'
 import { InfiniteData } from '@tanstack/react-query'
 import { format } from 'date-fns'
 

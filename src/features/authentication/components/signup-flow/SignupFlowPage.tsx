@@ -6,7 +6,7 @@ import { useModal } from '@/src/hooks/useModal'
 import { pageRoutes } from '@/src/routes'
 import Modal from '@/src/components/ui/Modal'
 
-const FlowController = () => {
+export const SignupFlowPage = () => {
   const { page, nextPage } = usePagination()
   const location = useLocation()
   const { close, visible } = useModal(true)
@@ -52,5 +52,3 @@ const FlowController = () => {
     </>
   )
 }
-
-export default FlowController

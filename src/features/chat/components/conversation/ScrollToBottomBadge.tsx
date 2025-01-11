@@ -3,7 +3,7 @@ import { SlArrowDown } from 'react-icons/sl'
 import { isScrolledToBottom } from '../../common/scrollHelpers'
 import { useHandleScrollToBottom } from '../../hooks/useHandleScrollToBottom'
 import { TriggerScrollToBottom } from '../../hooks/useTriggerScrollToBottom'
-import { SchemaConversationResponseDto } from '@/src/types/schema'
+import { SchemaConversationResponseDto } from '@/src/generated/schema'
 
 interface Props {
   scrollElementRef: React.RefObject<HTMLElement>

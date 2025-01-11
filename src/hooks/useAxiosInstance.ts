@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import axiosInstance, { instance } from '../utils/api/axiosInstances'
 import { useAppDispatch, useAppSelector } from '../redux/hooks'
 import { selectAccessToken, setAccessToken } from '../redux/user/userSlice'
-import { SchemaAuthUserResponseDto } from '../types/schema'
+import { SchemaAuthUserResponseDto } from '../generated/schema'
 import { apiRoutes } from '../routes'
 
 const useAxiosInstance = () => {

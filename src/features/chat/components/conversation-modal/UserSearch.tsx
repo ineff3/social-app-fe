@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useDebounce } from '@/src/hooks/useDebounce'
 import { SearchList } from '@/src/features/preferences/components/news-sidebar/SearchList'
-import { SchemaUserPreviewResponseDto } from '@/src/types/schema'
+import { SchemaUserPreviewResponseDto } from '@/src/generated/schema'
 
 interface Props {
   onSearchResultClick: (user: SchemaUserPreviewResponseDto) => void

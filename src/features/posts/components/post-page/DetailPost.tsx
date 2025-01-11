@@ -1,7 +1,7 @@
 import UserIconLink from '@/src/components/ui/UserIconLink'
 import { useAppSelector } from '@/src/redux/hooks'
 import { selectUserPreview } from '@/src/redux/user/userSlice'
-import { SchemaPostResponseDto } from '@/src/types/schema'
+import { SchemaPostResponseDto } from '@/src/generated/schema'
 import { useId } from 'react'
 import { convertPostTextToHTML } from '../../utils/convertPostTextToHTML'
 import PostOptions from '../post-items/PostOptions'

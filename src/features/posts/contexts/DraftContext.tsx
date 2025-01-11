@@ -7,7 +7,7 @@ import {
   useForm,
 } from 'react-hook-form'
 import { useDeleteMultipleDrafts, useGetDrafts } from '../hooks/drafts/drafts'
-import { SchemaPostResponseDto } from '@/src/types/schema'
+import { SchemaPostResponseDto } from '@/src/generated/schema'
 
 interface checkboxItem {
   draft: SchemaPostResponseDto

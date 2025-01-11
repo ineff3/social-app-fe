@@ -1,7 +1,7 @@
 import {
   SchemaGetAllMessagesResponseDto,
   SchemaGetMessagesQueryDto,
-} from '@/src/types/schema'
+} from '@/src/generated/schema'
 import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
 import { useInfiniteQuery } from '@tanstack/react-query'
 

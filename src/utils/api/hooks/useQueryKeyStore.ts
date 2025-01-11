@@ -17,7 +17,7 @@ import {
   SchemaUserPreviewResponseDto,
   SchemaUserSearchResponseDto,
   SchemaUserSuggestionsResponseDto,
-} from '@/src/types/schema'
+} from '@/src/generated/schema'
 import { apiRoutes } from '@/src/routes'
 
 const useQueryKeyStore = () => {

@@ -4,7 +4,7 @@ import { SearchList } from './SearchList'
 import { useClickOutside } from '@/src/hooks/useClickOutside'
 import { useDebounce } from '@/src/hooks/useDebounce'
 import { useNavigate } from 'react-router-dom'
-import { SchemaUserPreviewResponseDto } from '@/src/types/schema'
+import { SchemaUserPreviewResponseDto } from '@/src/generated/schema'
 
 export const SearchBar = () => {
   const [isListOpen, setIsListOpen] = useState(false)

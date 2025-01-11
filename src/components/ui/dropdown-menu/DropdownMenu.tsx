@@ -1,4 +1,4 @@
-import { DropdownItem } from '@/src/types'
+import { DropdownItem } from '@/src/common/types'
 import {
   Menu,
   MenuButton,

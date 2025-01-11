@@ -1,4 +1,4 @@
-import { SchemaReadMessageDto } from '@/src/types/schema'
+import { SchemaReadMessageDto } from '@/src/generated/schema'
 import { conversationSocketInstance } from '../conversationSocketInstance'
 import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
 import { useQueryClient } from '@tanstack/react-query'

@@ -1,5 +1,5 @@
 import { format, parseISO } from 'date-fns'
-import { SchemaUserResponseDto } from '../../../types/schema'
+import { SchemaUserResponseDto } from '../../../generated/schema'
 import LocationIconSvg from '@/src/components/ui/icons/LocationIconSvg'
 import LinkIconSvg from '@/src/components/ui/icons/LinkIconSvg'
 import BornIconSvg from '@/src/components/ui/icons/BornIconSvg'

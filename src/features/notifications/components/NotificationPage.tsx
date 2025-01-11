@@ -8,7 +8,7 @@ import {
   selectIncNotificationsCount,
 } from '@/src/redux/notification/notificationSlice'
 
-export const NotificationsFlow = () => {
+export const NotificationPage = () => {
   const incNotificationsCount = useAppSelector(selectIncNotificationsCount)
   const dispatch = useAppDispatch()
   const { ref, inView } = useInView()

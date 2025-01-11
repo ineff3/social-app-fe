@@ -1,8 +1,8 @@
-import { PostsFlow } from '../features/posts/components/PostsFlow'
-import useGetPosts from '../features/posts/hooks/useGetPosts'
-import useQueryKeyStore from '../utils/api/hooks/useQueryKeyStore'
+import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
+import useGetPosts from '../hooks/useGetPosts'
+import { PostsFlow } from './PostsFlow'
 
-const Bookmarks = () => {
+export const BookmarksPage = () => {
   const queryKeyStore = useQueryKeyStore()
   return (
     <PostsFlow
@@ -15,5 +15,3 @@ const Bookmarks = () => {
     />
   )
 }
-
-export default Bookmarks

@@ -1,14 +1,13 @@
 import { DropdownMenu } from '@/src/components/ui/dropdown-menu/DropdownMenu'
 import RepostIconSvg from '@/src/components/ui/icons/RepostIconSvg'
-
-import { DropdownItem } from '@/src/types'
+import { DropdownItem } from '@/src/common/types'
 import { RepostButton } from './RepostButton'
 import { FaRegPenToSquare } from 'react-icons/fa6'
 import useCreatePost from '../../../hooks/useCreatePost'
 import useDeletePost from '../../../hooks/useDeletePost'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { pageRoutes } from '@/src/routes'
-import { SchemaPostResponseDto } from '@/src/types/schema'
+import { SchemaPostResponseDto } from '@/src/generated/schema'
 import { PostCreationLocationState } from '../../../interfaces'
 
 interface Props {

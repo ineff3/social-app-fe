@@ -4,7 +4,7 @@ import { useAppSelector } from '@/src/redux/hooks'
 import { selectUserPreview } from '@/src/redux/user/userSlice'
 import { useQueryClient } from '@tanstack/react-query'
 import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
-import { SchemaGetUserByUsernameResponseDto } from '@/src/types/schema'
+import { SchemaGetUserByUsernameResponseDto } from '@/src/generated/schema'
 import { EditProfileForm } from './EditProfileForm'
 interface Props {
   close: () => void

@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { SchemaUserPreviewResponseDto } from '../../types/schema'
+import { SchemaUserPreviewResponseDto } from '../../generated/schema'
 import { RootState } from '../store'
 
 const scrollPositions = {

@@ -9,7 +9,7 @@ import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
 import { StickyHeader } from '@/src/components/ui/StickyHeader'
 import { useRef } from 'react'
 
-export const PostPage = () => {
+export const PostDetailPage = () => {
   const queryKeyStore = useQueryKeyStore()
   const { postId } = useParams()
   const scrolledElementRef = useRef<HTMLElement>(document.body)

@@ -1,7 +1,7 @@
 import { CloseBtn } from '@/src/components/ui/CloseBtn'
 import { UserSearch } from './UserSearch'
 import { useCreateConversation } from '../../hooks/useCreateConversation'
-import { SchemaUserPreviewResponseDto } from '@/src/types/schema'
+import { SchemaUserPreviewResponseDto } from '@/src/generated/schema'
 import { useAppDispatch } from '@/src/redux/hooks'
 import { selectConversation } from '@/src/redux/chat/chatSlice'
 import { AxiosError } from 'axios'

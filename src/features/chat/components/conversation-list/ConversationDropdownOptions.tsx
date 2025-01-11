@@ -1,7 +1,7 @@
 import { DropdownMenu } from '@/src/components/ui/dropdown-menu/DropdownMenu'
 import { GoTrash } from 'react-icons/go'
 import { useDeleteConversation } from '../../hooks/useDeleteConversation'
-import { DropdownItem } from '@/src/types'
+import { DropdownItem } from '@/src/common/types'
 import { ConversationDropdownButton } from './ConversationDropdownButton'
 import { useAppDispatch } from '@/src/redux/hooks'
 import { selectConversation } from '@/src/redux/chat/chatSlice'

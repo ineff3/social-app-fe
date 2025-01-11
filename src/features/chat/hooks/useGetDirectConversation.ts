@@ -1,4 +1,4 @@
-import { SchemaGetDirectConversationQueryDto } from '@/src/types/schema'
+import { SchemaGetDirectConversationQueryDto } from '@/src/generated/schema'
 import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
 import { useQuery } from '@tanstack/react-query'
 

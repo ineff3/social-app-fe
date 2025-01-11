@@ -1,4 +1,4 @@
-import { SchemaGetAllMessagesResponseDto } from '@/src/types/schema'
+import { SchemaGetAllMessagesResponseDto } from '@/src/generated/schema'
 import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
 import { InfiniteData, useQueryClient } from '@tanstack/react-query'
 

@@ -1,4 +1,4 @@
-import { SchemaConversationResponseDto } from '@/src/types/schema'
+import { SchemaConversationResponseDto } from '@/src/generated/schema'
 
 export const retrieveRecipient = (
   conversation: SchemaConversationResponseDto,

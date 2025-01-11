@@ -1,7 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { AxiosError } from 'axios'
-import { useSignup } from '..'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useAppDispatch } from '@/src/redux/hooks'
 import { setAccessToken } from '@/src/redux/user/userSlice'
@@ -9,6 +8,7 @@ import { PERSIST_AUTH_KEY } from '../constants'
 import { SignupFormType, signupValidationSchema } from '../schemas'
 import { pageRoutes } from '@/src/routes'
 import Input from '@/src/components/form/Input'
+import { useSignup } from '../hooks/useSignup'
 
 interface Props {
   setErrorMessage: (value: string) => void

@@ -1,7 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query'
 import { conversationSocketInstance } from '../conversationSocketInstance'
 import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
-import { SchemaCreateMessageDto } from '@/src/types/schema'
+import { SchemaCreateMessageDto } from '@/src/generated/schema'
 import { ResponseAcknowledgement } from '../interfaces'
 import { useAppDispatch } from '@/src/redux/hooks'
 import {

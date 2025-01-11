@@ -1,4 +1,4 @@
-import { SchemaParticipantResponseDto } from '@/src/types/schema'
+import { SchemaParticipantResponseDto } from '@/src/generated/schema'
 import { useGetMessages } from '../../hooks/useGetMessages'
 import { Message } from './Message'
 import { useHandleIncomingMessage } from '../../hooks/useHandleIncomingMessage'
@@ -124,7 +124,10 @@ export const MessageFlow = ({
             ))}
           </div>
         ))}
-      <PendingMessages conversationId={conversationId} />
+      <PendingMessages
+        conversationId={conversationId}
+        triggerScrollToBottom={triggerScrollToBottom}
+      />
     </div>
   )
 }

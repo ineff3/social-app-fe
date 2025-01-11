@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks'
 import { selectUserPreview } from '@/src/redux/user/userSlice'
-import { SchemaConversationResponseDto } from '@/src/types/schema'
+import { SchemaConversationResponseDto } from '@/src/generated/schema'
 import { retrieveRecipient } from '../../common/conversationHelpers'
 import { ConversationUserPreview } from './ConversationUserPreview'
 import { useRef } from 'react'

@@ -1,6 +1,6 @@
 import { FollowButton } from '@/src/features/users/components/FollowButton'
 import { UserPreview } from '@/src/layouts/components/UserPreview'
-import { SchemaUserPreviewResponseDto } from '@/src/types/schema'
+import { SchemaUserPreviewResponseDto } from '@/src/generated/schema'
 import { useNavigate } from 'react-router-dom'
 
 interface Props {

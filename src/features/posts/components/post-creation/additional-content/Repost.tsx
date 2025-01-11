@@ -1,4 +1,4 @@
-import { SchemaPostResponseDto } from '@/src/types/schema'
+import { SchemaPostResponseDto } from '@/src/generated/schema'
 import { convertPostDate } from '../../../utils/dateConversions'
 import { ImageDisplay } from '../../post-items/ImageDisplay'
 import { convertPostTextToHTML } from '../../../utils/convertPostTextToHTML'

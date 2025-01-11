@@ -1,4 +1,4 @@
-import { SchemaNotificationResponseDto } from '@/src/types/schema'
+import { SchemaNotificationResponseDto } from '@/src/generated/schema'
 import Post from '../../posts/components/Post'
 import { NotificationMessage } from './NotificationMessage'
 import { useViewNotification } from '../hooks/useViewNotification'

@@ -6,7 +6,7 @@ import {
 } from '@/src/redux/chat/chatSlice'
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks'
 import { selectUserPreview } from '@/src/redux/user/userSlice'
-import { SchemaConversationResponseDto } from '@/src/types/schema'
+import { SchemaConversationResponseDto } from '@/src/generated/schema'
 import { ROW_HEIGHT } from './ConversationList'
 import { formatConversationDate } from '@/src/features/posts/utils/dateConversions'
 import { ConversationDropdownOptions } from './ConversationDropdownOptions'

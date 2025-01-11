@@ -2,7 +2,7 @@ import { apiRoutes } from '@/src/routes'
 import {
   SchemaConversationResponseDto,
   SchemaCreateConversationDto,
-} from '@/src/types/schema'
+} from '@/src/generated/schema'
 import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
 import { usePost } from '@/src/utils/api/mutations'
 

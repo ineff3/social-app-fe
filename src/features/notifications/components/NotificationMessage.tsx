@@ -1,5 +1,5 @@
 import XIconSvg from '@/src/components/ui/icons/XIconSvg'
-import { SchemaNotificationResponseDto } from '@/src/types/schema'
+import { SchemaNotificationResponseDto } from '@/src/generated/schema'
 
 interface Props {
   notification: SchemaNotificationResponseDto

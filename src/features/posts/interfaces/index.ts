@@ -1,4 +1,4 @@
-import { SchemaPostResponseDto } from '@/src/types/schema'
+import { SchemaPostResponseDto } from '@/src/generated/schema'
 import { Location } from 'react-router-dom'
 
 export interface CreatePostFormType {

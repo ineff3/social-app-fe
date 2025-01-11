@@ -3,7 +3,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { conversationSocketInstance } from '../conversationSocketInstance'
 import { chatEvents } from '@/src/events'
-import { SchemaUserTypingDto } from '@/src/types/schema'
+import { SchemaUserTypingDto } from '@/src/generated/schema'
 import { useAppDispatch } from '@/src/redux/hooks'
 import { addTypingUser, removeTypingUser } from '@/src/redux/chat/chatSlice'
 

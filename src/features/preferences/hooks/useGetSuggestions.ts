@@ -1,7 +1,7 @@
 import {
   SchemaGetSuggestionsQueryDto,
   SchemaUserSuggestionsResponseDto,
-} from '@/src/types/schema'
+} from '@/src/generated/schema'
 import { getNextPageParam } from '@/src/utils/api/helpers'
 import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
 import { useInfiniteQuery } from '@tanstack/react-query'

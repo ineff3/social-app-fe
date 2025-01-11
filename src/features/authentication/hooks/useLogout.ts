@@ -5,7 +5,7 @@ import { PERSIST_AUTH_KEY } from '../constants'
 import { useAppDispatch } from '@/src/redux/hooks'
 import { resetUserState } from '@/src/redux/user/userSlice'
 
-const useLogout = () => {
+export const useLogout = () => {
   const dispatch = useAppDispatch()
   const queryClient = useQueryClient()
   const logout = async () => {
@@ -15,12 +15,10 @@ const useLogout = () => {
       await axios.get(apiRoutes.logout, {
         withCredentials: true,
       })
-      await queryClient.invalidateQueries()
+      queryClient.clear()
     } catch (err) {
       console.log(err)
     }
   }
   return logout
 }
-
-export default useLogout

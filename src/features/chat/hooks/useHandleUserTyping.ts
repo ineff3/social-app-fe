@@ -1,6 +1,6 @@
 import { chatEvents } from '@/src/events'
 import { conversationSocketInstance } from '../conversationSocketInstance'
-import { SchemaUserTypingDto } from '@/src/types/schema'
+import { SchemaUserTypingDto } from '@/src/generated/schema'
 import { useCallback, useEffect, useState } from 'react'
 
 const USER_TYPING_DELAY = 3000

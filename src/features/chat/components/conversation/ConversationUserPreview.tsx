@@ -1,5 +1,5 @@
 import UserIconLink from '@/src/components/ui/UserIconLink'
-import { SchemaUserPreviewResponseDto } from '@/src/types/schema'
+import { SchemaUserPreviewResponseDto } from '@/src/generated/schema'
 import { format, parseISO } from 'date-fns'
 
 interface Props {

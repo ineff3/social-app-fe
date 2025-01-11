@@ -1,7 +1,7 @@
 import CommentIconSvg from '@/src/components/ui/icons/CommentIconSvg'
 import LikeSection from './LikeSection'
 import BookmarkSection from './BookmarkSection'
-import { SchemaPostResponseDto } from '@/src/types/schema'
+import { SchemaPostResponseDto } from '@/src/generated/schema'
 import { RepostSection } from './repost/RepostSection'
 import { QueryKey } from '@tanstack/react-query'
 import { QueryUpdater } from '@/src/utils/api/interfaces'

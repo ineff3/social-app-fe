@@ -1,4 +1,4 @@
-import { SchemaPostResponseDto } from '@/src/types/schema'
+import { SchemaPostResponseDto } from '@/src/generated/schema'
 import { useNavigate } from 'react-router-dom'
 import { usePostContext } from '../../../contexts/PostContext'
 import { useId } from 'react'

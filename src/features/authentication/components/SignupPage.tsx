@@ -7,7 +7,7 @@ import { pageRoutes } from '../../../routes'
 import ErrorAlert from '../../../components/ui/ErrorAlert'
 import { CloseBtn } from '@/src/components/ui/CloseBtn'
 
-const Signup = () => {
+export const SignupPage = () => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const navigate = useNavigate()
   const { close, visible } = useModal(true)
@@ -35,5 +35,3 @@ const Signup = () => {
     </Modal>
   )
 }
-
-export default Signup

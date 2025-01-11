@@ -1,5 +1,5 @@
 import RepostIconSvg from '@/src/components/ui/icons/RepostIconSvg'
-import { SchemaUserPreviewResponseDto } from '@/src/types/schema'
+import { SchemaUserPreviewResponseDto } from '@/src/generated/schema'
 import { Link } from 'react-router-dom'
 
 interface Props {

@@ -40,7 +40,7 @@ export const pageRoutes = {
   authSignup: '/auth/signup',
   signupFlow: '/signup-flow',
   createPost: '/create-post',
-  post: '/post/:postId',
+  postDetail: '/post/:postId',
   drafts: '/drafts',
   notifications: '/notifications',
   bookmarks: '/bookmarks',

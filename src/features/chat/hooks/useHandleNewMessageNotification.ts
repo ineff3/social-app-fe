@@ -2,7 +2,7 @@ import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
 import { useQueryClient } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { conversationSocketInstance } from '../conversationSocketInstance'
-import { SchemaMessageResponseDto } from '@/src/types/schema'
+import { SchemaMessageResponseDto } from '@/src/generated/schema'
 import { incrementConversationMessageCounter } from '../common/cacheUpdaters'
 import { chatEvents } from '@/src/events'
 

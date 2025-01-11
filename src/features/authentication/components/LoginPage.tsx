@@ -2,7 +2,7 @@ import { Link, Outlet } from 'react-router-dom'
 import LoginForm from './LoginForm'
 import { useState } from 'react'
 
-const Login = () => {
+export const LoginPage = () => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
   return (
@@ -66,5 +66,3 @@ const Login = () => {
     </div>
   )
 }
-
-export default Login

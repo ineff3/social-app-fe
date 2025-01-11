@@ -3,7 +3,7 @@ import { useFollow } from '../hooks/useFollow'
 import { useUnfollow } from '../hooks/useUnfollow'
 import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
 import { handleUpdater } from '@/src/utils/api/helpers'
-import { SchemaUserPreviewResponseDto } from '@/src/types/schema'
+import { SchemaUserPreviewResponseDto } from '@/src/generated/schema'
 
 const btnSizes = {
   sm: 'btn-sm',

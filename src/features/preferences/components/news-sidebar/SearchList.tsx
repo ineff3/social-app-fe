@@ -1,6 +1,6 @@
 import ErrorAlert from '@/src/components/ui/ErrorAlert'
 import { UserPreview } from '@/src/layouts/components/UserPreview'
-import { SchemaUserPreviewResponseDto } from '@/src/types/schema'
+import { SchemaUserPreviewResponseDto } from '@/src/generated/schema'
 import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { MdOutlineErrorOutline } from 'react-icons/md'

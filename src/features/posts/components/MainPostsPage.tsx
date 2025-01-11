@@ -14,7 +14,7 @@ const tabItems = [
   },
 ]
 
-export const MainPosts = () => {
+export const MainPostsPage = () => {
   const queryKeyStore = useQueryKeyStore()
   return (
     <TabGroup>

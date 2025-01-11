@@ -1,27 +1,22 @@
 import { Route, Routes, useLocation } from 'react-router-dom'
 import BaseLayout from './layouts/BaseLayout'
-import {
-  FlowController,
-  RouteAuth,
-  UserInit,
-} from './features/authentication/index'
-import {
-  Auth,
-  Bookmarks,
-  CreatePost,
-  Home,
-  ManageDrafts,
-  Notifications,
-  ViewPost,
-  Premium,
-  Profile,
-  Search,
-  SignupPage,
-} from './pages'
 import { pageRoutes } from './routes'
-import { DraftProvider, PostProvider } from './features/posts'
 import { PostCreationLayout } from './layouts/PostCreationLayout'
 import { ConversationsPage } from './features/chat/components/ConversationsPage'
+import { MainPostsPage } from './features/posts/components/MainPostsPage'
+import { BookmarksPage } from './features/posts/components/BookmarksPage'
+import { NotificationPage } from './features/notifications/components/NotificationPage'
+import { PostDetailPage } from './features/posts/components/post-page/PostDetailPage'
+import { ProfilePage } from './features/users/components/ProfilePage'
+import { SignupFlowPage } from './features/authentication/components/signup-flow/SignupFlowPage'
+import { SignupPage } from './features/authentication/components/SignupPage'
+import { LoginPage } from './features/authentication/components/LoginPage'
+import { RouteAuth } from './features/authentication/components/routes-accessors/RouteAuth'
+import { UserInit } from './features/authentication/components/routes-accessors/UserInit'
+import { CreatePostPage } from './features/posts/components/post-creation/CreatePostPage'
+import { PostProvider } from './features/posts/contexts/PostContext'
+import { DraftProvider } from './features/posts/contexts/DraftContext'
+import { DraftsPage } from './features/posts/components/post-creation/drafts/DraftsPage'
 
 const App = () => {
   const location = useLocation()
@@ -36,8 +31,8 @@ const App = () => {
     <>
       <Routes location={backgroundLocation || location}>
         <Route element={<RouteAuth />}>
-          <Route path={pageRoutes.auth} element={<Auth />}>
-            <Route path="signup" element={<SignupPage />} />
+          <Route path={pageRoutes.auth} element={<LoginPage />}>
+            <Route path={pageRoutes.authSignup} element={<SignupPage />} />
           </Route>
         </Route>
         <Route element={<RouteAuth required />}>
@@ -45,22 +40,25 @@ const App = () => {
             <Route element={<BaseLayout />}>
               <Route
                 path={pageRoutes.signupFlow}
-                element={<FlowController />}
+                element={<SignupFlowPage />}
               />
-              <Route path={pageRoutes.home} element={<Home />} />
-              <Route path={pageRoutes.profile} element={<Profile />} />
-              <Route path={pageRoutes.post} element={<ViewPost />} />
-              <Route path="/search" element={<Search />} />
+              <Route path={pageRoutes.home} element={<MainPostsPage />} />
+              <Route path={pageRoutes.profile} element={<ProfilePage />} />
+              <Route
+                path={pageRoutes.postDetail}
+                element={<PostDetailPage />}
+              />
+              <Route path="/search" element={<></>} />
               <Route
                 path={pageRoutes.notifications}
-                element={<Notifications />}
+                element={<NotificationPage />}
               />
               <Route
                 path={pageRoutes.conversations}
                 element={<ConversationsPage />}
               />
-              <Route path={pageRoutes.bookmarks} element={<Bookmarks />} />
-              <Route path="/premium" element={<Premium />} />
+              <Route path={pageRoutes.bookmarks} element={<BookmarksPage />} />
+              <Route path="/premium" element={<></>} />
             </Route>
           </Route>
         </Route>
@@ -77,12 +75,15 @@ const App = () => {
                   </PostProvider>
                 }
               >
-                <Route path={pageRoutes.createPost} element={<CreatePost />} />
+                <Route
+                  path={pageRoutes.createPost}
+                  element={<CreatePostPage />}
+                />
                 <Route
                   path={pageRoutes.drafts}
                   element={
                     <DraftProvider>
-                      <ManageDrafts />
+                      <DraftsPage />
                     </DraftProvider>
                   }
                 />

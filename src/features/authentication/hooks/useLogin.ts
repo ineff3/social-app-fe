@@ -1,4 +1,4 @@
-import { SchemaAuthUserResponseDto } from '@/src/types/schema'
+import { SchemaAuthUserResponseDto } from '@/src/generated/schema'
 import { apiRoutes } from '../../../routes'
 import { usePost } from '../../../utils/api/mutations'
 import { ILoginData } from '../interfaces/'

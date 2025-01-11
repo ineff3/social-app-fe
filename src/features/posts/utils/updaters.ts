@@ -1,4 +1,4 @@
-import { SchemaPostResponseDto } from '@/src/types/schema'
+import { SchemaPostResponseDto } from '@/src/generated/schema'
 
 export const updateLikedPost = (post: SchemaPostResponseDto) => {
   return {

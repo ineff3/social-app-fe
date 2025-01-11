@@ -1,7 +1,7 @@
 import {
   SchemaConversationResponseDto,
   SchemaGetAllConversationsResponseDto,
-} from '@/src/types/schema'
+} from '@/src/generated/schema'
 import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
 import { InfiniteData, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'

@@ -6,7 +6,7 @@ import {
 import { useInView } from 'react-intersection-observer'
 import { useEffect } from 'react'
 import Post from './Post'
-import { SchemaGetAllPostsResponseDto } from '@/src/types/schema'
+import { SchemaGetAllPostsResponseDto } from '@/src/generated/schema'
 import {
   GetAllPostsParams,
   GetPostCommentsParams,

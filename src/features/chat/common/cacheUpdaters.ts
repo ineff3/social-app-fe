@@ -2,7 +2,7 @@ import {
   SchemaConversationResponseDto,
   SchemaGetAllMessagesResponseDto,
   SchemaMessageResponseDto,
-} from '@/src/types/schema'
+} from '@/src/generated/schema'
 import { handleUpdater } from '@/src/utils/api/helpers'
 import { InfiniteData } from '@tanstack/react-query'
 

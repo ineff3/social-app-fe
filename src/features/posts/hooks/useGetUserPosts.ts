@@ -1,4 +1,4 @@
-import { SchemaGetAllPostsResponseDto } from '@/src/types/schema'
+import { SchemaGetAllPostsResponseDto } from '@/src/generated/schema'
 import { getNextPageParam } from '@/src/utils/api/helpers'
 import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
 import { GetUserPostsParams } from '@/src/utils/api/interfaces'

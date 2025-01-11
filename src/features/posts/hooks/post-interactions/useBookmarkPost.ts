@@ -1,5 +1,5 @@
 import { apiRoutes } from '@/src/routes'
-import { SchemaGetAllPostsResponseDto } from '@/src/types/schema'
+import { SchemaGetAllPostsResponseDto } from '@/src/generated/schema'
 import { QueryUpdater } from '@/src/utils/api/interfaces'
 import { usePost } from '@/src/utils/api/mutations'
 import { InfiniteData, QueryKey } from '@tanstack/react-query'

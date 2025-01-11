@@ -1,4 +1,4 @@
-import { SchemaMessageResponseDto } from '@/src/types/schema'
+import { SchemaMessageResponseDto } from '@/src/generated/schema'
 
 export interface ResponseAcknowledgement {
   status: 'success' | 'error'
