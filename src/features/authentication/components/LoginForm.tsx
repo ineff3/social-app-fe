@@ -9,6 +9,7 @@ import { useAppDispatch } from '@/src/redux/hooks'
 import { setAccessToken } from '@/src/redux/user/userSlice'
 import { PERSIST_AUTH_KEY } from '../constants'
 import { LoginFormType, loginValidationSchema } from '../schemas'
+import { Spinner } from '@/src/components/ui/spinners/Spinner'
 
 interface Props {
   setErrorMessage: (value: string) => void
@@ -86,9 +87,7 @@ const LoginForm = ({ setErrorMessage }: Props) => {
           type="submit"
           className={` ${loginMutation.isPending ? 'btn-disabled' : ''} btn btn-primary btn-block mt-3 `}
         >
-          {loginMutation.isPending && (
-            <span className="loading loading-spinner"></span>
-          )}
+          {loginMutation.isPending && <Spinner />}
           Connect now
         </button>
       </form>

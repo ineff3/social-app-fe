@@ -1,8 +1,8 @@
+import { ComponentWithChildrenProps } from '@/src/common/props'
 import { useIsScrolled } from '@/src/hooks/useIsScrolled'
 import { RefObject } from 'react'
 
-interface Props {
-  children: React.ReactNode
+interface Props extends ComponentWithChildrenProps {
   scrolledElementRef: RefObject<HTMLElement>
 }
 

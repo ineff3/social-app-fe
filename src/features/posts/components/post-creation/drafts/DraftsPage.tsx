@@ -1,14 +1,12 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import ArrowIconSvg from '@/src/components/ui/icons/ArrowIconSvg'
 import { DraftList } from './DraftList'
 import { useDraftContext } from '../../../contexts/DraftContext'
+import { BackCircleButton } from '@/src/components/ui/buttons/BackCircleButton'
 
 export const DraftsPage = () => {
   const [editMode, setEditMode] = useState(false)
   const { deleteSelectedDrafts, selectAll, deselectAll, hasSelected } =
     useDraftContext()!
-  const navigate = useNavigate()
 
   const changeMode = () => {
     setEditMode((prev) => {
@@ -22,15 +20,7 @@ export const DraftsPage = () => {
   return (
     <div className=" flex flex-1 flex-col">
       <div className=" flex items-center gap-4">
-        <div data-tip="Back" className=" tooltip tooltip-secondary">
-          <button
-            aria-label="Move back"
-            className=" btn btn-circle btn-ghost"
-            onClick={() => navigate(-1)}
-          >
-            <ArrowIconSvg width={18} height={18} fill="currentColor" />
-          </button>
-        </div>
+        <BackCircleButton className="fill-secondary" />
         <div className=" flex flex-1 items-center justify-between">
           <p className=" text-lg font-semibold">Drafts</p>
           <button

@@ -9,6 +9,7 @@ import { SignupFormType, signupValidationSchema } from '../schemas'
 import { pageRoutes } from '@/src/routes'
 import Input from '@/src/components/form/Input'
 import { useSignup } from '../hooks/useSignup'
+import { Spinner } from '@/src/components/ui/spinners/Spinner'
 
 interface Props {
   setErrorMessage: (value: string) => void
@@ -100,9 +101,7 @@ const SignupForm = ({ setErrorMessage }: Props) => {
         type="submit"
         className={`btn btn-primary mt-5 w-fit  self-center px-10 ${signupMutation.isPending && signupMutation.isPending ? 'btn-disabled' : ''}`}
       >
-        {signupMutation.isPending && signupMutation.isPending && (
-          <span className="loading loading-spinner"></span>
-        )}
+        {signupMutation.isPending && signupMutation.isPending && <Spinner />}
         Sign Up
       </button>
     </form>

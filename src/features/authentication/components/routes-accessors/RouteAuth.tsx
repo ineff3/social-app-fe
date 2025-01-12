@@ -5,11 +5,11 @@ import {
   setAccessToken,
 } from '@/src/redux/user/userSlice'
 import { PERSIST_AUTH_KEY } from '../../constants'
-import { LoadingSpinner } from '@/src/components/ui/LoadingSpinner'
 import { useQuery } from '@tanstack/react-query'
 import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
 import { useEffect, useState } from 'react'
 import { pageRoutes } from '@/src/routes'
+import { FullScreenSpinner } from '@/src/components/ui/spinners/FullScreenSpinner'
 
 export const RouteAuth = ({ required = false }: { required?: boolean }) => {
   const [isAuthLoading, setIsAuthLoading] = useState(true)
@@ -49,7 +49,7 @@ export const RouteAuth = ({ required = false }: { required?: boolean }) => {
   )
 
   if (isAuthLoading) {
-    return <LoadingSpinner />
+    return <FullScreenSpinner />
   }
 
   if (required) {

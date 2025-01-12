@@ -7,6 +7,7 @@ import {
 import { GifIcon, ScheduleIcon, StatsIcon } from '@/src/components/ui/icons'
 import { AttachPicture } from './additional-content/AttachPicture'
 import { EmojiPopover } from '@/src/components/emoji/EmojiPopover'
+import { Spinner } from '@/src/components/ui/spinners/Spinner'
 
 interface Props {
   hasDivider?: boolean
@@ -68,9 +69,7 @@ export const PostFormFooter = ({
           className={`btn btn-primary btn-sm ${isFormInvalid && 'btn-disabled !bg-base-200'} `}
         >
           <p>{submitBtnTitle}</p>
-          {isCreationPending && (
-            <span className="loading loading-spinner loading-sm"></span>
-          )}
+          {isCreationPending && <Spinner size="sm" />}
         </button>
       </div>
     </div>

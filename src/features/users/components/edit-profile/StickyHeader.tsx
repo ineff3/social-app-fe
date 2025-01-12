@@ -1,4 +1,4 @@
-import { CloseBtn } from '@/src/components/ui/CloseBtn'
+import { CloseCircleButton } from '@/src/components/ui/buttons/CloseCircleButton'
 import { useEffect, useState } from 'react'
 interface Props {
   close: () => void
@@ -34,7 +34,7 @@ const StickyHeader = ({ close, onSave }: Props) => {
       } `}
     >
       <div>
-        <CloseBtn onClick={close} />
+        <CloseCircleButton onClick={close} />
       </div>
       <div className="flex flex-1 items-center justify-between">
         <p className="font-bold text-secondary">Edit Profile</p>

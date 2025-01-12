@@ -4,7 +4,7 @@ import { formatMessageDate } from '@/src/features/posts/utils/dateConversions'
 import { ExtendedChatMessage } from '../../interfaces'
 import { MdOutlineErrorOutline } from 'react-icons/md'
 import { RestartIcon } from '@/src/components/ui/icons/RestartIcon'
-import { CircleButton } from '@/src/components/ui/CircleButton'
+import { CircleButton } from '@/src/components/ui/buttons/CircleButton'
 import { useSendMessage } from '../../hooks/useSendMessage'
 import { useAppDispatch } from '@/src/redux/hooks'
 import {

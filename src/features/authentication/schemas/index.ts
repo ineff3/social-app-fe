@@ -1,4 +1,4 @@
-import { requiredStringFieldSchema } from '@/src/utils/schemas/schemeTransformations'
+import { requiredStringFieldSchema } from '@/src/common/schemas/schemeTransformations'
 import { z } from 'zod'
 
 // Login

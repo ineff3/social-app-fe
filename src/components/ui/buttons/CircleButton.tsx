@@ -1,3 +1,9 @@
+import {
+  ClickableComponentProps,
+  ComponentWithChildrenProps,
+  LabeledComponentProps,
+} from '@/src/common/props'
+
 const sizes = {
   sm: 'btn-sm',
   md: 'btn-md text-base',
@@ -9,11 +15,11 @@ const tooltipPositions = {
   left: 'tooltip-left',
 }
 
-interface Props {
-  onClick: React.MouseEventHandler
-  label: string
-  tooltipPosition: keyof typeof tooltipPositions
-  children: React.ReactNode
+interface Props
+  extends ComponentWithChildrenProps,
+    ClickableComponentProps,
+    LabeledComponentProps {
+  tooltipPosition?: keyof typeof tooltipPositions
   isGhost?: boolean
   size?: keyof typeof sizes
 }

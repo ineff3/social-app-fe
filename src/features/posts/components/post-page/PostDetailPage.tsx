@@ -1,4 +1,3 @@
-import { BackBtn } from '@/src/components/ui/BackBtn'
 import { useGetPostDetail } from '../../hooks/useGetPostDetail'
 import { useParams } from 'react-router-dom'
 import { PostNotFound } from './PostNotFound'
@@ -8,6 +7,8 @@ import { useGetPostComments } from '../../hooks/useGetPostComments'
 import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
 import { StickyHeader } from '@/src/components/ui/StickyHeader'
 import { useRef } from 'react'
+import { BackCircleButton } from '@/src/components/ui/buttons/BackCircleButton'
+import { Spinner } from '@/src/components/ui/spinners/Spinner'
 
 export const PostDetailPage = () => {
   const queryKeyStore = useQueryKeyStore()
@@ -19,7 +20,7 @@ export const PostDetailPage = () => {
   if (isLoading) {
     return (
       <div className=" mt-12 flex justify-center">
-        <span className="loading loading-spinner loading-lg"></span>
+        <Spinner size="lg" />
       </div>
     )
   }
@@ -31,8 +32,10 @@ export const PostDetailPage = () => {
   return (
     <div>
       <StickyHeader scrolledElementRef={scrolledElementRef}>
-        <BackBtn />
-        <span className="text-lg font-bold text-secondary">Post</span>
+        <div className="flex items-center gap-3 px-5 py-2">
+          <BackCircleButton size="sm" className="fill-secondary" />
+          <span className="text-lg font-bold text-secondary">Post</span>
+        </div>
       </StickyHeader>
       <div>{data && <DetailPost post={data} />}</div>
       <div>

@@ -10,7 +10,7 @@ import { useChatRoomSubscription } from '../../hooks/useChatRoomSubscription'
 import { useTriggerScrollToBottom } from '../../hooks/useTriggerScrollToBottom'
 import { useHandleReadMessage } from '../../hooks/useHandleReadMessage'
 import { ScrollToBottomBadge } from './ScrollToBottomBadge'
-import { CircleButton } from '@/src/components/ui/CircleButton'
+import { CircleButton } from '@/src/components/ui/buttons/CircleButton'
 import { selectConversation } from '@/src/redux/chat/chatSlice'
 import ArrowIconSvg from '@/src/components/ui/icons/ArrowIconSvg'
 

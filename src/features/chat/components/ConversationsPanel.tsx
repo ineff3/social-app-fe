@@ -1,6 +1,6 @@
 import { FaRegPenToSquare } from 'react-icons/fa6'
 import { ConversationList } from './conversation-list/ConversationList'
-import { CircleButton } from '@/src/components/ui/CircleButton'
+import { CircleButton } from '@/src/components/ui/buttons/CircleButton'
 
 interface Props {
   show: () => void

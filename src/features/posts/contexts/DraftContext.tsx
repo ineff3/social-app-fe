@@ -8,6 +8,7 @@ import {
 } from 'react-hook-form'
 import { useDeleteMultipleDrafts, useGetDrafts } from '../hooks/drafts/drafts'
 import { SchemaPostResponseDto } from '@/src/generated/schema'
+import { ComponentWithChildrenProps } from '@/src/common/props'
 
 interface checkboxItem {
   draft: SchemaPostResponseDto
@@ -34,7 +35,7 @@ export const useDraftContext = () => {
   return useContext(DraftContext)
 }
 
-export const DraftProvider = ({ children }: { children: React.ReactNode }) => {
+export const DraftProvider = ({ children }: ComponentWithChildrenProps) => {
   const { data, isLoading, isError } = useGetDrafts()
   const deleteMultipleDraftsMutation = useDeleteMultipleDrafts()
 

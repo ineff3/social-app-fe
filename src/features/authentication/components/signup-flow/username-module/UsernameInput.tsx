@@ -5,6 +5,7 @@ import {
   USERNAME_MAX_LENGTH,
   USERNAME_MIN_LENGTH,
 } from './common/isUsernameValid'
+import { Spinner } from '@/src/components/ui/spinners/Spinner'
 
 interface Props {
   isReserved?: boolean
@@ -65,7 +66,7 @@ const UsernameInput = ({
           className=" flex flex-1"
         />
         {isLoading || isDebounceLoading ? (
-          <span className="loading loading-spinner loading-md"></span>
+          <Spinner />
         ) : isReserved || !isValid ? (
           <ErrorIconSvg width="27" height="27" />
         ) : (

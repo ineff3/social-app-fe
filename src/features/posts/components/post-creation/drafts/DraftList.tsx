@@ -3,6 +3,7 @@ import { Checkbox } from '@headlessui/react'
 import { DraftRow } from './DraftRow'
 import ErrorAlert from '@/src/components/ui/ErrorAlert'
 import { useDraftContext } from '../../../contexts/DraftContext'
+import { Spinner } from '@/src/components/ui/spinners/Spinner'
 
 interface Props {
   editMode: boolean
@@ -14,7 +15,7 @@ export const DraftList = ({ editMode }: Props) => {
   if (isFieldsLoading) {
     return (
       <div className=" flex h-full justify-center">
-        <span className=" loading loading-spinner loading-lg items-center"></span>
+        <Spinner size="lg" />
       </div>
     )
   }

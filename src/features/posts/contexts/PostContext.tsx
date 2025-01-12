@@ -1,6 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { createContext, ReactNode, useContext, useRef } from 'react'
+import { createContext, useContext, useRef } from 'react'
 import {
   FieldArrayWithId,
   useFieldArray,
@@ -16,6 +16,7 @@ import { useCreateDraft, useUpdateDraft } from '../hooks/drafts/drafts'
 import { constructPostFormData } from '../utils/constructPostFormData'
 import { useLocation } from 'react-router-dom'
 import { Editor } from '@tiptap/react'
+import { ComponentWithChildrenProps } from '@/src/common/props'
 
 interface IPostContextProps extends UseFormReturn<CreatePostFormType> {
   createDraft: () => void
@@ -31,7 +32,7 @@ export const usePostContext = () => {
   return useContext(PostContext)
 }
 
-export const PostProvider = ({ children }: { children: ReactNode }) => {
+export const PostProvider = ({ children }: ComponentWithChildrenProps) => {
   const location = useLocation()
   const repost = (location.state as PostCreationLocationState)?.repost
   const formMethods = useForm<CreatePostFormType>({

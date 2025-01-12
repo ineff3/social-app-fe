@@ -9,6 +9,7 @@ import { EditProfileFormFields } from './EditProfileFormFields'
 import useEditProfile from '../../hooks/useEditProfile'
 import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
 import fetchImageAsFile from '@/src/utils/api/fetchImageAsFile'
+import { Spinner } from '@/src/components/ui/spinners/Spinner'
 
 interface Props {
   user: SchemaUserResponseDto
@@ -103,9 +104,7 @@ export const EditProfileForm = forwardRef(
     }
 
     if (isImageLoading) {
-      return (
-        <div className=" loading loading-spinner loading-md text-center"></div>
-      )
+      return <Spinner />
     }
 
     return (

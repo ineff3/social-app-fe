@@ -1,7 +1,6 @@
 import { PostFormContent } from './PostFormContent'
 import { PostFormFooter } from './PostFormFooter'
 import ModalSaveDialog from './modal-forms/ModalSaveDialog'
-import { CloseBtn } from '@/src/components/ui/CloseBtn'
 import { usePostModalActions } from '../../hooks/usePostModalActions'
 import { usePostContext } from '../../contexts/PostContext'
 import useCreatePost from '../../hooks/useCreatePost'
@@ -9,6 +8,7 @@ import { AxiosError } from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { constructPostFormData } from '../../utils/constructPostFormData'
 import { useState } from 'react'
+import { CloseCircleButton } from '@/src/components/ui/buttons/CloseCircleButton'
 
 export const CreatePostPage = () => {
   const { handleSubmit } = usePostContext()!
@@ -45,7 +45,10 @@ export const CreatePostPage = () => {
     <>
       <form onSubmit={submitForm} className=" flex min-h-[350px] flex-col ">
         <div className=" mb-5 flex items-center justify-between">
-          <CloseBtn onClick={handleMainModalClose} />
+          <CloseCircleButton
+            onClick={handleMainModalClose}
+            className="text-secondary"
+          />
           <button
             type="button"
             className=" btn btn-ghost text-base text-primary"

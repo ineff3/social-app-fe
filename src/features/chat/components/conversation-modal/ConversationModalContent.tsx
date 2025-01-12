@@ -1,4 +1,3 @@
-import { CloseBtn } from '@/src/components/ui/CloseBtn'
 import { UserSearch } from './UserSearch'
 import { useCreateConversation } from '../../hooks/useCreateConversation'
 import { SchemaUserPreviewResponseDto } from '@/src/generated/schema'
@@ -7,6 +6,7 @@ import { selectConversation } from '@/src/redux/chat/chatSlice'
 import { AxiosError } from 'axios'
 import { useGetDirectConversation } from '../../hooks/useGetDirectConversation'
 import { useEffect, useState } from 'react'
+import { CloseCircleButton } from '@/src/components/ui/buttons/CloseCircleButton'
 
 interface Props {
   close: () => void
@@ -51,7 +51,7 @@ export const ConversationModalContent = ({ close }: Props) => {
   return (
     <div className=" flex min-h-[480px] flex-col gap-5">
       <div className="flex items-center gap-3">
-        <CloseBtn onClick={close} />
+        <CloseCircleButton onClick={close} />
         <span className="text-lg font-bold text-secondary">New message</span>
       </div>
       <UserSearch onSearchResultClick={createConversation} />

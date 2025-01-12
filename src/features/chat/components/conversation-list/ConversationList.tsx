@@ -7,6 +7,7 @@ import { useGetOnlineUsers } from '../../hooks/useGetOnlineUsers'
 import { useTrackUserStatus } from '../../hooks/useTrackUserStatus'
 import { useTrackUserTyping } from '../../hooks/useTrackUserTyping'
 import { selectSelectedConversationId } from '@/src/redux/chat/chatSlice'
+import { Spinner } from '@/src/components/ui/spinners/Spinner'
 
 export const ROW_HEIGHT = 73
 
@@ -23,7 +24,7 @@ export const ConversationList = () => {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center">
-        <span className=" loading-spinner loading-md" />
+        <Spinner />
       </div>
     )
   }

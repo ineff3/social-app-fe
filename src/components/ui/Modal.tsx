@@ -1,15 +1,15 @@
-import { Fragment, ReactNode } from 'react'
+import { Fragment } from 'react'
 import {
   Dialog,
   DialogPanel,
   Transition,
   TransitionChild,
 } from '@headlessui/react'
+import { ComponentWithChildrenProps } from '@/src/common/props'
 
-interface Props {
+interface Props extends ComponentWithChildrenProps {
   isOpen: boolean
   onClose: () => void
-  children?: ReactNode
   staticMode?: boolean
   asWindow?: boolean
   maxWidth?: 'max-w-md' | 'max-w-lg' | 'max-w-xl' | 'max-w-sm'
