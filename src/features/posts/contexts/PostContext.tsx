@@ -13,7 +13,6 @@ import { CreatePostFormType, PostCreationLocationState } from '../interfaces'
 import { zodResolver } from '@hookform/resolvers/zod'
 import validationSchema from '../schemas/createPostSchema'
 import { useCreateDraft, useUpdateDraft } from '../hooks/drafts/drafts'
-import { constructPostFormData } from '../utils/constructPostFormData'
 import { useLocation } from 'react-router-dom'
 import { Editor } from '@tiptap/react'
 import { ComponentWithChildrenProps } from '@/src/common/props'
@@ -40,7 +39,7 @@ export const PostProvider = ({ children }: ComponentWithChildrenProps) => {
     defaultValues: {
       text: '',
       postImages: [],
-      repostId: repost?.id,
+      repostedId: repost?.id,
     },
     resolver: zodResolver(validationSchema),
   })
@@ -67,21 +66,22 @@ export const PostProvider = ({ children }: ComponentWithChildrenProps) => {
 
   const createDraft = () => {
     const formValues = formMethods.getValues()
-    const formData = constructPostFormData(formValues)
 
     if (formValues.id) {
-      updateDraftMutation.mutate(formData, {
+      updateDraftMutation.mutate(formValues, {
         onSettled: () => {
           formMethods.reset()
         },
       })
     } else {
-      formData.append('isDraft', 'true')
-      createDraftMutation.mutate(formData, {
-        onSettled: () => {
-          formMethods.reset()
+      createDraftMutation.mutate(
+        { ...formValues, isDraft: true },
+        {
+          onSettled: () => {
+            formMethods.reset()
+          },
         },
-      })
+      )
     }
   }
 

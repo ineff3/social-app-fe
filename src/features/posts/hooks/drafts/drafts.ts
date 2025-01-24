@@ -9,7 +9,10 @@ import {
 } from '@/src/utils/api/mutations'
 import { apiRoutes } from '@/src/routes'
 import { InfiniteData } from '@tanstack/react-query'
-import { SchemaGetAllPostsResponseDto } from '@/src/generated/schema'
+import {
+  SchemaCreatePostDto,
+  SchemaGetAllPostsResponseDto,
+} from '@/src/generated/schema'
 
 const axiosOptions = {
   headers: {
@@ -29,10 +32,9 @@ export const useGetDrafts = () => {
 export const useCreateDraft = () => {
   const queryKeyStore = useQueryKeyStore()
   const user = useAppSelector(selectUserPreview)!
-  return usePost<null, FormData>({
+  return usePost<null, SchemaCreatePostDto>({
     path: apiRoutes.posts,
     qKey: queryKeyStore.posts.all({})._ctx.user(user?.id, true).queryKey,
-    axiosOptions,
   })
 }
 

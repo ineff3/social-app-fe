@@ -6,7 +6,6 @@ import { usePostContext } from '../../contexts/PostContext'
 import useCreatePost from '../../hooks/useCreatePost'
 import { AxiosError } from 'axios'
 import { useNavigate } from 'react-router-dom'
-import { constructPostFormData } from '../../utils/constructPostFormData'
 import { useState } from 'react'
 import { CloseCircleButton } from '@/src/components/ui/buttons/CloseCircleButton'
 
@@ -25,9 +24,7 @@ export const CreatePostPage = () => {
   } = usePostModalActions()
 
   const submitForm = handleSubmit((data) => {
-    const formData = constructPostFormData(data)
-
-    createPostMutation.mutate(formData, {
+    createPostMutation.mutate(data, {
       onError: (error) => {
         if (error instanceof AxiosError) {
           setCreationError(

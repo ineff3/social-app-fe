@@ -372,6 +372,22 @@ export interface paths {
         patch: operations["NotificationController_viewNotification"];
         trace?: never;
     };
+    "/media/image": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["MediaController_handleImageUpload"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/conversations": {
         parameters: {
             query?: never;
@@ -600,13 +616,15 @@ export interface components {
             text?: string;
             /** @default false */
             isDraft?: boolean;
-            images?: string[];
+            /** @default [] */
+            uploadedImageKeys?: string[];
             parentPostId?: string;
             repostedId?: string;
         };
         UpdatePostDto: {
             text?: string;
-            images?: string[];
+            /** @default [] */
+            uploadedImageKeys?: string[];
             parentPostId?: string;
             repostedId?: string;
         };
@@ -625,6 +643,18 @@ export interface components {
             total: number;
             page: number;
             limit: number;
+        };
+        ImageUploadDto: {
+            /** Format: binary */
+            image: string;
+            /**
+             * @default post
+             * @enum {string}
+             */
+            imageType: "avatar" | "post";
+        };
+        UploadImageResponseDto: {
+            fileName: string;
         };
         CreateMessageDto: {
             conversationId: string;
@@ -712,6 +742,8 @@ export type SchemaCreatePostDto = components['schemas']['CreatePostDto'];
 export type SchemaUpdatePostDto = components['schemas']['UpdatePostDto'];
 export type SchemaNotificationResponseDto = components['schemas']['NotificationResponseDto'];
 export type SchemaGetAllNotificationsResponseDto = components['schemas']['GetAllNotificationsResponseDto'];
+export type SchemaImageUploadDto = components['schemas']['ImageUploadDto'];
+export type SchemaUploadImageResponseDto = components['schemas']['UploadImageResponseDto'];
 export type SchemaCreateMessageDto = components['schemas']['CreateMessageDto'];
 export type SchemaGetDirectConversationQueryDto = components['schemas']['GetDirectConversationQueryDto'];
 export type SchemaGetMessagesQueryDto = components['schemas']['GetMessagesQueryDto'];
@@ -1073,7 +1105,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "multipart/form-data": components["schemas"]["CreatePostDto"];
+                "application/json": components["schemas"]["CreatePostDto"];
             };
         };
         responses: {
@@ -1212,7 +1244,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "multipart/form-data": components["schemas"]["UpdatePostDto"];
+                "application/json": components["schemas"]["UpdatePostDto"];
             };
         };
         responses: {
@@ -1288,6 +1320,29 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+        };
+    };
+    MediaController_handleImageUpload: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "multipart/form-data": components["schemas"]["ImageUploadDto"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UploadImageResponseDto"];
+                };
             };
         };
     };

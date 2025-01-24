@@ -5,9 +5,9 @@ import {
   MAX_IMAGES_PER_POST,
 } from '../../schemas/createPostSchema'
 import { GifIcon, ScheduleIcon, StatsIcon } from '@/src/components/ui/icons'
-import { AttachPicture } from './additional-content/AttachPicture'
 import { EmojiPopover } from '@/src/components/emoji/EmojiPopover'
 import { Spinner } from '@/src/components/ui/spinners/Spinner'
+import { PictureSelector } from '@/src/components/picture-composer/PictureSelector'
 
 interface Props {
   hasDivider?: boolean
@@ -38,10 +38,10 @@ export const PostFormFooter = ({
       {hasDivider && <div className=" divider"></div>}
       <div className=" flex  items-center justify-between">
         <div className=" flex items-center gap-1.5 ">
-          <AttachPicture
-            maxFilesAttached={postImages.length >= MAX_IMAGES_PER_POST}
-            append={appendPostImage}
-            imageTypes={ACCEPTED_IMAGE_TYPES}
+          <PictureSelector
+            disabled={postImages.length >= MAX_IMAGES_PER_POST}
+            acceptedPictureFormats={ACCEPTED_IMAGE_TYPES}
+            onPictureAttach={(file) => appendPostImage({ file })}
           />
           <EmojiPopover
             onSelect={addEmojiToText}

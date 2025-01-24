@@ -19,7 +19,7 @@ export const DraftRow = ({
     setValue('id', draft.id, { shouldDirty: true })
     setValue('text', draft.text)
     if (draft.reposted?.id) {
-      setValue('repostId', draft.reposted.id)
+      setValue('repostedId', draft.reposted.id)
     }
     // Todo: get images as a blob and set them
 

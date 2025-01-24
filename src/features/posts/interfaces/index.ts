@@ -5,7 +5,7 @@ export interface CreatePostFormType {
   id?: string
   text: string
   postImages: { file: File }[]
-  repostId?: string
+  repostedId?: string
 }
 
 export interface PostCreationLocationState {

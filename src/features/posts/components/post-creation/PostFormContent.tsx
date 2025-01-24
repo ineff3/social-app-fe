@@ -2,13 +2,13 @@ import UserIconLink from '@/src/components/ui/UserIconLink'
 import { useAppSelector } from '@/src/redux/hooks'
 import { selectUserPreview } from '@/src/redux/user/userSlice'
 import { usePostContext } from '../../contexts/PostContext'
-import { AttachedPictures } from './additional-content/AttachedPictures'
 import { TextEditor } from './post-form/TextEditor'
 import { Controller } from 'react-hook-form'
 import { useLocation } from 'react-router-dom'
 import { PostCreationLocationState } from '../../interfaces'
 import { Repost } from './additional-content/Repost'
 import { AttachedRepost } from './additional-content/AttachedRepost'
+import { AttachedPicturesCarousel } from '@/src/components/picture-composer/AttachedPicturesCarousel'
 
 interface Props {
   isTextEditorMinimized?: boolean
@@ -31,7 +31,7 @@ export const PostFormContent = ({
     getValues,
   } = usePostContext()!
 
-  const savedRepostId = getValues('repostId')
+  const savedRepostId = getValues('repostedId')
 
   return (
     <div className="flex flex-1 gap-2 px-1.5">
@@ -58,9 +58,9 @@ export const PostFormContent = ({
             )}
           </div>
         </label>
-        <AttachedPictures
-          attachedFiles={postImages}
-          removeFile={removePostImage}
+        <AttachedPicturesCarousel
+          pictures={postImages}
+          onRemove={removePostImage}
         />
         {repost ? (
           <Repost post={repost} />
