@@ -31,7 +31,9 @@ export const UserPreview = ({
           className={` flex flex-col ${isResponsive && 'sm:hidden xl:flex'}`}
         >
           <p className=" text-secondary">{user?.firstName}</p>
-          <p className=" text-sm ">@{user?.username}</p>
+          <p className=" max-w-[140px] overflow-hidden text-ellipsis whitespace-nowrap text-sm ">
+            @{user?.username}
+          </p>
         </div>
       </div>
     </div>

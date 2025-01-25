@@ -382,7 +382,7 @@ export interface paths {
         get?: never;
         put?: never;
         post: operations["MediaController_handleImageUpload"];
-        delete?: never;
+        delete: operations["MediaController_handleImageDelete"];
         options?: never;
         head?: never;
         patch?: never;
@@ -656,6 +656,9 @@ export interface components {
         UploadImageResponseDto: {
             fileName: string;
         };
+        ImageDeleteDto: {
+            imageKey: string;
+        };
         CreateMessageDto: {
             conversationId: string;
             text: string;
@@ -744,6 +747,7 @@ export type SchemaNotificationResponseDto = components['schemas']['NotificationR
 export type SchemaGetAllNotificationsResponseDto = components['schemas']['GetAllNotificationsResponseDto'];
 export type SchemaImageUploadDto = components['schemas']['ImageUploadDto'];
 export type SchemaUploadImageResponseDto = components['schemas']['UploadImageResponseDto'];
+export type SchemaImageDeleteDto = components['schemas']['ImageDeleteDto'];
 export type SchemaCreateMessageDto = components['schemas']['CreateMessageDto'];
 export type SchemaGetDirectConversationQueryDto = components['schemas']['GetDirectConversationQueryDto'];
 export type SchemaGetMessagesQueryDto = components['schemas']['GetMessagesQueryDto'];
@@ -1343,6 +1347,27 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["UploadImageResponseDto"];
                 };
+            };
+        };
+    };
+    MediaController_handleImageDelete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ImageDeleteDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
         };
     };

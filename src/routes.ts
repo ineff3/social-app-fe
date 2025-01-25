@@ -1,5 +1,5 @@
 export const apiRoutes = {
-  //user
+  // user
   users: 'user',
   refreshToken: 'auth/refresh-token',
   login: 'auth/login',
@@ -13,24 +13,27 @@ export const apiRoutes = {
   suggestions: 'user/suggestions',
   follow: (followeeId: string) => `user/${followeeId}/follow`,
   unfollow: (followeeId: string) => `user/${followeeId}/unfollow`,
-  //posts
+  // posts
   posts: 'posts',
   likePost: (postId: string) => `posts/${postId}/like`,
   bookmarkPost: (postId: string) => `posts/${postId}/bookmark`,
   updatePost: (postId: string) => `posts/${postId}`,
   userPosts: (userId: string) => `user/${userId}/posts`,
   postComments: (postId: string) => `posts/${postId}/comments`,
-  //drafts
+  // drafts
   drafts: 'drafts',
-  //notifications
+  // notifications
   notifications: 'notifications',
   viewNotification: (id: string) => `notifications/${id}/view`,
-  //chat
+  // chat
   conversations: 'conversations',
   direct: 'conversations/direct',
   messages: (conversationId: string) =>
     `conversations/${conversationId}/messages`,
   onlineUsers: 'conversations/online-users',
+  // media
+  uploadImage: 'media/image',
+  deleteImage: 'media/image',
 }
 
 export const pageRoutes = {

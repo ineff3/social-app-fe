@@ -1,18 +1,25 @@
 import { useRef } from 'react'
 import { ImageIcon } from '../ui/icons'
+import { useUploadImage } from '@/src/hooks/media/useUploadImage'
+import { SchemaUploadImageResponseDto } from '@/src/generated/schema'
 
 interface Props {
   disabled: boolean
   acceptedPictureFormats: string[]
-  onPictureAttach: (files: File) => void
+  onPictureAttach: (files: File, key: string) => void
+  onPictureUpload: (response: SchemaUploadImageResponseDto, key: string) => void
+  setIsImageUploading: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export const PictureSelector = ({
   disabled,
   acceptedPictureFormats,
   onPictureAttach,
+  onPictureUpload,
+  setIsImageUploading,
 }: Props) => {
   const pictureInputRef = useRef<HTMLInputElement | null>(null)
+  const uploadImageMutation = useUploadImage()
 
   const handleOpenClick = () => {
     pictureInputRef?.current?.click()
@@ -23,7 +30,23 @@ export const PictureSelector = ({
     if (!file) {
       return
     }
-    onPictureAttach(file)
+    const formData = new FormData()
+    formData.append('image', file)
+    formData.append('imageType', 'post')
+
+    const key = crypto.randomUUID()
+
+    uploadImageMutation.mutate(formData, {
+      onSuccess: (response) => {
+        onPictureUpload(response, key)
+      },
+      onSettled: () => {
+        setIsImageUploading(false)
+      },
+    })
+
+    setIsImageUploading(true)
+    onPictureAttach(file, key)
 
     if (pictureInputRef.current) {
       pictureInputRef.current.value = ''

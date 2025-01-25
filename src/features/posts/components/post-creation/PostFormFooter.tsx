@@ -1,13 +1,9 @@
 import ErrorAlert from '@/src/components/ui/ErrorAlert'
 import { usePostContext } from '../../contexts/PostContext'
-import {
-  ACCEPTED_IMAGE_TYPES,
-  MAX_IMAGES_PER_POST,
-} from '../../schemas/createPostSchema'
 import { GifIcon, ScheduleIcon, StatsIcon } from '@/src/components/ui/icons'
 import { EmojiPopover } from '@/src/components/emoji/EmojiPopover'
 import { Spinner } from '@/src/components/ui/spinners/Spinner'
-import { PictureSelector } from '@/src/components/picture-composer/PictureSelector'
+import { PostPictureSelector } from './additional-content/PostPictureSelector'
 
 interface Props {
   hasDivider?: boolean
@@ -23,14 +19,17 @@ export const PostFormFooter = ({
   isCreationPending,
 }: Props) => {
   const {
-    postImages,
-    appendPostImage,
     addEmojiToText,
     formState: { errors, isDirty },
+    isImageUploading,
   } = usePostContext()!
 
   const isFormInvalid =
-    errors?.postImages || errors?.text || !isDirty || isCreationPending
+    errors?.postImages ||
+    errors?.text ||
+    !isDirty ||
+    isCreationPending ||
+    isImageUploading
 
   return (
     <div>
@@ -38,11 +37,7 @@ export const PostFormFooter = ({
       {hasDivider && <div className=" divider"></div>}
       <div className=" flex  items-center justify-between">
         <div className=" flex items-center gap-1.5 ">
-          <PictureSelector
-            disabled={postImages.length >= MAX_IMAGES_PER_POST}
-            acceptedPictureFormats={ACCEPTED_IMAGE_TYPES}
-            onPictureAttach={(file) => appendPostImage({ file })}
-          />
+          <PostPictureSelector />
           <EmojiPopover
             onSelect={addEmojiToText}
             anchor={{ gap: 5, to: 'bottom end' }}

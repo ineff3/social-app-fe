@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Arrows } from './Arrows'
 import { PictureElement } from './PictureElement'
+import { PostPicture } from '@/src/features/posts/interfaces'
 
 const PICTURE_WIDTH = 215
 const PICTURE_HEIGHT = 170
@@ -8,15 +9,17 @@ const PICTURE_GAP = 14
 
 const SHOW_PER_PAGE = 2
 
-export const AttachedPicturesCarousel = <
-  TFile extends { id: string; file: File },
->({
+interface Props {
+  pictures: PostPicture[]
+  onRemove: (index: number) => void
+  isImageUploading: boolean
+}
+
+export const AttachedPicturesCarousel = ({
   pictures,
   onRemove,
-}: {
-  pictures: TFile[]
-  onRemove: (index: number) => void
-}) => {
+  isImageUploading,
+}: Props) => {
   const [page, setPage] = useState(0)
 
   const handleRemove = (pos: number) => {
@@ -30,15 +33,16 @@ export const AttachedPicturesCarousel = <
   }
 
   if (pictures.length === 1) {
-    const { file } = pictures[0]
+    const postPicture = pictures[0]
     return (
       <div className=" flex w-full justify-end">
         <PictureElement
-          file={file}
+          postPicture={postPicture}
           index={0}
           height={240}
           width={240}
           onRemove={handleRemove}
+          isUploading={isImageUploading}
         />
       </div>
     )
@@ -59,14 +63,17 @@ export const AttachedPicturesCarousel = <
           gap: `${PICTURE_GAP}px`,
         }}
       >
-        {pictures.map(({ id, file }, index) => (
+        {pictures.map((picture, index) => (
           <PictureElement
-            key={id}
-            file={file}
+            key={picture.id}
+            postPicture={picture}
             index={index}
             onRemove={handleRemove}
             width={PICTURE_WIDTH}
             height={PICTURE_HEIGHT}
+            isUploading={
+              index === pictures.length - 1 ? isImageUploading : false
+            }
           />
         ))}
       </div>

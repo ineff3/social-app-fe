@@ -1,11 +1,12 @@
 /* eslint-disable react-refresh/only-export-components */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { createContext, useContext, useRef } from 'react'
+import { createContext, useContext, useRef, useState } from 'react'
 import {
   FieldArrayWithId,
   useFieldArray,
   UseFieldArrayAppend,
   UseFieldArrayRemove,
+  UseFieldArrayUpdate,
   useForm,
   UseFormReturn,
 } from 'react-hook-form'
@@ -23,7 +24,10 @@ interface IPostContextProps extends UseFormReturn<CreatePostFormType> {
   postImages: FieldArrayWithId<CreatePostFormType, 'postImages', 'id'>[]
   appendPostImage: UseFieldArrayAppend<CreatePostFormType, 'postImages'>
   removePostImage: UseFieldArrayRemove
+  updatePostImages: UseFieldArrayUpdate<CreatePostFormType, 'postImages'>
   setEditor: (editor: Editor | null) => void
+  isImageUploading: boolean
+  setIsImageUploading: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const PostContext = createContext<IPostContextProps | null>(null)
@@ -34,6 +38,7 @@ export const usePostContext = () => {
 export const PostProvider = ({ children }: ComponentWithChildrenProps) => {
   const location = useLocation()
   const repost = (location.state as PostCreationLocationState)?.repost
+  const [isImageUploading, setIsImageUploading] = useState(false)
   const formMethods = useForm<CreatePostFormType>({
     mode: 'onChange',
     defaultValues: {
@@ -48,6 +53,7 @@ export const PostProvider = ({ children }: ComponentWithChildrenProps) => {
     fields: postImages,
     append: appendPostImage,
     remove: removePostImage,
+    update: updatePostImages,
   } = useFieldArray({
     control: formMethods.control,
     name: 'postImages',
@@ -100,7 +106,10 @@ export const PostProvider = ({ children }: ComponentWithChildrenProps) => {
         postImages,
         appendPostImage,
         removePostImage,
+        updatePostImages,
         setEditor,
+        isImageUploading,
+        setIsImageUploading,
       }}
     >
       {children}

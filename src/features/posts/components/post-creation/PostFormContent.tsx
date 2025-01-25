@@ -29,6 +29,7 @@ export const PostFormContent = ({
     postImages,
     removePostImage,
     getValues,
+    isImageUploading,
   } = usePostContext()!
 
   const savedRepostId = getValues('repostedId')
@@ -61,6 +62,7 @@ export const PostFormContent = ({
         <AttachedPicturesCarousel
           pictures={postImages}
           onRemove={removePostImage}
+          isImageUploading={isImageUploading}
         />
         {repost ? (
           <Repost post={repost} />
