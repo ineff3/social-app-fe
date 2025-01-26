@@ -20,7 +20,7 @@ export const DraftsPage = () => {
   return (
     <div className=" flex flex-1 flex-col">
       <div className=" flex items-center gap-4">
-        <BackCircleButton className="fill-secondary" />
+        <BackCircleButton />
         <div className=" flex flex-1 items-center justify-between">
           <p className=" text-lg font-semibold">Drafts</p>
           <button

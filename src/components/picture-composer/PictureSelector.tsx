@@ -2,11 +2,13 @@ import { useRef } from 'react'
 import { ImageIcon } from '../ui/icons'
 import { useUploadImage } from '@/src/hooks/media/useUploadImage'
 import { SchemaUploadImageResponseDto } from '@/src/generated/schema'
+import { toast } from 'react-toastify'
 
 interface Props {
   disabled: boolean
   acceptedPictureFormats: string[]
   onPictureAttach: (files: File, key: string) => void
+  onPictureRemove: (key: string) => void
   onPictureUpload: (response: SchemaUploadImageResponseDto, key: string) => void
   setIsImageUploading: React.Dispatch<React.SetStateAction<boolean>>
 }
@@ -16,6 +18,7 @@ export const PictureSelector = ({
   acceptedPictureFormats,
   onPictureAttach,
   onPictureUpload,
+  onPictureRemove,
   setIsImageUploading,
 }: Props) => {
   const pictureInputRef = useRef<HTMLInputElement | null>(null)
@@ -39,6 +42,12 @@ export const PictureSelector = ({
     uploadImageMutation.mutate(formData, {
       onSuccess: (response) => {
         onPictureUpload(response, key)
+      },
+      onError: () => {
+        onPictureRemove(key)
+        toast.error('Unable to upload an image. Please try later.', {
+          position: 'top-center',
+        })
       },
       onSettled: () => {
         setIsImageUploading(false)

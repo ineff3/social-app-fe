@@ -6,6 +6,7 @@ import {
   useFieldArray,
   UseFieldArrayAppend,
   UseFieldArrayRemove,
+  UseFieldArrayReplace,
   UseFieldArrayUpdate,
   useForm,
   UseFormReturn,
@@ -25,6 +26,7 @@ interface IPostContextProps extends UseFormReturn<CreatePostFormType> {
   appendPostImage: UseFieldArrayAppend<CreatePostFormType, 'postImages'>
   removePostImage: UseFieldArrayRemove
   updatePostImages: UseFieldArrayUpdate<CreatePostFormType, 'postImages'>
+  replacePostImages: UseFieldArrayReplace<CreatePostFormType, 'postImages'>
   setEditor: (editor: Editor | null) => void
   isImageUploading: boolean
   setIsImageUploading: React.Dispatch<React.SetStateAction<boolean>>
@@ -54,6 +56,7 @@ export const PostProvider = ({ children }: ComponentWithChildrenProps) => {
     append: appendPostImage,
     remove: removePostImage,
     update: updatePostImages,
+    replace: replacePostImages,
   } = useFieldArray({
     control: formMethods.control,
     name: 'postImages',
@@ -107,6 +110,7 @@ export const PostProvider = ({ children }: ComponentWithChildrenProps) => {
         appendPostImage,
         removePostImage,
         updatePostImages,
+        replacePostImages,
         setEditor,
         isImageUploading,
         setIsImageUploading,

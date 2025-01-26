@@ -16,6 +16,7 @@ body {
   flex-direction: column;
 }
 
+/* Rich-Text Editor */
 .tiptap p.is-editor-empty:first-child::before {
   opacity: 80%;
   content: attr(data-placeholder);
@@ -24,6 +25,7 @@ body {
   pointer-events: none;
 }
 
+/* Emojis */
 em-emoji-picker {
   --background-rgb: 24, 25, 28;
   --rgb-background: 24, 25, 28;
@@ -31,4 +33,12 @@ em-emoji-picker {
   --border-radius: 24px;
   border: 1px solid #363f54;
   height: 300px;
+}
+
+/* Toasts */
+.Toastify__toast-container {
+  @apply z-[999] max-w-[400px] text-secondary;
+}
+.Toastify__toast {
+  @apply w-full max-w-[400px] border border-accent bg-base-100 !pr-8;
 }

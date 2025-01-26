@@ -42,10 +42,7 @@ export const CreatePostPage = () => {
     <>
       <form onSubmit={submitForm} className=" flex min-h-[350px] flex-col ">
         <div className=" mb-5 flex items-center justify-between">
-          <CloseCircleButton
-            onClick={handleMainModalClose}
-            className="text-secondary"
-          />
+          <CloseCircleButton onClick={handleMainModalClose} />
           <button
             type="button"
             className=" btn btn-ghost text-base text-primary"

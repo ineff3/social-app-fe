@@ -7,6 +7,8 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { store } from './redux/store'
 import { Provider } from 'react-redux'
+import { ToastContainer } from 'react-toastify'
+import { createPortal } from 'react-dom'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -22,6 +24,10 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <BrowserRouter>
         <QueryClientProvider client={queryClient}>
           <App />
+          {createPortal(
+            <ToastContainer theme="dark" autoClose={5000} />,
+            document.body,
+          )}
           <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
       </BrowserRouter>

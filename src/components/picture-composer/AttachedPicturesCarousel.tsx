@@ -31,6 +31,9 @@ export const AttachedPicturesCarousel = ({
     })
     onRemove(pos)
   }
+  if (pictures.length === 0) {
+    return null
+  }
 
   if (pictures.length === 1) {
     const postPicture = pictures[0]
