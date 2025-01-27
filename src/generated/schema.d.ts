@@ -382,6 +382,22 @@ export interface paths {
         get?: never;
         put?: never;
         post: operations["MediaController_handleImageUpload"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/media/image/{imageKey}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
         delete: operations["MediaController_handleImageDelete"];
         options?: never;
         head?: never;
@@ -561,6 +577,11 @@ export interface components {
             isFollowing: boolean;
             user: components["schemas"]["UserResponseDto"];
         };
+        PostImageResponseDto: {
+            id: string;
+            imageUrl: string;
+            imageKey: string;
+        };
         PostResponseDto: {
             id: string;
             text: string;
@@ -572,7 +593,7 @@ export interface components {
             isBookmarked: boolean;
             isReposted: boolean;
             author: components["schemas"]["UserPreviewResponseDto"];
-            imageUrls?: string[];
+            postImages: components["schemas"]["PostImageResponseDto"][];
             /** Format: date-time */
             createdAt: string;
             reposted: components["schemas"]["PostResponseDto"];
@@ -656,9 +677,6 @@ export interface components {
         UploadImageResponseDto: {
             fileName: string;
         };
-        ImageDeleteDto: {
-            imageKey: string;
-        };
         CreateMessageDto: {
             conversationId: string;
             text: string;
@@ -736,6 +754,7 @@ export type SchemaUsernameReservedResponseDto = components['schemas']['UsernameR
 export type SchemaUserSearchResponseDto = components['schemas']['UserSearchResponseDto'];
 export type SchemaUserResponseDto = components['schemas']['UserResponseDto'];
 export type SchemaGetUserByUsernameResponseDto = components['schemas']['GetUserByUsernameResponseDto'];
+export type SchemaPostImageResponseDto = components['schemas']['PostImageResponseDto'];
 export type SchemaPostResponseDto = components['schemas']['PostResponseDto'];
 export type SchemaGetAllPostsResponseDto = components['schemas']['GetAllPostsResponseDto'];
 export type SchemaUpdateUserDto = components['schemas']['UpdateUserDto'];
@@ -747,7 +766,6 @@ export type SchemaNotificationResponseDto = components['schemas']['NotificationR
 export type SchemaGetAllNotificationsResponseDto = components['schemas']['GetAllNotificationsResponseDto'];
 export type SchemaImageUploadDto = components['schemas']['ImageUploadDto'];
 export type SchemaUploadImageResponseDto = components['schemas']['UploadImageResponseDto'];
-export type SchemaImageDeleteDto = components['schemas']['ImageDeleteDto'];
 export type SchemaCreateMessageDto = components['schemas']['CreateMessageDto'];
 export type SchemaGetDirectConversationQueryDto = components['schemas']['GetDirectConversationQueryDto'];
 export type SchemaGetMessagesQueryDto = components['schemas']['GetMessagesQueryDto'];
@@ -1354,14 +1372,12 @@ export interface operations {
         parameters: {
             query?: never;
             header?: never;
-            path?: never;
+            path: {
+                imageKey: string;
+            };
             cookie?: never;
         };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["ImageDeleteDto"];
-            };
-        };
+        requestBody?: never;
         responses: {
             200: {
                 headers: {

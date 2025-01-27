@@ -4,6 +4,7 @@ import { usePostContext } from '../../../contexts/PostContext'
 import { useId } from 'react'
 
 import { RepostBadge } from '../../post-items/RepostBadge'
+import { PicturesGrid } from './PicturesGrid'
 
 export const DraftRow = ({
   draft,
@@ -13,15 +14,24 @@ export const DraftRow = ({
   editMode: boolean
 }) => {
   const descId = useId()
-  const { setValue } = usePostContext()!
+  const { setValue, replacePostImages } = usePostContext()!
   const navigate = useNavigate()
+
   const handleDraftSelect = () => {
     setValue('id', draft.id, { shouldDirty: true })
     setValue('text', draft.text)
     if (draft.reposted?.id) {
       setValue('repostedId', draft.reposted.id)
     }
-    // Todo: get images as a blob and set them
+    replacePostImages(
+      draft.postImages.map(({ id, imageKey, imageUrl }) => ({
+        id: id,
+        key: id,
+        url: imageUrl,
+        imageKey: imageKey,
+        source: 'url',
+      })),
+    )
 
     navigate(-1)
   }
@@ -40,45 +50,10 @@ export const DraftRow = ({
             <RepostBadge disabled={true} repostAuthor={draft.reposted.author} />
           </div>
         )}
-        {draft?.text ? (
-          <p className=" text-base text-secondary" id={descId}>
-            {draft.text}
-          </p>
-        ) : (
-          <p> </p>
-        )}
-        {draft?.imageUrls && (
-          <div className=" h-[60px] w-[60px] flex-shrink-0">
-            <div
-              className={`grid ${
-                draft?.imageUrls.length === 1
-                  ? 'grid-cols-1 grid-rows-1'
-                  : draft?.imageUrls.length === 2
-                    ? 'grid-cols-2 grid-rows-1'
-                    : draft?.imageUrls.length === 3
-                      ? 'grid-cols-2 grid-rows-2'
-                      : 'grid-cols-2 grid-rows-2'
-              } h-full w-full gap-1`}
-            >
-              {draft.imageUrls.map((url, index) => (
-                <div
-                  key={index}
-                  className="flex items-center justify-center overflow-hidden"
-                >
-                  <img
-                    src={url}
-                    alt="Draft image"
-                    className={`object-cover ${
-                      draft.imageUrls && draft.imageUrls.length === 1
-                        ? 'h-full w-full'
-                        : 'h-[30px] w-[30px]'
-                    }`}
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
+        <p className=" text-base" id={descId}>
+          {draft?.text}
+        </p>
+        <PicturesGrid postImages={draft.postImages} />
       </div>
     </button>
   )

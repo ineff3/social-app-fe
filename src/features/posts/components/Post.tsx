@@ -19,9 +19,9 @@ interface Props {
 }
 
 const Post = ({ post, qKey }: Props) => {
-  const isQuoted = (post.text || post.imageUrls) && post.reposted
+  const isQuoted = (post.text || post.postImages.length > 0) && post.reposted
   const actualPost = isQuoted ? post : post.reposted ? post.reposted : post
-  const { id, author, createdAt, text, imageUrls } = actualPost
+  const { id, author, createdAt, text, postImages } = actualPost
   const authorId = useId()
   const userPreviewData = useAppSelector(selectUserPreview)
   const isPostAuthor = userPreviewData?.id === author.id
@@ -81,9 +81,7 @@ const Post = ({ post, qKey }: Props) => {
               />
             )}
 
-            {imageUrls && imageUrls.length > 0 && (
-              <ImageDisplay imageUrls={imageUrls} />
-            )}
+            <ImageDisplay postImages={postImages} />
 
             {isQuoted && (
               <Repost post={actualPost.reposted} isInteractive={true} />

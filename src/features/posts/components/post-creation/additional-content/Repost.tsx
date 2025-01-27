@@ -11,7 +11,7 @@ interface Props {
 }
 
 export const Repost = ({
-  post: { id, author, createdAt, text, imageUrls },
+  post: { id, author, createdAt, text, postImages },
   isInteractive = false,
 }: Props) => {
   const navigate = useNavigate()
@@ -53,9 +53,7 @@ export const Repost = ({
           />
         )}
 
-        {imageUrls && imageUrls.length > 0 && (
-          <ImageDisplay imageUrls={imageUrls} />
-        )}
+        <ImageDisplay postImages={postImages} />
       </div>
     </article>
   )

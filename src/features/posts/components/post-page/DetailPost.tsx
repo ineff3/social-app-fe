@@ -21,7 +21,7 @@ interface Props {
 
 export const DetailPost = ({ post }: Props) => {
   const queryKeyStore = useQueryKeyStore()
-  const isQuoted = (post.text || post.imageUrls) && post.reposted
+  const isQuoted = (post.text || post.postImages.length) && post.reposted
   const authorId = useId()
   const userPreviewData = useAppSelector(selectUserPreview)
 
@@ -59,9 +59,7 @@ export const DetailPost = ({ post }: Props) => {
           />
         )}
 
-        {post?.imageUrls && post?.imageUrls.length > 0 && (
-          <ImageDisplay imageUrls={post.imageUrls} />
-        )}
+        <ImageDisplay postImages={post.postImages} />
 
         {isQuoted && <Repost post={post.reposted} isInteractive={true} />}
       </div>

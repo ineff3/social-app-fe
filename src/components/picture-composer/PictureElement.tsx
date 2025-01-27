@@ -2,6 +2,7 @@ import { useDeleteImage } from '@/src/hooks/media/useDeleteImage'
 import { CloseCircleButton } from '../ui/buttons/CloseCircleButton'
 import { Spinner } from '../ui/spinners/Spinner'
 import { PostPicture } from '@/src/features/posts/interfaces'
+import { getPostPictureSource } from './helpers'
 
 interface Props {
   postPicture: PostPicture
@@ -25,6 +26,11 @@ export const PictureElement = ({
   const handleRemove = () => {
     onRemove(index)
 
+    // Don't want to remove picture from s3, when it's saved for draft post.
+    if (postPicture.source === 'url') {
+      return
+    }
+
     const { imageKey } = postPicture
     if (!imageKey) {
       return
@@ -43,7 +49,7 @@ export const PictureElement = ({
     >
       <img
         className="h-full w-full object-cover"
-        src={URL.createObjectURL(postPicture.file)}
+        src={getPostPictureSource(postPicture)}
       />
       {!isUploading && (
         <>

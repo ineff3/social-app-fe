@@ -19,7 +19,7 @@ export const PostPictureSelector = () => {
   } = usePostContext()!
 
   const handlePictureAttach = (file: File, key: string) => {
-    appendPostImage({ file, key })
+    appendPostImage({ file, key, source: 'file' })
   }
 
   const handleRemovePicture = (key: string) => {

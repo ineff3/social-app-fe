@@ -18,6 +18,7 @@ import { useCreateDraft, useUpdateDraft } from '../hooks/drafts/drafts'
 import { useLocation } from 'react-router-dom'
 import { Editor } from '@tiptap/react'
 import { ComponentWithChildrenProps } from '@/src/common/props'
+import { transformPostCreationData } from '../utils/transformPostCreationData'
 
 interface IPostContextProps extends UseFormReturn<CreatePostFormType> {
   createDraft: () => void
@@ -74,17 +75,17 @@ export const PostProvider = ({ children }: ComponentWithChildrenProps) => {
   }
 
   const createDraft = () => {
-    const formValues = formMethods.getValues()
-
-    if (formValues.id) {
-      updateDraftMutation.mutate(formValues, {
+    const data = formMethods.getValues()
+    const transformedData = transformPostCreationData(data)
+    if (data.id) {
+      updateDraftMutation.mutate(transformedData, {
         onSettled: () => {
           formMethods.reset()
         },
       })
     } else {
       createDraftMutation.mutate(
-        { ...formValues, isDraft: true },
+        { ...transformedData, isDraft: true },
         {
           onSettled: () => {
             formMethods.reset()

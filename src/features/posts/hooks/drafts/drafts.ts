@@ -14,12 +14,6 @@ import {
   SchemaGetAllPostsResponseDto,
 } from '@/src/generated/schema'
 
-const axiosOptions = {
-  headers: {
-    'Content-Type': 'multipart/form-data',
-  },
-}
-
 export const useGetDrafts = () => {
   const user = useAppSelector(selectUserPreview)!
   return useGetUserPosts({
@@ -44,7 +38,6 @@ export const useUpdateDraft = (id: string) => {
   return useUpdate({
     path: apiRoutes.updatePost(id),
     qKey: queryKeyStore.posts.all({})._ctx.user(user?.id, true).queryKey,
-    axiosOptions,
   })
 }
 

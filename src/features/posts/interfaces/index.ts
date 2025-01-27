@@ -1,12 +1,23 @@
 import { SchemaPostResponseDto } from '@/src/generated/schema'
 import { Location } from 'react-router-dom'
 
-export interface PostPicture {
+interface BasePostPicture {
   id?: string
-  file: File
   key: string
   imageKey?: string
 }
+
+interface PostPictureFile extends BasePostPicture {
+  file: File
+  source: 'file'
+}
+
+interface PostPictureUrl extends BasePostPicture {
+  url: string
+  source: 'url'
+}
+
+export type PostPicture = PostPictureFile | PostPictureUrl
 
 export interface CreatePostFormType {
   id?: string

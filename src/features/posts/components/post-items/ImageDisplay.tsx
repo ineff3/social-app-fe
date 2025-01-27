@@ -1,20 +1,23 @@
+import { SchemaPostImageResponseDto } from '@/src/generated/schema'
+
 interface Props {
-  imageUrls: string[]
+  postImages: SchemaPostImageResponseDto[]
 }
 // TODO: generate alt based on image, or request it from user.
 
-export const ImageDisplay = ({ imageUrls }: Props) => {
+export const ImageDisplay = ({ postImages }: Props) => {
+  const { length } = postImages
   return (
     <div
-      className={`grid grid-cols-[repeat(auto-fit,minmax(230px,1fr))]  overflow-hidden rounded-lg ${imageUrls.length > 2 ? 'max-h-[550px] grid-rows-2' : 'max-h-[500px] grid-rows-1'}  `}
+      className={`grid grid-cols-[repeat(auto-fit,minmax(230px,1fr))]  overflow-hidden rounded-lg ${length > 2 ? 'max-h-[550px] grid-rows-2' : 'max-h-[500px] grid-rows-1'}  `}
     >
-      {imageUrls?.map((path, index) => (
+      {postImages?.map(({ id, imageUrl }, index) => (
         <div
-          key={index}
-          className={` ${imageUrls?.length === 3 && index === 0 && 'col-span-2'}`}
+          key={id}
+          className={`${length === 3 && index === 0 && 'col-span-2'}`}
         >
           <img
-            src={path}
+            src={imageUrl}
             alt="Post Image"
             className="h-full w-full object-cover"
           />
