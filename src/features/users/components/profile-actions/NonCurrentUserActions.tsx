@@ -1,4 +1,4 @@
-import { FollowButton } from './FollowButton'
+import { FollowButton } from '../FollowButton'
 
 interface Props {
   isFollowing: boolean
@@ -6,7 +6,7 @@ interface Props {
   followeeUsername: string
 }
 
-export const OtherUserActions = ({
+export const NonCurrentUserActions = ({
   isFollowing,
   followeeId,
   followeeUsername,

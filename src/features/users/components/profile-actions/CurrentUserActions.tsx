@@ -1,5 +1,5 @@
 import { useModal } from '@/src/hooks/useModal'
-import EditProfileWindow from './edit-profile/EditProfileWindow'
+import EditProfileWindow from '../edit-profile/EditProfileWindow'
 import Modal from '@/src/components/ui/Modal'
 
 export const CurrentUserActions = () => {

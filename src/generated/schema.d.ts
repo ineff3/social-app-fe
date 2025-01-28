@@ -564,8 +564,8 @@ export interface components {
             location: string | null;
             link: string | null;
             bornDate: string | null;
-            avatarUrl?: string;
-            backgroundUrl?: string;
+            profileUrl?: string | null;
+            backgroundUrl?: string | null;
             /** Format: date-time */
             createdAt: string;
             amountOfPosts: number;
@@ -644,10 +644,7 @@ export interface components {
         };
         UpdatePostDto: {
             text?: string;
-            /** @default [] */
             uploadedImageKeys?: string[];
-            parentPostId?: string;
-            repostedId?: string;
         };
         NotificationResponseDto: {
             id: string;
