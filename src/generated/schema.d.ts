@@ -536,7 +536,7 @@ export interface components {
             firstName: string;
             secondName: string;
             username: string;
-            avatarUrl?: string;
+            profileUrl?: string | null;
             isFollowing: boolean;
             /** Format: date-time */
             createdAt: string;
@@ -609,11 +609,11 @@ export interface components {
             firstName?: string;
             /** @example Gosling */
             secondName?: string;
+            profileImageKey?: string;
+            backgroundImageKey?: string;
             bio?: string;
             location?: string;
             link?: string;
-            profileImage?: string;
-            backgroundImage?: string;
             bornDate?: string;
         };
         UpdateUsernameDto: {

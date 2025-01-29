@@ -1,5 +1,5 @@
-import { CircleButton } from '../ui/buttons/CircleButton'
-import ArrowIcon from '../ui/icons/ArrowIcon'
+import { CircleButton } from '../../ui/buttons/CircleButton'
+import ArrowIcon from '../../ui/icons/ArrowIcon'
 
 interface Props {
   hasNextPage: boolean

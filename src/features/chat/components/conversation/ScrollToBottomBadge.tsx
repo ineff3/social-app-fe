@@ -4,9 +4,9 @@ import { isScrolledToBottom } from '../../common/scrollHelpers'
 import { useHandleScrollToBottom } from '../../hooks/useHandleScrollToBottom'
 import { TriggerScrollToBottom } from '../../hooks/useTriggerScrollToBottom'
 import { SchemaConversationResponseDto } from '@/src/generated/schema'
+import { ComponentWithScrollRef } from '@/src/common/props'
 
-interface Props {
-  scrollElementRef: React.RefObject<HTMLElement>
+interface Props extends ComponentWithScrollRef {
   conversation: SchemaConversationResponseDto
   triggerScrollToBottom: TriggerScrollToBottom
 }

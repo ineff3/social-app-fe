@@ -1,8 +1,8 @@
 import { useDeleteImage } from '@/src/hooks/media/useDeleteImage'
-import { CloseCircleButton } from '../ui/buttons/CloseCircleButton'
-import { Spinner } from '../ui/spinners/Spinner'
 import { PostPicture } from '@/src/features/posts/interfaces'
-import { getPostPictureSource } from './helpers'
+import { getPostPictureSource } from '../helpers'
+import { CloseCircleButton } from '../../ui/buttons/CloseCircleButton'
+import { Spinner } from '../../ui/spinners/Spinner'
 
 interface Props {
   postPicture: PostPicture

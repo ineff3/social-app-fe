@@ -41,7 +41,7 @@ export const ProfilePage = () => {
 
             <div className=" self-end">
               {data.isCurrentUser ? (
-                <CurrentUserActions />
+                <CurrentUserActions user={user} />
               ) : (
                 <NonCurrentUserActions
                   isFollowing={data.isFollowing}

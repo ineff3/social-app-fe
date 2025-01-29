@@ -2,7 +2,7 @@ import { SchemaParticipantResponseDto } from '@/src/generated/schema'
 import { useGetMessages } from '../../hooks/useGetMessages'
 import { Message } from './Message'
 import { useHandleIncomingMessage } from '../../hooks/useHandleIncomingMessage'
-import { RefObject, useRef } from 'react'
+import { useRef } from 'react'
 import {
   checkHasUnreadMessages,
   getFirstUnreadMessageId,
@@ -16,11 +16,11 @@ import { useInitialScroll } from '../../hooks/useInitialScroll'
 import { useHandleIntersection } from '../../hooks/useHandleIntersection'
 import { useStoreChatScrollPosition } from '../../hooks/useStoreChatScrollPosition'
 import { TriggerScrollToBottom } from '../../hooks/useTriggerScrollToBottom'
+import { ComponentWithScrollRef } from '@/src/common/props'
 
-interface Props {
+interface Props extends ComponentWithScrollRef<HTMLDivElement> {
   conversationId: string
   recipient: SchemaParticipantResponseDto
-  scrollElementRef: RefObject<HTMLDivElement>
   triggerScrollToBottom: TriggerScrollToBottom
 }
 

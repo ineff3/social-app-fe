@@ -2,37 +2,75 @@ import {
   Control,
   Controller,
   FieldErrors,
+  UseFormGetValues,
   UseFormRegister,
 } from 'react-hook-form'
 import { EditProfileFormType } from '../../schemas'
-import ImageFileDropzone from '@/src/components/form/ImageFileDropzone'
-import { FaUserCircle } from 'react-icons/fa'
 import Input from '@/src/components/form/Input'
 import Textarea from '@/src/components/form/Textarea'
+import { ProfilePictureDropzone } from './ProfilePictureDropzone'
+import { FaUserCircle } from 'react-icons/fa'
 
-interface FormFieldProps {
+interface Props {
   control: Control<EditProfileFormType>
   register: UseFormRegister<EditProfileFormType>
   errors: FieldErrors<EditProfileFormType>
+  getValues: UseFormGetValues<EditProfileFormType>
+  profilePictureUrl?: string | null
+  backgroundPictureUrl?: string | null
+  setIsProfilePicUploading: React.Dispatch<React.SetStateAction<boolean>>
+  setIsBackgroundPicUploading: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export const EditProfileFormFields = ({
   control,
   register,
   errors,
-}: FormFieldProps) => {
+  getValues,
+  profilePictureUrl,
+  backgroundPictureUrl,
+  setIsProfilePicUploading,
+  setIsBackgroundPicUploading,
+}: Props) => {
   return (
-    <div className=" relative -top-[45px] mx-auto flex w-full max-w-screen-md flex-col gap-2">
-      <div className=" px-8">
+    <>
+      <div className=" h-[190px]">
+        <Controller
+          control={control}
+          name="backgroundImage"
+          render={({ field: { onChange, value } }) => (
+            <ProfilePictureDropzone
+              onChange={onChange}
+              value={value}
+              name="backgroundImage"
+              getValues={getValues}
+              existingPictureUrl={backgroundPictureUrl}
+              placeholderContent={
+                <div className="h-full w-full bg-base-200"></div>
+              }
+              setIsImageUploading={setIsBackgroundPicUploading}
+            />
+          )}
+        />
+      </div>
+      <div className=" relative -top-[45px] mx-auto flex w-full max-w-screen-md flex-col gap-2 px-8">
         <div className=" h-[90px] w-[90px] overflow-hidden rounded-full">
           <Controller
             control={control}
-            name="userImage"
-            render={({ field }) => (
-              <ImageFileDropzone
-                onChange={field.onChange}
-                value={field.value}
-                icon={FaUserCircle}
+            name="profileImage"
+            render={({ field: { onChange, value } }) => (
+              <ProfilePictureDropzone
+                onChange={onChange}
+                value={value}
+                name="profileImage"
+                existingPictureUrl={profilePictureUrl}
+                getValues={getValues}
+                placeholderContent={
+                  <div className="h-full w-full bg-base-300">
+                    <FaUserCircle size="100%" />
+                  </div>
+                }
+                setIsImageUploading={setIsProfilePicUploading}
               />
             )}
           />
@@ -77,6 +115,6 @@ export const EditProfileFormFields = ({
           />
         </div>
       </div>
-    </div>
+    </>
   )
 }

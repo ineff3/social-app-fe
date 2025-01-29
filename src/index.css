@@ -37,8 +37,8 @@ em-emoji-picker {
 
 /* Toasts */
 .Toastify__toast-container {
-  @apply z-[999] max-w-[400px] text-secondary;
+  @apply z-[999] max-w-[400px];
 }
 .Toastify__toast {
-  @apply w-full max-w-[400px] border border-accent bg-base-100 !pr-8;
+  @apply w-full max-w-[400px] border border-accent bg-base-100 !pr-8 text-base-content;
 }

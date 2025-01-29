@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Arrows } from './Arrows'
-import { PictureElement } from './PictureElement'
 import { PostPicture } from '@/src/features/posts/interfaces'
+import { PictureElement } from './PictureElement'
 
 const PICTURE_WIDTH = 215
 const PICTURE_HEIGHT = 170

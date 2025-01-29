@@ -52,7 +52,7 @@ const Post = ({ post, qKey }: Props) => {
           </div>
         )}
         <UserIconLink
-          userImageUrl={author?.avatarUrl}
+          userImageUrl={author?.profileUrl}
           username={author?.username}
         />
 

@@ -1,4 +1,4 @@
-import { PictureSelector } from '@/src/components/picture-composer/PictureSelector'
+import { PictureSelector } from '@/src/components/media-handling/picture-selector/PictureSelector'
 import { usePostContext } from '../../../contexts/PostContext'
 import {
   ACCEPTED_IMAGE_TYPES,
@@ -6,6 +6,7 @@ import {
 } from '../../../schemas/createPostSchema'
 import { SchemaUploadImageResponseDto } from '@/src/generated/schema'
 import { PostPicture } from '../../../interfaces'
+import { MediaButton } from '@/src/components/media-handling/picture-selector/picture-selector-buttons/MediaButton'
 
 export const PostPictureSelector = () => {
   const {
@@ -63,6 +64,10 @@ export const PostPictureSelector = () => {
     <PictureSelector
       disabled={isSelectorDisabled}
       acceptedPictureFormats={ACCEPTED_IMAGE_TYPES}
+      pictureUploadType="post"
+      renderButton={({ onClick, disabled }) => (
+        <MediaButton onClick={onClick} disabled={disabled} />
+      )}
       onPictureAttach={handlePictureAttach}
       onPictureRemove={handleRemovePicture}
       onPictureUpload={handlePictureUpload}

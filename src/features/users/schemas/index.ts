@@ -1,13 +1,22 @@
 import { z } from 'zod'
 
 export const editProfileValidationSchema = z.object({
-  userImage: z.any(),
+  profileImage: z.any(),
   backgroundImage: z.any(),
-  firstName: z.string(),
-  secondName: z.string(),
+  firstName: z.string().regex(/^[A-Za-z]+$/, 'Only alphabetic characters'),
+  secondName: z.string().regex(/^[A-Za-z]+$/, 'Only alphabetic characters'),
   bio: z.string(),
   location: z.string(),
   link: z.union([z.literal(''), z.string().url({ message: 'Invalid url' })]),
 })
 
-export type EditProfileFormType = z.infer<typeof editProfileValidationSchema>
+type EditProfileValidationType = z.infer<typeof editProfileValidationSchema>
+
+export interface EditProfilePicture {
+  file: File
+  imageKey?: string
+}
+export interface EditProfileFormType extends EditProfileValidationType {
+  profileImage: EditProfilePicture | null
+  backgroundImage: EditProfilePicture | null
+}

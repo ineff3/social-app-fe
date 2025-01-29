@@ -38,7 +38,7 @@ export const DetailPost = ({ post }: Props) => {
       <div className=" flex justify-between">
         <div className=" flex gap-2">
           <UserIconLink
-            userImageUrl={post.author?.avatarUrl}
+            userImageUrl={post.author?.profileUrl}
             username={post.author?.username}
           />
           <div className=" flex flex-col">

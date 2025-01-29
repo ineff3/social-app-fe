@@ -11,7 +11,7 @@ type IconSize = keyof typeof iconSizes
 
 interface Props {
   username?: string
-  userImageUrl?: string
+  userImageUrl?: string | null
   onClick?: () => void
   disabled?: boolean
   iconSize?: IconSize

@@ -1,16 +1,15 @@
-import { apiRoutes } from '../../../routes'
-import { usePut } from '../../../utils/api/mutations'
-import { IUser } from '../../authentication/interfaces'
+import {
+  SchemaUpdateUserDto,
+  SchemaUserResponseDto,
+} from '@/src/generated/schema'
+import { apiRoutes } from '@/src/routes'
+import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
+import { useUpdate } from '@/src/utils/api/mutations'
 
-const useEditProfile = () => {
-  return usePut<IUser, FormData, IUser>({
+export const useEditProfile = () => {
+  const queryKeyStore = useQueryKeyStore()
+  return useUpdate<SchemaUserResponseDto, SchemaUpdateUserDto>({
     path: apiRoutes.users,
-    axiosOptions: {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    },
+    qKey: queryKeyStore.users._def,
   })
 }
-
-export default useEditProfile

@@ -24,3 +24,15 @@ export type LabeledComponentProps = {
 export type ComponentWithClassNameProps = {
   className?: string
 }
+
+export type ComponentWithCloseProps = {
+  onClose: () => void
+}
+
+export type ComponentWithSaveProps = {
+  onSave: () => void
+}
+
+export type ComponentWithScrollRef<T extends HTMLElement = HTMLElement> = {
+  scrollElementRef: React.RefObject<T>
+}

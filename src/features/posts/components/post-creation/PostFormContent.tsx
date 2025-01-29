@@ -8,7 +8,7 @@ import { useLocation } from 'react-router-dom'
 import { PostCreationLocationState } from '../../interfaces'
 import { Repost } from './additional-content/Repost'
 import { AttachedRepost } from './additional-content/AttachedRepost'
-import { AttachedPicturesCarousel } from '@/src/components/picture-composer/AttachedPicturesCarousel'
+import { AttachedPicturesCarousel } from '@/src/components/media-handling/picture-carousel/AttachedPicturesCarousel'
 
 interface Props {
   isTextEditorMinimized?: boolean
@@ -36,7 +36,7 @@ export const PostFormContent = ({
 
   return (
     <div className="flex flex-1 gap-2 px-1.5">
-      <UserIconLink userImageUrl={user?.avatarUrl} username={user?.username} />
+      <UserIconLink userImageUrl={user?.profileUrl} username={user?.username} />
       <div className=" flex w-full flex-col gap-5">
         <label className=" form-control">
           <Controller

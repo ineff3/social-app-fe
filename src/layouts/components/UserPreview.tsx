@@ -20,7 +20,7 @@ export const UserPreview = ({
     >
       <UserIconLink
         onClick={onUserLinkClick}
-        userImageUrl={user?.avatarUrl}
+        userImageUrl={user?.profileUrl}
         username={user?.username}
         disabled={disabledLink}
       />

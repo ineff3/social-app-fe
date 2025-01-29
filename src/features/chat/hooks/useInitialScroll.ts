@@ -1,12 +1,12 @@
+import { ComponentWithScrollRef } from '@/src/common/props'
 import { selectChatScrollPosition } from '@/src/redux/chat/chatSlice'
 import { useAppSelector } from '@/src/redux/hooks'
 import { useEffect } from 'react'
 
-interface Props {
+interface Props extends ComponentWithScrollRef<HTMLDivElement> {
   conversationId: string
   isLoading: boolean
   lastReadMessageRef: React.RefObject<HTMLDivElement>
-  scrollElementRef: React.RefObject<HTMLDivElement>
 }
 
 const OVERSCROLL_HEIGHT = 200
