@@ -5,6 +5,7 @@ import {
   PictureUploadProps,
   useHandlePictureUpload,
 } from '@/src/hooks/media/useHandlePictureUpload'
+import { mapPictureFormatsToExtensions } from './helpers'
 
 export const PictureDropzone = <
   TFile extends { file: File; imageKey?: string },
@@ -12,18 +13,22 @@ export const PictureDropzone = <
   value,
   pictureUrl,
   placeholderContent,
+  isImageUploading,
+  acceptedPictureFormats,
   ...rest
 }: {
   value: TFile | null
   pictureUrl?: string | null
   placeholderContent?: React.ReactNode
+  isImageUploading: boolean
+  acceptedPictureFormats: string[]
 } & PictureUploadProps) => {
   const handlePictureUpload = useHandlePictureUpload(rest)
   const { getRootProps, getInputProps } = useDropzone({
     multiple: false,
     maxFiles: 1,
     noClick: true,
-    accept: { 'image/*': ['.png', '.jpeg', '.jpg', '.webp'] },
+    accept: mapPictureFormatsToExtensions(acceptedPictureFormats),
     onDrop: (files) => {
       if (files.length === 0) {
         return
@@ -31,11 +36,10 @@ export const PictureDropzone = <
       handlePictureUpload(files[0], 'avatar')
     },
   })
-
   const hasContent = value || pictureUrl
 
   return (
-    <div {...getRootProps()} className=" !relative h-full w-full">
+    <div {...getRootProps()} className=" !relative h-full w-full ">
       <input {...getInputProps()} />
 
       {hasContent ? (
@@ -47,14 +51,14 @@ export const PictureDropzone = <
         placeholderContent
       )}
 
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+      <div className="absolute left-1/2 top-1/2  -translate-x-1/2 -translate-y-1/2">
         <PictureSelector
-          acceptedPictureFormats={[]}
+          acceptedPictureFormats={acceptedPictureFormats}
           renderButton={({ onClick, disabled }) => (
             <IconButton onClick={onClick} disabled={disabled} />
           )}
           {...rest}
-          disabled={false} // hardcoded
+          disabled={isImageUploading}
           pictureUploadType="avatar"
         />
       </div>

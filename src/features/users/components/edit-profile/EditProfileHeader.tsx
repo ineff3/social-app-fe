@@ -1,5 +1,6 @@
 import { ComponentWithCloseProps } from '@/src/common/props'
 import { CloseCircleButton } from '@/src/components/ui/buttons/CloseCircleButton'
+import { Spinner } from '@/src/components/ui/spinners/Spinner'
 import { StickyHeader } from '@/src/components/ui/StickyHeader'
 
 interface Props extends ComponentWithCloseProps {
@@ -21,12 +22,15 @@ export const EditProfileHeader = ({
         <CloseCircleButton onClick={onClose} />
         <div className="flex flex-1 items-center justify-between">
           <p className="font-bold text-secondary">Edit Profile</p>
-          <button
-            className={`btn btn-primary btn-sm ${isDisabled && 'btn-disabled'}`}
-            type="submit"
-          >
-            Save
-          </button>
+          <div className="flex items-center gap-4">
+            {isDisabled && <Spinner />}
+            <button
+              className={`btn btn-primary btn-sm ${isDisabled && 'btn-disabled'}`}
+              type="submit"
+            >
+              Save
+            </button>
+          </div>
         </div>
       </div>
     </StickyHeader>

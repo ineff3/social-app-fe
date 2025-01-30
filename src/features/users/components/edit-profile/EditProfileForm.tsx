@@ -59,14 +59,11 @@ export const EditProfileForm = ({
 
     const { profileImage, backgroundImage, ...rest } = data
 
-    editProfileMutation.mutate(
-      {
-        ...rest,
-        profileImageKey: profileImage?.imageKey,
-        backgroundImageKey: backgroundImage?.imageKey,
-      },
-      {},
-    )
+    editProfileMutation.mutate({
+      ...rest,
+      profileImageKey: profileImage?.imageKey,
+      backgroundImageKey: backgroundImage?.imageKey,
+    })
     onClose()
   }
 
@@ -84,6 +81,8 @@ export const EditProfileForm = ({
         getValues={getValues}
         profilePictureUrl={profileUrl}
         backgroundPictureUrl={backgroundUrl}
+        isProfilePicUploading={isProfilePicUploading}
+        isBackgroundPicUploading={isBackgroundPicUploading}
         setIsProfilePicUploading={setIsProfilePicUploading}
         setIsBackgroundPicUploading={setIsBackgroundPicUploading}
       />

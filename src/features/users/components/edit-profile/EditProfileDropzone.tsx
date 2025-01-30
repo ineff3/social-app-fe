@@ -3,6 +3,13 @@ import { SchemaUploadImageResponseDto } from '@/src/generated/schema'
 import { EditProfileFormType, EditProfilePicture } from '../../schemas'
 import { FieldPath, UseFormGetValues } from 'react-hook-form'
 
+const ACCEPTED_IMAGE_TYPES = [
+  'image/jpeg',
+  'image/jpg',
+  'image/png',
+  'image/webp',
+]
+
 interface Props {
   onChange: (picture: EditProfilePicture | null) => void
   value: EditProfilePicture | null
@@ -10,16 +17,18 @@ interface Props {
   getValues: UseFormGetValues<EditProfileFormType>
   name: FieldPath<EditProfileFormType>
   placeholderContent?: React.ReactNode
+  isImageUploading: boolean
   setIsImageUploading: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export const ProfilePictureDropzone = ({
+export const EditProfileDropzone = ({
   onChange,
   value,
   existingPictureUrl,
   getValues,
   name,
   placeholderContent,
+  isImageUploading,
   setIsImageUploading,
 }: Props) => {
   const handlePictureAttach = (file: File) => {
@@ -41,10 +50,12 @@ export const ProfilePictureDropzone = ({
   return (
     <PictureDropzone
       value={value}
+      acceptedPictureFormats={ACCEPTED_IMAGE_TYPES}
       pictureUrl={existingPictureUrl}
       onPictureAttach={handlePictureAttach}
       onPictureRemove={handlePictureRemove}
       onPictureUpload={handlePictureUpload}
+      isImageUploading={isImageUploading}
       setIsImageUploading={setIsImageUploading}
       placeholderContent={placeholderContent}
     />

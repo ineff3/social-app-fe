@@ -8,7 +8,7 @@ import {
 import { EditProfileFormType } from '../../schemas'
 import Input from '@/src/components/form/Input'
 import Textarea from '@/src/components/form/Textarea'
-import { ProfilePictureDropzone } from './ProfilePictureDropzone'
+import { EditProfileDropzone } from './EditProfileDropzone'
 import { FaUserCircle } from 'react-icons/fa'
 
 interface Props {
@@ -18,6 +18,8 @@ interface Props {
   getValues: UseFormGetValues<EditProfileFormType>
   profilePictureUrl?: string | null
   backgroundPictureUrl?: string | null
+  isProfilePicUploading: boolean
+  isBackgroundPicUploading: boolean
   setIsProfilePicUploading: React.Dispatch<React.SetStateAction<boolean>>
   setIsBackgroundPicUploading: React.Dispatch<React.SetStateAction<boolean>>
 }
@@ -29,6 +31,8 @@ export const EditProfileFormFields = ({
   getValues,
   profilePictureUrl,
   backgroundPictureUrl,
+  isProfilePicUploading,
+  isBackgroundPicUploading,
   setIsProfilePicUploading,
   setIsBackgroundPicUploading,
 }: Props) => {
@@ -39,7 +43,7 @@ export const EditProfileFormFields = ({
           control={control}
           name="backgroundImage"
           render={({ field: { onChange, value } }) => (
-            <ProfilePictureDropzone
+            <EditProfileDropzone
               onChange={onChange}
               value={value}
               name="backgroundImage"
@@ -48,6 +52,7 @@ export const EditProfileFormFields = ({
               placeholderContent={
                 <div className="h-full w-full bg-base-200"></div>
               }
+              isImageUploading={isBackgroundPicUploading}
               setIsImageUploading={setIsBackgroundPicUploading}
             />
           )}
@@ -59,7 +64,7 @@ export const EditProfileFormFields = ({
             control={control}
             name="profileImage"
             render={({ field: { onChange, value } }) => (
-              <ProfilePictureDropzone
+              <EditProfileDropzone
                 onChange={onChange}
                 value={value}
                 name="profileImage"
@@ -70,6 +75,7 @@ export const EditProfileFormFields = ({
                     <FaUserCircle size="100%" />
                   </div>
                 }
+                isImageUploading={isProfilePicUploading}
                 setIsImageUploading={setIsProfilePicUploading}
               />
             )}
