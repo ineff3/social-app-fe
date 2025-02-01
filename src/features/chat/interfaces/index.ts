@@ -12,7 +12,19 @@ export type ExtendedChatMessageStatus =
 export interface ExtendedChatMessage
   extends Pick<
     SchemaMessageResponseDto,
-    'id' | 'text' | 'createdAt' | 'conversationId'
+    'id' | 'text' | 'createdAt' | 'conversationId' | 'messageImages'
   > {
   status: ExtendedChatMessageStatus
+}
+
+export interface MessagePicture {
+  id?: string
+  key: string
+  file: File
+  imageUrl?: string
+  imageKey?: string
+}
+export interface MessageFormType {
+  text: string
+  messageImages: MessagePicture[]
 }

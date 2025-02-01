@@ -1,7 +1,6 @@
-import { SubmitHandler, useForm } from 'react-hook-form'
+import { SubmitHandler } from 'react-hook-form'
 import { MessageAttachmentOptions } from './MessageAttachmentOptions'
 import { BiSend } from 'react-icons/bi'
-import { MessageForm, messageValidationSchema } from '../../schemas'
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks'
 import {
   addPendingChatMessage,
@@ -12,8 +11,11 @@ import { selectUserPreview } from '@/src/redux/user/userSlice'
 import { useHandleUserTyping } from '../../hooks/useHandleUserTyping'
 import { TriggerScrollToBottom } from '../../hooks/useTriggerScrollToBottom'
 import { useCheckHasNextUnreadPage } from '../../hooks/useCheckHasNextUnreadPage'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useState } from 'react'
+import { useMessageFormContext } from '../../contexts/MessageFormContext'
+import { MessagePictures } from './MessagePictures'
+import { transformMessageData } from '../../common/transformMessageData'
+import { SchemaMessageImageResponseDto } from '@/src/generated/schema'
+import { MessageFormType } from '../../interfaces'
 
 interface Props {
   triggerScrollToBottom: TriggerScrollToBottom
@@ -24,36 +26,41 @@ export const MessageInputForm = ({ triggerScrollToBottom }: Props) => {
   const dispatch = useAppDispatch()
   const selectedConversationId = useAppSelector(selectSelectedConversationId)!
   const sendMessage = useSendMessage(triggerScrollToBottom)
-  const [caretPosition, setCaretPosition] = useState<number>(0)
+
   const {
     register,
     handleSubmit,
-    reset,
-    getValues,
-    setValue,
     formState: { isDirty },
-  } = useForm<MessageForm>({
-    resolver: zodResolver(messageValidationSchema),
-    defaultValues: { text: '' },
-  })
+    reset,
+    setCaretPosition,
+    isImageUploading,
+  } = useMessageFormContext()!
+
   const { handleKeyDown, triggerStopTyping } = useHandleUserTyping(
     currentUserId,
     selectedConversationId,
   )
   const checkHasNextUnreadPage = useCheckHasNextUnreadPage()
 
-  const onSubmit: SubmitHandler<MessageForm> = (data) => {
+  const onSubmit: SubmitHandler<MessageFormType> = (data) => {
     const messageId = crypto.randomUUID()
     const hasNextUnreadPage = checkHasNextUnreadPage(selectedConversationId)
     if (!hasNextUnreadPage) {
       triggerScrollToBottom('instant')
     }
+
+    const messageImages = data.messageImages.map(
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      ({ file, ...rest }) => rest as SchemaMessageImageResponseDto,
+    )
+
     dispatch(
       addPendingChatMessage({
         conversationId: selectedConversationId,
         message: {
-          ...data,
           id: messageId,
+          text: data.text,
+          messageImages,
           status: 'sending',
           conversationId: selectedConversationId,
           createdAt: new Date().toISOString(),
@@ -62,15 +69,7 @@ export const MessageInputForm = ({ triggerScrollToBottom }: Props) => {
     )
     reset()
     triggerStopTyping()
-    sendMessage({ ...data, conversationId: selectedConversationId }, messageId)
-  }
-
-  const handleEmojiSelect = (emoji: string) => {
-    const text = getValues('text')
-    const newText =
-      text.slice(0, caretPosition) + emoji + text.slice(caretPosition)
-    setValue('text', newText, { shouldDirty: true })
-    setCaretPosition((prev) => prev + emoji.length)
+    sendMessage(transformMessageData(data, selectedConversationId), messageId)
   }
 
   const handleCaretPosition = (
@@ -86,29 +85,32 @@ export const MessageInputForm = ({ triggerScrollToBottom }: Props) => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className=" flex items-center gap-2  p-4"
+      className=" flex flex-col gap-2 p-4"
     >
-      <MessageAttachmentOptions handleEmojiSelect={handleEmojiSelect} />
-      <label
-        onKeyDown={handleKeyDown}
-        className="input input-bordered input-accent flex flex-grow items-center gap-2 bg-base-100"
-      >
-        <input
-          {...register('text')}
-          className="flex flex-grow"
-          placeholder="Start a new message"
-          onClick={handleCaretPosition}
-          onKeyUp={handleCaretPosition}
-          onFocus={handleCaretPosition}
-        />
-        <button
-          type="submit"
-          aria-label="Send message"
-          className={`btn btn-circle btn-ghost btn-sm text-primary ${!isDirty && 'btn-disabled '}`}
+      <MessagePictures />
+      <div className="flex w-full items-center gap-2">
+        <MessageAttachmentOptions />
+        <label
+          onKeyDown={handleKeyDown}
+          className="input input-bordered input-accent flex flex-grow items-center gap-2 bg-base-100"
         >
-          <BiSend size={20} />
-        </button>
-      </label>
+          <input
+            {...register('text')}
+            className="flex flex-grow"
+            placeholder="Start a new message"
+            onClick={handleCaretPosition}
+            onKeyUp={handleCaretPosition}
+            onFocus={handleCaretPosition}
+          />
+          <button
+            type="submit"
+            aria-label="Send message"
+            className={`btn btn-circle btn-ghost btn-sm text-primary ${(!isDirty || isImageUploading) && 'btn-disabled '}`}
+          >
+            <BiSend size={20} />
+          </button>
+        </label>
+      </div>
     </form>
   )
 }

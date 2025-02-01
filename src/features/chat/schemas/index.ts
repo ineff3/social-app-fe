@@ -1,7 +1,8 @@
 import { z } from 'zod'
 
-// Login
-export const messageValidationSchema = z.object({
-  text: z.string().min(1),
-})
-export type MessageForm = z.infer<typeof messageValidationSchema>
+export const messageValidationSchema = z
+  .object({
+    messageImages: z.any(),
+    text: z.string(),
+  })
+  .refine((data) => data.text || data.messageImages?.length > 0)

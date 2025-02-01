@@ -58,8 +58,19 @@ export const ScrollToBottomBadge = ({
 
     updateButtonPosition()
 
+    const resizeObserver = new ResizeObserver(updateButtonPosition)
+    const element = scrollElementRef.current
+    if (element) {
+      resizeObserver.observe(element)
+    }
+
     window.addEventListener('resize', updateButtonPosition)
-    return () => window.removeEventListener('resize', updateButtonPosition)
+    return () => {
+      window.removeEventListener('resize', updateButtonPosition)
+      if (element) {
+        resizeObserver.unobserve(element)
+      }
+    }
   }, [scrollElementRef])
 
   return (

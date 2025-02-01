@@ -13,6 +13,7 @@ import { ScrollToBottomBadge } from './ScrollToBottomBadge'
 import { CircleButton } from '@/src/components/ui/buttons/CircleButton'
 import { selectConversation } from '@/src/redux/chat/chatSlice'
 import ArrowIconSvg from '@/src/components/ui/icons/ArrowIconSvg'
+import { MessageFormProvider } from '../../contexts/MessageFormContext'
 
 interface Props {
   conversation: SchemaConversationResponseDto
@@ -66,7 +67,9 @@ export const Conversation = ({ conversation }: Props) => {
           triggerScrollToBottom={triggerScrollToBottom}
         />
       </div>
-      <MessageInputForm triggerScrollToBottom={triggerScrollToBottom} />
+      <MessageFormProvider>
+        <MessageInputForm triggerScrollToBottom={triggerScrollToBottom} />
+      </MessageFormProvider>
     </div>
   )
 }

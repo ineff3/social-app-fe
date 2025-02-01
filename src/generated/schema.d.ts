@@ -669,14 +669,17 @@ export interface components {
              * @default post
              * @enum {string}
              */
-            imageType: "avatar" | "post";
+            imageType: "avatar" | "post" | "message";
         };
         UploadImageResponseDto: {
             fileName: string;
+            imageUrl: string;
         };
         CreateMessageDto: {
             conversationId: string;
             text: string;
+            /** @default [] */
+            imageKeys?: string[];
         };
         GetDirectConversationQueryDto: {
             recipientId: string;
@@ -703,6 +706,11 @@ export interface components {
             id: string;
             user: components["schemas"]["UserPreviewResponseDto"];
         };
+        MessageImageResponseDto: {
+            id: string;
+            imageUrl: string;
+            imageKey: string;
+        };
         MessageResponseDto: {
             /** @enum {string} */
             status: "sent" | "read";
@@ -710,6 +718,7 @@ export interface components {
             conversationId: string;
             text: string;
             senderId: string;
+            messageImages: components["schemas"]["MessageImageResponseDto"][];
             /** Format: date-time */
             createdAt: string;
         };
@@ -770,6 +779,7 @@ export type SchemaReadMessageDto = components['schemas']['ReadMessageDto'];
 export type SchemaUserTypingDto = components['schemas']['UserTypingDto'];
 export type SchemaReadAllMessagesDto = components['schemas']['ReadAllMessagesDto'];
 export type SchemaParticipantResponseDto = components['schemas']['ParticipantResponseDto'];
+export type SchemaMessageImageResponseDto = components['schemas']['MessageImageResponseDto'];
 export type SchemaMessageResponseDto = components['schemas']['MessageResponseDto'];
 export type SchemaConversationResponseDto = components['schemas']['ConversationResponseDto'];
 export type SchemaGetAllConversationsResponseDto = components['schemas']['GetAllConversationsResponseDto'];

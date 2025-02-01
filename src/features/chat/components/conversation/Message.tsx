@@ -71,7 +71,23 @@ export const Message = ({
         className={`chat-bubble !min-h-[40px] !max-w-[85%] text-secondary ${isFromCurrentUser && 'bg-primary'}`}
       >
         <div className=" flex flex-wrap gap-x-3 gap-y-1">
-          <span className=" inline-block">{message.text}</span>
+          <div className="flex flex-col">
+            {message.messageImages?.length > 0 &&
+              message.messageImages.map((messageImage) => (
+                <div
+                  key={messageImage.id}
+                  className="h-full max-h-[350px] w-full max-w-[350px]"
+                >
+                  <img
+                    className="h-full w-full object-contain"
+                    src={messageImage.imageUrl}
+                  />
+                </div>
+              ))}
+            {message.text && (
+              <span className=" inline-block">{message.text}</span>
+            )}
+          </div>
           {isFromCurrentUser && (
             <div className=" flex flex-grow items-center justify-end gap-1 self-end text-xs italic text-secondary">
               <time dateTime={message.createdAt}>
