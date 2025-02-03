@@ -24,7 +24,7 @@ export const MessagePicturePreview = ({
   const handleRemove = () => {
     remove(index)
 
-    const { imageKey } = messagePicture
+    const { imageKey } = messagePicture.uploadData!
     if (!imageKey) {
       return
     }

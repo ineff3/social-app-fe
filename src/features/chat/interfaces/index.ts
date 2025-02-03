@@ -1,4 +1,7 @@
-import { SchemaMessageResponseDto } from '@/src/generated/schema'
+import {
+  SchemaMessageResponseDto,
+  SchemaUploadImageResponseDto,
+} from '@/src/generated/schema'
 
 export interface ResponseAcknowledgement {
   status: 'success' | 'error'
@@ -21,8 +24,7 @@ export interface MessagePicture {
   id?: string
   key: string
   file: File
-  imageUrl?: string
-  imageKey?: string
+  uploadData?: SchemaUploadImageResponseDto
 }
 export interface MessageFormType {
   text: string

@@ -1,6 +1,6 @@
 import { selectPendingMessages } from '@/src/redux/chat/chatSlice'
 import { useAppSelector } from '@/src/redux/hooks'
-import { Message } from './Message'
+import { Message } from './message/Message'
 import { TriggerScrollToBottom } from '../../hooks/useTriggerScrollToBottom'
 
 interface Props {

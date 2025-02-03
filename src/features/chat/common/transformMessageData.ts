@@ -8,6 +8,8 @@ export const transformMessageData = (
   return {
     ...data,
     conversationId,
-    imageKeys: data.messageImages.map((messageImage) => messageImage.imageKey!),
+    messageImages: data.messageImages.map(
+      (messageImage) => messageImage.uploadData!,
+    ),
   }
 }

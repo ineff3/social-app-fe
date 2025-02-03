@@ -44,7 +44,7 @@ export const EditProfileDropzone = ({
     if (!existingPicture) {
       return
     }
-    onChange({ ...existingPicture, imageKey: response.fileName })
+    onChange({ ...existingPicture, imageKey: response.imageKey })
   }
 
   return (

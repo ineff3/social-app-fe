@@ -51,7 +51,8 @@ export const MessageInputForm = ({ triggerScrollToBottom }: Props) => {
 
     const messageImages = data.messageImages.map(
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      ({ file, ...rest }) => rest as SchemaMessageImageResponseDto,
+      ({ file, ...rest }) =>
+        ({ id: rest.id, ...rest.uploadData }) as SchemaMessageImageResponseDto,
     )
 
     dispatch(

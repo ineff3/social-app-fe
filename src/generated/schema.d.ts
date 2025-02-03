@@ -671,15 +671,30 @@ export interface components {
              */
             imageType: "avatar" | "post" | "message";
         };
+        ImageDimensionsResponseDto: {
+            width: number;
+            height: number;
+        };
         UploadImageResponseDto: {
-            fileName: string;
+            imageKey: string;
             imageUrl: string;
+            dimensions: components["schemas"]["ImageDimensionsResponseDto"];
+            blurhash: string;
+        };
+        ImageDimensionsDto: {
+            width: number;
+            height: number;
+        };
+        CreateMessageImageDto: {
+            imageKey: string;
+            blurhash: string;
+            dimensions: components["schemas"]["ImageDimensionsDto"];
         };
         CreateMessageDto: {
             conversationId: string;
             text: string;
             /** @default [] */
-            imageKeys?: string[];
+            messageImages?: components["schemas"]["CreateMessageImageDto"][];
         };
         GetDirectConversationQueryDto: {
             recipientId: string;
@@ -710,6 +725,8 @@ export interface components {
             id: string;
             imageUrl: string;
             imageKey: string;
+            dimensions: components["schemas"]["ImageDimensionsResponseDto"];
+            blurhash: string;
         };
         MessageResponseDto: {
             /** @enum {string} */
@@ -771,7 +788,10 @@ export type SchemaUpdatePostDto = components['schemas']['UpdatePostDto'];
 export type SchemaNotificationResponseDto = components['schemas']['NotificationResponseDto'];
 export type SchemaGetAllNotificationsResponseDto = components['schemas']['GetAllNotificationsResponseDto'];
 export type SchemaImageUploadDto = components['schemas']['ImageUploadDto'];
+export type SchemaImageDimensionsResponseDto = components['schemas']['ImageDimensionsResponseDto'];
 export type SchemaUploadImageResponseDto = components['schemas']['UploadImageResponseDto'];
+export type SchemaImageDimensionsDto = components['schemas']['ImageDimensionsDto'];
+export type SchemaCreateMessageImageDto = components['schemas']['CreateMessageImageDto'];
 export type SchemaCreateMessageDto = components['schemas']['CreateMessageDto'];
 export type SchemaGetDirectConversationQueryDto = components['schemas']['GetDirectConversationQueryDto'];
 export type SchemaGetMessagesQueryDto = components['schemas']['GetMessagesQueryDto'];

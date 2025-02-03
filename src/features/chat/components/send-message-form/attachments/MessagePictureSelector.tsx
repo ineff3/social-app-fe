@@ -43,9 +43,8 @@ export const MessagePictureSelector = () => {
         messageImage.key === key
           ? {
               ...messageImage,
-              imageKey: response.fileName,
-              imageUrl: response.imageUrl,
               id: messageImage.key,
+              uploadData: response,
             }
           : messageImage,
       ),

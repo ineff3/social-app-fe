@@ -1,6 +1,6 @@
 import { SchemaParticipantResponseDto } from '@/src/generated/schema'
 import { useGetMessages } from '../../hooks/useGetMessages'
-import { Message } from './Message'
+import { Message } from './message/Message'
 import { useHandleIncomingMessage } from '../../hooks/useHandleIncomingMessage'
 import { useRef } from 'react'
 import {
