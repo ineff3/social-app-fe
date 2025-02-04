@@ -35,7 +35,7 @@ export const CircleButton = ({
   return (
     <div
       data-tip={label}
-      className={`tooltip !z-20 ${tooltipPositions[tooltipPosition]} tooltip-secondary`}
+      className={`tooltip !z-10 ${tooltipPositions[tooltipPosition]} tooltip-secondary`}
     >
       <button
         aria-label={label}

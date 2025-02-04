@@ -5,6 +5,7 @@ import { useEffect } from 'react'
 import { TriggerScrollToBottom } from '../../../hooks/useTriggerScrollToBottom'
 import { FailedMessageControls } from './FailedMessageControls'
 import { MessageCaption } from './MessageCaption'
+import { MessagePicture } from './MessagePicture'
 
 interface Props {
   message: ExtendedChatMessage
@@ -29,8 +30,8 @@ export const Message = ({
     }
   }, [inView, message, readMessage, isFromCurrentUser, conversationId])
 
-  const hasImage = message.messageImages.length > 0
-  const hasOnlyImage = hasImage && !message.text
+  const hasImage = message.messageImages?.length > 0
+  const hasSingleImage = hasImage && !message.text
 
   return (
     <div
@@ -43,18 +44,12 @@ export const Message = ({
         <div className=" flex flex-col gap-y-1 ">
           {hasImage &&
             message.messageImages.map((messageImage) => (
-              <div
-                key={messageImage.id}
-                className={`relative h-full w-full overflow-hidden bg-cover bg-no-repeat ${hasOnlyImage ? 'rounded-2xl' : 'rounded-b-md rounded-t-2xl '}`}
-                style={{ backgroundImage: `url(${messageImage.imageUrl})` }}
-              >
-                <div className="flex justify-center backdrop-blur-lg">
-                  <img
-                    className="h-full max-h-[350px] w-full max-w-[350px] object-contain"
-                    src={messageImage.imageUrl}
-                  />
-                </div>
-                {hasOnlyImage && (
+              <div className="relative" key={messageImage.id}>
+                <MessagePicture
+                  messageImage={messageImage}
+                  hasSingleImage={hasSingleImage}
+                />
+                {hasSingleImage && (
                   <div className="absolute bottom-2 right-3">
                     <MessageCaption
                       message={message}
@@ -64,7 +59,7 @@ export const Message = ({
                 )}
               </div>
             ))}
-          {!hasOnlyImage && (
+          {!hasSingleImage && (
             <div
               className={`flex flex-wrap gap-x-3 gap-y-1 ${hasImage && 'px-4 pb-2'}`}
             >

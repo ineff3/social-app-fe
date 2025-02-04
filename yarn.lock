@@ -5,13 +5,6 @@ __metadata:
   version: 8
   cacheKey: 10c0
 
-"-@npm:^0.0.1":
-  version: 0.0.1
-  resolution: "-@npm:0.0.1"
-  checksum: 10c0/44df0e3afd0dc4196efc879e7d5095028cf7367c9a7ea95ce59d39f15e653022e4af0320d34f359db4571d1530363dfc21393ef2f7e0cf84c8ddd5e6569e3b83
-  languageName: node
-  linkType: hard
-
 "@aashutoshrathi/word-wrap@npm:^1.2.3":
   version: 1.2.6
   resolution: "@aashutoshrathi/word-wrap@npm:1.2.6"
@@ -2099,6 +2092,13 @@ __metadata:
   version: 2.2.0
   resolution: "binary-extensions@npm:2.2.0"
   checksum: 10c0/d73d8b897238a2d3ffa5f59c0241870043aa7471335e89ea5e1ff48edb7c2d0bb471517a3e4c5c3f4c043615caa2717b5f80a5e61e07503d51dc85cb848e665d
+  languageName: node
+  linkType: hard
+
+"blurhash@npm:^2.0.5":
+  version: 2.0.5
+  resolution: "blurhash@npm:2.0.5"
+  checksum: 10c0/75d5f042b5bb8ead977524a985048378a033af866534abbaee73c80030cc9fc34e6c5b7d483c68bbdb600e0ae438f2ea6140b1f46d75fcfa57a902208ae8b85e
   languageName: node
   linkType: hard
 
@@ -5137,6 +5137,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-blurhash@npm:^0.3.0":
+  version: 0.3.0
+  resolution: "react-blurhash@npm:0.3.0"
+  peerDependencies:
+    blurhash: ^2.0.3
+    react: ">=15"
+  checksum: 10c0/9eb9a52ab599a0c73baa15085006bbe06a21b0c8525980f1f77b5cfbd5e0aa4f9594ee3d5f5c179273b6673127622cb65822d9bf11f6cbf3dd5240d66e6a66f7
+  languageName: node
+  linkType: hard
+
 "react-dom@npm:^18.2.0":
   version: 18.2.0
   resolution: "react-dom@npm:18.2.0"
@@ -6038,7 +6048,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "twitter-frontend@workspace:."
   dependencies:
-    "-": "npm:^0.0.1"
     "@emoji-mart/data": "npm:^1.1.2"
     "@emoji-mart/react": "npm:^1.1.1"
     "@headlessui/react": "npm:^2.2.0"
@@ -6063,6 +6072,7 @@ __metadata:
     "@vitejs/plugin-react": "npm:^4.2.1"
     autoprefixer: "npm:^10.4.17"
     axios: "npm:^1.6.7"
+    blurhash: "npm:^2.0.5"
     daisyui: "npm:^4.7.2"
     date-fns: "npm:^3.6.0"
     emoji-mart: "npm:^5.5.2"
@@ -6076,6 +6086,7 @@ __metadata:
     prettier: "npm:3.2.5"
     prettier-plugin-tailwindcss: "npm:^0.5.11"
     react: "npm:^18.2.0"
+    react-blurhash: "npm:^0.3.0"
     react-dom: "npm:^18.2.0"
     react-dropzone: "npm:^14.2.3"
     react-hook-form: "npm:^7.50.1"

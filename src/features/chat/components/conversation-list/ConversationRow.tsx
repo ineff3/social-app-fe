@@ -10,6 +10,7 @@ import { SchemaConversationResponseDto } from '@/src/generated/schema'
 import { ROW_HEIGHT } from './ConversationList'
 import { formatConversationDate } from '@/src/features/posts/utils/dateConversions'
 import { ConversationDropdownOptions } from './ConversationDropdownOptions'
+import { ImageIcon } from '@/src/components/ui/icons'
 
 interface Props {
   conversation: SchemaConversationResponseDto
@@ -45,6 +46,7 @@ export const ConversationRow = ({ conversation, onlineUsersIds }: Props) => {
   const lastMessageDate = conversation.lastMessage
     ? formatConversationDate(new Date(conversation.lastMessage.createdAt))
     : undefined
+  const hasImage = conversation.lastMessage.messageImages?.length > 0
 
   return (
     <div
@@ -88,9 +90,15 @@ export const ConversationRow = ({ conversation, onlineUsersIds }: Props) => {
                 <span className=" font-medium">typing</span>
               </div>
             ) : (
-              <p className=" max-w-[225px] overflow-hidden text-ellipsis whitespace-nowrap">
-                {conversation.lastMessage?.text}
-              </p>
+              <div className=" max-w-[225px] overflow-hidden text-ellipsis whitespace-nowrap">
+                {hasImage ? (
+                  <div className="flex gap-2">
+                    <ImageIcon /> <span>Photo</span>
+                  </div>
+                ) : (
+                  <span>{conversation.lastMessage?.text}</span>
+                )}
+              </div>
             )}
           </div>
           {conversation.unreadAmount !== 0 && (
