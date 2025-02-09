@@ -1,4 +1,4 @@
-import { InputHTMLAttributes, TextareaHTMLAttributes, forwardRef } from 'react'
+import { TextareaHTMLAttributes, forwardRef } from 'react'
 
 interface Props extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   placeholder?: string
@@ -18,7 +18,7 @@ const Textarea = forwardRef(
       primaryBorder = true,
       ...props
     }: Props,
-    ref: any,
+    ref: React.ForwardedRef<HTMLTextAreaElement>,
   ) => {
     return (
       <>

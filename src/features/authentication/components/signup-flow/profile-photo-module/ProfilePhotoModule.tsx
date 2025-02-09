@@ -1,6 +1,6 @@
-import PhotoForm from './PhotoForm'
+import { PhotoForm } from './PhotoForm'
 
-const ProfilePhotoModule = () => {
+export const ProfilePhotoModule = () => {
   return (
     <div className=" flex flex-1 flex-col gap-12">
       <div>
@@ -13,5 +13,3 @@ const ProfilePhotoModule = () => {
     </div>
   )
 }
-
-export default ProfilePhotoModule

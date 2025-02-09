@@ -26,7 +26,7 @@ export const DetailPost = ({ post }: Props) => {
   const userPreviewData = useAppSelector(selectUserPreview)
 
   const isPostAuthor = userPreviewData?.id === post.author.id
-  const createdDate = new Date(post.createdAt)
+  const createdDate = new Date(post.createdAt!)
   const [time, date] = convertToFullFate(createdDate)
 
   return (

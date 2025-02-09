@@ -1,6 +1,6 @@
 import { PictureDropzone } from '@/src/components/form/picture-dropzone/PictureDropzone'
 import { SchemaUploadImageResponseDto } from '@/src/generated/schema'
-import { EditProfileFormType, EditProfilePicture } from '../../schemas'
+import { EditProfilePicture } from '../../schemas'
 import { FieldPath, UseFormGetValues } from 'react-hook-form'
 
 const ACCEPTED_IMAGE_TYPES = [
@@ -10,18 +10,18 @@ const ACCEPTED_IMAGE_TYPES = [
   'image/webp',
 ]
 
-interface Props {
+interface Props<TFormType extends object> {
   onChange: (picture: EditProfilePicture | null) => void
   value: EditProfilePicture | null
   existingPictureUrl?: string | null
-  getValues: UseFormGetValues<EditProfileFormType>
-  name: FieldPath<EditProfileFormType>
+  getValues: UseFormGetValues<TFormType>
+  name: FieldPath<TFormType>
   placeholderContent?: React.ReactNode
   isImageUploading: boolean
   setIsImageUploading: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export const EditProfileDropzone = ({
+export const EditProfileDropzone = <TFormType extends object>({
   onChange,
   value,
   existingPictureUrl,
@@ -30,7 +30,7 @@ export const EditProfileDropzone = ({
   placeholderContent,
   isImageUploading,
   setIsImageUploading,
-}: Props) => {
+}: Props<TFormType>) => {
   const handlePictureAttach = (file: File) => {
     onChange({ file })
   }

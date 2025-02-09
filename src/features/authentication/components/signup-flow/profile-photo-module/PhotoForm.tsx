@@ -1,64 +1,76 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
-import FileInput from '../../../../../components/form/FileInput'
-import { z } from 'zod'
-import useUpdateUserImage from '../../../hooks/useUpdateUserImage'
 import { useNavigate } from 'react-router-dom'
 import { pageRoutes } from '../../../../../routes'
+import { EditProfileDropzone } from '@/src/features/users/components/edit-profile/EditProfileDropzone'
+import { FaUserCircle } from 'react-icons/fa'
+import { useState } from 'react'
+import { EditProfilePicture } from '@/src/features/users/schemas'
+import { useUpdateProfileImage } from '../../../hooks/useUpdateProfileImage'
+import { Spinner } from '@/src/components/ui/spinners/Spinner'
 
-const validationSchema = z.object({
-  file: z.any(),
-})
+interface FormType {
+  profileImage: EditProfilePicture | null
+}
 
-type FormType = z.infer<typeof validationSchema>
-
-const PhotoForm = () => {
-  const { control, watch, handleSubmit } = useForm<FormType>()
-  const fileChanged = watch('file')
-  const updateUserImageMutation = useUpdateUserImage()
+export const PhotoForm = () => {
+  const [isPicUploading, setIsPicUploading] = useState(false)
+  const {
+    control,
+    handleSubmit,
+    getValues,
+    formState: { isDirty },
+  } = useForm<FormType>({
+    defaultValues: {
+      profileImage: null,
+    },
+  })
+  const updateProfileImage = useUpdateProfileImage()
   const navigate = useNavigate()
 
   const onSubmit: SubmitHandler<FormType> = async (data) => {
-    if (data.file) {
-      const formData = new FormData()
-      formData.set('userImage', data.file[0])
-      formData.set('updateType', 'userImage')
-
-      updateUserImageMutation.mutate(formData, {
-        onError(err) {
-          console.error(err)
-        },
-        onSuccess(response) {
-          console.log('Success')
-          console.log(response)
-        },
-      })
+    const profileImageKey = data?.profileImage?.imageKey
+    if (profileImageKey) {
+      updateProfileImage.mutate({ profileImageKey })
     }
     navigate(pageRoutes.home)
   }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className=" flex flex-1 flex-col">
-      <div className=" flex flex-1">
-        <Controller
-          control={control}
-          name="file"
-          render={({ field }) => (
-            <FileInput onChange={field.onChange} value={field.value} />
-          )}
-        />
+      <div className=" flex  w-full flex-1 justify-center">
+        <div className="h-[150px] w-[150px] overflow-hidden rounded-full">
+          <Controller
+            control={control}
+            name="profileImage"
+            render={({ field: { onChange, value } }) => (
+              <EditProfileDropzone
+                onChange={onChange}
+                value={value}
+                name="profileImage"
+                getValues={getValues}
+                placeholderContent={
+                  <div className="h-full w-full bg-base-300">
+                    <FaUserCircle size="100%" />
+                  </div>
+                }
+                isImageUploading={isPicUploading}
+                setIsImageUploading={setIsPicUploading}
+              />
+            )}
+          />
+        </div>
       </div>
       <button
         type="submit"
-        className={`btn ${!fileChanged || fileChanged.length == 0 ? ' btn-accent' : 'btn-primary'} `}
+        className={`btn ${!isDirty ? ' btn-accent' : 'btn-primary'} ${isPicUploading && ' btn-disabled !bg-base-200'}`}
       >
-        {!fileChanged || fileChanged.length == 0 ? (
-          <>Skip for now</>
-        ) : (
-          <>Next</>
+        {isPicUploading && (
+          <span>
+            <Spinner />
+          </span>
         )}
+        <span>{!isDirty ? <>Skip for now</> : <>Next</>}</span>
       </button>
     </form>
   )
 }
-
-export default PhotoForm

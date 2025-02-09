@@ -19,7 +19,7 @@ export const Repost = ({
   const handleRedirect = () => {
     navigate(`/post/${id}`)
   }
-  const createdDate = new Date(createdAt)
+  const createdDate = new Date(createdAt!)
 
   return (
     <article

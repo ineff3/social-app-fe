@@ -1,6 +1,6 @@
 import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 import UsernameModule from './username-module/UsernameModule'
-import ProfilePhotoModule from './profile-photo-module/ProfilePhotoModule'
+import { ProfilePhotoModule } from './profile-photo-module/ProfilePhotoModule'
 import usePagination from '@/src/hooks/usePagination'
 import { useModal } from '@/src/hooks/useModal'
 import { pageRoutes } from '@/src/routes'

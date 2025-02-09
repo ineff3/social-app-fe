@@ -292,22 +292,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/posts/{id}/share": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post: operations["PostController_sharePost"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/posts/{id}": {
         parameters: {
             query?: never;
@@ -539,7 +523,7 @@ export interface components {
             profileUrl?: string | null;
             isFollowing: boolean;
             /** Format: date-time */
-            createdAt: string;
+            createdAt?: string;
         };
         UserSuggestionsResponseDto: {
             data: components["schemas"]["UserPreviewResponseDto"][];
@@ -563,11 +547,12 @@ export interface components {
             bio: string | null;
             location: string | null;
             link: string | null;
+            /** Format: date-time */
             bornDate: string | null;
             profileUrl?: string | null;
             backgroundUrl?: string | null;
             /** Format: date-time */
-            createdAt: string;
+            createdAt?: string;
             amountOfPosts: number;
             followersCount?: number;
             followingCount?: number;
@@ -595,7 +580,7 @@ export interface components {
             author: components["schemas"]["UserPreviewResponseDto"];
             postImages: components["schemas"]["PostImageResponseDto"][];
             /** Format: date-time */
-            createdAt: string;
+            createdAt?: string;
             reposted: components["schemas"]["PostResponseDto"];
         };
         GetAllPostsResponseDto: {
@@ -742,7 +727,7 @@ export interface components {
         ConversationResponseDto: {
             id: string;
             participants: components["schemas"]["ParticipantResponseDto"][];
-            lastMessage: components["schemas"]["MessageResponseDto"];
+            lastMessage?: components["schemas"]["MessageResponseDto"];
             unreadAmount: number;
         };
         GetAllConversationsResponseDto: {
@@ -843,6 +828,12 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
+                content?: never;
+            };
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     "application/json": components["schemas"]["AuthUserResponseDto"];
                 };
@@ -866,6 +857,12 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
+                content?: never;
+            };
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     "application/json": components["schemas"]["AuthUserResponseDto"];
                 };
@@ -882,6 +879,12 @@ export interface operations {
         requestBody?: never;
         responses: {
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            default: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -925,6 +928,14 @@ export interface operations {
                     "application/json": components["schemas"]["UserPreviewResponseDto"];
                 };
             };
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UserPreviewResponseDto"];
+                };
+            };
         };
     };
     UserController_getUserSuggestions: {
@@ -947,6 +958,14 @@ export interface operations {
                     "application/json": components["schemas"]["UserSuggestionsResponseDto"];
                 };
             };
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UserSuggestionsResponseDto"];
+                };
+            };
         };
     };
     UserController_checkUsernameReserved: {
@@ -961,6 +980,14 @@ export interface operations {
         requestBody?: never;
         responses: {
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UsernameReservedResponseDto"];
+                };
+            };
+            default: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -990,6 +1017,14 @@ export interface operations {
                     "application/json": components["schemas"]["UserSearchResponseDto"];
                 };
             };
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UserSearchResponseDto"];
+                };
+            };
         };
     };
     UserController_getUserByName: {
@@ -1004,6 +1039,14 @@ export interface operations {
         requestBody?: never;
         responses: {
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GetUserByUsernameResponseDto"];
+                };
+            };
+            default: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -1030,6 +1073,12 @@ export interface operations {
         requestBody?: never;
         responses: {
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            default: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -1139,6 +1188,12 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
+                content?: never;
+            };
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     "application/json": components["schemas"]["GetAllPostsResponseDto"];
                 };
@@ -1223,25 +1278,6 @@ export interface operations {
             };
         };
     };
-    PostController_sharePost: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
     PostController_findPostById: {
         parameters: {
             query?: never;
@@ -1254,6 +1290,14 @@ export interface operations {
         requestBody?: never;
         responses: {
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": Record<string, never>;
+                };
+            };
+            default: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -1324,6 +1368,12 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
+                content?: never;
+            };
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     "application/json": components["schemas"]["GetAllPostsResponseDto"];
                 };
@@ -1344,6 +1394,12 @@ export interface operations {
         requestBody?: never;
         responses: {
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            default: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -1389,6 +1445,12 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
+                content?: never;
+            };
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     "application/json": components["schemas"]["UploadImageResponseDto"];
                 };
@@ -1428,6 +1490,12 @@ export interface operations {
         requestBody?: never;
         responses: {
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            default: {
                 headers: {
                     [name: string]: unknown;
                 };
