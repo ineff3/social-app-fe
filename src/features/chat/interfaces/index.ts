@@ -1,4 +1,5 @@
 import {
+  SchemaConversationResponseDto,
   SchemaMessageResponseDto,
   SchemaUploadImageResponseDto,
 } from '@/src/generated/schema'
@@ -29,4 +30,8 @@ export interface MessagePicture {
 export interface MessageFormType {
   text: string
   messageImages: MessagePicture[]
+}
+
+export interface ConversationHeaderProps {
+  conversation: SchemaConversationResponseDto
 }

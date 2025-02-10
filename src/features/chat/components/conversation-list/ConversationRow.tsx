@@ -46,7 +46,7 @@ export const ConversationRow = ({ conversation, onlineUsersIds }: Props) => {
   const lastMessageDate = conversation.lastMessage
     ? formatConversationDate(new Date(conversation.lastMessage.createdAt))
     : undefined
-  const hasImage = conversation.lastMessage.messageImages?.length > 0
+  const hasImage = conversation?.lastMessage?.messageImages?.length ?? 0 > 0
 
   return (
     <div
@@ -74,7 +74,7 @@ export const ConversationRow = ({ conversation, onlineUsersIds }: Props) => {
             {lastMessageDate && (
               <>
                 <span>·</span>
-                <time dateTime={conversation.lastMessage.createdAt}>
+                <time dateTime={conversation.lastMessage!.createdAt}>
                   {lastMessageDate}
                 </time>
               </>

@@ -4,6 +4,7 @@ import NewsSidebar from './components/NewsSidebar'
 import { CiMenuBurger } from 'react-icons/ci'
 import { useState } from 'react'
 import { pageRoutes } from '../routes'
+import { ConversationPopover } from '../features/chat/components/conversation-popover/ConversationPopover'
 
 const BaseLayout = () => {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -50,6 +51,11 @@ const BaseLayout = () => {
         {location.pathname !== pageRoutes.conversations && (
           <div className=" hidden w-full  max-w-[360px] lg:block">
             <NewsSidebar />
+          </div>
+        )}
+        {location.pathname !== pageRoutes.conversations && (
+          <div className="hidden lg:block">
+            <ConversationPopover />
           </div>
         )}
       </div>

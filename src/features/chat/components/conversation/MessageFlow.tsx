@@ -22,6 +22,7 @@ interface Props extends ComponentWithScrollRef<HTMLDivElement> {
   conversationId: string
   recipient: SchemaParticipantResponseDto
   triggerScrollToBottom: TriggerScrollToBottom
+  isMinimized?: boolean
 }
 
 const MESSAGE_PER_PAGE = 30
@@ -31,6 +32,7 @@ export const MessageFlow = ({
   recipient,
   scrollElementRef,
   triggerScrollToBottom,
+  isMinimized = false,
 }: Props) => {
   const {
     data: readMessages,
@@ -79,7 +81,7 @@ export const MessageFlow = ({
   const firstUnreadMessageId = getFirstUnreadMessageId(unreadMessages)
 
   return (
-    <div className="flex flex-col p-4">
+    <div className={`flex flex-col ${isMinimized ? 'p-2' : 'p-4'}`}>
       {groupedMessages &&
         Array.from(groupedMessages.entries()).map(([date, messages]) => (
           <div key={date} className="flex flex-col">

@@ -1,0 +1,1 @@
+export const CONV_POPOVER_HEADER_HEIGHT = 60

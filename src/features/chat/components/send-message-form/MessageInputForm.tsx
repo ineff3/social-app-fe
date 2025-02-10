@@ -19,9 +19,13 @@ import { MessageFormType } from '../../interfaces'
 
 interface Props {
   triggerScrollToBottom: TriggerScrollToBottom
+  isMinimized?: boolean
 }
 
-export const MessageInputForm = ({ triggerScrollToBottom }: Props) => {
+export const MessageInputForm = ({
+  triggerScrollToBottom,
+  isMinimized = false,
+}: Props) => {
   const currentUserId = useAppSelector(selectUserPreview)!.id
   const dispatch = useAppDispatch()
   const selectedConversationId = useAppSelector(selectSelectedConversationId)!
@@ -70,6 +74,7 @@ export const MessageInputForm = ({ triggerScrollToBottom }: Props) => {
     )
     reset()
     triggerStopTyping()
+    console.log(data)
     sendMessage(transformMessageData(data, selectedConversationId), messageId)
   }
 
@@ -86,19 +91,19 @@ export const MessageInputForm = ({ triggerScrollToBottom }: Props) => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className=" flex flex-col gap-2 p-4"
+      className={` flex flex-col gap-2 ${isMinimized ? 'p-2' : 'p-4'}`}
     >
       <MessagePictures />
       <div className="flex w-full items-center gap-2">
         <MessageAttachmentOptions />
         <label
           onKeyDown={handleKeyDown}
-          className="input input-bordered input-accent flex flex-grow items-center gap-2 bg-base-100"
+          className="input input-bordered input-accent flex !min-w-[200px]  flex-grow items-center gap-2 bg-base-100"
         >
           <input
             {...register('text')}
-            className="flex flex-grow"
-            placeholder="Start a new message"
+            className="flex !min-w-[100px] flex-grow"
+            placeholder="Start a message"
             onClick={handleCaretPosition}
             onKeyUp={handleCaretPosition}
             onFocus={handleCaretPosition}

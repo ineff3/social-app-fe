@@ -18,7 +18,7 @@ export const ConversationsPanel = ({ show }: Props) => {
             onClick={show}
             label="New message"
           >
-            <FaRegPenToSquare height={25} width={25} />
+            <FaRegPenToSquare size={18} />
           </CircleButton>
         </div>
         <ConversationList />

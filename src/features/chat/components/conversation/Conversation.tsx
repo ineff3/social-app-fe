@@ -1,4 +1,4 @@
-import { useAppDispatch, useAppSelector } from '@/src/redux/hooks'
+import { useAppSelector } from '@/src/redux/hooks'
 import { selectUserPreview } from '@/src/redux/user/userSlice'
 import { SchemaConversationResponseDto } from '@/src/generated/schema'
 import { retrieveRecipient } from '../../common/conversationHelpers'
@@ -10,17 +10,19 @@ import { useChatRoomSubscription } from '../../hooks/useChatRoomSubscription'
 import { useTriggerScrollToBottom } from '../../hooks/useTriggerScrollToBottom'
 import { useHandleReadMessage } from '../../hooks/useHandleReadMessage'
 import { ScrollToBottomBadge } from './ScrollToBottomBadge'
-import { CircleButton } from '@/src/components/ui/buttons/CircleButton'
-import { selectConversation } from '@/src/redux/chat/chatSlice'
-import ArrowIconSvg from '@/src/components/ui/icons/ArrowIconSvg'
 import { MessageFormProvider } from '../../contexts/MessageFormContext'
 
 interface Props {
   conversation: SchemaConversationResponseDto
+  Header: React.ReactNode
+  isMinimized?: boolean
 }
 
-export const Conversation = ({ conversation }: Props) => {
-  const dispatch = useAppDispatch()
+export const Conversation = ({
+  conversation,
+  isMinimized = false,
+  Header,
+}: Props) => {
   const currentUserId = useAppSelector(selectUserPreview)!.id
   const scrollElementRef = useRef<HTMLDivElement>(null)
 
@@ -33,26 +35,10 @@ export const Conversation = ({ conversation }: Props) => {
 
   return (
     <div className="flex h-full w-full max-w-[700px] flex-grow flex-col lg:max-w-[600px]">
-      <header className="fixed top-0 z-10 flex h-[60px] w-full max-w-[inherit] items-center gap-1 border-b border-r border-accent bg-base-100 px-4">
-        <div className="lg:hidden">
-          <CircleButton
-            onClick={() => {
-              dispatch(selectConversation(null))
-            }}
-            label="Back"
-            tooltipPosition="bottom"
-            size="sm"
-          >
-            <ArrowIconSvg width={15} height={15} className="fill-secondary" />
-          </CircleButton>
-        </div>
-        <p className="p-4 text-lg font-bold text-secondary">
-          {recipient?.user.firstName}
-        </p>
-      </header>
+      {Header}
       <div
         ref={scrollElementRef}
-        className="mt-[60px] flex h-full flex-col overflow-y-auto border-b border-accent"
+        className="flex h-full flex-col overflow-y-auto border-b border-accent"
       >
         <ConversationUserPreview userPreview={recipient.user} />
         <MessageFlow
@@ -60,6 +46,7 @@ export const Conversation = ({ conversation }: Props) => {
           recipient={recipient}
           scrollElementRef={scrollElementRef}
           triggerScrollToBottom={triggerScrollToBottom}
+          isMinimized={isMinimized}
         />
         <ScrollToBottomBadge
           scrollElementRef={scrollElementRef}
@@ -68,7 +55,10 @@ export const Conversation = ({ conversation }: Props) => {
         />
       </div>
       <MessageFormProvider>
-        <MessageInputForm triggerScrollToBottom={triggerScrollToBottom} />
+        <MessageInputForm
+          triggerScrollToBottom={triggerScrollToBottom}
+          isMinimized={isMinimized}
+        />
       </MessageFormProvider>
     </div>
   )

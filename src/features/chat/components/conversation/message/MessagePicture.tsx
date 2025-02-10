@@ -36,12 +36,12 @@ export const MessagePicture = ({
   return (
     <>
       <div
-        className={`h-full w-full overflow-hidden bg-cover bg-no-repeat ${
+        className={`h-full w-full overflow-hidden ${
           hasSingleImage ? 'rounded-2xl' : 'rounded-b-md rounded-t-2xl'
         }`}
       >
         <div
-          className="relative w-full backdrop-blur-lg"
+          className="relative w-full overflow-hidden rounded-2xl backdrop-blur-lg"
           style={{
             minWidth: renderedWidth,
             height: renderedHeight,
@@ -54,10 +54,6 @@ export const MessagePicture = ({
             className={`absolute left-1/2 top-0 z-10 -translate-x-1/2 object-contain transition-opacity duration-300 ${
               isLoaded ? 'opacity-100' : 'opacity-0'
             }`}
-            style={{
-              width: renderedWidth,
-              height: renderedHeight,
-            }}
             onClick={show}
             onLoad={() => setIsLoaded(true)}
           />
