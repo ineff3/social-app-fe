@@ -37,11 +37,11 @@ export const useSendMessage = (
       data,
       async (response: ResponseAcknowledgement) => {
         dispatch(setIsNextPageFetchEnabled(false))
-        await queryClient.refetchQueries({ queryKey: readKey }),
-          queryClient.setQueryData(unreadKey, () => ({
-            pages: [{ data: [], nextCursor: null }],
-            pageParams: [null],
-          }))
+        await queryClient.refetchQueries({ queryKey: readKey })
+        queryClient.setQueryData(unreadKey, () => ({
+          pages: [{ data: [], nextCursor: null }],
+          pageParams: [null],
+        }))
         queryClient.setQueryData(
           conversationKey,
           resetConversationUnreadAmount(conversationId),

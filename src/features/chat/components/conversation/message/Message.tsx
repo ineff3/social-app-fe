@@ -6,6 +6,7 @@ import { TriggerScrollToBottom } from '../../../hooks/useTriggerScrollToBottom'
 import { FailedMessageControls } from './FailedMessageControls'
 import { MessageCaption } from './MessageCaption'
 import { MessagePicture } from './MessagePicture'
+import { MessageOptions } from './message-options/MessageOptions'
 
 interface Props {
   message: ExtendedChatMessage
@@ -36,10 +37,15 @@ export const Message = ({
   return (
     <div
       ref={ref}
-      className={`chat ${isFromCurrentUser ? 'chat-end' : 'chat-start'}`}
+      className={`group chat
+        ${isFromCurrentUser ? 'chat-end' : 'chat-start'}
+      `}
     >
       <div
-        className={`chat-bubble !min-h-[40px] !max-w-[85%] text-secondary ${isFromCurrentUser && 'bg-primary'} ${hasImage && 'p-[2px]'}`}
+        className={`chat-bubble !min-h-[40px] !max-w-[85%] text-secondary
+          ${isFromCurrentUser && 'bg-primary'}
+          ${hasImage && 'p-[2px]'}
+        `}
       >
         <div className=" flex flex-col gap-y-1 ">
           {hasImage &&
@@ -76,6 +82,20 @@ export const Message = ({
             message={message}
             triggerScrollToBottom={triggerScrollToBottom}
           />
+        )}
+        {message.status !== 'failed' && message.status !== 'sending' && (
+          <div
+            className={`absolute top-1/2 -translate-y-1/2 text-base-content opacity-0 transition-all duration-150 group-hover:opacity-100
+           ${isFromCurrentUser ? '-left-[40px]' : '-right-[40px]'}
+         `}
+          >
+            <MessageOptions
+              message={message}
+              conversationId={conversationId}
+              isFromCurrentUser={isFromCurrentUser}
+              hasSingleImage={hasSingleImage}
+            />
+          </div>
         )}
       </div>
     </div>

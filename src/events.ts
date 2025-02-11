@@ -2,6 +2,7 @@ export const chatEvents = {
   MESSAGE: {
     SEND: 'message:send',
     NEW: 'message:new',
+    DELETE: 'message:delete',
     READ: 'message:read',
     READ_ALL: 'message:read:all',
   },

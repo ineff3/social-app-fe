@@ -74,7 +74,6 @@ export const MessageInputForm = ({
     )
     reset()
     triggerStopTyping()
-    console.log(data)
     sendMessage(transformMessageData(data, selectedConversationId), messageId)
   }
 

@@ -11,6 +11,7 @@ import { useTriggerScrollToBottom } from '../../hooks/useTriggerScrollToBottom'
 import { useHandleReadMessage } from '../../hooks/useHandleReadMessage'
 import { ScrollToBottomBadge } from './ScrollToBottomBadge'
 import { MessageFormProvider } from '../../contexts/MessageFormContext'
+import { useHandleDeleteMessage } from '../../hooks/useHandleDeleteMessage'
 
 interface Props {
   conversation: SchemaConversationResponseDto
@@ -30,6 +31,7 @@ export const Conversation = ({
 
   useChatRoomSubscription(conversation.id)
   useHandleReadMessage(conversation.id)
+  useHandleDeleteMessage(conversation.id)
 
   const recipient = retrieveRecipient(conversation, currentUserId)!
 

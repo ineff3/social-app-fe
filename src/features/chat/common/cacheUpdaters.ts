@@ -23,6 +23,19 @@ export const appendNewMessage = (
   }
 }
 
+export const updateDeletedMessage = (
+  oldData: InfiniteData<SchemaGetAllMessagesResponseDto>,
+  deletedMessageId: string,
+): InfiniteData<SchemaGetAllMessagesResponseDto> => {
+  return {
+    pages: oldData.pages.map((page) => ({
+      ...page,
+      data: page.data.filter((message) => message.id !== deletedMessageId),
+    })),
+    pageParams: oldData.pageParams,
+  }
+}
+
 export const updateReadMessage = (id: string) => {
   return handleUpdater<SchemaMessageResponseDto>(id, (message) => ({
     ...message,

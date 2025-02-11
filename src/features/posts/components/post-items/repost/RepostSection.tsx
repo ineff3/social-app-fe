@@ -72,8 +72,8 @@ export const RepostSection = ({ postId, actualPost }: Props) => {
         <DropdownMenu
           items={items}
           anchor="bottom start"
-          width="fit-content"
           OpenButton={RepostButton}
+          isMinimized={true}
         />
       </div>
       <p>{actualPost.reposts}</p>

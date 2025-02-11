@@ -32,7 +32,7 @@ export const ProfilePage = () => {
     <div className=" flex h-full flex-col">
       <ProfileHeader user={user} />
 
-      <ProfileBackgroundImage backgroundUrl={user.backgroundUrl} />
+      <ProfileBackgroundImage backgroundUrl={user?.backgroundUrl} />
 
       <div className=" relative -top-[70px] mx-auto flex w-full max-w-screen-md flex-col gap-2">
         <div className=" px-10">

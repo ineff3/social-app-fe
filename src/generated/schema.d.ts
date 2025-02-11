@@ -468,6 +468,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/conversations/messages/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete: operations["ChatController_removeMessage"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -702,6 +718,10 @@ export interface components {
             conversationId: string;
             userId: string;
         };
+        DeleteMessageDto: {
+            messageId: string;
+            conversationId: string;
+        };
         ParticipantResponseDto: {
             id: string;
             user: components["schemas"]["UserPreviewResponseDto"];
@@ -783,6 +803,7 @@ export type SchemaGetMessagesQueryDto = components['schemas']['GetMessagesQueryD
 export type SchemaReadMessageDto = components['schemas']['ReadMessageDto'];
 export type SchemaUserTypingDto = components['schemas']['UserTypingDto'];
 export type SchemaReadAllMessagesDto = components['schemas']['ReadAllMessagesDto'];
+export type SchemaDeleteMessageDto = components['schemas']['DeleteMessageDto'];
 export type SchemaParticipantResponseDto = components['schemas']['ParticipantResponseDto'];
 export type SchemaMessageImageResponseDto = components['schemas']['MessageImageResponseDto'];
 export type SchemaMessageResponseDto = components['schemas']['MessageResponseDto'];
@@ -1523,6 +1544,14 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    "application/json": Record<string, never>;
+                };
+            };
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
                     "application/json": components["schemas"]["ConversationResponseDto"];
                 };
             };
@@ -1566,6 +1595,12 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
+                content?: never;
+            };
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content: {
                     "application/json": components["schemas"]["GetAllMessagesResponseDto"];
                 };
@@ -1584,6 +1619,14 @@ export interface operations {
         requestBody?: never;
         responses: {
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": Record<string, never>;
+                };
+            };
+            default: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -1609,6 +1652,25 @@ export interface operations {
                 content: {
                     "application/json": string[];
                 };
+            };
+        };
+    };
+    ChatController_removeMessage: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
         };
     };
