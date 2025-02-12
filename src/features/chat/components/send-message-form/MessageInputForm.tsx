@@ -16,6 +16,7 @@ import { MessagePictures } from './MessagePictures'
 import { transformMessageData } from '../../common/transformMessageData'
 import { SchemaMessageImageResponseDto } from '@/src/generated/schema'
 import { MessageFormType } from '../../interfaces'
+import { useHandleImagePaste } from '../../hooks/message-form/useHandleImagePaste'
 
 interface Props {
   triggerScrollToBottom: TriggerScrollToBottom
@@ -30,6 +31,7 @@ export const MessageInputForm = ({
   const dispatch = useAppDispatch()
   const selectedConversationId = useAppSelector(selectSelectedConversationId)!
   const sendMessage = useSendMessage(triggerScrollToBottom)
+  const handleImagePaste = useHandleImagePaste()
 
   const {
     register,
@@ -106,6 +108,7 @@ export const MessageInputForm = ({
             onClick={handleCaretPosition}
             onKeyUp={handleCaretPosition}
             onFocus={handleCaretPosition}
+            onPaste={handleImagePaste}
           />
           <button
             type="submit"

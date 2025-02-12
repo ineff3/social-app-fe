@@ -1,1 +1,3 @@
 export const CONV_POPOVER_HEADER_HEIGHT = 60
+
+export const MAX_IMAGES_PER_MESSAGE = 1
