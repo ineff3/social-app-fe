@@ -1,6 +1,6 @@
 name: Deploy Build to AWS
 on:
-  pull_request:
+  push:
     branches:
       - main
 

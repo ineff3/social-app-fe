@@ -11,7 +11,7 @@ export const LoginPage = () => {
         <div className=" flex flex-col items-center md:items-stretch">
           <div className=" text-center md:text-start">
             <p className="  mb-5 max-w-md text-2xl font-bold sm:text-3xl ">
-              <span className=" text-primary">Check what&apos;s happening</span>{' '}
+              <span className=" text-primary">See what&apos;s happening</span>{' '}
               <br />
               around you right now
             </p>
