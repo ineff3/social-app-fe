@@ -1,5 +1,4 @@
 import { SchemaNotificationResponseDto } from '@/src/generated/schema'
-import Post from '../../posts/components/Post'
 import { NotificationMessage } from './NotificationMessage'
 import { useViewNotification } from '../hooks/useViewNotification'
 
@@ -16,7 +15,7 @@ export const NotificationRow = ({ notification }: Props) => {
       className={`relative ${!isViewed && 'bg-base-200 bg-opacity-45 hover:bg-opacity-20'} `}
     >
       {notification?.mentionedPost ? (
-        <Post post={notification.mentionedPost} />
+        <></>
       ) : (
         <NotificationMessage notification={notification} />
       )}
@@ -26,3 +25,5 @@ export const NotificationRow = ({ notification }: Props) => {
     </div>
   )
 }
+
+//  <Post post={notification.mentionedPost} />
