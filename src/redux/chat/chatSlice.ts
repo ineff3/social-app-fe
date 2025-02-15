@@ -45,7 +45,7 @@ export const chatSlice = createSlice({
       if (!state.pendingMessages[conversationId]) {
         state.pendingMessages[conversationId] = []
       }
-      state.pendingMessages[conversationId].push(message)
+      state?.pendingMessages[conversationId]?.push(message)
     },
     removePendingChatMessage: (
       state,
@@ -53,9 +53,9 @@ export const chatSlice = createSlice({
     ) => {
       const { conversationId, messageId } = action.payload
       if (state.pendingMessages[conversationId]) {
-        state.pendingMessages[conversationId] = state.pendingMessages[
+        state.pendingMessages[conversationId] = state?.pendingMessages[
           conversationId
-        ].filter((message) => message.id !== messageId)
+        ]?.filter((message) => message.id !== messageId)
       }
     },
     updatePendingMessageStatus: (
@@ -68,9 +68,9 @@ export const chatSlice = createSlice({
     ) => {
       const { conversationId, messageId, status } = action.payload
       if (state.pendingMessages[conversationId]) {
-        state.pendingMessages[conversationId] = state.pendingMessages[
+        state.pendingMessages[conversationId] = state?.pendingMessages[
           conversationId
-        ].map((message) =>
+        ]?.map((message) =>
           message.id === messageId ? { ...message, status } : message,
         )
       }

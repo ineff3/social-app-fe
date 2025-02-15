@@ -25,9 +25,7 @@ export const RepostSection = ({ postId, actualPost }: Props) => {
     if (actualPost.isReposted) {
       deletePostMutation.mutate(postId)
     } else {
-      const formData = new FormData()
-      formData.append('repostedId', postId)
-      createPostMutation.mutate(formData)
+      createPostMutation.mutate({ repostedId: postId })
     }
   }
   const handleQuote = () => {
