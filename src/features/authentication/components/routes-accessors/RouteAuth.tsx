@@ -53,16 +53,11 @@ export const RouteAuth = ({ required = false }: { required?: boolean }) => {
   }
 
   if (required) {
-    return (
-      <>
-        {isAuthenticated ? (
-          <Outlet />
-        ) : (
-          <Navigate to={pageRoutes.auth} replace state={{ from: location }} />
-        )}
-      </>
+    return isAuthenticated ? (
+      <Outlet />
+    ) : (
+      <Navigate to={pageRoutes.auth} replace state={{ from: location }} />
     )
   }
-
-  return <>{isAuthenticated ? <Navigate to={pageRoutes.home} /> : <Outlet />}</>
+  return <Outlet />
 }
