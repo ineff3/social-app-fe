@@ -35,7 +35,7 @@ const App = () => {
             <Route path={pageRoutes.authSignup} element={<SignupPage />} />
           </Route>
         </Route>
-        <Route element={<RouteAuth required />}>
+        <Route element={<RouteAuth required={true} />}>
           <Route element={<UserInit />}>
             <Route element={<BaseLayout />}>
               <Route
@@ -66,7 +66,7 @@ const App = () => {
 
       {backgroundLocation && (
         <Routes>
-          <Route element={<RouteAuth required />}>
+          <Route element={<RouteAuth required={true} />}>
             <Route element={<UserInit />}>
               <Route
                 element={
