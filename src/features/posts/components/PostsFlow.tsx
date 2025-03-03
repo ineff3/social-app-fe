@@ -6,7 +6,6 @@ import {
 import { useInView } from 'react-intersection-observer'
 import { useEffect } from 'react'
 import Post from './Post'
-import { SchemaGetAllPostsResponseDto } from '@/src/generated/schema'
 import {
   GetAllPostsParams,
   GetPostCommentsParams,
@@ -15,6 +14,7 @@ import {
 import { ScrollPositionKey } from '@/src/redux/user/userSlice'
 import { useRestoreScrollPosition } from '@/src/hooks/useRestoreScrollPosition'
 import { PostSkeleton } from './PostSkeleton'
+import { SchemaGetAllPostsResponseDto } from '@/src/generated/schema'
 
 type PossibleParams =
   | GetAllPostsParams
@@ -62,7 +62,7 @@ export const PostsFlow = <TParams extends PossibleParams>({
     <div className="flex flex-col" role="feed">
       {data &&
         data.pages.map((page) => (
-          <div key={page.page}>
+          <div key={page.nextCursor ?? 'initial'}>
             {page.data.map((post) => (
               <Post qKey={flowQueryKey} key={post.id} post={post} />
             ))}

@@ -468,22 +468,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/conversations/messages/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete: operations["ChatController_removeMessage"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -600,10 +584,9 @@ export interface components {
             reposted: components["schemas"]["PostResponseDto"];
         };
         GetAllPostsResponseDto: {
+            /** @example null */
+            nextCursor: string | null;
             data: components["schemas"]["PostResponseDto"][];
-            total: number;
-            page: number;
-            limit: number;
         };
         UpdateUserDto: {
             /** @example Ryan */
@@ -621,15 +604,9 @@ export interface components {
             username: string;
         };
         GetPostsQueryDto: {
-            /** @default 1 */
-            page?: number;
+            cursor?: string;
             /** @default 10 */
             limit?: number;
-            /**
-             * @default desc
-             * @enum {string}
-             */
-            order?: "desc" | "asc";
             liked?: boolean;
             bookmarked?: boolean;
             isFollowing?: boolean;
@@ -760,8 +737,9 @@ export interface components {
             recipientId: string;
         };
         GetAllMessagesResponseDto: {
+            /** @example null */
+            nextCursor: string | null;
             data: components["schemas"]["MessageResponseDto"][];
-            nextCursor: Record<string, never>;
         };
     };
     responses: never;
@@ -1080,9 +1058,8 @@ export interface operations {
     UserController_findUserPosts: {
         parameters: {
             query?: {
-                page?: number;
+                cursor?: string;
                 limit?: number;
-                order?: "desc" | "asc";
                 isDraft?: boolean;
             };
             header?: never;
@@ -1192,9 +1169,8 @@ export interface operations {
     PostController_findAll: {
         parameters: {
             query?: {
-                page?: number;
+                cursor?: string;
                 limit?: number;
-                order?: "desc" | "asc";
                 liked?: boolean;
                 bookmarked?: boolean;
                 isFollowing?: boolean;
@@ -1373,9 +1349,8 @@ export interface operations {
     PostController_findPostComments: {
         parameters: {
             query?: {
-                page?: number;
+                cursor?: string;
                 limit?: number;
-                order?: "desc" | "asc";
             };
             header?: never;
             path: {
@@ -1652,25 +1627,6 @@ export interface operations {
                 content: {
                     "application/json": string[];
                 };
-            };
-        };
-    };
-    ChatController_removeMessage: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
             };
         };
     };

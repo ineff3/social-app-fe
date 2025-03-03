@@ -4,6 +4,7 @@ import { GetAllPostsParams, PaginatedQueryParams } from '../interfaces'
 import {
   SchemaAuthUserResponseDto,
   SchemaConversationResponseDto,
+  SchemaCursorQueryDto,
   SchemaGetAllConversationsResponseDto,
   SchemaGetAllMessagesResponseDto,
   SchemaGetAllNotificationsResponseDto,
@@ -30,7 +31,7 @@ const useQueryKeyStore = () => {
           get<SchemaGetAllPostsResponseDto>(apiRoutes.posts, {
             ...query,
             ...filters,
-            page: pageParam,
+            cursor: pageParam,
           }),
         contextQueries: {
           user: (userId: string, isDraft?: boolean) => ({
@@ -38,8 +39,8 @@ const useQueryKeyStore = () => {
             queryFn: ({ pageParam }: { pageParam: number }) =>
               get<SchemaGetAllPostsResponseDto>(apiRoutes.userPosts(userId), {
                 ...query,
-                page: pageParam,
                 isDraft,
+                cursor: pageParam,
               }),
           }),
           notifications: {
@@ -48,8 +49,8 @@ const useQueryKeyStore = () => {
               get<SchemaGetAllNotificationsResponseDto>(
                 apiRoutes.notifications,
                 {
-                  page: pageParam,
                   ...query,
+                  cursor: pageParam,
                 },
               ),
           },
@@ -60,14 +61,14 @@ const useQueryKeyStore = () => {
         queryFn: () =>
           get<SchemaPostResponseDto>(`${apiRoutes.posts}/${postId}`),
         contextQueries: {
-          comments: (query?: PaginatedQueryParams) => ({
+          comments: (query?: SchemaCursorQueryDto) => ({
             queryKey: [{}],
             queryFn: ({ pageParam }: { pageParam: number }) =>
               get<SchemaGetAllPostsResponseDto>(
                 apiRoutes.postComments(postId),
                 {
                   ...query,
-                  page: pageParam,
+                  cursor: pageParam,
                 },
               ),
           }),

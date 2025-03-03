@@ -1,5 +1,4 @@
 /* eslint-disable react-refresh/only-export-components */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createContext, useContext, useRef, useState } from 'react'
 import {
   FieldArrayWithId,

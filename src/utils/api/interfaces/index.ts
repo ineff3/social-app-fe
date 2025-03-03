@@ -1,3 +1,5 @@
+import { SchemaCursorQueryDto } from '@/src/generated/schema'
+
 export interface PaginatedQueryParams {
   limit?: number
   order?: 'asc' | 'desc'
@@ -10,7 +12,7 @@ export interface PostFilters {
 }
 
 export interface GetAllPostsParams {
-  query?: PaginatedQueryParams
+  query?: SchemaCursorQueryDto
   filters?: PostFilters
 }
 

@@ -14,7 +14,10 @@ interface Props {
 export const MessageSkeleton = ({ position, width, height }: Props) => {
   return (
     <div className={clsx('chat', placement[position])}>
-      <div className="chat-bubble skeleton" style={{ width, height }}></div>
+      <div
+        className="chat-bubble skeleton w-full"
+        style={{ maxWidth: width, height }}
+      ></div>
     </div>
   )
 }
