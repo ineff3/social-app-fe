@@ -1,19 +1,17 @@
 # App demo
 
-https://github.com/user-attachments/assets/117e5169-2fef-4aba-b424-491e62ad589d
+<img width="1492" alt="image" src="https://github.com/user-attachments/assets/9da61053-9839-4841-b6c7-0931bbb8741c" />
+
 
 ----
 ## Chat
 ![chat-preview](https://github.com/user-attachments/assets/ecc45916-9e62-4916-ae08-7c99a2900b2b)
 
-### Key Features & Functionalities
-- Fully responsive `Messages` page design.
-- Conversation-create composer.
-- Chat scroll position restoring.
-- Real-time messaging.
-- User typing & online indicators. Live status tracking.
-- Two-way cursor-based pagination (Infinite Query).
-- Conversation latest preview and unread message notifications.
-- Optimistic updates (UI) for created messages. Includes visually handling of `sending`, `error`, `sent` and `read` states.
-- Failed messages **remove** / **resend** behavior.
-- Handled edge cases with `send-new-message` and `scroll-to-bottom`  behavior when there are multiple unfetched not read messages.
+### Features
+
+- **Real-time Messaging** – Includes typing indicators & online status.  
+- **Conversation Management** – Create, preview latest messages, and track unread counts.  
+- **Message Handling** – Optimistic updates, resend/remove failed messages.  
+- **Scroll & Pagination** – Cursor-based pagination, scroll position restoration, and smart `scroll-to-bottom` behavior.  
+- **Rich Content Support** – Handles text, images, and emojis. Uses BlurHash for images to prevent layout shifts.  
+- **Reusable Chat Logic** – Modular and optimized for scalability.  
