@@ -26,6 +26,7 @@ export const UserSearch = ({ onSearchResultClick }: Props) => {
         onClick={onSearchResultClick}
         resultLength={5}
         isBordered={true}
+        key={debouncedSearchQuery}
       />
     </div>
   )

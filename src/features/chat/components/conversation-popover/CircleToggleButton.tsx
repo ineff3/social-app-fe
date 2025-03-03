@@ -1,4 +1,5 @@
 import { CircleButton } from '@/src/components/ui/buttons/CircleButton'
+import clsx from 'clsx'
 import { IoIosArrowDown } from 'react-icons/io'
 
 interface Props {
@@ -16,7 +17,10 @@ export const CircleToggleButton = ({ onToggle, isOpen }: Props) => {
     >
       <IoIosArrowDown
         size={25}
-        className={`text-secondary transition-all duration-200 ${isOpen ? 'rotate-0' : 'rotate-180'}`}
+        className={clsx(
+          'transition-all duration-200',
+          isOpen ? 'rotate-0' : 'rotate-180',
+        )}
       />
     </CircleButton>
   )

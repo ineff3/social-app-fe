@@ -6073,6 +6073,7 @@ __metadata:
     autoprefixer: "npm:^10.4.17"
     axios: "npm:^1.6.7"
     blurhash: "npm:^2.0.5"
+    clsx: "npm:^2.1.1"
     daisyui: "npm:^4.7.2"
     date-fns: "npm:^3.6.0"
     emoji-mart: "npm:^5.5.2"

@@ -1,13 +1,16 @@
 import ErrorAlert from '@/src/components/ui/ErrorAlert'
 import { UserPreview } from '@/src/layouts/components/UserPreview'
-import { SchemaUserPreviewResponseDto } from '@/src/generated/schema'
 import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { MdOutlineErrorOutline } from 'react-icons/md'
+import { useState } from 'react'
+import { clsx } from 'clsx'
+import { UserSelectionHandler } from '../../interfaces'
+import { useKeyboardListNavigation } from '../../hooks/useKeyboardListNavigation'
 
 interface Props {
   searchQuery: string
-  onClick: (user: SchemaUserPreviewResponseDto) => void
+  onClick: UserSelectionHandler
   resultLength: number
   isBordered?: boolean
 }
@@ -20,15 +23,28 @@ export const SearchList = ({
   resultLength,
   isBordered = false,
 }: Props) => {
+  const [selectedIndex, setSelectedIndex] = useState(0)
   const queryKeyStore = useQueryKeyStore()
   const { data, isError } = useQuery({
     ...queryKeyStore.users.search(searchQuery, resultLength),
     placeholderData: keepPreviousData,
   })
 
+  useKeyboardListNavigation(
+    selectedIndex,
+    setSelectedIndex,
+    onClick,
+    data?.data,
+  )
+
   return (
     <ul
-      className={`flex max-h-[400px] w-full flex-col overflow-y-auto rounded-lg bg-base-100 ${isBordered ? 'border border-accent' : 'shadow-[0px_0px_20px_-8px_rgba(255,255,255,1);]'}`}
+      className={clsx(
+        'flex max-h-[400px] w-full flex-col overflow-y-auto rounded-lg bg-base-100',
+        isBordered
+          ? 'border border-accent'
+          : 'shadow-[0px_1px_11px_-5px_rgba(255,255,255,1)]',
+      )}
     >
       {isError && (
         <div className=" p-5">
@@ -45,9 +61,12 @@ export const SearchList = ({
             <span className="font-medium">No results</span>
           </div>
         ) : (
-          data.data.map((user) => (
+          data.data.map((user, index) => (
             <li
-              className=" hover:neutral-content flex items-center px-5 py-3 hover:bg-base-300 "
+              className={clsx(
+                'flex items-center px-5 py-3 text-start hover:bg-base-300',
+                selectedIndex === index && 'bg-base-300',
+              )}
               style={{ height: `${ROW_HEIGHT}px` }}
               aria-label={`Select ${user.firstName} ${user.secondName}`}
               onClick={() => onClick(user)}

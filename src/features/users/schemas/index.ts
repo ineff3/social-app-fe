@@ -3,8 +3,14 @@ import { z } from 'zod'
 export const editProfileValidationSchema = z.object({
   profileImage: z.any(),
   backgroundImage: z.any(),
-  firstName: z.string().regex(/^[A-Za-z]+$/, 'Only alphabetic characters'),
-  secondName: z.string().regex(/^[A-Za-z]+$/, 'Only alphabetic characters'),
+  firstName: z
+    .string()
+    .min(2, 'At least two characters')
+    .regex(/^[A-Za-z]+$/, 'Only alphabetic characters'),
+  secondName: z
+    .string()
+    .min(2, 'At least two characters')
+    .regex(/^[A-Za-z]+$/, 'Only alphabetic characters'),
   bio: z.string(),
   location: z.string(),
   link: z.union([z.literal(''), z.string().url({ message: 'Invalid url' })]),

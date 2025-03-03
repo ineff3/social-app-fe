@@ -53,7 +53,7 @@ export const PostsFlow = <TParams extends PossibleParams>({
     return (
       <div className="flex flex-col">
         <PostSkeleton />
-        <PostSkeleton />
+        <PostSkeleton skeletonType="image" />
       </div>
     )
   }

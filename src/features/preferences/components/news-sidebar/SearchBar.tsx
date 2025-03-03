@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import { useSearchShortcut } from '../../hooks/useSearchShortcut'
+import { useSearchShortcuts } from '../../hooks/useSearchShortcuts'
 import { SearchList } from './SearchList'
 import { useClickOutside } from '@/src/hooks/useClickOutside'
 import { useDebounce } from '@/src/hooks/useDebounce'
@@ -14,15 +14,22 @@ export const SearchBar = () => {
   const dropdownRef = useRef<HTMLDivElement>(null)
   const navigate = useNavigate()
 
-  const onUserRowSelect = (user: SchemaUserPreviewResponseDto) => {
-    navigate(`users/${user.username}`)
+  const closeList = () => {
     setIsListOpen(false)
   }
 
-  useSearchShortcut(inputRef)
+  const onUserRowSelect = (user: SchemaUserPreviewResponseDto) => {
+    navigate(`users/${user.username}`)
+    closeList()
+    inputRef.current?.blur()
+  }
+
+  useSearchShortcuts(inputRef, closeList)
   useClickOutside(dropdownRef, () => {
-    setIsListOpen(false)
+    closeList()
   })
+
+  const isWindows = navigator.userAgent.includes('Win')
 
   return (
     <div ref={dropdownRef} className=" relative">
@@ -36,7 +43,7 @@ export const SearchBar = () => {
           className="grow"
           placeholder="Search"
         />
-        <kbd className="kbd kbd-sm">⌘</kbd>
+        <kbd className="kbd kbd-sm">{isWindows ? 'Ctrl' : '⌘'}</kbd>
         <kbd className="kbd kbd-sm">K</kbd>
       </label>
 
@@ -46,6 +53,7 @@ export const SearchBar = () => {
             searchQuery={debouncedSearchQuery}
             onClick={onUserRowSelect}
             resultLength={5}
+            key={debouncedSearchQuery}
           />
         </div>
       )}

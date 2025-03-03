@@ -30,6 +30,15 @@ export const ConversationModalContent = ({ close }: Props) => {
     [data, isLoading, dispatch],
   )
 
+  // SearchList keydown navigation cause page scrolls.
+  useEffect(() => {
+    document.body.style.overflow = 'hidden'
+
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [])
+
   const createConversation = (user: SchemaUserPreviewResponseDto) => {
     createConversationMutation.mutate(
       { recipientId: user.id },

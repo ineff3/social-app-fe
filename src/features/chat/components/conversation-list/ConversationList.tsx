@@ -7,7 +7,7 @@ import { useGetOnlineUsers } from '../../hooks/useGetOnlineUsers'
 import { useTrackUserStatus } from '../../hooks/useTrackUserStatus'
 import { useTrackUserTyping } from '../../hooks/useTrackUserTyping'
 import { selectSelectedConversationId } from '@/src/redux/chat/chatSlice'
-import { Spinner } from '@/src/components/ui/spinners/Spinner'
+import { ConversationSkeleton } from '../skeletons/ConversationSkeleton'
 
 export const ROW_HEIGHT = 73
 
@@ -23,8 +23,10 @@ export const ConversationList = () => {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center">
-        <Spinner />
+      <div className="flex flex-col">
+        <ConversationSkeleton />
+        <ConversationSkeleton />
+        <ConversationSkeleton />
       </div>
     )
   }

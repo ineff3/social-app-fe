@@ -17,10 +17,10 @@ export const ConvPopoverHeader = ({
 }: Props) => {
   return (
     <div
-      className="flex w-full items-center justify-between px-4 py-3 text-secondary"
+      className="flex w-full items-center justify-between px-4 py-3 "
       style={{ maxHeight: toPx(CONV_POPOVER_HEADER_HEIGHT) }}
     >
-      <span className="text-lg font-bold">Messages</span>
+      <span className="text-lg font-medium">Messages</span>
       <div className="flex gap-2">
         <CircleButton
           size="sm"

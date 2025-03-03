@@ -17,6 +17,7 @@ import { useHandleIntersection } from '../../hooks/useHandleIntersection'
 import { useStoreChatScrollPosition } from '../../hooks/useStoreChatScrollPosition'
 import { TriggerScrollToBottom } from '../../hooks/useTriggerScrollToBottom'
 import { ComponentWithScrollRef } from '@/src/common/props'
+import { ChatSkeleton } from '../skeletons/ChatSkeleton'
 
 interface Props extends ComponentWithScrollRef<HTMLDivElement> {
   conversationId: string
@@ -79,6 +80,10 @@ export const MessageFlow = ({
   const prevReadMessageId = getPrevReadMessageId(readMessages)
   const lastReadMessageId = getLastReadMessageId(readMessages)
   const firstUnreadMessageId = getFirstUnreadMessageId(unreadMessages)
+
+  if (isLoading) {
+    return <ChatSkeleton isMinimized={isMinimized} />
+  }
 
   return (
     <div className={`flex flex-col ${isMinimized ? 'p-2' : 'p-4'}`}>

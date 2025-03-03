@@ -77,7 +77,7 @@ export const MentionSelectList = forwardRef(
     }))
 
     return (
-      <ul className="flex h-full max-h-[400px] w-[300px] flex-col overflow-y-auto rounded-lg bg-base-100 shadow-[0px_0px_20px_-8px_rgba(255,255,255,1);]">
+      <ul className="flex h-full max-h-[400px] w-[300px] flex-col overflow-y-auto rounded-lg bg-base-100 shadow-[0px_0px_11px_-5px_rgba(255,255,255,1)]">
         {isError && (
           <div className=" p-5">
             <ErrorAlert errorMessage="Something went wrong. Please try again later." />
