@@ -7,9 +7,7 @@ import {
 } from '@/src/hooks/media/useHandlePictureUpload'
 import { mapPictureFormatsToExtensions } from './helpers'
 
-export const PictureDropzone = <
-  TFile extends { file: File; imageKey?: string },
->({
+const PictureDropzone = <TFile extends { file: File; imageKey?: string }>({
   value,
   pictureUrl,
   placeholderContent,
@@ -65,3 +63,5 @@ export const PictureDropzone = <
     </div>
   )
 }
+
+export default PictureDropzone

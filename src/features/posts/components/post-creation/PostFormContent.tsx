@@ -2,17 +2,20 @@ import UserIconLink from '@/src/components/ui/UserIconLink'
 import { useAppSelector } from '@/src/redux/hooks'
 import { selectUserPreview } from '@/src/redux/user/userSlice'
 import { usePostContext } from '../../contexts/PostContext'
-import { TextEditor } from './post-form/TextEditor'
 import { Controller } from 'react-hook-form'
 import { useLocation } from 'react-router-dom'
 import { PostCreationLocationState } from '../../interfaces'
 import { Repost } from './additional-content/Repost'
 import { AttachedRepost } from './additional-content/AttachedRepost'
 import { AttachedPicturesCarousel } from '@/src/components/media-handling/picture-carousel/AttachedPicturesCarousel'
+import { lazy, Suspense } from 'react'
+import clsx from 'clsx'
+
+const TextEditor = lazy(() => import('./post-form/TextEditor'))
 
 interface Props {
+  placeholder: string
   isTextEditorMinimized?: boolean
-  placeholder?: string
 }
 
 export const PostFormContent = ({
@@ -43,12 +46,27 @@ export const PostFormContent = ({
             control={control}
             name="text"
             render={({ field }) => (
-              <TextEditor
-                placeholder={placeholder}
-                content={field.value}
-                onChange={field.onChange}
-                isMinimized={isTextEditorMinimized}
-              />
+              <Suspense
+                fallback={
+                  <textarea
+                    disabled
+                    placeholder={placeholder}
+                    className={clsx(
+                      'textarea textarea-bordered  max-h-[300px]  w-full cursor-text overflow-y-auto !bg-base-100 text-base',
+                      isTextEditorMinimized
+                        ? 'min-h-[47px]'
+                        : 'min-h-[85px] resize-y',
+                    )}
+                  />
+                }
+              >
+                <TextEditor
+                  placeholder={placeholder}
+                  content={field.value}
+                  onChange={field.onChange}
+                  isMinimized={isTextEditorMinimized}
+                />
+              </Suspense>
             )}
           />
           <div className="label">

@@ -53,7 +53,7 @@ export const CreatePostPage = () => {
             Drafts
           </button>
         </div>
-        <PostFormContent />
+        <PostFormContent placeholder="What is happening?" />
         <PostFormFooter
           creationError={creationError}
           isCreationPending={createPostMutation.isPending}

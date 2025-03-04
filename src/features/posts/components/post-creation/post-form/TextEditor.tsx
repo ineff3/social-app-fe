@@ -10,15 +10,15 @@ import { usePostContext } from '../../../contexts/PostContext'
 
 interface Props {
   onChange: (text: string) => void
+  placeholder: string
   content?: string
-  placeholder?: string
   isMinimized?: boolean
 }
 
-export const TextEditor = ({
+const TextEditor = ({
   onChange,
   content,
-  placeholder = 'What is happening?',
+  placeholder,
   isMinimized = false,
 }: Props) => {
   const { setEditor } = usePostContext()!
@@ -65,3 +65,5 @@ export const TextEditor = ({
 
   return <EditorContent editor={editor} />
 }
+
+export default TextEditor

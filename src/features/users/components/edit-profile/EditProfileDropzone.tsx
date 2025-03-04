@@ -1,7 +1,8 @@
-import { PictureDropzone } from '@/src/components/form/picture-dropzone/PictureDropzone'
 import { SchemaUploadImageResponseDto } from '@/src/generated/schema'
 import { EditProfilePicture } from '../../schemas'
 import { FieldPath, UseFormGetValues } from 'react-hook-form'
+import { lazy, Suspense } from 'react'
+import { PictureDropzoneSuspense } from '@/src/components/form/picture-dropzone/PictureDropzoneSuspense'
 
 const ACCEPTED_IMAGE_TYPES = [
   'image/jpeg',
@@ -9,6 +10,10 @@ const ACCEPTED_IMAGE_TYPES = [
   'image/png',
   'image/webp',
 ]
+
+const PictureDropzone = lazy(
+  () => import('@/src/components/form/picture-dropzone/PictureDropzone'),
+)
 
 interface Props<TFormType extends object> {
   onChange: (picture: EditProfilePicture | null) => void
@@ -48,16 +53,26 @@ export const EditProfileDropzone = <TFormType extends object>({
   }
 
   return (
-    <PictureDropzone
-      value={value}
-      acceptedPictureFormats={ACCEPTED_IMAGE_TYPES}
-      pictureUrl={existingPictureUrl}
-      onPictureAttach={handlePictureAttach}
-      onPictureRemove={handlePictureRemove}
-      onPictureUpload={handlePictureUpload}
-      isImageUploading={isImageUploading}
-      setIsImageUploading={setIsImageUploading}
-      placeholderContent={placeholderContent}
-    />
+    <Suspense
+      fallback={
+        <PictureDropzoneSuspense
+          value={value}
+          pictureUrl={existingPictureUrl}
+          placeholderContent={placeholderContent}
+        />
+      }
+    >
+      <PictureDropzone
+        value={value}
+        acceptedPictureFormats={ACCEPTED_IMAGE_TYPES}
+        pictureUrl={existingPictureUrl}
+        onPictureAttach={handlePictureAttach}
+        onPictureRemove={handlePictureRemove}
+        onPictureUpload={handlePictureUpload}
+        isImageUploading={isImageUploading}
+        setIsImageUploading={setIsImageUploading}
+        placeholderContent={placeholderContent}
+      />
+    </Suspense>
   )
 }
