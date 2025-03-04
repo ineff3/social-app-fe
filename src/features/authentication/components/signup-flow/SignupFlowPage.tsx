@@ -5,6 +5,7 @@ import usePagination from '@/src/hooks/usePagination'
 import { useModal } from '@/src/hooks/useModal'
 import { pageRoutes } from '@/src/routes'
 import Modal from '@/src/components/ui/Modal'
+import { Helmet } from 'react-helmet-async'
 
 export const SignupFlowPage = () => {
   const { page, nextPage } = usePagination()
@@ -20,6 +21,20 @@ export const SignupFlowPage = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Complete Your Signup | Linker</title>
+        <meta
+          name="description"
+          content="Finish setting up your Linker account and personalize your experience."
+        />
+        <meta property="og:title" content="Complete Your Signup | Linker" />
+        <meta
+          property="og:description"
+          content="Finish setting up your Linker account and start connecting."
+        />
+        <meta property="og:type" content="website" />
+      </Helmet>
+
       {from === pageRoutes.authSignup ? (
         <Modal
           isOpen={visible}

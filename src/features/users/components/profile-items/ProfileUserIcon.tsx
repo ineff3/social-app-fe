@@ -1,4 +1,4 @@
-import { toPx } from '@/src/common/converters/toPx'
+import { toPx } from '@/src/common/converters'
 import { FaUserCircle } from 'react-icons/fa'
 
 interface Props {

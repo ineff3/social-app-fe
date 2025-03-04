@@ -9,6 +9,7 @@ import { ProfileBackgroundImage } from './profile-items/ProfileBackgroundImage'
 import { ProfileHeader } from './profile-items/ProfileHeader'
 import { ProfileUserIcon } from './profile-items/ProfileUserIcon'
 import { ProfileDescription } from './profile-items/ProfileDescription'
+import { Helmet } from 'react-helmet-async'
 
 export const ProfilePage = () => {
   const { username } = useParams()
@@ -29,36 +30,52 @@ export const ProfilePage = () => {
   const { user } = data
 
   return (
-    <div className=" flex h-full flex-col">
-      <ProfileHeader user={user} />
+    <>
+      <Helmet>
+        <title>{`${username}'s Profile | Linker`}</title>
+        <meta
+          name="description"
+          content={`View ${username}'s profile, posts, and interactions on Linker.`}
+        />
+        <meta property="og:title" content={`${username}'s Profile | Linker`} />
+        <meta
+          property="og:description"
+          content={`Check out ${username}'s latest posts and engage with their content.`}
+        />
+        <meta property="og:type" content="profile" />
+      </Helmet>
 
-      <ProfileBackgroundImage backgroundUrl={user?.backgroundUrl} />
+      <div className=" flex h-full flex-col">
+        <ProfileHeader user={user} />
 
-      <div className=" relative -top-[70px] mx-auto flex w-full max-w-screen-md flex-col gap-2">
-        <div className=" px-10">
-          <div className=" flex h-[140px] items-center justify-between">
-            <ProfileUserIcon profileUrl={user.profileUrl} />
+        <ProfileBackgroundImage backgroundUrl={user?.backgroundUrl} />
 
-            <div className=" self-end">
-              {data.isCurrentUser ? (
-                <CurrentUserActions user={user} />
-              ) : (
-                <NonCurrentUserActions
-                  isFollowing={data.isFollowing}
-                  followeeId={user.id}
-                  followeeUsername={user.username}
-                />
-              )}
+        <div className=" relative -top-[70px] mx-auto flex w-full max-w-screen-md flex-col gap-2">
+          <div className=" px-10">
+            <div className=" flex h-[140px] items-center justify-between">
+              <ProfileUserIcon profileUrl={user?.profileUrl} />
+
+              <div className=" self-end">
+                {data.isCurrentUser ? (
+                  <CurrentUserActions user={user} />
+                ) : (
+                  <NonCurrentUserActions
+                    isFollowing={data.isFollowing}
+                    followeeId={user.id}
+                    followeeUsername={user.username}
+                  />
+                )}
+              </div>
             </div>
+
+            <ProfileDescription user={user} />
           </div>
 
-          <ProfileDescription user={user} />
-        </div>
-
-        <div className=" mt-4">
-          <ProfileTabs userId={user.id} />
+          <div className=" mt-4">
+            <ProfileTabs userId={user.id} />
+          </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }

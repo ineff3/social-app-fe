@@ -2,7 +2,7 @@ import { CircleButton } from '@/src/components/ui/buttons/CircleButton'
 import { FaRegPenToSquare } from 'react-icons/fa6'
 import { CircleToggleButton } from './CircleToggleButton'
 import { CONV_POPOVER_HEADER_HEIGHT } from '../../constants'
-import { toPx } from '@/src/common/converters/toPx'
+import { toPx } from '@/src/common/converters'
 
 interface Props {
   isOpen: boolean

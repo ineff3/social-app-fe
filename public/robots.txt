@@ -1,0 +1,9 @@
+User-agent: *
+Disallow: /auth/
+Disallow: /drafts/
+Disallow: /conversations/
+Disallow: /notifications/
+
+Allow: /
+
+Sitemap: https://yourwebsite.com/sitemap.xml

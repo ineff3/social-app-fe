@@ -3,7 +3,7 @@ import { ConversationList } from '../conversation-list/ConversationList'
 import { selectSelectedConversationId } from '@/src/redux/chat/chatSlice'
 import { PopoverConversation } from './PopoverConversation'
 import { CONV_POPOVER_HEADER_HEIGHT } from '../../constants'
-import { toPx } from '@/src/common/converters/toPx'
+import { toPx } from '@/src/common/converters'
 
 const CONTENT_HEIGHT = 500
 

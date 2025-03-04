@@ -35,6 +35,7 @@ const UserIconLink = ({
           height: `${iconSizes[iconSize]}px`,
           width: `${iconSizes[iconSize]}px`,
         }}
+        aria-label={`Profile of ${username}`}
       >
         {userImageUrl ? (
           <img

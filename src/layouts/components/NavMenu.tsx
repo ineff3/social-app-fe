@@ -10,6 +10,7 @@ import { selectUserPreview } from '@/src/redux/user/userSlice'
 import { NavLink, useLocation } from 'react-router-dom'
 import { NotificationBadge } from './NotificationBadge'
 import { pageRoutes } from '@/src/routes'
+import { toPx, toS } from '@/src/common/converters'
 
 const ICON_SIZE = 20
 const LINK_HEIGHT = 52
@@ -54,10 +55,10 @@ const generateMenuItems = (username: string) => [
   },
 ]
 
-const NavMenu = ({ closeMenu }: { closeMenu: () => void }) => {
+export const NavMenu = ({ closeMenu }: { closeMenu: () => void }) => {
   const user = useAppSelector(selectUserPreview)!
   const location = useLocation()
-  const linkStyles = ` rounded-none px-7 py-3 transition-color duration-[${TRANSITION_DURATION}s] `
+  const linkStyles = ' rounded-none px-7 py-3 transition-color'
   const activeLinkStyles = linkStyles + ' !text-secondary !bg-transparent '
 
   const menuItems = generateMenuItems(user?.username)
@@ -67,8 +68,8 @@ const NavMenu = ({ closeMenu }: { closeMenu: () => void }) => {
   )
 
   return (
-    <nav>
-      <ul className="menu relative p-0 text-base-content">
+    <nav className="relative">
+      <ul className="menu p-0 text-base-content">
         {menuItems.map((item, index) => (
           <li key={index}>
             <NavLink
@@ -77,10 +78,12 @@ const NavMenu = ({ closeMenu }: { closeMenu: () => void }) => {
                 isActive ? activeLinkStyles : linkStyles
               }
               style={{
-                height: `${LINK_HEIGHT}px`,
+                height: toPx(LINK_HEIGHT),
+                transitionDuration: toS(TRANSITION_DURATION),
               }}
               to={item.path}
               onClick={closeMenu}
+              aria-label={item.name}
             >
               <div className=" relative">
                 {item.svg}
@@ -90,17 +93,17 @@ const NavMenu = ({ closeMenu }: { closeMenu: () => void }) => {
             </NavLink>
           </li>
         ))}
-        {activeIndex !== -1 && (
-          <div
-            className={`absolute left-0 top-0 w-[3.5px] bg-primary  transition-all duration-[${TRANSITION_DURATION}s] shadow-[35px_0px_60px_20px_rgba(26,92,255,1)]`}
-            style={{
-              height: `${LINK_HEIGHT}px`,
-              marginTop: `${activeIndex * LINK_HEIGHT}px`,
-            }}
-          />
-        )}
       </ul>
+      {activeIndex !== -1 && (
+        <div
+          className="absolute left-0 top-0 w-[3.5px] bg-primary shadow-[35px_0px_60px_20px_rgba(26,92,255,1)] transition-all"
+          style={{
+            height: toPx(LINK_HEIGHT),
+            marginTop: toPx(activeIndex * LINK_HEIGHT),
+            transitionDuration: toS(TRANSITION_DURATION),
+          }}
+        />
+      )}
     </nav>
   )
 }
-export default NavMenu

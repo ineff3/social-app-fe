@@ -9,6 +9,7 @@ import { StickyHeader } from '@/src/components/ui/StickyHeader'
 import { useRef } from 'react'
 import { BackCircleButton } from '@/src/components/ui/buttons/BackCircleButton'
 import { Spinner } from '@/src/components/ui/spinners/Spinner'
+import { Helmet } from 'react-helmet-async'
 
 export const PostDetailPage = () => {
   const queryKeyStore = useQueryKeyStore()
@@ -37,16 +38,37 @@ export const PostDetailPage = () => {
           <span className="text-lg font-bold text-secondary">Post</span>
         </div>
       </StickyHeader>
-      <div>{data && <DetailPost post={data} />}</div>
-      <div>
-        <PostsFlow
-          flowQueryKey={
-            queryKeyStore.posts.detail(postId!)._ctx.comments({}).queryKey
-          }
-          useGetPostsHook={useGetPostComments}
-          params={{ postId: postId! }}
-        />
-      </div>
+      {data && (
+        <>
+          <Helmet>
+            <title>
+              {data.author.firstName} {data.author.secondName}
+            </title>
+            <meta
+              name="description"
+              content="Read and engage with this post on Linker."
+            />
+            <meta
+              property="og:title"
+              content={`${data.author.firstName} ${data.author.secondName}`}
+            />
+            <meta
+              property="og:description"
+              content="Join the conversation and engage with this post on Linker."
+            />
+            <meta property="og:type" content="article" />
+          </Helmet>
+
+          <DetailPost post={data} />
+        </>
+      )}
+      <PostsFlow
+        flowQueryKey={
+          queryKeyStore.posts.detail(postId!)._ctx.comments({}).queryKey
+        }
+        useGetPostsHook={useGetPostComments}
+        params={{ postId: postId! }}
+      />
     </div>
   )
 }

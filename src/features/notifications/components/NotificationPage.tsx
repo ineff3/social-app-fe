@@ -7,6 +7,7 @@ import {
   resetIncomingNotifications,
   selectIncNotificationsCount,
 } from '@/src/redux/notification/notificationSlice'
+import { Helmet } from 'react-helmet-async'
 
 export const NotificationPage = () => {
   const incNotificationsCount = useAppSelector(selectIncNotificationsCount)
@@ -31,24 +32,38 @@ export const NotificationPage = () => {
   }, [incNotificationsCount, refetch, dispatch])
 
   return (
-    <div className="flex flex-col" role="feed">
-      {data &&
-        data.pages.map((page) => (
-          <div key={page.page}>
-            {page.data.map((notification) => (
-              <NotificationRow
-                key={notification.id}
-                notification={notification}
-              />
-            ))}
-          </div>
-        ))}
-      {hasNextPage && (
-        <span
-          ref={ref}
-          className="loading loading-spinner loading-lg my-4 self-center"
-        ></span>
-      )}
-    </div>
+    <>
+      <Helmet>
+        <title>Notifications | Linker</title>
+        <meta
+          name="description"
+          content="Stay updated with your latest notifications on Linker."
+        />
+        <meta property="og:title" content="Notifications | Linker" />
+        <meta
+          property="og:description"
+          content="Never miss an update—check your notifications now."
+        />
+      </Helmet>
+      <div className="flex flex-col" role="feed">
+        {data &&
+          data.pages.map((page) => (
+            <div key={page.page}>
+              {page.data.map((notification) => (
+                <NotificationRow
+                  key={notification.id}
+                  notification={notification}
+                />
+              ))}
+            </div>
+          ))}
+        {hasNextPage && (
+          <span
+            ref={ref}
+            className="loading loading-spinner loading-lg my-4 self-center"
+          ></span>
+        )}
+      </div>
+    </>
   )
 }

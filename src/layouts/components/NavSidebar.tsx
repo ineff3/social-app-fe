@@ -1,12 +1,12 @@
 import { Link, useLocation } from 'react-router-dom'
 import XIconSvg from '../../components/ui/icons/XIconSvg'
-import NavMenu from './NavMenu'
 import { FaRegPenToSquare } from 'react-icons/fa6'
 import { pageRoutes } from '../../routes'
 import { UserPreview } from './UserPreview'
 import { UserPreviewDropdown } from './UserPreviewDropdown'
 import { useAppSelector } from '@/src/redux/hooks'
 import { selectUserPreview } from '@/src/redux/user/userSlice'
+import { NavMenu } from './NavMenu'
 
 const NavSidebar = ({
   menuOpen,
@@ -28,6 +28,7 @@ const NavSidebar = ({
             <div className=" mb-3 px-4">
               <Link
                 to={'/'}
+                aria-label="Linker"
                 className=" btn btn-ghost p-3 text-secondary"
                 onClick={closeMenu}
               >
@@ -51,6 +52,7 @@ const NavSidebar = ({
                   height={13}
                   width={13}
                   className="hidden sm:block xl:hidden"
+                  aria-label="Post"
                 />
               </Link>
             </div>

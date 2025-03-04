@@ -3,7 +3,7 @@ import { UserPreview } from '@/src/layouts/components/UserPreview'
 import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { MdOutlineErrorOutline } from 'react-icons/md'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { clsx } from 'clsx'
 import { UserSelectionHandler } from '../../interfaces'
 import { useKeyboardListNavigation } from '../../hooks/useKeyboardListNavigation'
@@ -36,6 +36,10 @@ export const SearchList = ({
     onClick,
     data?.data,
   )
+
+  useEffect(() => {
+    setSelectedIndex(0)
+  }, [searchQuery])
 
   return (
     <ul

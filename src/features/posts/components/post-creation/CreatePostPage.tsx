@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import { CloseCircleButton } from '@/src/components/ui/buttons/CloseCircleButton'
 import { transformPostCreationData } from '../../utils/transformPostCreationData'
+import { Helmet } from 'react-helmet-async'
 
 export const CreatePostPage = () => {
   const { handleSubmit } = usePostContext()!
@@ -42,6 +43,19 @@ export const CreatePostPage = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Create a Post | Linker</title>
+        <meta
+          name="description"
+          content="Share your thoughts with the world by creating a post on Linker."
+        />
+        <meta property="og:title" content="Create a Post | Linker" />
+        <meta
+          property="og:description"
+          content="Express yourself and share your opinions with the Linker community."
+        />
+      </Helmet>
+
       <form onSubmit={submitForm} className=" flex min-h-[350px] flex-col ">
         <div className=" mb-5 flex items-center justify-between">
           <CloseCircleButton onClick={handleMainModalClose} />

@@ -9,6 +9,7 @@ import { store } from './redux/store'
 import { Provider } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
 import { createPortal } from 'react-dom'
+import { HelmetProvider } from 'react-helmet-async'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -23,7 +24,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <Provider store={store}>
       <BrowserRouter>
         <QueryClientProvider client={queryClient}>
-          <App />
+          <HelmetProvider>
+            <App />
+          </HelmetProvider>
           {createPortal(
             <ToastContainer theme="dark" autoClose={5000} />,
             document.body,

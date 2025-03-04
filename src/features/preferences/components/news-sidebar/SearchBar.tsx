@@ -22,6 +22,7 @@ export const SearchBar = () => {
     navigate(`users/${user.username}`)
     closeList()
     inputRef.current?.blur()
+    setSearchQuery('')
   }
 
   useSearchShortcuts(inputRef, closeList)
@@ -53,7 +54,6 @@ export const SearchBar = () => {
             searchQuery={debouncedSearchQuery}
             onClick={onUserRowSelect}
             resultLength={5}
-            key={debouncedSearchQuery}
           />
         </div>
       )}

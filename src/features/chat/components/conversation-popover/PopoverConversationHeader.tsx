@@ -6,7 +6,7 @@ import { selectConversation } from '@/src/redux/chat/chatSlice'
 import { CircleButton } from '@/src/components/ui/buttons/CircleButton'
 import ArrowIconSvg from '@/src/components/ui/icons/ArrowIconSvg'
 import { CircleToggleButton } from './CircleToggleButton'
-import { toPx } from '@/src/common/converters/toPx'
+import { toPx } from '@/src/common/converters'
 import { CONV_POPOVER_HEADER_HEIGHT } from '../../constants'
 
 interface Props extends ConversationHeaderProps {

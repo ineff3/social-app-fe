@@ -24,5 +24,5 @@ const getMention = (mention: string) => {
   const relPathArr = pageRoutes.profile.split(':')
   relPathArr[1] = mention
   const relPath = relPathArr.join('')
-  return `<a class="text-primary bg-primary bg-opacity-20 rounded-md px-1" href="${baseURL}${relPath}">@${mention}</a>`
+  return `<a class="text-primary bg-primary bg-opacity-10 font-medium rounded-md px-1" href="${baseURL}${relPath}">@${mention}</a>`
 }

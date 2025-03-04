@@ -2,7 +2,7 @@ import { useDeleteImage } from '@/src/hooks/media/useDeleteImage'
 import { useMessageFormContext } from '../../contexts/MessageFormContext'
 import { CloseCircleButton } from '@/src/components/ui/buttons/CloseCircleButton'
 import { Spinner } from '@/src/components/ui/spinners/Spinner'
-import { toPx } from '@/src/common/converters/toPx'
+import { toPx } from '@/src/common/converters'
 import { MessagePicture } from '../../interfaces'
 
 const PICTURE_SIZE = 200
