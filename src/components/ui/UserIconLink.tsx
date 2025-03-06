@@ -1,3 +1,5 @@
+import { toPx } from '@/src/common/converters'
+import clsx from 'clsx'
 import { FaUserCircle } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 
@@ -25,29 +27,30 @@ const UserIconLink = ({
   iconSize = 'md',
 }: Props) => {
   return (
-    <>
-      <Link
-        tabIndex={-1}
-        to={'/users/' + username || ''}
-        className={`h-[45px] w-[45px] flex-shrink-0 overflow-hidden rounded-full ${disabled && 'pointer-events-none'}`}
-        onClick={onClick}
-        style={{
-          height: `${iconSizes[iconSize]}px`,
-          width: `${iconSizes[iconSize]}px`,
-        }}
-        aria-label={`Profile of ${username}`}
-      >
-        {userImageUrl ? (
-          <img
-            src={userImageUrl}
-            alt="Profile image"
-            className="h-full w-full object-cover"
-          />
-        ) : (
-          <FaUserCircle size={iconSizes[iconSize]} />
-        )}
-      </Link>
-    </>
+    <Link
+      tabIndex={-1}
+      to={'/users/' + username || ''}
+      className={clsx(
+        'h-[45px] w-[45px] flex-shrink-0 overflow-hidden rounded-full',
+        disabled && 'pointer-events-none',
+      )}
+      onClick={onClick}
+      style={{
+        height: toPx(iconSizes[iconSize]),
+        width: toPx(iconSizes[iconSize]),
+      }}
+      aria-label={`Profile of ${username}`}
+    >
+      {userImageUrl ? (
+        <img
+          src={userImageUrl}
+          alt="Profile image"
+          className="h-full w-full object-cover"
+        />
+      ) : (
+        <FaUserCircle size={iconSizes[iconSize]} />
+      )}
+    </Link>
   )
 }
 

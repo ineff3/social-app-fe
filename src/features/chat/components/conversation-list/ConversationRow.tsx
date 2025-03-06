@@ -11,6 +11,8 @@ import { ROW_HEIGHT } from './ConversationList'
 import { formatConversationDate } from '@/src/features/posts/utils/dateConversions'
 import { ConversationDropdownOptions } from './ConversationDropdownOptions'
 import { ImageIcon } from '@/src/components/ui/icons'
+import clsx from 'clsx'
+import { toPx } from '@/src/common/converters'
 
 interface Props {
   conversation: SchemaConversationResponseDto
@@ -50,15 +52,25 @@ export const ConversationRow = ({ conversation, onlineUsersIds }: Props) => {
 
   return (
     <div
-      className={`flex gap-3 px-4 py-3.5 transition-all duration-150 hover:bg-base-200 hover:bg-opacity-70 ${isSelected && 'bg-base-200'}`}
-      style={{ height: `${ROW_HEIGHT}px` }}
+      className={clsx(
+        'flex gap-3 px-4 py-3.5 transition-all duration-150 hover:bg-base-200 hover:bg-opacity-70',
+        isSelected && 'bg-base-200',
+      )}
+      style={{ height: toPx(ROW_HEIGHT) }}
       onClick={handleSelectConversation}
     >
-      <div className="relative">
-        <UserIconLink username={recipient?.user.username} />
+      <div className="relative flex flex-shrink-0">
+        <UserIconLink
+          username={recipient?.user.username}
+          userImageUrl={recipient?.user?.profileUrl}
+          disabled={true}
+        />
         {isUserOnline && (
           <div
-            className={`absolute bottom-0 right-0 rounded-full bg-base-100 ${isSelected && 'bg-base-200'} p-[3px]`}
+            className={clsx(
+              'absolute bottom-0 right-0 rounded-full bg-base-100 p-[3px]',
+              isSelected && 'bg-base-200',
+            )}
           >
             <div className=" h-2.5 w-2.5 rounded-full bg-primary"></div>
           </div>

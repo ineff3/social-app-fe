@@ -7,6 +7,6 @@ export const transformPostCreationData = (
   const { postImages, ...rest } = data
   return {
     ...rest,
-    uploadedImageKeys: postImages?.map((postImage) => postImage.imageKey!),
+    postImages: postImages.map((postImage) => postImage.uploadData!),
   }
 }

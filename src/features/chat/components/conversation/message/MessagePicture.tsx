@@ -1,11 +1,11 @@
 import { PictureFullscreenDisplay } from '@/src/components/media-handling/picture-fullscreen-display/PictureFullscreenDisplay'
-import { SchemaMessageImageResponseDto } from '@/src/generated/schema'
+import { SchemaImageResponseDto } from '@/src/generated/schema'
 import { useModal } from '@/src/hooks/useModal'
 import { useState } from 'react'
 import { Blurhash } from 'react-blurhash'
 
 interface Props {
-  messageImage: SchemaMessageImageResponseDto
+  messageImage: SchemaImageResponseDto
   hasSingleImage: boolean
 }
 const MAX_SIZE = 370
@@ -24,7 +24,7 @@ export const MessagePicture = ({
   let renderedWidth = width
   let renderedHeight = height
 
-  if (width > MAX_SIZE) {
+  if (renderedWidth > MAX_SIZE) {
     renderedWidth = MAX_SIZE
     renderedHeight = Math.round((MAX_SIZE * height) / width)
   }

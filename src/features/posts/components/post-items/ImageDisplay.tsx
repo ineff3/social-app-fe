@@ -1,20 +1,33 @@
-import { SchemaPostImageResponseDto } from '@/src/generated/schema'
+import { SchemaImageResponseDto } from '@/src/generated/schema'
+import { PostImage } from './PostImage'
+import clsx from 'clsx'
 
 interface Props {
-  postImages: SchemaPostImageResponseDto[]
+  postImages: SchemaImageResponseDto[]
 }
-// TODO: generate alt based on image, or request it from user.
 
 export const ImageDisplay = ({ postImages }: Props) => {
   const { length } = postImages
+
+  if (length === 0) {
+    return null
+  }
+
+  if (length === 1) {
+    return <PostImage image={postImages[0]} />
+  }
+
   return (
     <div
-      className={`grid grid-cols-[repeat(auto-fit,minmax(230px,1fr))]  overflow-hidden rounded-lg ${length > 2 ? 'max-h-[550px] grid-rows-2' : 'max-h-[500px] grid-rows-1'}  `}
+      className={clsx(
+        'grid max-h-[200px] w-[min(630px,_100%)] max-w-full grid-cols-2 gap-[2px] overflow-hidden rounded-lg sm:max-h-[400px]',
+        length > 2 ? 'grid-rows-2' : 'grid-rows-1',
+      )}
     >
-      {postImages?.map(({ id, imageUrl }, index) => (
+      {postImages.map(({ id, imageUrl }, index) => (
         <div
           key={id}
-          className={`${length === 3 && index === 0 && 'col-span-2'}`}
+          className={clsx(length === 3 && index === 0 && 'row-span-2')}
         >
           <img
             src={imageUrl}

@@ -1,10 +1,13 @@
-import { SchemaPostResponseDto } from '@/src/generated/schema'
+import {
+  SchemaPostResponseDto,
+  SchemaUploadImageResponseDto,
+} from '@/src/generated/schema'
 import { Location } from 'react-router-dom'
 
 interface BasePostPicture {
   id?: string
   key: string
-  imageKey?: string
+  uploadData?: SchemaUploadImageResponseDto
 }
 
 interface PostPictureFile extends BasePostPicture {

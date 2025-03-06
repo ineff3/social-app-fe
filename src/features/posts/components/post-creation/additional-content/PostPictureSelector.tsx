@@ -41,7 +41,7 @@ export const PostPictureSelector = () => {
 
     updatePostImages(index, {
       ...picture,
-      imageKey: response.imageKey,
+      uploadData: response,
     })
   }
 

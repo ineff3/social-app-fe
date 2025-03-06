@@ -7,11 +7,15 @@ interface Props {
 }
 
 export const ConversationUserPreview = ({
-  userPreview: { username, firstName, createdAt },
+  userPreview: { username, firstName, createdAt, profileUrl },
 }: Props) => {
   return (
     <div className=" flex flex-col items-center justify-center gap-1.5 border-b border-accent pb-[85px] pt-5 text-sm">
-      <UserIconLink username={username} iconSize="lg" />
+      <UserIconLink
+        username={username}
+        iconSize="lg"
+        userImageUrl={profileUrl}
+      />
       <p className="font-medium text-secondary">{firstName}</p>
       <p>@{username}</p>
       {createdAt && (

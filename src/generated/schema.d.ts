@@ -562,10 +562,16 @@ export interface components {
             isFollowing: boolean;
             user: components["schemas"]["UserResponseDto"];
         };
-        PostImageResponseDto: {
+        ImageDimensionsResponseDto: {
+            width: number;
+            height: number;
+        };
+        ImageResponseDto: {
             id: string;
             imageUrl: string;
             imageKey: string;
+            dimensions: components["schemas"]["ImageDimensionsResponseDto"];
+            blurhash: string;
         };
         PostResponseDto: {
             id: string;
@@ -578,7 +584,7 @@ export interface components {
             isBookmarked: boolean;
             isReposted: boolean;
             author: components["schemas"]["UserPreviewResponseDto"];
-            postImages: components["schemas"]["PostImageResponseDto"][];
+            postImages: components["schemas"]["ImageResponseDto"][];
             /** Format: date-time */
             createdAt?: string;
             reposted: components["schemas"]["PostResponseDto"];
@@ -611,12 +617,21 @@ export interface components {
             bookmarked?: boolean;
             isFollowing?: boolean;
         };
+        ImageDimensionsDto: {
+            width: number;
+            height: number;
+        };
+        CreateImageDto: {
+            imageKey: string;
+            blurhash: string;
+            dimensions: components["schemas"]["ImageDimensionsDto"];
+        };
         CreatePostDto: {
             text?: string;
             /** @default false */
             isDraft?: boolean;
             /** @default [] */
-            uploadedImageKeys?: string[];
+            postImages?: components["schemas"]["CreateImageDto"][];
             parentPostId?: string;
             repostedId?: string;
         };
@@ -649,30 +664,17 @@ export interface components {
              */
             imageType: "avatar" | "post" | "message";
         };
-        ImageDimensionsResponseDto: {
-            width: number;
-            height: number;
-        };
         UploadImageResponseDto: {
             imageKey: string;
             imageUrl: string;
             dimensions: components["schemas"]["ImageDimensionsResponseDto"];
             blurhash: string;
         };
-        ImageDimensionsDto: {
-            width: number;
-            height: number;
-        };
-        CreateMessageImageDto: {
-            imageKey: string;
-            blurhash: string;
-            dimensions: components["schemas"]["ImageDimensionsDto"];
-        };
         CreateMessageDto: {
             conversationId: string;
             text: string;
             /** @default [] */
-            messageImages?: components["schemas"]["CreateMessageImageDto"][];
+            messageImages?: components["schemas"]["CreateImageDto"][];
         };
         GetDirectConversationQueryDto: {
             recipientId: string;
@@ -703,13 +705,6 @@ export interface components {
             id: string;
             user: components["schemas"]["UserPreviewResponseDto"];
         };
-        MessageImageResponseDto: {
-            id: string;
-            imageUrl: string;
-            imageKey: string;
-            dimensions: components["schemas"]["ImageDimensionsResponseDto"];
-            blurhash: string;
-        };
         MessageResponseDto: {
             /** @enum {string} */
             status: "sent" | "read";
@@ -717,7 +712,7 @@ export interface components {
             conversationId: string;
             text: string;
             senderId: string;
-            messageImages: components["schemas"]["MessageImageResponseDto"][];
+            messageImages: components["schemas"]["ImageResponseDto"][];
             /** Format: date-time */
             createdAt: string;
         };
@@ -760,21 +755,21 @@ export type SchemaUsernameReservedResponseDto = components['schemas']['UsernameR
 export type SchemaUserSearchResponseDto = components['schemas']['UserSearchResponseDto'];
 export type SchemaUserResponseDto = components['schemas']['UserResponseDto'];
 export type SchemaGetUserByUsernameResponseDto = components['schemas']['GetUserByUsernameResponseDto'];
-export type SchemaPostImageResponseDto = components['schemas']['PostImageResponseDto'];
+export type SchemaImageDimensionsResponseDto = components['schemas']['ImageDimensionsResponseDto'];
+export type SchemaImageResponseDto = components['schemas']['ImageResponseDto'];
 export type SchemaPostResponseDto = components['schemas']['PostResponseDto'];
 export type SchemaGetAllPostsResponseDto = components['schemas']['GetAllPostsResponseDto'];
 export type SchemaUpdateUserDto = components['schemas']['UpdateUserDto'];
 export type SchemaUpdateUsernameDto = components['schemas']['UpdateUsernameDto'];
 export type SchemaGetPostsQueryDto = components['schemas']['GetPostsQueryDto'];
+export type SchemaImageDimensionsDto = components['schemas']['ImageDimensionsDto'];
+export type SchemaCreateImageDto = components['schemas']['CreateImageDto'];
 export type SchemaCreatePostDto = components['schemas']['CreatePostDto'];
 export type SchemaUpdatePostDto = components['schemas']['UpdatePostDto'];
 export type SchemaNotificationResponseDto = components['schemas']['NotificationResponseDto'];
 export type SchemaGetAllNotificationsResponseDto = components['schemas']['GetAllNotificationsResponseDto'];
 export type SchemaImageUploadDto = components['schemas']['ImageUploadDto'];
-export type SchemaImageDimensionsResponseDto = components['schemas']['ImageDimensionsResponseDto'];
 export type SchemaUploadImageResponseDto = components['schemas']['UploadImageResponseDto'];
-export type SchemaImageDimensionsDto = components['schemas']['ImageDimensionsDto'];
-export type SchemaCreateMessageImageDto = components['schemas']['CreateMessageImageDto'];
 export type SchemaCreateMessageDto = components['schemas']['CreateMessageDto'];
 export type SchemaGetDirectConversationQueryDto = components['schemas']['GetDirectConversationQueryDto'];
 export type SchemaGetMessagesQueryDto = components['schemas']['GetMessagesQueryDto'];
@@ -783,7 +778,6 @@ export type SchemaUserTypingDto = components['schemas']['UserTypingDto'];
 export type SchemaReadAllMessagesDto = components['schemas']['ReadAllMessagesDto'];
 export type SchemaDeleteMessageDto = components['schemas']['DeleteMessageDto'];
 export type SchemaParticipantResponseDto = components['schemas']['ParticipantResponseDto'];
-export type SchemaMessageImageResponseDto = components['schemas']['MessageImageResponseDto'];
 export type SchemaMessageResponseDto = components['schemas']['MessageResponseDto'];
 export type SchemaConversationResponseDto = components['schemas']['ConversationResponseDto'];
 export type SchemaGetAllConversationsResponseDto = components['schemas']['GetAllConversationsResponseDto'];
