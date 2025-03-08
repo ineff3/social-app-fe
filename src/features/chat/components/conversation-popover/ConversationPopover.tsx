@@ -18,7 +18,7 @@ export const ConversationPopover = () => {
 
   return (
     <>
-      <div className="fixed bottom-0 right-0 mr-8 w-[390px]">
+      <div className="fixed bottom-0 right-0 z-10 mr-8 w-[390px]">
         <div className="w-full rounded-t-xl border-x border-t border-accent bg-base-100 shadow-[0px_0px_11px_-5px_rgba(255,255,255,1)]">
           {!(isOpen && isConversationSelected) && (
             <ConvPopoverHeader

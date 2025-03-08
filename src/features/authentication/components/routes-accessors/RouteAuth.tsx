@@ -17,7 +17,10 @@ export const RouteAuth = ({ required = false }: { required?: boolean }) => {
   const dispatch = useAppDispatch()
 
   const isAuthenticated = useAppSelector(selectIsAuthenticated)
-  const isPersistAuth = !!localStorage.getItem(PERSIST_AUTH_KEY)
+  const localStoragePersist = localStorage.getItem(PERSIST_AUTH_KEY)
+  const isPersistAuth = localStoragePersist
+    ? localStoragePersist === 'true'
+    : true
 
   const queryKeyStore = useQueryKeyStore()
   const { data, isFetched, isPending, isFetching } = useQuery({
@@ -53,6 +56,9 @@ export const RouteAuth = ({ required = false }: { required?: boolean }) => {
   }
 
   if (required) {
+    if (!isAuthenticated) {
+      localStorage.removeItem(PERSIST_AUTH_KEY)
+    }
     return isAuthenticated ? (
       <Outlet />
     ) : (

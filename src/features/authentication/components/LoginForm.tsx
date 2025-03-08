@@ -45,9 +45,7 @@ const LoginForm = ({ setErrorMessage }: Props) => {
         }
       },
       onSuccess(result) {
-        if (data.persist) {
-          localStorage.setItem(PERSIST_AUTH_KEY, 'persist')
-        }
+        localStorage.setItem(PERSIST_AUTH_KEY, data.persist ? 'true' : 'false')
         dispatch(setAccessToken(result.accessToken))
         navigate(from, { replace: true })
       },

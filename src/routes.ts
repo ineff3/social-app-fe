@@ -3,6 +3,7 @@ export const apiRoutes = {
   users: 'user',
   refreshToken: 'auth/refresh-token',
   login: 'auth/login',
+  googleLogin: 'auth/google',
   logout: 'auth/logout',
   signUp: 'auth/register',
   currentUserPreview: 'user/preview',

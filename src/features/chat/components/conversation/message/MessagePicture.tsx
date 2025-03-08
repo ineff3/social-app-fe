@@ -53,9 +53,10 @@ export const MessagePicture = ({
               width: renderedWidth,
               height: renderedHeight,
             }}
+            loading="lazy"
             src={imageUrl}
             alt="Message Image"
-            className={`absolute left-1/2 top-0 z-10 -translate-x-1/2 object-contain transition-opacity duration-300 ${
+            className={`z-1 absolute left-1/2 top-0 -translate-x-1/2 object-contain transition-opacity duration-300 ${
               isLoaded ? 'opacity-100' : 'opacity-0'
             }`}
             onClick={show}

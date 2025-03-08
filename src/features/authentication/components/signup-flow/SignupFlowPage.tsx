@@ -1,4 +1,9 @@
-import { Navigate, useLocation, useNavigate } from 'react-router-dom'
+import {
+  Navigate,
+  useLocation,
+  useNavigate,
+  useSearchParams,
+} from 'react-router-dom'
 import UsernameModule from './username-module/UsernameModule'
 import { ProfilePhotoModule } from './profile-photo-module/ProfilePhotoModule'
 import usePagination from '@/src/hooks/usePagination'
@@ -9,10 +14,14 @@ import { Helmet } from 'react-helmet-async'
 
 export const SignupFlowPage = () => {
   const { page, nextPage } = usePagination()
+
   const location = useLocation()
   const { close, visible } = useModal(true)
   const navigate = useNavigate()
   const from = location.state?.from?.pathname
+
+  const [searchParams] = useSearchParams()
+  const newUser = searchParams.get('newUser')
 
   const modalClose = () => {
     close()
@@ -35,7 +44,7 @@ export const SignupFlowPage = () => {
         <meta property="og:type" content="website" />
       </Helmet>
 
-      {from === pageRoutes.authSignup ? (
+      {from === pageRoutes.authSignup || (newUser && newUser === 'true') ? (
         <Modal
           isOpen={visible}
           onClose={modalClose}

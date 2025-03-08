@@ -67,6 +67,7 @@ export const PostImage = ({
           'absolute left-0 top-0 z-10 w-full transition-opacity duration-300',
           isLoaded ? 'opacity-100' : 'opacity-0',
         )}
+        loading="lazy"
         onLoad={() => setIsLoaded(true)}
       />
     </div>

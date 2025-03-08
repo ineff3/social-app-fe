@@ -19,7 +19,7 @@ export const EmojiPopover = ({
       <PopoverPanel
         transition
         anchor={anchor}
-        className=" origin-bottom-right transition duration-[0.2s] ease-out data-[closed]:scale-95 data-[closed]:opacity-0"
+        className=" z-10 origin-bottom-right transition duration-[0.2s] ease-out data-[closed]:scale-95 data-[closed]:opacity-0"
         style={{
           transformOrigin: typeof anchor === 'object' ? anchor.to : 'bottom',
         }}

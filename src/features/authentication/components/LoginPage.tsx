@@ -2,9 +2,15 @@ import { Link, Outlet } from 'react-router-dom'
 import LoginForm from './LoginForm'
 import { useState } from 'react'
 import { Helmet } from 'react-helmet-async'
+import { GoogleIconSvg } from '@/src/components/ui/icons/GoogleIconSvg'
+import { apiRoutes } from '@/src/routes'
 
 export const LoginPage = () => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
+
+  const redirectToGoogleSignin = () => {
+    window.location.href = `${import.meta.env.VITE_API_BASE_URL}${apiRoutes.googleLogin}`
+  }
 
   return (
     <>
@@ -60,7 +66,7 @@ export const LoginPage = () => {
               />
             </svg>
             <p className=" text-sm">
-              Don`t have an account?{' '}
+              Don&apos;t have an account?{' '}
               <Link to="signup" className=" link text-primary ">
                 Signup
               </Link>
@@ -77,6 +83,13 @@ export const LoginPage = () => {
               </p>
             )}
           </div>
+          <div className="divider divider-accent">or</div>
+          <button className="btn btn-accent" onClick={redirectToGoogleSignin}>
+            <div className="items center flex gap-2">
+              <GoogleIconSvg width={18} height={18} />
+              <span className="mt-[2px]">Sign in via Google</span>
+            </div>
+          </button>
         </div>
         <Outlet />
       </div>

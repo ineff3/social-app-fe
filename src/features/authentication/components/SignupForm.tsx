@@ -48,7 +48,7 @@ const SignupForm = ({ setErrorMessage }: Props) => {
         }
       },
       onSuccess: (response) => {
-        localStorage.setItem(PERSIST_AUTH_KEY, 'persist')
+        localStorage.setItem(PERSIST_AUTH_KEY, 'true')
         dispatch(setAccessToken(response.accessToken))
         navigate(pageRoutes.signupFlow, {
           state: { from: location },
