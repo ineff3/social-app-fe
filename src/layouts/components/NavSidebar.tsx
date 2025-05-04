@@ -1,5 +1,4 @@
 import { Link, useLocation } from 'react-router-dom'
-import XIconSvg from '../../components/ui/icons/XIconSvg'
 import { FaRegPenToSquare } from 'react-icons/fa6'
 import { pageRoutes } from '../../routes'
 import { UserPreview } from './UserPreview'
@@ -7,6 +6,7 @@ import { UserPreviewDropdown } from './UserPreviewDropdown'
 import { useAppSelector } from '@/src/redux/hooks'
 import { selectUserPreview } from '@/src/redux/user/userSlice'
 import { NavMenu } from './NavMenu'
+import { LinkerIcon } from '@/src/components/ui/LinkerIcon'
 
 const NavSidebar = ({
   menuOpen,
@@ -32,7 +32,7 @@ const NavSidebar = ({
                 className=" btn btn-ghost p-3 text-secondary"
                 onClick={closeMenu}
               >
-                <XIconSvg width={22} height={22} fill="currentColor" />
+                <LinkerIcon width={25}/>
               </Link>
             </div>
             <NavMenu closeMenu={closeMenu} />

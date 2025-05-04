@@ -1,4 +1,5 @@
-import XIconSvg from '@/src/components/ui/icons/XIconSvg'
+
+import { LinkerIcon } from '@/src/components/ui/LinkerIcon'
 import { SchemaNotificationResponseDto } from '@/src/generated/schema'
 
 interface Props {
@@ -10,7 +11,7 @@ export const NotificationMessage = ({ notification }: Props) => {
     <article tabIndex={0} className=" border-b border-accent p-5 md:p-10">
       <div className=" flex items-center gap-6">
         <span className="text-secondary">
-          <XIconSvg width={33} height={33} fill="currentcolor" />
+          <LinkerIcon width={33} />
         </span>
 
         <div className=" flex flex-1 flex-col gap-5">
