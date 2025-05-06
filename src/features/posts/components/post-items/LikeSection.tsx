@@ -18,7 +18,7 @@ const LikeSection = ({ postId, isLiked, likesCount, qKey, updater }: Props) => {
   }
   return (
     <>
-      <div data-tip="Like" className=" tooltip tooltip-secondary">
+      <div data-tip="Like" className=" tooltip tooltip-secondary z-10">
         <button
           aria-label="Like"
           onClick={onPostLike}

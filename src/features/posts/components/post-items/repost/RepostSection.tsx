@@ -65,7 +65,7 @@ export const RepostSection = ({ postId, actualPost }: Props) => {
     <>
       <div
         data-tip="Repost"
-        className={` tooltip tooltip-secondary ${actualPost.isReposted && 'text-success'}`}
+        className={` tooltip tooltip-secondary z-10 ${actualPost.isReposted && 'text-success'}`}
       >
         <DropdownMenu
           items={items}

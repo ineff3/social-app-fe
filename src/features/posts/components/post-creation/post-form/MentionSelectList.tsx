@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import ErrorAlert from '@/src/components/ui/ErrorAlert'
+import { NotFoundScreen } from '@/src/components/ui/NotFoundScreen'
 import { useDebounce } from '@/src/hooks/useDebounce'
 import { UserPreview } from '@/src/layouts/components/UserPreview'
 import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
@@ -12,7 +13,6 @@ import {
   useImperativeHandle,
   useState,
 } from 'react'
-import { MdOutlineErrorOutline } from 'react-icons/md'
 
 export const MentionSelectList = forwardRef(
   ({ command, query }: SuggestionProps<string>, ref: ForwardedRef<any>) => {
@@ -85,10 +85,12 @@ export const MentionSelectList = forwardRef(
         )}
         {users &&
           (users.length === 0 ? (
-            <div className="flex h-[80px] items-center justify-center gap-2 text-lg">
-              <MdOutlineErrorOutline size={25} />
-              <span>No results</span>
-            </div>
+            <NotFoundScreen
+              title="No results found"
+              content="Try adjusting your keywords or check for typos."
+              className="p-5"
+              size="sm"
+            />
           ) : (
             users.map((user, index) => (
               <li

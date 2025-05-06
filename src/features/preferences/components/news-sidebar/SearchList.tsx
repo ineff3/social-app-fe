@@ -2,11 +2,11 @@ import ErrorAlert from '@/src/components/ui/ErrorAlert'
 import { UserPreview } from '@/src/layouts/components/UserPreview'
 import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
-import { MdOutlineErrorOutline } from 'react-icons/md'
 import { useEffect, useState } from 'react'
 import { clsx } from 'clsx'
 import { UserSelectionHandler } from '../../interfaces'
 import { useKeyboardListNavigation } from '../../hooks/useKeyboardListNavigation'
+import { NotFoundScreen } from '@/src/components/ui/NotFoundScreen'
 
 interface Props {
   searchQuery: string
@@ -57,13 +57,12 @@ export const SearchList = ({
       )}
       {data &&
         (data.data.length === 0 ? (
-          <div
-            className="flex items-center justify-center gap-2"
-            style={{ height: `${ROW_HEIGHT}px` }}
-          >
-            <MdOutlineErrorOutline size={25} />
-            <span className="font-medium">No results</span>
-          </div>
+          <NotFoundScreen
+            title="No results found"
+            content="Try adjusting your keywords or check for typos."
+            className="p-5"
+            size="sm"
+          />
         ) : (
           data.data.map((user, index) => (
             <li

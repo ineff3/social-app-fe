@@ -1,6 +1,10 @@
 import { createQueryKeyStore } from '@lukemorales/query-key-factory'
 import { useApiActions } from './useApiActions'
-import { GetAllPostsParams, PaginatedQueryParams } from '../interfaces'
+import {
+  GetAllNotificationsParams,
+  GetAllPostsParams,
+  PaginatedQueryParams,
+} from '../interfaces'
 import {
   SchemaAuthUserResponseDto,
   SchemaConversationResponseDto,
@@ -43,17 +47,20 @@ const useQueryKeyStore = () => {
                 cursor: pageParam,
               }),
           }),
-          notifications: {
-            queryKey: null,
+          notifications: ({
+            filterMentions = false,
+          }: GetAllNotificationsParams) => ({
+            queryKey: [filterMentions],
             queryFn: ({ pageParam }: { pageParam: number }) =>
               get<SchemaGetAllNotificationsResponseDto>(
                 apiRoutes.notifications,
                 {
                   ...query,
                   cursor: pageParam,
+                  filterMentions,
                 },
               ),
-          },
+          }),
         },
       }),
       detail: (postId: string) => ({

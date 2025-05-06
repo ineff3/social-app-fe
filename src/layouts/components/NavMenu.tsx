@@ -2,9 +2,7 @@ import { BookmarkIcon } from '@/src/components/ui/icons/nav-menu/BookmarkIcon'
 import { HomeIcon } from '@/src/components/ui/icons/nav-menu/HomeIcon'
 import { MessageIcon } from '@/src/components/ui/icons/nav-menu/MessageIcon'
 import { NotificationIcon } from '@/src/components/ui/icons/nav-menu/NotificationIcon'
-import { PremiumIcon } from '@/src/components/ui/icons/nav-menu/PremiumIcon'
 import { ProfileIcon } from '@/src/components/ui/icons/nav-menu/ProfileIcon'
-import { SearchIcon } from '@/src/components/ui/icons/nav-menu/SearchIcon'
 import { useAppSelector } from '@/src/redux/hooks'
 import { selectUserPreview } from '@/src/redux/user/userSlice'
 import { NavLink, useLocation } from 'react-router-dom'
@@ -21,11 +19,6 @@ const generateMenuItems = (username: string) => [
     path: pageRoutes.home,
     name: 'Home',
     svg: <HomeIcon width={ICON_SIZE} height={ICON_SIZE} />,
-  },
-  {
-    path: '/search',
-    name: 'Search',
-    svg: <SearchIcon width={ICON_SIZE} height={ICON_SIZE} />,
   },
   {
     path: pageRoutes.notifications,
@@ -47,12 +40,7 @@ const generateMenuItems = (username: string) => [
     path: `/users/${username}`,
     name: 'Profile',
     svg: <ProfileIcon width={ICON_SIZE} height={ICON_SIZE} />,
-  },
-  {
-    path: '/premium',
-    name: 'Premium',
-    svg: <PremiumIcon width={ICON_SIZE} height={ICON_SIZE} />,
-  },
+  }
 ]
 
 export const NavMenu = ({ closeMenu }: { closeMenu: () => void }) => {

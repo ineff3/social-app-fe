@@ -58,7 +58,6 @@ const App = () => {
                 element={<ConversationsPage />}
               />
               <Route path={pageRoutes.bookmarks} element={<BookmarksPage />} />
-              <Route path="/premium" element={<></>} />
             </Route>
           </Route>
         </Route>

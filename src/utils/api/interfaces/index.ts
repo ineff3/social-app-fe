@@ -35,3 +35,7 @@ export interface PaginatedResponseDto<TData> {
 }
 
 export type QueryUpdater = <T>(oldData: T) => T
+
+export interface GetAllNotificationsParams {
+  filterMentions?: boolean
+}

@@ -25,7 +25,7 @@ const NavSidebar = ({
       >
         <div className=" flex h-full flex-col pb-6 pt-3 ">
           <div className=" flex flex-1 flex-col">
-            <div className=" mb-3 px-4">
+            <div className=" mb-5 px-4">
               <Link
                 to={'/'}
                 aria-label="Linker"

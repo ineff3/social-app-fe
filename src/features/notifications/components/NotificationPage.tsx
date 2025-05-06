@@ -1,36 +1,19 @@
-import { useEffect } from 'react'
-import { useInView } from 'react-intersection-observer'
-import { useGetNotifications } from '../hooks/useGetNotifications'
-import { NotificationRow } from './NotificationRow'
-import { useAppDispatch, useAppSelector } from '@/src/redux/hooks'
-import {
-  resetIncomingNotifications,
-  selectIncNotificationsCount,
-} from '@/src/redux/notification/notificationSlice'
 import { Helmet } from 'react-helmet-async'
+import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react'
+import { NotificationsFlow } from './NotificationsFlow'
+
+const tabItems = [
+  {
+    name: 'All',
+    value: 'all',
+  },
+  {
+    name: 'Mentions',
+    value: 'mentions',
+  },
+]
 
 export const NotificationPage = () => {
-  const incNotificationsCount = useAppSelector(selectIncNotificationsCount)
-  const dispatch = useAppDispatch()
-  const { ref, inView } = useInView()
-  const { data, fetchNextPage, hasNextPage, refetch } = useGetNotifications({
-    limit: 20,
-    order: 'desc',
-  })
-
-  useEffect(() => {
-    if (inView) {
-      fetchNextPage()
-    }
-  }, [inView, fetchNextPage])
-
-  useEffect(() => {
-    if (incNotificationsCount !== 0) {
-      refetch()
-      dispatch(resetIncomingNotifications())
-    }
-  }, [incNotificationsCount, refetch, dispatch])
-
   return (
     <>
       <Helmet>
@@ -45,25 +28,35 @@ export const NotificationPage = () => {
           content="Never miss an update—check your notifications now."
         />
       </Helmet>
-      <div className="flex flex-col" role="feed">
-        {data &&
-          data.pages.map((page) => (
-            <div key={page.page}>
-              {page.data.map((notification) => (
-                <NotificationRow
-                  key={notification.id}
-                  notification={notification}
-                />
-              ))}
-            </div>
+
+      <TabGroup>
+        <TabList className=" flex border-b border-accent">
+          {tabItems.map((item) => (
+            <Tab
+              key={item.value}
+              className=" flex w-1/2 items-center justify-center transition-all duration-150 ease-in-out hover:bg-base-300 "
+            >
+              {({ selected }) => (
+                <div
+                  className={`  box-border border-b-[3.5px] border-primary px-3 py-3.5 ${selected ? 'text-secondary' : ' border-none'}`}
+                >
+                  {item.name}
+                </div>
+              )}
+            </Tab>
           ))}
-        {hasNextPage && (
-          <span
-            ref={ref}
-            className="loading loading-spinner loading-lg my-4 self-center"
-          ></span>
-        )}
-      </div>
+        </TabList>
+        <TabPanels>
+          <TabPanel>
+            <NotificationsFlow
+              notificationsParams={{ filterMentions: false }}
+            />
+          </TabPanel>
+          <TabPanel>
+            <NotificationsFlow notificationsParams={{ filterMentions: true }} />
+          </TabPanel>
+        </TabPanels>
+      </TabGroup>
     </>
   )
 }

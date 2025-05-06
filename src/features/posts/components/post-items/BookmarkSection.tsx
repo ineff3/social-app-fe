@@ -17,7 +17,7 @@ const BookmarkSection = ({ postId, isBookmarked, qKey, updater }: Props) => {
     useBookmarkPostMutation.mutate()
   }
   return (
-    <div data-tip="Bookmark" className=" tooltip tooltip-secondary">
+    <div data-tip="Bookmark" className=" tooltip tooltip-secondary z-10">
       <button
         aria-label="bookmark"
         className=" btn btn-circle btn-ghost btn-sm"
