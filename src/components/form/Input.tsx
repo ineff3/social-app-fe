@@ -31,7 +31,7 @@ const Input = forwardRef<HTMLInputElement, Props>(
           <input
             placeholder={placeholder}
             type="text"
-            className={` ${isInvalid ? 'input-error' : `${primaryBorder && ' input-primary'}`} input input-bordered w-full  max-w-lg text-base`}
+            className={` ${isInvalid ? 'input-error' : `${primaryBorder && 'border-accent '}`} input input-bordered w-full  max-w-lg text-base`}
             ref={ref}
             {...props}
           />

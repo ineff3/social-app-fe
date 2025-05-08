@@ -15,6 +15,7 @@ import { ScrollPositionKey } from '@/src/redux/user/userSlice'
 import { useRestoreScrollPosition } from '@/src/hooks/useRestoreScrollPosition'
 import { PostSkeleton } from './PostSkeleton'
 import { SchemaGetAllPostsResponseDto } from '@/src/generated/schema'
+import { isEmptyPaginatedResult } from '@/src/common/checkers/isEmptyPaginatedResult'
 
 type PossibleParams =
   | GetAllPostsParams
@@ -26,6 +27,7 @@ export const PostsFlow = <TParams extends PossibleParams>({
   params,
   flowQueryKey,
   scrollPositionKey,
+  EmptyState,
 }: {
   useGetPostsHook: (
     options: TParams,
@@ -36,6 +38,7 @@ export const PostsFlow = <TParams extends PossibleParams>({
   params: TParams
   flowQueryKey: QueryKey
   scrollPositionKey?: ScrollPositionKey
+  EmptyState?: React.ReactNode
 }) => {
   const { ref, inView } = useInView()
   const { data, fetchNextPage, hasNextPage, isLoading } =
@@ -56,6 +59,10 @@ export const PostsFlow = <TParams extends PossibleParams>({
         <PostSkeleton skeletonType="image" />
       </div>
     )
+  }
+
+  if (EmptyState && (!data || isEmptyPaginatedResult(data))) {
+    return EmptyState
   }
 
   return (

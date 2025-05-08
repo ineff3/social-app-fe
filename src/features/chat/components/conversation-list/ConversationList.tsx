@@ -8,6 +8,7 @@ import { useTrackUserStatus } from '../../hooks/useTrackUserStatus'
 import { useTrackUserTyping } from '../../hooks/useTrackUserTyping'
 import { selectSelectedConversationId } from '@/src/redux/chat/chatSlice'
 import { ConversationSkeleton } from '../skeletons/ConversationSkeleton'
+import { NoContentScreen } from '@/src/components/ui/NoContentScreen'
 
 export const ROW_HEIGHT = 73
 
@@ -34,6 +35,16 @@ export const ConversationList = () => {
   const activeIndex = flattenedData?.findIndex(
     (conversation) => conversation.id === selectedConversationId,
   )
+
+  if (!flattenedData || flattenedData?.length === 0) {
+    return (
+      <NoContentScreen
+        title="No conversations yet"
+        content="Start a chat to see it appear here."
+        className="mt-10"
+      />
+    )
+  }
 
   return (
     <div className="relative flex flex-col">

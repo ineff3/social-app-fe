@@ -61,7 +61,9 @@ export const ConversationModalContent = ({ close }: Props) => {
     <div className=" flex min-h-[480px] flex-col gap-5">
       <div className="flex items-center gap-3">
         <CloseCircleButton onClick={close} />
-        <span className="text-lg font-bold text-secondary">New message</span>
+        <span className="text-lg font-bold text-secondary">
+          New conversation
+        </span>
       </div>
       <UserSearch onSearchResultClick={createConversation} />
     </div>

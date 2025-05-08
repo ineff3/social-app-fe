@@ -7,12 +7,14 @@ import { toPx } from '@/src/common/converters'
 interface Props {
   isOpen: boolean
   onToggle: () => void
+  onOpen: () => void
   onNewMessage: () => void
 }
 
 export const ConvPopoverHeader = ({
   isOpen,
   onToggle,
+  onOpen,
   onNewMessage,
 }: Props) => {
   return (
@@ -20,13 +22,16 @@ export const ConvPopoverHeader = ({
       className="flex w-full items-center justify-between px-4 py-3 "
       style={{ maxHeight: toPx(CONV_POPOVER_HEADER_HEIGHT) }}
     >
-      <span className="text-lg font-medium">Messages</span>
+      <span className="text-lg font-medium">Conversations</span>
       <div className="flex gap-2">
         <CircleButton
           size="sm"
           tooltipPosition="top"
-          onClick={onNewMessage}
-          label="New message"
+          onClick={() => {
+            onNewMessage()
+            onOpen()
+          }}
+          label="New conversation"
         >
           <FaRegPenToSquare size={18} />
         </CircleButton>

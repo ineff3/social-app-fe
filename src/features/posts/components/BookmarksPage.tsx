@@ -2,6 +2,7 @@ import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
 import useGetPosts from '../hooks/useGetPosts'
 import { PostsFlow } from './PostsFlow'
 import { Helmet } from 'react-helmet-async'
+import { NoContentScreen } from '@/src/components/ui/NoContentScreen'
 
 export const BookmarksPage = () => {
   const queryKeyStore = useQueryKeyStore()
@@ -27,6 +28,13 @@ export const BookmarksPage = () => {
         useGetPostsHook={useGetPosts}
         params={{ filters: { bookmarked: true } }}
         scrollPositionKey="bookmarksContext"
+        EmptyState={
+          <NoContentScreen
+            title="Your bookmarks live here"
+            content="You haven't saved anything yet. When you do, your favorite posts will appear here."
+            className="mt-20"
+          />
+        }
       />
     </>
   )

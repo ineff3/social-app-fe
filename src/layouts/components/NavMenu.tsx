@@ -28,7 +28,7 @@ const generateMenuItems = (username: string) => [
   },
   {
     path: pageRoutes.conversations,
-    name: 'Messages',
+    name: 'Conversations',
     svg: <MessageIcon width={ICON_SIZE} height={ICON_SIZE} />,
   },
   {
@@ -40,7 +40,7 @@ const generateMenuItems = (username: string) => [
     path: `/users/${username}`,
     name: 'Profile',
     svg: <ProfileIcon width={ICON_SIZE} height={ICON_SIZE} />,
-  }
+  },
 ]
 
 export const NavMenu = ({ closeMenu }: { closeMenu: () => void }) => {

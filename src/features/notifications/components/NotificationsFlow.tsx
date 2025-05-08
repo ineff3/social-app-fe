@@ -10,7 +10,7 @@ import { useEffect } from 'react'
 import { NotificationRow } from './NotificationRow'
 import ErrorAlert from '@/src/components/ui/ErrorAlert'
 import { isEmptyPaginatedResult } from '@/src/common/checkers/isEmptyPaginatedResult'
-import { NotFoundScreen } from '@/src/components/ui/NotFoundScreen'
+import { NoContentScreen } from '@/src/components/ui/NoContentScreen'
 
 interface Props {
   notificationsParams: GetAllNotificationsParams
@@ -51,10 +51,10 @@ export const NotificationsFlow = ({ notificationsParams }: Props) => {
   }
   if (!isLoading && data && isEmptyPaginatedResult(data)) {
     return (
-      <NotFoundScreen
+      <NoContentScreen
         title="You're all caught up!"
         content="Nothing new to see here. We'll let you know when something arrives."
-        className="mt-5"
+        className="mt-10"
       />
     )
   }

@@ -23,6 +23,9 @@ export const ConversationPopover = () => {
           {!(isOpen && isConversationSelected) && (
             <ConvPopoverHeader
               isOpen={isOpen}
+              onOpen={() => {
+                setIsOpen(true)
+              }}
               onToggle={handleToggle}
               onNewMessage={show}
             />

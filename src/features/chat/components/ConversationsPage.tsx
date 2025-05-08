@@ -25,12 +25,12 @@ export const ConversationsPage = () => {
   return (
     <>
       <Helmet>
-        <title>Messages | Linker</title>
+        <title>Conversations | Linker</title>
         <meta
           name="description"
           content="Chat with your friends and stay connected on Linker."
         />
-        <meta property="og:title" content="Messages | Linker" />
+        <meta property="og:title" content="Conversations | Linker" />
         <meta
           property="og:description"
           content="Stay in touch with friends and send messages instantly."

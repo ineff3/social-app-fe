@@ -77,7 +77,7 @@ const UsernameInput = ({
         <div className="label">
           <span className="label-text-alt text-error">
             Username should be between {USERNAME_MIN_LENGTH} and{' '}
-            {USERNAME_MAX_LENGTH} character length
+            {USERNAME_MAX_LENGTH} character length and without spaces
           </span>
         </div>
       )}

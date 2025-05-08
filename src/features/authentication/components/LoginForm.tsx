@@ -79,7 +79,6 @@ const LoginForm = ({ setErrorMessage }: Props) => {
             />
             <span className="label-text">Stay signed in</span>
           </label>
-          <p className=" text-sm">Forgot password?</p>
         </div>
         <button
           type="submit"
