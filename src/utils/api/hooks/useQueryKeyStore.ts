@@ -4,6 +4,7 @@ import {
   GetAllNotificationsParams,
   GetAllPostsParams,
   PaginatedQueryParams,
+  UserPostsFilters,
 } from '../interfaces'
 import {
   SchemaAuthUserResponseDto,
@@ -38,12 +39,12 @@ const useQueryKeyStore = () => {
             cursor: pageParam,
           }),
         contextQueries: {
-          user: (userId: string, isDraft?: boolean) => ({
-            queryKey: isDraft ? [userId, { isDraft }] : [userId],
+          user: (userId: string, filters?: UserPostsFilters) => ({
+            queryKey: filters ? [userId, filters] : [userId],
             queryFn: ({ pageParam }: { pageParam: number }) =>
               get<SchemaGetAllPostsResponseDto>(apiRoutes.userPosts(userId), {
                 ...query,
-                isDraft,
+                ...filters,
                 cursor: pageParam,
               }),
           }),

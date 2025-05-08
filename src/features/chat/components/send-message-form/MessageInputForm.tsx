@@ -14,9 +14,9 @@ import { useCheckHasNextUnreadPage } from '../../hooks/useCheckHasNextUnreadPage
 import { useMessageFormContext } from '../../contexts/MessageFormContext'
 import { MessagePictures } from './MessagePictures'
 import { transformMessageData } from '../../common/transformMessageData'
-import { SchemaMessageImageResponseDto } from '@/src/generated/schema'
 import { MessageFormType } from '../../interfaces'
 import { useHandleImagePaste } from '../../hooks/message-form/useHandleImagePaste'
+import { SchemaImageResponseDto } from '@/src/generated/schema'
 
 interface Props {
   triggerScrollToBottom: TriggerScrollToBottom
@@ -58,7 +58,7 @@ export const MessageInputForm = ({
     const messageImages = data.messageImages.map(
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       ({ file, ...rest }) =>
-        ({ id: rest.id, ...rest.uploadData }) as SchemaMessageImageResponseDto,
+        ({ id: rest.id, ...rest.uploadData }) as SchemaImageResponseDto,
     )
 
     dispatch(

@@ -1,7 +1,7 @@
-import { SchemaPostImageResponseDto } from '@/src/generated/schema'
+import { SchemaImageResponseDto } from '@/src/generated/schema'
 
 interface Props {
-  postImages: SchemaPostImageResponseDto[]
+  postImages: SchemaImageResponseDto[]
 }
 
 const getGridTemplate = (length: number) => {

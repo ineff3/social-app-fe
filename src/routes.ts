@@ -35,6 +35,10 @@ export const apiRoutes = {
   // media
   uploadImage: 'media/image',
   deleteImage: 'media/image',
+  // admin
+  admin: {
+    posts: 'admin/posts',
+  },
 }
 
 export const pageRoutes = {

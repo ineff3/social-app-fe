@@ -4,12 +4,11 @@ import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
 import { useDelete } from '@/src/utils/api/mutations'
 import { apiRoutes } from '@/src/routes'
 
-const useDeletePost = () => {
+const useDeletePost = (hasDeletePermission?: boolean) => {
   const queryKeyStore = useQueryKeyStore()
   return useDelete<InfiniteData<SchemaGetAllPostsResponseDto>, string>({
-    path: apiRoutes.posts,
-    // qKey: queryKeyStore.posts.all({}).queryKey,
-    qKey: queryKeyStore.posts._def, // TODO: refactor optimistic mutations
+    path: hasDeletePermission ? apiRoutes.admin.posts : apiRoutes.posts,
+    qKey: queryKeyStore.posts._def,
     updater: (oldData, deletedPostId) => {
       if (!oldData) return oldData
 

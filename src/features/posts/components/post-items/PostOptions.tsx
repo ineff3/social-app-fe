@@ -4,17 +4,18 @@ import { DropdownMenu } from '@/src/components/ui/dropdown-menu/DropdownMenu'
 import { DropdownItem } from '@/src/common/types'
 
 interface Props {
+  hasDeletePermission?: boolean
   isPostAuthor: boolean
   postId: string
 }
 
-const PostOptions = ({ isPostAuthor, postId }: Props) => {
-  const deletePostMutation = useDeletePost()
+const PostOptions = ({ isPostAuthor, postId, hasDeletePermission }: Props) => {
+  const deletePostMutation = useDeletePost(hasDeletePermission)
   const onDeletePost = () => {
     deletePostMutation.mutate(postId)
   }
   const dropdownItems: DropdownItem[] = []
-  if (isPostAuthor) {
+  if (isPostAuthor || hasDeletePermission) {
     dropdownItems.push({
       title: 'Delete',
       value: 'delete',

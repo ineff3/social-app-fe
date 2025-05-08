@@ -19,7 +19,7 @@ export const useGetDrafts = () => {
   return useGetUserPosts({
     query: { limit: 20 },
     userId: user?.id,
-    isDraft: true,
+    filters: { isDraft: true },
   })
 }
 
@@ -28,7 +28,8 @@ export const useCreateDraft = () => {
   const user = useAppSelector(selectUserPreview)!
   return usePost<null, SchemaCreatePostDto>({
     path: apiRoutes.posts,
-    qKey: queryKeyStore.posts.all({})._ctx.user(user?.id, true).queryKey,
+    qKey: queryKeyStore.posts.all({})._ctx.user(user?.id, { isDraft: true })
+      .queryKey,
   })
 }
 
@@ -37,7 +38,8 @@ export const useUpdateDraft = (id: string) => {
   const user = useAppSelector(selectUserPreview)!
   return useUpdate({
     path: apiRoutes.updatePost(id),
-    qKey: queryKeyStore.posts.all({})._ctx.user(user?.id, true).queryKey,
+    qKey: queryKeyStore.posts.all({})._ctx.user(user?.id, { isDraft: true })
+      .queryKey,
   })
 }
 
@@ -47,7 +49,8 @@ export const useDeleteMultipleDrafts = () => {
 
   return useDeleteMultiple<InfiniteData<SchemaGetAllPostsResponseDto>>({
     path: apiRoutes.posts,
-    qKey: queryKeyStore.posts.all({})._ctx.user(user?.id, true).queryKey,
+    qKey: queryKeyStore.posts.all({})._ctx.user(user?.id, { isDraft: true })
+      .queryKey,
     updater: (oldData, draftIds) => {
       if (!oldData) return oldData
 

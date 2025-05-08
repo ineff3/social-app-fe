@@ -1,9 +1,6 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks'
-import {
-  selectIsAuthenticated,
-  setAccessToken,
-} from '@/src/redux/user/userSlice'
+import { selectIsAuthenticated, setAuthData } from '@/src/redux/user/userSlice'
 import { PERSIST_AUTH_KEY } from '../../constants'
 import { useQuery } from '@tanstack/react-query'
 import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
@@ -31,7 +28,7 @@ export const RouteAuth = ({ required = false }: { required?: boolean }) => {
   useEffect(
     function syncAuthentication() {
       if (data) {
-        dispatch(setAccessToken(data.accessToken))
+        dispatch(setAuthData(data))
       }
     },
     [dispatch, data],

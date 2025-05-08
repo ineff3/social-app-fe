@@ -84,6 +84,38 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/auth/google": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["AuthController_googleAuth"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/google/callback": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["AuthController_googleAuthRedirect"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/user/preview": {
         parameters: {
             query?: never;
@@ -468,6 +500,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/admin/posts/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete: operations["AdminController_removeByAdmin"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -502,6 +550,7 @@ export interface components {
         };
         AuthUserResponseDto: {
             accessToken: string;
+            permissions: string[];
         };
         LoginUserDto: {
             /** @example user@example.com */
@@ -583,6 +632,7 @@ export interface components {
             isLiked: boolean;
             isBookmarked: boolean;
             isReposted: boolean;
+            parentPostId: string | null;
             author: components["schemas"]["UserPreviewResponseDto"];
             postImages: components["schemas"]["ImageResponseDto"][];
             /** Format: date-time */
@@ -904,6 +954,40 @@ export interface operations {
             };
         };
     };
+    AuthController_googleAuth: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AuthController_googleAuthRedirect: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     UserController_getUserPreview: {
         parameters: {
             query?: never;
@@ -1055,6 +1139,7 @@ export interface operations {
                 cursor?: string;
                 limit?: number;
                 isDraft?: boolean;
+                isComment?: boolean;
             };
             header?: never;
             path: {
@@ -1376,6 +1461,7 @@ export interface operations {
                 page?: number;
                 limit?: number;
                 order?: "desc" | "asc";
+                filterMentions?: boolean;
             };
             header?: never;
             path?: never;
@@ -1621,6 +1707,25 @@ export interface operations {
                 content: {
                     "application/json": string[];
                 };
+            };
+        };
+    };
+    AdminController_removeByAdmin: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
         };
     };

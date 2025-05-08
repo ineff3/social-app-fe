@@ -1,7 +1,10 @@
 import { convertPostDate } from '../utils/dateConversions'
 import PostOptions from './post-items/PostOptions'
 import { useAppSelector } from '@/src/redux/hooks'
-import { selectUserPreview } from '@/src/redux/user/userSlice'
+import {
+  selectPermissions,
+  selectUserPreview,
+} from '@/src/redux/user/userSlice'
 import { useId } from 'react'
 import { SchemaPostResponseDto } from '@/src/generated/schema'
 import UserIconLink from '@/src/components/ui/UserIconLink'
@@ -12,6 +15,7 @@ import { ImageDisplay } from './post-items/ImageDisplay'
 import { RepostBadge } from './post-items/RepostBadge'
 import { Repost } from './post-creation/additional-content/Repost'
 import { QueryKey } from '@tanstack/react-query'
+import { permissions } from '@/src/permissions'
 
 interface Props {
   post: SchemaPostResponseDto
@@ -24,6 +28,7 @@ const Post = ({ post, qKey }: Props) => {
   const { id, author, createdAt, text, postImages } = actualPost
   const authorId = useId()
   const userPreviewData = useAppSelector(selectUserPreview)
+  const userPermissions = useAppSelector(selectPermissions)
   const isPostAuthor = userPreviewData?.id === author.id
 
   const navigate = useNavigate()
@@ -69,7 +74,13 @@ const Post = ({ post, qKey }: Props) => {
                   {convertPostDate(createdDate)}
                 </time>
               </div>
-              <PostOptions isPostAuthor={isPostAuthor} postId={id} />
+              <PostOptions
+                hasDeletePermission={userPermissions?.includes(
+                  permissions.POST.DELETE,
+                )}
+                isPostAuthor={isPostAuthor}
+                postId={id}
+              />
             </div>
 
             {text && (

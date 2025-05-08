@@ -6,16 +6,12 @@ import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
 
 const tabItems = [
   {
-    name: 'Tweets',
-    value: 'tweets',
+    name: 'Posts',
+    value: 'posts',
   },
   {
-    name: 'Tweets & replies',
-    value: 'tweets & replies',
-  },
-  {
-    name: 'Media',
-    value: 'media',
+    name: 'Replies',
+    value: 'replies',
   },
   {
     name: 'Likes',
@@ -47,14 +43,24 @@ export const ProfileTabs = ({ userId }: { userId: string }) => {
         <TabPanel>
           <PostsFlow
             flowQueryKey={
-              queryKeyStore.posts.all({})._ctx.user(userId).queryKey
+              queryKeyStore.posts
+                .all({})
+                ._ctx.user(userId, { isComment: false }).queryKey
             }
             useGetPostsHook={useGetUserPosts}
-            params={{ userId }}
+            params={{ userId, filters: { isComment: false } }}
           />
         </TabPanel>
-        <TabPanel>Content 2</TabPanel>
-        <TabPanel>Content 3</TabPanel>
+        <TabPanel>
+          <PostsFlow
+            flowQueryKey={
+              queryKeyStore.posts.all({})._ctx.user(userId, { isComment: true })
+                .queryKey
+            }
+            useGetPostsHook={useGetUserPosts}
+            params={{ userId, filters: { isComment: true } }}
+          />
+        </TabPanel>
         <TabPanel>
           <PostsFlow
             flowQueryKey={

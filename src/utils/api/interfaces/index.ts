@@ -16,10 +16,15 @@ export interface GetAllPostsParams {
   filters?: PostFilters
 }
 
+export interface UserPostsFilters {
+  isDraft?: boolean
+  isComment?: boolean
+}
+
 export interface GetUserPostsParams {
   query?: PaginatedQueryParams
   userId: string
-  isDraft?: boolean
+  filters?: UserPostsFilters
 }
 
 export interface GetPostCommentsParams {

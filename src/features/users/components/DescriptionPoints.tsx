@@ -4,6 +4,7 @@ import LocationIconSvg from '@/src/components/ui/icons/LocationIconSvg'
 import LinkIconSvg from '@/src/components/ui/icons/LinkIconSvg'
 import BornIconSvg from '@/src/components/ui/icons/BornIconSvg'
 import CalendarIconSvg from '@/src/components/ui/icons/CalendarIconSvg'
+import clsx from 'clsx'
 
 interface Props {
   user: SchemaUserResponseDto
@@ -45,7 +46,12 @@ export const DescriptionPoints = ({
           </div>
         )}
         {createdAt && (
-          <div className=" mt-2 flex items-center gap-2">
+          <div
+            className={clsx(
+              'flex items-center gap-2',
+              allPointsExist && 'mt-2',
+            )}
+          >
             <CalendarIconSvg width={20} height={20} fill="currentColor" />
             <p>Joined {format(parseISO(createdAt), 'MMMM dd, yyyy')}</p>
           </div>

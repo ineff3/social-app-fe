@@ -14,6 +14,7 @@ import { Repost } from '../post-creation/additional-content/Repost'
 import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
 import { updateBookmarkedPost, updateLikedPost } from '../../utils/updaters'
 import { QueryUpdater } from '@/src/utils/api/interfaces'
+import { Link } from 'react-router-dom'
 
 interface Props {
   post: SchemaPostResponseDto
@@ -35,18 +36,29 @@ export const DetailPost = ({ post }: Props) => {
       aria-labelledby={authorId}
       className="flex flex-col gap-6 border-b border-accent p-3 transition-colors duration-100 ease-in md:p-6 "
     >
-      <div className=" flex justify-between">
-        <div className=" flex gap-2">
-          <UserIconLink
-            userImageUrl={post.author?.profileUrl}
-            username={post.author?.username}
-          />
-          <div className=" flex flex-col">
-            <p className=" text-secondary">{post.author.firstName}</p>
-            <p className=" text-sm ">@{post.author.username}</p>
+      <div className="flex flex-col gap-2">
+        <div className=" flex justify-between">
+          <div className=" flex gap-2">
+            <UserIconLink
+              userImageUrl={post.author?.profileUrl}
+              username={post.author?.username}
+            />
+            <div className=" flex flex-col">
+              <p className=" text-secondary">{post.author.firstName}</p>
+              <p className=" text-sm ">@{post.author.username}</p>
+            </div>
           </div>
+          <PostOptions isPostAuthor={isPostAuthor} postId={post?.id} />
         </div>
-        <PostOptions isPostAuthor={isPostAuthor} postId={post?.id} />
+        {post.parentPostId && (
+          <Link
+            to={`/post/${post.parentPostId}`}
+            replace={true}
+            className=" link-hover link link-primary w-fit text-sm font-medium"
+          >
+            View Parent Post
+          </Link>
+        )}
       </div>
 
       <div className=" flex flex-col gap-2">

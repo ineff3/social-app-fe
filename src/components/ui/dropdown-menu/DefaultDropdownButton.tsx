@@ -8,7 +8,7 @@ export const DefaultDropdownButton = forwardRef(
     const { className, ...rest } = props
 
     return (
-      <div data-tip="Options" className=" tooltip tooltip-secondary">
+      <div data-tip="Options" className=" tooltip tooltip-secondary z-10">
         <button
           {...rest}
           ref={ref}

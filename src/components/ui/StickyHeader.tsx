@@ -19,7 +19,7 @@ export const StickyHeader = ({
   const isScrolled = useIsScrolled({ scrolledElementRef })
   return (
     <header
-      className={`sticky top-0 z-10 border-b border-accent bg-base-100 ${className} ${isScrolled && ' bg-opacity-60 backdrop-blur-sm'}`}
+      className={`sticky top-0 z-20 border-b border-accent bg-base-100 ${className} ${isScrolled && ' bg-opacity-60 backdrop-blur-sm'}`}
     >
       {children}
     </header>

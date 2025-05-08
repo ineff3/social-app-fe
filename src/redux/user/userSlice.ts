@@ -1,5 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { SchemaUserPreviewResponseDto } from '../../generated/schema'
+import {
+  SchemaAuthUserResponseDto,
+  SchemaUserPreviewResponseDto,
+} from '../../generated/schema'
 import { RootState } from '../store'
 
 const scrollPositions = {
@@ -14,7 +17,7 @@ export type ScrollPositionKey = keyof ScrollPositions
 
 interface UserInitialState {
   preview?: SchemaUserPreviewResponseDto
-  accessToken?: string
+  authData?: SchemaAuthUserResponseDto
   isAuthenticated: boolean
   scrollPositions: ScrollPositions
 }
@@ -34,8 +37,8 @@ export const userSlice = createSlice({
     ) => {
       state.preview = action.payload
     },
-    setAccessToken: (state, action: PayloadAction<string>) => {
-      state.accessToken = action.payload
+    setAuthData: (state, action: PayloadAction<SchemaAuthUserResponseDto>) => {
+      state.authData = action.payload
       state.isAuthenticated = true
     },
     resetUserState: () => {
@@ -50,10 +53,13 @@ export const userSlice = createSlice({
   },
 })
 
-export const { setPreview, setAccessToken, resetUserState, setScrollPosition } =
+export const { setPreview, resetUserState, setScrollPosition, setAuthData } =
   userSlice.actions
 
-export const selectAccessToken = (state: RootState) => state.user.accessToken
+export const selectAccessToken = (state: RootState) =>
+  state.user.authData?.accessToken
+export const selectPermissions = (state: RootState) =>
+  state.user.authData?.permissions
 export const selectUserPreview = (state: RootState) => state.user.preview
 export const selectIsAuthenticated = (state: RootState) =>
   state.user.isAuthenticated

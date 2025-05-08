@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import axiosInstance, { instance } from '../utils/api/axiosInstances'
 import { useAppDispatch, useAppSelector } from '../redux/hooks'
-import { selectAccessToken, setAccessToken } from '../redux/user/userSlice'
+import { selectAccessToken, setAuthData } from '../redux/user/userSlice'
 import { SchemaAuthUserResponseDto } from '../generated/schema'
 import { apiRoutes } from '../routes'
 
@@ -39,9 +39,9 @@ const useAxiosInstance = () => {
         ) {
           prevRequest.alreadySent = true
           try {
-            const { accessToken } = await refreshToken()
-            dispatch(setAccessToken(accessToken))
-            prevRequest.headers['Authorization'] = `Bearer ${accessToken}`
+            const data = await refreshToken()
+            dispatch(setAuthData(data))
+            prevRequest.headers['Authorization'] = `Bearer ${data.accessToken}`
             return instance(prevRequest)
           } catch (error) {
             return Promise.reject(error)

@@ -6,6 +6,6 @@ export const useViewNotification = (notificationId: string) => {
   const queryKeyStore = useQueryKeyStore()
   return useUpdate({
     path: apiRoutes.viewNotification(notificationId),
-    qKey: queryKeyStore.posts.all({})._ctx.notifications.queryKey,
+    qKey: queryKeyStore.posts.all({})._ctx.notifications._def,
   })
 }

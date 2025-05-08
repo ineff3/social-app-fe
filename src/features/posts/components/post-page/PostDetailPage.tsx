@@ -1,6 +1,5 @@
 import { useGetPostDetail } from '../../hooks/useGetPostDetail'
 import { useParams } from 'react-router-dom'
-import { PostNotFound } from './PostNotFound'
 import { DetailPost } from './DetailPost'
 import { PostsFlow } from '../PostsFlow'
 import { useGetPostComments } from '../../hooks/useGetPostComments'
@@ -10,6 +9,7 @@ import { useRef } from 'react'
 import { BackCircleButton } from '@/src/components/ui/buttons/BackCircleButton'
 import { Spinner } from '@/src/components/ui/spinners/Spinner'
 import { Helmet } from 'react-helmet-async'
+import { NotFoundScreen } from '@/src/components/ui/NotFoundScreen'
 
 export const PostDetailPage = () => {
   const queryKeyStore = useQueryKeyStore()
@@ -27,7 +27,14 @@ export const PostDetailPage = () => {
   }
 
   if (isError) {
-    return <PostNotFound />
+    return (
+      <NotFoundScreen
+        title="We couldn't find that post"
+        content="Make sure the link is correct or try again later."
+        className="h-screen"
+        size="xl"
+      />
+    )
   }
 
   return (

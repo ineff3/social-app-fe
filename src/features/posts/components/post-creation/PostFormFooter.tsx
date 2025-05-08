@@ -1,6 +1,5 @@
 import ErrorAlert from '@/src/components/ui/ErrorAlert'
 import { usePostContext } from '../../contexts/PostContext'
-import { GifIcon, ScheduleIcon, StatsIcon } from '@/src/components/ui/icons'
 import { EmojiPopover } from '@/src/components/emoji/EmojiPopover'
 import { Spinner } from '@/src/components/ui/spinners/Spinner'
 import { PostPictureSelector } from './additional-content/PostPictureSelector'
@@ -42,7 +41,7 @@ export const PostFormFooter = ({
             onSelect={addEmojiToText}
             anchor={{ gap: 5, to: 'bottom end' }}
           />
-          <div data-tip="Poll" className=" tooltip tooltip-secondary">
+          {/* <div data-tip="Poll" className=" tooltip tooltip-secondary">
             <button type="button" className=" btn btn-circle btn-ghost btn-sm">
               <StatsIcon />
             </button>
@@ -56,7 +55,7 @@ export const PostFormFooter = ({
             <button type="button" className=" btn btn-circle btn-ghost btn-sm">
               <ScheduleIcon />
             </button>
-          </div>
+          </div> */}
         </div>
 
         <button

@@ -31,11 +31,11 @@ export const PictureElement = ({
       return
     }
 
-    const { imageKey } = postPicture
-    if (!imageKey) {
+    const { key } = postPicture
+    if (!key) {
       return
     }
-    const encodedImageKey = window.btoa(imageKey)
+    const encodedImageKey = window.btoa(key)
     deleteImageMutation.mutate(encodedImageKey)
   }
 

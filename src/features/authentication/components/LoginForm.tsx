@@ -6,7 +6,7 @@ import useLogin from '../hooks/useLogin'
 import { pageRoutes } from '../../../routes'
 import { AxiosError } from 'axios'
 import { useAppDispatch } from '@/src/redux/hooks'
-import { setAccessToken } from '@/src/redux/user/userSlice'
+import { setAuthData } from '@/src/redux/user/userSlice'
 import { PERSIST_AUTH_KEY } from '../constants'
 import { LoginFormType, loginValidationSchema } from '../schemas'
 import { Spinner } from '@/src/components/ui/spinners/Spinner'
@@ -46,7 +46,7 @@ const LoginForm = ({ setErrorMessage }: Props) => {
       },
       onSuccess(result) {
         localStorage.setItem(PERSIST_AUTH_KEY, data.persist ? 'true' : 'false')
-        dispatch(setAccessToken(result.accessToken))
+        dispatch(setAuthData(result))
         navigate(from, { replace: true })
       },
     })

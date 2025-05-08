@@ -6,6 +6,7 @@ import { usePostContext } from '../../contexts/PostContext'
 import { AxiosError } from 'axios'
 import { useQueryClient } from '@tanstack/react-query'
 import useQueryKeyStore from '@/src/utils/api/hooks/useQueryKeyStore'
+import { transformPostCreationData } from '../../utils/transformPostCreationData'
 
 interface Props {
   parentPostId: string
@@ -20,8 +21,9 @@ export const ReplySection = ({ parentPostId }: Props) => {
   const queryKeyStore = useQueryKeyStore()
 
   const submitForm = handleSubmit((data) => {
+    const transformedData = transformPostCreationData(data)
     createPostMutation.mutate(
-      { ...data, parentPostId },
+      { ...transformedData, parentPostId },
       {
         onError: (error) => {
           if (error instanceof AxiosError) {
