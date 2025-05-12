@@ -1,10 +1,4 @@
-import {
-  Control,
-  Controller,
-  FieldErrors,
-  UseFormGetValues,
-  UseFormRegister,
-} from 'react-hook-form'
+import { Control, Controller, FieldErrors, UseFormGetValues, UseFormRegister } from 'react-hook-form'
 import { EditProfileFormType } from '../../schemas'
 import Input from '@/src/components/form/Input'
 import Textarea from '@/src/components/form/Textarea'
@@ -49,11 +43,10 @@ export const EditProfileFormFields = ({
               name="backgroundImage"
               getValues={getValues}
               existingPictureUrl={backgroundPictureUrl}
-              placeholderContent={
-                <div className="h-full w-full bg-base-200"></div>
-              }
+              placeholderContent={<div className="h-full w-full bg-base-200"></div>}
               isImageUploading={isBackgroundPicUploading}
               setIsImageUploading={setIsBackgroundPicUploading}
+              imageType="post"
             />
           )}
         />
@@ -77,6 +70,7 @@ export const EditProfileFormFields = ({
                 }
                 isImageUploading={isProfilePicUploading}
                 setIsImageUploading={setIsProfilePicUploading}
+                imageType="avatar"
               />
             )}
           />

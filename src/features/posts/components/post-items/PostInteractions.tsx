@@ -8,19 +8,13 @@ import { QueryUpdater } from '@/src/utils/api/interfaces'
 
 interface Props {
   post: SchemaPostResponseDto
-  initialPostId: string
+  connectedRepostId?: string | null
   qKey: QueryKey
   likeUpdater?: QueryUpdater
   bookmarkUpdater?: QueryUpdater
 }
 
-export const PostInteractions = ({
-  post,
-  initialPostId,
-  qKey,
-  likeUpdater,
-  bookmarkUpdater,
-}: Props) => {
+export const PostInteractions = ({ post, connectedRepostId, qKey, likeUpdater, bookmarkUpdater }: Props) => {
   return (
     <div role="group" className=" flex justify-between">
       <div className=" flex items-center gap-1.5">
@@ -28,7 +22,7 @@ export const PostInteractions = ({
         <p>{post.comments}</p>
       </div>
       <div className=" flex items-center gap-1.5">
-        <RepostSection postId={initialPostId} actualPost={post} />
+        <RepostSection actualPost={post} connectedRepostId={connectedRepostId} />
       </div>
       <div className=" flex items-center gap-1.5">
         <LikeSection
@@ -40,12 +34,7 @@ export const PostInteractions = ({
         />
       </div>
       <div className=" flex items-center gap-1.5">
-        <BookmarkSection
-          qKey={qKey}
-          postId={post.id}
-          isBookmarked={post.isBookmarked}
-          updater={bookmarkUpdater}
-        />
+        <BookmarkSection qKey={qKey} postId={post.id} isBookmarked={post.isBookmarked} updater={bookmarkUpdater} />
       </div>
     </div>
   )

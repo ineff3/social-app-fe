@@ -116,6 +116,38 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/auth/email/send-code": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["AuthController_sendEmailVerificationCode"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/email/verify-code": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["AuthController_verifyEmailCode"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/user/preview": {
         parameters: {
             query?: never;
@@ -558,6 +590,20 @@ export interface components {
             /** @example Pa$w0rd2023 */
             password: string;
         };
+        SendEmailCodeDto: {
+            /** @example user@example.com */
+            email: string;
+        };
+        VerifyEmailCodeDto: {
+            /** @example user@example.com */
+            email: string;
+            /** @example 8976 */
+            code: string;
+        };
+        VerifyEmailCodeResponseDto: {
+            success: boolean;
+            reason?: Record<string, never>;
+        };
         GetSuggestionsQueryDto: {
             /** @default 1 */
             page?: number;
@@ -631,7 +677,7 @@ export interface components {
             reposts: number;
             isLiked: boolean;
             isBookmarked: boolean;
-            isReposted: boolean;
+            connectedRepostId?: string | null;
             parentPostId: string | null;
             author: components["schemas"]["UserPreviewResponseDto"];
             postImages: components["schemas"]["ImageResponseDto"][];
@@ -798,6 +844,9 @@ export type SchemaCursorQueryDto = components['schemas']['CursorQueryDto'];
 export type SchemaRegisterUserDto = components['schemas']['RegisterUserDto'];
 export type SchemaAuthUserResponseDto = components['schemas']['AuthUserResponseDto'];
 export type SchemaLoginUserDto = components['schemas']['LoginUserDto'];
+export type SchemaSendEmailCodeDto = components['schemas']['SendEmailCodeDto'];
+export type SchemaVerifyEmailCodeDto = components['schemas']['VerifyEmailCodeDto'];
+export type SchemaVerifyEmailCodeResponseDto = components['schemas']['VerifyEmailCodeResponseDto'];
 export type SchemaGetSuggestionsQueryDto = components['schemas']['GetSuggestionsQueryDto'];
 export type SchemaUserPreviewResponseDto = components['schemas']['UserPreviewResponseDto'];
 export type SchemaUserSuggestionsResponseDto = components['schemas']['UserSuggestionsResponseDto'];
@@ -985,6 +1034,58 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+        };
+    };
+    AuthController_sendEmailVerificationCode: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SendEmailCodeDto"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AuthController_verifyEmailCode: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["VerifyEmailCodeDto"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VerifyEmailCodeResponseDto"];
+                };
+            };
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VerifyEmailCodeDto"];
+                };
             };
         };
     };

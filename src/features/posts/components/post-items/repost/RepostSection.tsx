@@ -11,21 +11,25 @@ import { SchemaPostResponseDto } from '@/src/generated/schema'
 import { PostCreationLocationState } from '../../../interfaces'
 
 interface Props {
-  postId: string
   actualPost: SchemaPostResponseDto
+  connectedRepostId?: string | null
 }
 
-export const RepostSection = ({ postId, actualPost }: Props) => {
+export const RepostSection = ({ actualPost, connectedRepostId }: Props) => {
   const createPostMutation = useCreatePost()
   const deletePostMutation = useDeletePost()
   const navigate = useNavigate()
   const location = useLocation()
 
+  const isReposted = !!connectedRepostId || !!actualPost.connectedRepostId
+
   const handleRepost = () => {
-    if (actualPost.isReposted) {
-      deletePostMutation.mutate(postId)
+    if (connectedRepostId) {
+      deletePostMutation.mutate(connectedRepostId)
+    } else if (actualPost.connectedRepostId) {
+      deletePostMutation.mutate(actualPost.connectedRepostId)
     } else {
-      createPostMutation.mutate({ repostedId: postId })
+      createPostMutation.mutate({ repostedId: actualPost.id })
     }
   }
   const handleQuote = () => {
@@ -39,7 +43,7 @@ export const RepostSection = ({ postId, actualPost }: Props) => {
 
   const items: DropdownItem[] = [
     {
-      title: actualPost.isReposted ? 'Undo repost' : 'Repost',
+      title: isReposted ? 'Undo repost' : 'Repost',
       value: 'repost',
       Icon: RepostIconSvg,
       iconProps: {
@@ -63,16 +67,8 @@ export const RepostSection = ({ postId, actualPost }: Props) => {
 
   return (
     <>
-      <div
-        data-tip="Repost"
-        className={` tooltip tooltip-secondary z-10 ${actualPost.isReposted && 'text-success'}`}
-      >
-        <DropdownMenu
-          items={items}
-          anchor="bottom start"
-          OpenButton={RepostButton}
-          isMinimized={true}
-        />
+      <div data-tip="Repost" className={` tooltip tooltip-secondary z-10 ${isReposted && 'text-success'}`}>
+        <DropdownMenu items={items} anchor="bottom start" OpenButton={RepostButton} isMinimized={true} />
       </div>
       <p>{actualPost.reposts}</p>
     </>

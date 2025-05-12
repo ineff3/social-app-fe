@@ -1,10 +1,7 @@
 import { convertPostDate } from '../utils/dateConversions'
 import PostOptions from './post-items/PostOptions'
 import { useAppSelector } from '@/src/redux/hooks'
-import {
-  selectPermissions,
-  selectUserPreview,
-} from '@/src/redux/user/userSlice'
+import { selectPermissions, selectUserPreview } from '@/src/redux/user/userSlice'
 import { useId } from 'react'
 import { SchemaPostResponseDto } from '@/src/generated/schema'
 import UserIconLink from '@/src/components/ui/UserIconLink'
@@ -23,7 +20,7 @@ interface Props {
 }
 
 const Post = ({ post, qKey }: Props) => {
-  const isQuoted = (post.text || post.postImages.length > 0) && post.reposted
+  const isQuoted = (!!post.text || post.postImages.length > 0) && !!post.reposted
   const actualPost = isQuoted ? post : post.reposted ? post.reposted : post
   const { id, author, createdAt, text, postImages } = actualPost
   const authorId = useId()
@@ -34,9 +31,7 @@ const Post = ({ post, qKey }: Props) => {
   const navigate = useNavigate()
 
   const redirectToPostPage = (e: React.MouseEvent<HTMLInputElement>) => {
-    const isInteractiveElement = (e.target as HTMLElement).closest(
-      'button, a, [data-interactive="true"]',
-    )
+    const isInteractiveElement = (e.target as HTMLElement).closest('button, a, [data-interactive="true"]')
     if (!isInteractiveElement) {
       navigate(`/post/${id}`)
     }
@@ -56,10 +51,7 @@ const Post = ({ post, qKey }: Props) => {
             <RepostBadge repostAuthor={post.author} />
           </div>
         )}
-        <UserIconLink
-          userImageUrl={author?.profileUrl}
-          username={author?.username}
-        />
+        <UserIconLink userImageUrl={author?.profileUrl} username={author?.username} />
 
         <div className=" flex flex-1 flex-col gap-5">
           <div className=" flex flex-col gap-2">
@@ -70,14 +62,10 @@ const Post = ({ post, qKey }: Props) => {
                 </span>
                 <span className=" hidden sm:block">@{author?.username}</span>
                 <span>·</span>
-                <time dateTime={createdDate.toISOString()}>
-                  {convertPostDate(createdDate)}
-                </time>
+                <time dateTime={createdDate.toISOString()}>{convertPostDate(createdDate)}</time>
               </div>
               <PostOptions
-                hasDeletePermission={userPermissions?.includes(
-                  permissions.POST.DELETE,
-                )}
+                hasDeletePermission={userPermissions?.includes(permissions.POST.DELETE)}
                 isPostAuthor={isPostAuthor}
                 postId={id}
               />
@@ -94,15 +82,9 @@ const Post = ({ post, qKey }: Props) => {
 
             <ImageDisplay postImages={postImages} />
 
-            {isQuoted && (
-              <Repost post={actualPost.reposted} isInteractive={true} />
-            )}
+            {isQuoted && <Repost post={actualPost.reposted} isInteractive={true} />}
           </div>
-          <PostInteractions
-            qKey={qKey}
-            post={actualPost}
-            initialPostId={post.id}
-          />
+          <PostInteractions qKey={qKey} post={actualPost} connectedRepostId={post.connectedRepostId} />
         </div>
       </div>
     </article>

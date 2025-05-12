@@ -1,19 +1,12 @@
-import { SchemaUploadImageResponseDto } from '@/src/generated/schema'
+import { SchemaImageUploadDto, SchemaUploadImageResponseDto } from '@/src/generated/schema'
 import { EditProfilePicture } from '../../schemas'
 import { FieldPath, UseFormGetValues } from 'react-hook-form'
 import { lazy, Suspense } from 'react'
 import { PictureDropzoneSuspense } from '@/src/components/form/picture-dropzone/PictureDropzoneSuspense'
 
-const ACCEPTED_IMAGE_TYPES = [
-  'image/jpeg',
-  'image/jpg',
-  'image/png',
-  'image/webp',
-]
+const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp']
 
-const PictureDropzone = lazy(
-  () => import('@/src/components/form/picture-dropzone/PictureDropzone'),
-)
+const PictureDropzone = lazy(() => import('@/src/components/form/picture-dropzone/PictureDropzone'))
 
 interface Props<TFormType extends object> {
   onChange: (picture: EditProfilePicture | null) => void
@@ -24,6 +17,7 @@ interface Props<TFormType extends object> {
   placeholderContent?: React.ReactNode
   isImageUploading: boolean
   setIsImageUploading: React.Dispatch<React.SetStateAction<boolean>>
+  imageType: SchemaImageUploadDto['imageType']
 }
 
 export const EditProfileDropzone = <TFormType extends object>({
@@ -35,6 +29,7 @@ export const EditProfileDropzone = <TFormType extends object>({
   placeholderContent,
   isImageUploading,
   setIsImageUploading,
+  imageType,
 }: Props<TFormType>) => {
   const handlePictureAttach = (file: File) => {
     onChange({ file })
@@ -72,6 +67,7 @@ export const EditProfileDropzone = <TFormType extends object>({
         isImageUploading={isImageUploading}
         setIsImageUploading={setIsImageUploading}
         placeholderContent={placeholderContent}
+        imageType={imageType}
       />
     </Suspense>
   )

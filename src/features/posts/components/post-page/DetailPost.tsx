@@ -39,10 +39,7 @@ export const DetailPost = ({ post }: Props) => {
       <div className="flex flex-col gap-2">
         <div className=" flex justify-between">
           <div className=" flex gap-2">
-            <UserIconLink
-              userImageUrl={post.author?.profileUrl}
-              username={post.author?.username}
-            />
+            <UserIconLink userImageUrl={post.author?.profileUrl} username={post.author?.username} />
             <div className=" flex flex-col">
               <p className=" text-secondary">{post.author.firstName}</p>
               <p className=" text-sm ">@{post.author.username}</p>
@@ -84,17 +81,11 @@ export const DetailPost = ({ post }: Props) => {
         <div className=" w-full border-b border-accent" />
         <div className="px-10">
           <PostInteractions
+            connectedRepostId={post.connectedRepostId}
             qKey={queryKeyStore.posts.detail(post.id).queryKey}
             post={post}
-            initialPostId={post.id}
-            likeUpdater={
-              ((oldData: SchemaPostResponseDto) =>
-                updateLikedPost(oldData)) as QueryUpdater
-            }
-            bookmarkUpdater={
-              ((oldData: SchemaPostResponseDto) =>
-                updateBookmarkedPost(oldData)) as QueryUpdater
-            }
+            likeUpdater={((oldData: SchemaPostResponseDto) => updateLikedPost(oldData)) as QueryUpdater}
+            bookmarkUpdater={((oldData: SchemaPostResponseDto) => updateBookmarkedPost(oldData)) as QueryUpdater}
           />
         </div>
         <div className=" w-full border-b border-accent" />

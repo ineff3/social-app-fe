@@ -7,7 +7,7 @@ const useCreatePost = () => {
   const queryKeyStore = useQueryKeyStore()
   return usePost<null, SchemaCreatePostDto>({
     path: apiRoutes.posts,
-    qKey: queryKeyStore.posts.all({}).queryKey,
+    qKey: queryKeyStore.posts._def,
   })
 }
 

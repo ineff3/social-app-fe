@@ -55,6 +55,7 @@ export const PhotoForm = () => {
                 }
                 isImageUploading={isPicUploading}
                 setIsImageUploading={setIsPicUploading}
+                imageType="avatar"
               />
             )}
           />
