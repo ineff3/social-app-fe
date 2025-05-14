@@ -15,12 +15,7 @@ interface Props {
   triggerScrollToBottom: TriggerScrollToBottom
 }
 
-export const Message = ({
-  message,
-  isFromCurrentUser,
-  conversationId,
-  triggerScrollToBottom,
-}: Props) => {
+export const Message = ({ message, isFromCurrentUser, conversationId, triggerScrollToBottom }: Props) => {
   const readMessage = useReadMessage()
 
   const { ref, inView } = useInView()
@@ -51,37 +46,23 @@ export const Message = ({
           {hasImage &&
             message.messageImages.map((messageImage) => (
               <div className="relative" key={messageImage.id}>
-                <MessagePicture
-                  messageImage={messageImage}
-                  hasSingleImage={hasSingleImage}
-                />
+                <MessagePicture messageImage={messageImage} hasSingleImage={hasSingleImage} />
                 {hasSingleImage && (
                   <div className="absolute bottom-2 right-3">
-                    <MessageCaption
-                      message={message}
-                      isFromCurrentUser={isFromCurrentUser}
-                    />
+                    <MessageCaption message={message} isFromCurrentUser={isFromCurrentUser} />
                   </div>
                 )}
               </div>
             ))}
           {!hasSingleImage && (
-            <div
-              className={`flex flex-wrap gap-x-3 gap-y-1 ${hasImage && 'px-4 pb-2'}`}
-            >
-              {message.text && <span>{message.text}</span>}
-              <MessageCaption
-                message={message}
-                isFromCurrentUser={isFromCurrentUser}
-              />
+            <div className={`flex flex-wrap gap-x-3 gap-y-1 overflow-x-hidden ${hasImage && 'px-4 pb-2'}`}>
+              {message.text && <span className="break-all">{message.text}</span>}
+              <MessageCaption message={message} isFromCurrentUser={isFromCurrentUser} />
             </div>
           )}
         </div>
         {message.status === 'failed' && (
-          <FailedMessageControls
-            message={message}
-            triggerScrollToBottom={triggerScrollToBottom}
-          />
+          <FailedMessageControls message={message} triggerScrollToBottom={triggerScrollToBottom} />
         )}
         {message.status !== 'failed' && message.status !== 'sending' && (
           <div
